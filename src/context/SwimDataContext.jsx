@@ -42,11 +42,14 @@ export const SwimDataProvider = ({ children }) => {
       for (const file of files) {
         try {
           const sessionData = await parseSwimFile(file);
+          console.log(`Parsed ${file.name}:`, sessionData);
 
           // Handle both single sessions and arrays (CSV returns array)
           if (Array.isArray(sessionData)) {
+            console.log(`CSV file contained ${sessionData.length} sessions`);
             parsedSessions.push(...sessionData);
           } else {
+            console.log('Single session parsed');
             parsedSessions.push(sessionData);
           }
         } catch (parseError) {
@@ -55,8 +58,11 @@ export const SwimDataProvider = ({ children }) => {
         }
       }
 
+      console.log(`Total parsed sessions: ${parsedSessions.length}`);
+
       // Save to localStorage
       const updatedSessions = saveSessions(parsedSessions);
+      console.log(`Total sessions in storage: ${updatedSessions.length}`);
       setSessions(updatedSessions);
 
       return parsedSessions;
