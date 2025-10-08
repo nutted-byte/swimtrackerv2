@@ -42,7 +42,13 @@ export const SwimDataProvider = ({ children }) => {
       for (const file of files) {
         try {
           const sessionData = await parseSwimFile(file);
-          parsedSessions.push(sessionData);
+
+          // Handle both single sessions and arrays (CSV returns array)
+          if (Array.isArray(sessionData)) {
+            parsedSessions.push(...sessionData);
+          } else {
+            parsedSessions.push(sessionData);
+          }
         } catch (parseError) {
           console.error(`Error parsing ${file.name}:`, parseError);
           throw new Error(`Failed to parse ${file.name}: ${parseError.message}`);

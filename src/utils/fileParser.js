@@ -193,6 +193,7 @@ export const parseTcxFile = async (file) => {
 /**
  * Parse CSV file
  * Expected format: date,distance,duration,pace,strokes,swolf
+ * Returns array of swim sessions (supports multiple rows)
  */
 export const parseCsvFile = async (file) => {
   return new Promise((resolve, reject) => {
@@ -206,25 +207,37 @@ export const parseCsvFile = async (file) => {
         }
 
         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-        const dataLine = lines[1].split(',').map(d => d.trim());
+        const sessions = [];
 
-        const data = {};
-        headers.forEach((header, index) => {
-          data[header] = dataLine[index];
-        });
+        // Parse all data rows (skip header)
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(',').map(v => v.trim());
 
-        resolve({
-          id: `swim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          date: data.date || new Date().toISOString(),
-          distance: parseInt(data.distance) || 0,
-          duration: parseInt(data.duration) || 0,
-          pace: parseFloat(data.pace) || 0,
-          strokes: parseInt(data.strokes) || 0,
-          swolf: parseInt(data.swolf) || 0,
-          laps: [],
-          sport: 'swimming',
-          fileName: file.name,
-        });
+          if (values.length !== headers.length) {
+            console.warn(`Skipping row ${i}: column count mismatch`);
+            continue;
+          }
+
+          const data = {};
+          headers.forEach((header, index) => {
+            data[header] = values[index];
+          });
+
+          sessions.push({
+            id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
+            date: data.date || new Date().toISOString(),
+            distance: parseInt(data.distance) || 0,
+            duration: parseInt(data.duration) || 0,
+            pace: parseFloat(data.pace) || 0,
+            strokes: parseInt(data.strokes) || 0,
+            swolf: parseInt(data.swolf) || 0,
+            laps: [],
+            sport: data.sport || 'swimming',
+            fileName: file.name,
+          });
+        }
+
+        resolve(sessions);
       } catch (error) {
         reject(new Error(`Failed to parse CSV file: ${error.message}`));
       }
