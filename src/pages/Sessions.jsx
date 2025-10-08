@@ -1,0 +1,182 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { useSwimData } from '../context/SwimDataContext';
+import { SessionCard } from '../components/SessionCard';
+import { Upload, Filter, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+export const Sessions = () => {
+  const navigate = useNavigate();
+  const { sessions, removeSession } = useSwimData();
+  const [sortBy, setSortBy] = useState('date-desc'); // date-desc, date-asc, distance, pace
+
+  // Sort sessions
+  const sortedSessions = [...sessions].sort((a, b) => {
+    switch (sortBy) {
+      case 'date-desc':
+        return new Date(b.date) - new Date(a.date);
+      case 'date-asc':
+        return new Date(a.date) - new Date(b.date);
+      case 'distance':
+        return b.distance - a.distance;
+      case 'pace':
+        return a.pace - b.pace; // Lower pace is better
+      default:
+        return new Date(b.date) - new Date(a.date);
+    }
+  });
+
+  const handleSessionClick = (session) => {
+    navigate(`/session/${session.id}`);
+  };
+
+  const handleDelete = (sessionId, e) => {
+    e.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this swim session?')) {
+      removeSession(sessionId);
+    }
+  };
+
+  // Calculate totals
+  const totals = sessions.reduce((acc, session) => ({
+    distance: acc.distance + session.distance,
+    duration: acc.duration + session.duration,
+    count: acc.count + 1
+  }), { distance: 0, duration: 0, count: 0 });
+
+  if (sessions.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
+        >
+          <div className="text-8xl mb-6">📊</div>
+          <h1 className="font-display text-4xl font-bold mb-4">
+            No Sessions Yet
+          </h1>
+          <p className="text-xl text-gray-400 mb-8">
+            Upload your first swim to get started!
+          </p>
+          <Link
+            to="/upload"
+            className="btn-primary inline-flex items-center gap-2"
+          >
+            <Upload className="w-5 h-5" />
+            Upload Swim Data
+          </Link>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="font-display text-4xl font-bold mb-2">
+              All Sessions
+            </h1>
+            <p className="text-gray-400">
+              {totals.count} swim{totals.count !== 1 ? 's' : ''} • {' '}
+              {(totals.distance / 1000).toFixed(1)} km total • {' '}
+              {Math.round(totals.duration)} minutes
+            </p>
+          </div>
+
+          <Link
+            to="/upload"
+            className="btn-primary flex items-center gap-2"
+          >
+            <Upload className="w-4 h-4" />
+            Upload
+          </Link>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-6 flex items-center gap-4">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Filter className="w-4 h-4" />
+            <span>Sort by:</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSortBy('date-desc')}
+              className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                sortBy === 'date-desc'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-dark-card text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Newest First
+            </button>
+            <button
+              onClick={() => setSortBy('date-asc')}
+              className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                sortBy === 'date-asc'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-dark-card text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Oldest First
+            </button>
+            <button
+              onClick={() => setSortBy('distance')}
+              className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                sortBy === 'distance'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-dark-card text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Distance
+            </button>
+            <button
+              onClick={() => setSortBy('pace')}
+              className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                sortBy === 'pace'
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-dark-card text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              Fastest Pace
+            </button>
+          </div>
+        </div>
+
+        {/* Sessions Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {sortedSessions.map((session, index) => (
+            <motion.div
+              key={session.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="relative group"
+            >
+              <SessionCard
+                session={session}
+                onClick={handleSessionClick}
+              />
+              <button
+                onClick={(e) => handleDelete(session.id, e)}
+                className="absolute top-4 right-4 p-2 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
+                aria-label="Delete session"
+              >
+                <Trash2 className="w-4 h-4 text-accent-coral" />
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+};

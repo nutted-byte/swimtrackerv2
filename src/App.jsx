@@ -4,7 +4,9 @@ import { SwimDataProvider } from './context/SwimDataContext';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Dashboard } from './pages/Dashboard';
 import { Upload } from './pages/Upload';
-import { Waves, Upload as UploadIcon, Home } from 'lucide-react';
+import { Sessions } from './pages/Sessions';
+import { SessionDetail } from './pages/SessionDetail';
+import { Waves, Upload as UploadIcon, Home, List } from 'lucide-react';
 
 function App() {
   return (
@@ -35,6 +37,13 @@ function App() {
                       Dashboard
                     </Link>
                     <Link
+                      to="/sessions"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <List className="w-4 h-4" />
+                      Sessions
+                    </Link>
+                    <Link
                       to="/upload"
                       className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
                     >
@@ -51,6 +60,8 @@ function App() {
             <main>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/sessions" element={<Sessions />} />
+                <Route path="/session/:id" element={<SessionDetail />} />
                 <Route path="/upload" element={<Upload />} />
               </Routes>
             </main>
