@@ -7,7 +7,8 @@ import { Upload } from './pages/Upload';
 import { Sessions } from './pages/Sessions';
 import { SessionDetail } from './pages/SessionDetail';
 import { Insights } from './pages/Insights';
-import { Waves, Upload as UploadIcon, Home, List, BarChart3 } from 'lucide-react';
+import { Records } from './pages/Records';
+import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy } from 'lucide-react';
 
 function App() {
   return (
@@ -52,6 +53,13 @@ function App() {
                       Insights
                     </Link>
                     <Link
+                      to="/records"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <Trophy className="w-4 h-4" />
+                      Records
+                    </Link>
+                    <Link
                       to="/upload"
                       className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
                     >
@@ -71,6 +79,7 @@ function App() {
                 <Route path="/sessions" element={<Sessions />} />
                 <Route path="/session/:id" element={<SessionDetail />} />
                 <Route path="/insights" element={<Insights />} />
+                <Route path="/records" element={<Records />} />
                 <Route path="/upload" element={<Upload />} />
               </Routes>
             </main>
