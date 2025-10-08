@@ -1,19 +1,23 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
-import { Activity, TrendingUp, Zap, Upload } from 'lucide-react';
+import { Activity, TrendingUp, Zap, Upload, Calendar, Clock, Droplets, Target, ArrowRight } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import { analyzeProgress, generateCoachingInsight } from '../utils/analytics';
 
 export const Dashboard = () => {
   const { sessions } = useSwimData();
+  const navigate = useNavigate();
 
   // Analyze progress from real data
   const analysis = analyzeProgress(sessions, 30);
   const coachingInsight = generateCoachingInsight(analysis);
 
   const { status, message, improving, metrics } = analysis;
+
+  // Get the most recent swim
+  const lastSwim = sessions[0] || null;
 
   // Emoji based on status
   const statusEmoji = {
@@ -151,11 +155,144 @@ export const Dashboard = () => {
         />
       </motion.div>
 
+      {/* Last Swim Deep Dive */}
+      {lastSwim && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <Card className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center">
+                  <Droplets className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold">Last Swim Deep Dive</h3>
+                  <p className="text-sm text-gray-400">
+                    {new Date(lastSwim.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate(`/session/${lastSwim.id}`)}
+                className="flex items-center gap-2 px-4 py-2 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors text-sm font-medium"
+              >
+                Full Details
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Key Metrics Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-dark-bg/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                  <TrendingUp className="w-4 h-4" />
+                  Distance
+                </div>
+                <p className="font-display text-2xl font-bold">
+                  {(lastSwim.distance / 1000).toFixed(2)} km
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {Math.round(lastSwim.distance / 25)} lengths
+                </p>
+              </div>
+
+              <div className="bg-dark-bg/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                  <Clock className="w-4 h-4" />
+                  Duration
+                </div>
+                <p className="font-display text-2xl font-bold">
+                  {lastSwim.duration} min
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {Math.floor(lastSwim.duration / 60)}h {lastSwim.duration % 60}m
+                </p>
+              </div>
+
+              <div className="bg-dark-bg/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                  <Activity className="w-4 h-4" />
+                  Pace
+                </div>
+                <p className="font-display text-2xl font-bold">
+                  {formatPace(lastSwim.pace)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">min/100m</p>
+              </div>
+
+              <div className="bg-dark-bg/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                  <Target className="w-4 h-4" />
+                  Strokes
+                </div>
+                <p className="font-display text-2xl font-bold">
+                  {lastSwim.strokes.toLocaleString()}
+                </p>
+                {lastSwim.swolf > 0 && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    SWOLF: {lastSwim.swolf}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Comparison */}
+            {sessions.length > 1 && (
+              <div className="bg-dark-bg/30 rounded-lg p-4 border border-dark-border">
+                <p className="text-sm text-gray-400 mb-3">vs. Your Average</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Pace</p>
+                    <p className={`text-sm font-semibold ${
+                      lastSwim.pace < metrics.avgPace ? 'text-accent-blue' : 'text-accent-coral'
+                    }`}>
+                      {lastSwim.pace < metrics.avgPace ? '🚀 Faster' : '🐢 Slower'}
+                      {' '}
+                      {Math.abs(((lastSwim.pace - metrics.avgPace) / metrics.avgPace) * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Distance</p>
+                    <p className={`text-sm font-semibold ${
+                      lastSwim.distance > metrics.totalDistance / sessions.length ? 'text-accent-blue' : 'text-gray-400'
+                    }`}>
+                      {lastSwim.distance > metrics.totalDistance / sessions.length ? '⬆️ Longer' : '⬇️ Shorter'}
+                      {' '}
+                      {Math.abs(((lastSwim.distance - metrics.totalDistance / sessions.length) / (metrics.totalDistance / sessions.length)) * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  {lastSwim.swolf > 0 && metrics.avgSwolf > 0 && (
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">SWOLF</p>
+                      <p className={`text-sm font-semibold ${
+                        lastSwim.swolf < metrics.avgSwolf ? 'text-accent-blue' : 'text-accent-coral'
+                      }`}>
+                        {lastSwim.swolf < metrics.avgSwolf ? '✨ Better' : '💪 Room to improve'}
+                        {' '}
+                        {Math.abs(((lastSwim.swolf - metrics.avgSwolf) / metrics.avgSwolf) * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </Card>
+        </motion.div>
+      )}
+
       {/* AI Coach Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 1.0 }}
       >
         <Card>
           <div className="flex gap-4">
