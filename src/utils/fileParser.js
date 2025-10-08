@@ -191,6 +191,41 @@ export const parseTcxFile = async (file) => {
 };
 
 /**
+ * Parse a CSV line handling quoted values
+ */
+const parseCSVLine = (line) => {
+  const values = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"') {
+      if (inQuotes && nextChar === '"') {
+        // Escaped quote
+        current += '"';
+        i++;
+      } else {
+        // Toggle quote state
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      // End of field
+      values.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  // Add the last field
+  values.push(current.trim());
+  return values;
+};
+
+/**
  * Parse CSV file - supports both simple format and Apple Health export
  * Returns array of swim sessions (supports multiple rows)
  */
@@ -210,79 +245,93 @@ export const parseCsvFile = async (file) => {
           lines = lines.slice(1);
         }
 
-        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+        const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
         const sessions = [];
+
+        console.log('CSV Headers:', headers);
 
         // Detect if this is Apple Health format
         const isAppleHealth = headers.includes('startdate') && headers.includes('totaldistance');
+        console.log('Is Apple Health format:', isAppleHealth);
 
         // Parse all data rows (skip header)
         for (let i = 1; i < lines.length; i++) {
-          const values = lines[i].split(',').map(v => v.trim());
+          try {
+            const values = parseCSVLine(lines[i]);
 
-          if (values.length < headers.length - 2) { // Allow some missing columns
-            console.warn(`Skipping row ${i}: too few columns`);
-            continue;
-          }
+            if (values.length < 5) { // Need at least a few columns
+              console.warn(`Skipping row ${i}: too few columns (${values.length})`);
+              continue;
+            }
 
-          const data = {};
-          headers.forEach((header, index) => {
-            data[header] = values[index] || '';
-          });
+            const data = {};
+            headers.forEach((header, index) => {
+              data[header] = values[index] || '';
+            });
 
-          let session;
+            let session;
 
-          if (isAppleHealth) {
-            // Parse Apple Health format
-            const distance = parseFloat(data.totaldistance) || 0;
-            const durationSec = parseFloat(data.duration) || 0;
-            const durationMin = durationSec / 60;
-            const strokes = parseInt(data.totalswimmingstrokecount) || 0;
+            if (isAppleHealth) {
+              // Parse Apple Health format
+              // Extract numeric value from strings like "675 m" or "2834.6057649850845 sec"
+              const distanceStr = data.totaldistance || '';
+              const distance = parseFloat(distanceStr.replace(/[^0-9.]/g, '')) || 0;
 
-            // Calculate pace (min per 100m)
-            const pace = distance > 0 ? (durationMin / (distance / 100)) : 0;
+              const durationStr = data.duration || '';
+              const durationSec = parseFloat(durationStr.replace(/[^0-9.]/g, '')) || 0;
+              const durationMin = durationSec / 60;
 
-            // Calculate SWOLF estimate (strokes per 25m + time per 25m)
-            const strokesPer25m = distance > 0 ? (strokes / (distance / 25)) : 0;
-            const timePer25m = distance > 0 ? (durationSec / (distance / 25)) : 0;
-            const swolf = Math.round(strokesPer25m + timePer25m);
+              const strokesStr = data.totalswimmingstrokecount || '';
+              const strokes = parseInt(strokesStr.replace(/[^0-9]/g, '')) || 0;
 
-            session = {
-              id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
-              date: data.startdate || new Date().toISOString(),
-              distance: Math.round(distance),
-              duration: Math.round(durationMin),
-              pace: parseFloat(pace.toFixed(2)),
-              strokes: strokes,
-              swolf: swolf > 0 ? swolf : 0,
-              laps: [],
-              sport: 'swimming',
-              fileName: file.name,
-            };
-          } else {
-            // Parse simple format: date,distance,duration,pace,strokes,swolf
-            session = {
-              id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
-              date: data.date || new Date().toISOString(),
-              distance: parseInt(data.distance) || 0,
-              duration: parseInt(data.duration) || 0,
-              pace: parseFloat(data.pace) || 0,
-              strokes: parseInt(data.strokes) || 0,
-              swolf: parseInt(data.swolf) || 0,
-              laps: [],
-              sport: data.sport || 'swimming',
-              fileName: file.name,
-            };
-          }
+              // Calculate pace (min per 100m)
+              const pace = distance > 0 ? (durationMin / (distance / 100)) : 0;
 
-          if (session.distance > 0) {
-            sessions.push(session);
+              // Calculate SWOLF estimate (strokes per 25m + time per 25m)
+              const strokesPer25m = distance > 0 ? (strokes / (distance / 25)) : 0;
+              const timePer25m = distance > 0 ? (durationSec / (distance / 25)) : 0;
+              const swolf = Math.round(strokesPer25m + timePer25m);
+
+              session = {
+                id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
+                date: data.startdate || new Date().toISOString(),
+                distance: Math.round(distance),
+                duration: Math.round(durationMin),
+                pace: parseFloat(pace.toFixed(2)),
+                strokes: strokes,
+                swolf: swolf > 0 ? swolf : 0,
+                laps: [],
+                sport: 'swimming',
+                fileName: file.name,
+              };
+            } else {
+              // Parse simple format: date,distance,duration,pace,strokes,swolf
+              session = {
+                id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
+                date: data.date || new Date().toISOString(),
+                distance: parseInt(data.distance) || 0,
+                duration: parseInt(data.duration) || 0,
+                pace: parseFloat(data.pace) || 0,
+                strokes: parseInt(data.strokes) || 0,
+                swolf: parseInt(data.swolf) || 0,
+                laps: [],
+                sport: data.sport || 'swimming',
+                fileName: file.name,
+              };
+            }
+
+            if (session.distance > 0) {
+              sessions.push(session);
+            }
+          } catch (rowError) {
+            console.warn(`Error parsing row ${i}:`, rowError.message);
           }
         }
 
         console.log(`Parsed ${sessions.length} sessions from CSV`);
         resolve(sessions);
       } catch (error) {
+        console.error('CSV parse error:', error);
         reject(new Error(`Failed to parse CSV file: ${error.message}`));
       }
     };
