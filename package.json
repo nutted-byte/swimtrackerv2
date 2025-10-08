@@ -14,10 +14,12 @@
   "type": "module",
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
+    "fit-file-parser": "^1.21.0",
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.3",
     "recharts": "^3.2.1",
     "vite": "^7.1.9"
   },
