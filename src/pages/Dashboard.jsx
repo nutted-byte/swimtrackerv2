@@ -2,12 +2,12 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
-import { Activity, TrendingUp, Zap, Upload, Calendar, Clock, Droplets, Target, ArrowRight } from 'lucide-react';
+import { Activity, TrendingUp, Zap, Upload, Calendar, Clock, Droplets, Target, ArrowRight, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import { analyzeProgress, generateCoachingInsight } from '../utils/analytics';
 
 export const Dashboard = () => {
-  const { sessions } = useSwimData();
+  const { sessions, rateSession } = useSwimData();
   const navigate = useNavigate();
 
   // Analyze progress from real data
@@ -180,13 +180,40 @@ export const Dashboard = () => {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => navigate(`/session/${lastSwim.id}`)}
-                className="flex items-center gap-2 px-4 py-2 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors text-sm font-medium"
-              >
-                Full Details
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Rating buttons */}
+                <div className="flex items-center gap-1 bg-dark-bg/50 rounded-lg p-1">
+                  <button
+                    onClick={() => rateSession(lastSwim.id, lastSwim.rating === true ? null : true)}
+                    className={`p-2 rounded-md transition-all ${
+                      lastSwim.rating === true
+                        ? 'bg-accent-blue text-white'
+                        : 'hover:bg-dark-card text-gray-400'
+                    }`}
+                    title="Good swim"
+                  >
+                    <ThumbsUp className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => rateSession(lastSwim.id, lastSwim.rating === false ? null : false)}
+                    className={`p-2 rounded-md transition-all ${
+                      lastSwim.rating === false
+                        ? 'bg-accent-coral text-white'
+                        : 'hover:bg-dark-card text-gray-400'
+                    }`}
+                    title="Could be better"
+                  >
+                    <ThumbsDown className="w-5 h-5" />
+                  </button>
+                </div>
+                <button
+                  onClick={() => navigate(`/session/${lastSwim.id}`)}
+                  className="flex items-center gap-2 px-4 py-2 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors text-sm font-medium"
+                >
+                  Full Details
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Key Metrics Grid */}

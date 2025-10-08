@@ -3,6 +3,7 @@ import {
   getSessions,
   saveSession,
   saveSessions,
+  updateSession,
   deleteSession,
   getSessionsSorted,
   getRecentSessions
@@ -102,6 +103,19 @@ export const SwimDataProvider = ({ children }) => {
   }, []);
 
   /**
+   * Rate a session (thumbs up = true, thumbs down = false, null = no rating)
+   */
+  const rateSession = useCallback((sessionId, rating) => {
+    try {
+      const updatedSessions = updateSession(sessionId, { rating });
+      setSessions(updatedSessions);
+    } catch (err) {
+      setError('Failed to rate session');
+      throw err;
+    }
+  }, []);
+
+  /**
    * Get the most recent session
    */
   const getLastSession = useCallback(() => {
@@ -122,6 +136,7 @@ export const SwimDataProvider = ({ children }) => {
     uploadFiles,
     addSession,
     removeSession,
+    rateSession,
     getLastSession,
     getLastNDaysSessions,
   };

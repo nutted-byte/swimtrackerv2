@@ -1,5 +1,5 @@
 import { Card } from './Card';
-import { Calendar, Activity, Zap, TrendingUp, Clock } from 'lucide-react';
+import { Calendar, Activity, Zap, TrendingUp, Clock, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const SessionCard = ({ session, onClick }) => {
@@ -58,8 +58,20 @@ export const SessionCard = ({ session, onClick }) => {
               {formatDistance(session.distance)}
             </h3>
           </div>
-          <div className="px-3 py-1 bg-primary-500/20 rounded-full text-primary-400 text-sm font-medium">
-            {session.sport || 'Swimming'}
+          <div className="flex items-center gap-2">
+            {session.rating === true && (
+              <div className="p-2 bg-accent-blue/20 rounded-lg" title="Good swim">
+                <ThumbsUp className="w-4 h-4 text-accent-blue" />
+              </div>
+            )}
+            {session.rating === false && (
+              <div className="p-2 bg-accent-coral/20 rounded-lg" title="Could be better">
+                <ThumbsDown className="w-4 h-4 text-accent-coral" />
+              </div>
+            )}
+            <div className="px-3 py-1 bg-primary-500/20 rounded-full text-primary-400 text-sm font-medium">
+              {session.sport || 'Swimming'}
+            </div>
           </div>
         </div>
 

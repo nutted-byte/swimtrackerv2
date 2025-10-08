@@ -44,6 +44,23 @@ export const saveSessions = (newSessions) => {
 };
 
 /**
+ * Update a session by ID
+ */
+export const updateSession = (sessionId, updates) => {
+  try {
+    const sessions = getSessions();
+    const updated = sessions.map(s =>
+      s.id === sessionId ? { ...s, ...updates } : s
+    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    return updated;
+  } catch (error) {
+    console.error('Error updating localStorage:', error);
+    throw new Error('Failed to update session');
+  }
+};
+
+/**
  * Delete a session by ID
  */
 export const deleteSession = (sessionId) => {
