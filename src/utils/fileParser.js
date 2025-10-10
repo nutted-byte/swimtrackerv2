@@ -86,8 +86,7 @@ const extractSwimData = (data) => {
     swolf: swolf,
     calories: Math.round(session.total_calories || 0),
     laps: lapData,
-    sport: session.sport || 'swimming',
-    fileName: data.fileName || 'Unknown',
+    source: 'FIT file',
   };
 };
 
@@ -176,8 +175,7 @@ export const parseTcxFile = async (file) => {
           swolf: 0, // TCX typically doesn't have SWOLF data
           calories: 0, // TCX typically doesn't have calorie data
           laps: lapData,
-          sport: 'swimming',
-          fileName: file.name,
+          source: 'TCX file',
         });
       } catch (error) {
         reject(new Error(`Failed to parse TCX file: ${error.message}`));
@@ -315,8 +313,7 @@ export const parseCsvFile = async (file) => {
                 swolf: swolf > 0 ? swolf : 0,
                 calories: Math.round(calories),
                 laps: [],
-                sport: 'swimming',
-                fileName: file.name,
+                source: 'CSV file',
               };
             } else {
               // Parse simple format: date,distance,duration,pace,strokes,swolf,calories
@@ -330,8 +327,7 @@ export const parseCsvFile = async (file) => {
                 swolf: parseInt(data.swolf) || 0,
                 calories: parseInt(data.calories) || 0,
                 laps: [],
-                sport: data.sport || 'swimming',
-                fileName: file.name,
+                source: 'CSV file',
               };
             }
 
