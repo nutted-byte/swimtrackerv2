@@ -2,8 +2,15 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
-import { Trophy, Zap, TrendingUp, Target, Calendar, Award } from 'lucide-react';
+import { CollapsibleSection } from '../components/CollapsibleSection';
+import { NextMilestones } from '../components/NextMilestones';
+import { AchievementBadges } from '../components/AchievementBadges';
+import { FunComparisons } from '../components/FunComparisons';
+import { PageContainer, PageHeader, PageHero } from '../components/layout';
+import { Trophy, Zap, TrendingUp, Target, Calendar, Award, Sparkles, Upload, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { calculateNextMilestones, checkAchievementBadges, generateFunComparisons } from '../utils/analytics';
+import { tokens } from '../design/tokens';
 
 export const Records = () => {
   const navigate = useNavigate();
@@ -84,7 +91,7 @@ export const Records = () => {
       >
         <Card
           className={`bg-gradient-to-br ${colorClasses[color]} cursor-pointer`}
-          onClick={() => session && navigate(`/session/${session.id}`)}
+          onClick={() => session && navigate(`/session/${session.id}`, { state: { from: '/records', label: 'Records' } })}
         >
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 rounded-xl bg-dark-bg/50">
@@ -98,7 +105,7 @@ export const Records = () => {
           </h3>
 
           <div className="flex items-baseline gap-2 mb-2">
-            <span className="font-display text-4xl font-bold">{value}</span>
+            <span className="font-display text-2xl font-bold">{value}</span>
             {unit && <span className="text-lg text-gray-400">{unit}</span>}
           </div>
 
@@ -122,35 +129,71 @@ export const Records = () => {
   const totalStrokes = sessions.reduce((sum, s) => sum + s.strokes, 0);
   const avgPace = sessions.filter(s => s.pace > 0).reduce((sum, s) => sum + s.pace, 0) / sessions.filter(s => s.pace > 0).length;
 
+  // Calculate milestones, badges, and comparisons
+  const milestones = calculateNextMilestones(records, sessions);
+  const badges = checkAchievementBadges(sessions, records);
+  const comparisons = generateFunComparisons(sessions);
+
+  // Calculate summary stats
+  const earnedBadges = badges ? badges.filter(b => b.earned).length : 0;
+  const totalBadges = badges ? badges.length : 0;
+  const recordsCount = Object.values(records).filter(r => r !== null).length;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <PageContainer>
+      <PageHeader
+        title="Personal Records"
+        actions={
+          <>
+            <Link
+              to="/sessions"
+              className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+            >
+              <BarChart3 className={tokens.icons.sm} />
+              <span className="hidden sm:inline">View Sessions</span>
+            </Link>
+            <Link
+              to="/upload"
+              className="btn-primary flex items-center gap-2 text-sm"
+            >
+              <Upload className={tokens.icons.sm} />
+              Upload
+            </Link>
+          </>
+        }
+      />
+
+      <PageHero
+        title="Your Best Performances"
+        icon={Trophy}
+        align="center"
+      >
+        {/* Summary Stats */}
+        <div className={`flex items-center justify-center ${tokens.gap.compact} text-sm text-gray-400`}>
+          <span className="flex items-center gap-1.5">
+            <Trophy className={`${tokens.icons.sm} text-yellow-500`} />
+            {recordsCount} Records
+          </span>
+          <span className="text-gray-600">•</span>
+          <span className="flex items-center gap-1.5">
+            <Award className={`${tokens.icons.sm} text-yellow-500`} />
+            {earnedBadges}/{totalBadges} Badges
+          </span>
+          <span className="text-gray-600">•</span>
+          <span className="flex items-center gap-1.5">
+            <Sparkles className={`${tokens.icons.sm} text-primary-400`} />
+            {sessions.length} Swims
+          </span>
+        </div>
+      </PageHero>
+
+      {/* Featured Records - Top 3 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ delay: 0.3 }}
       >
-        {/* Header */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="inline-block mb-4"
-          >
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
-              <Trophy className="w-10 h-10 text-white" />
-            </div>
-          </motion.div>
-          <h1 className="font-display text-5xl font-bold mb-2">
-            Personal Records
-          </h1>
-          <p className="text-xl text-gray-400">
-            Your best performances across {sessions.length} swims
-          </p>
-        </div>
-
-        {/* Main Records */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default}`}>
           {records.fastestPace && (
             <RecordCard
               title="Fastest Pace"
@@ -185,81 +228,139 @@ export const Records = () => {
               color="blue"
             />
           )}
-
-          {records.longestDuration && (
-            <RecordCard
-              title="Longest Session"
-              value={records.longestDuration.duration}
-              unit="minutes"
-              subtitle={`${records.longestDuration.distance}m covered`}
-              icon={Award}
-              session={records.longestDuration}
-              color="coral"
-            />
-          )}
-
-          {records.mostStrokes && (
-            <RecordCard
-              title="Most Strokes"
-              value={records.mostStrokes.strokes}
-              unit="strokes"
-              subtitle={`${records.mostStrokes.distance}m swim`}
-              icon={TrendingUp}
-              session={records.mostStrokes}
-              color="teal"
-            />
-          )}
         </div>
+      </motion.div>
 
-        {/* All-Time Stats */}
+      {/* Additional Records - Collapsible */}
+      {(records.longestDuration || records.mostStrokes) && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card>
-            <div className="flex items-center gap-3 mb-6">
-              <Award className="w-6 h-6 text-primary-400" />
-              <h2 className="font-display text-2xl font-bold">All-Time Stats</h2>
+          <CollapsibleSection
+            title="More Records"
+            subtitle="Additional personal bests"
+            icon={Trophy}
+            defaultExpanded={false}
+          >
+            <div className={`grid grid-cols-1 md:grid-cols-2 ${tokens.gap.default}`}>
+              {records.longestDuration && (
+                <RecordCard
+                  title="Longest Session"
+                  value={records.longestDuration.duration}
+                  unit="minutes"
+                  subtitle={`${records.longestDuration.distance}m covered`}
+                  icon={Award}
+                  session={records.longestDuration}
+                  color="coral"
+                />
+              )}
+
+              {records.mostStrokes && (
+                <RecordCard
+                  title="Most Strokes"
+                  value={records.mostStrokes.strokes}
+                  unit="strokes"
+                  subtitle={`${records.mostStrokes.distance}m swim`}
+                  icon={TrendingUp}
+                  session={records.mostStrokes}
+                  color="teal"
+                />
+              )}
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-dark-bg rounded-lg">
-                <p className="text-sm text-gray-400 mb-2">Total Distance</p>
-                <p className="font-display text-3xl font-bold text-accent-blue">
-                  {(totalDistance / 1000).toFixed(1)} km
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  That's {Math.round(totalDistance / 25)} lengths!
-                </p>
-              </div>
-
-              <div className="text-center p-6 bg-dark-bg rounded-lg">
-                <p className="text-sm text-gray-400 mb-2">Total Strokes</p>
-                <p className="font-display text-3xl font-bold text-primary-400">
-                  {totalStrokes.toLocaleString()}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Avg {Math.round(totalStrokes / sessions.length)} per swim
-                </p>
-              </div>
-
-              <div className="text-center p-6 bg-dark-bg rounded-lg">
-                <p className="text-sm text-gray-400 mb-2">Average Pace</p>
-                <p className="font-display text-3xl font-bold text-accent-blue">
-                  {formatPace(avgPace)}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">min/100m overall</p>
-              </div>
-            </div>
-          </Card>
+          </CollapsibleSection>
         </motion.div>
+      )}
 
-        {/* Click to view hint */}
-        <p className="text-center text-sm text-gray-500 mt-8">
-          Click on any record to view the full session details
-        </p>
+      {/* Next Milestones */}
+      {milestones && milestones.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <NextMilestones milestones={milestones} />
+        </motion.div>
+      )}
+
+      {/* Achievement Badges */}
+      {badges && badges.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <AchievementBadges badges={badges} />
+        </motion.div>
+      )}
+
+      {/* All-Time Stats - Collapsible */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+      >
+        <CollapsibleSection
+          title="All-Time Stats"
+          subtitle={`${sessions.length} total swims`}
+          icon={Award}
+          defaultExpanded={false}
+        >
+          <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default} p-6 bg-dark-card rounded-lg`}>
+            <div className="text-center p-6 bg-dark-bg rounded-lg">
+              <p className="text-sm text-gray-400 mb-2">Total Distance</p>
+              <p className="font-display text-2xl font-bold text-accent-blue">
+                {(totalDistance / 1000).toFixed(1)} km
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                That's {Math.round(totalDistance / 25)} lengths!
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-dark-bg rounded-lg">
+              <p className="text-sm text-gray-400 mb-2">Total Strokes</p>
+              <p className="font-display text-2xl font-bold text-primary-400">
+                {totalStrokes.toLocaleString()}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Avg {Math.round(totalStrokes / sessions.length)} per swim
+              </p>
+            </div>
+
+            <div className="text-center p-6 bg-dark-bg rounded-lg">
+              <p className="text-sm text-gray-400 mb-2">Average Pace</p>
+              <p className="font-display text-2xl font-bold text-accent-blue">
+                {formatPace(avgPace)}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">min/100m overall</p>
+            </div>
+          </div>
+        </CollapsibleSection>
       </motion.div>
-    </div>
+
+      {/* Fun Comparisons - Collapsible */}
+      {comparisons && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <CollapsibleSection
+            title="Fun Facts"
+            subtitle="Your swimming in perspective"
+            icon={Sparkles}
+            defaultExpanded={false}
+          >
+            <FunComparisons comparisons={comparisons} />
+          </CollapsibleSection>
+        </motion.div>
+      )}
+
+      {/* Click to view hint */}
+      <p className="text-center text-sm text-gray-500 mt-8">
+        Click on any record to view the full session details
+      </p>
+    </PageContainer>
   );
 };

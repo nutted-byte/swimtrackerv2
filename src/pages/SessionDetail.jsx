@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
@@ -16,7 +16,11 @@ import {
 export const SessionDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { sessions } = useSwimData();
+
+  const backPath = location.state?.from || '/sessions';
+  const backLabel = location.state?.label || 'Sessions';
 
   const session = sessions.find(s => s.id === id);
 
@@ -78,11 +82,11 @@ export const SessionDetail = () => {
       >
         {/* Back Button */}
         <button
-          onClick={() => navigate('/sessions')}
+          onClick={() => navigate(backPath)}
           className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Sessions
+          Back to {backLabel}
         </button>
 
         {/* Header */}

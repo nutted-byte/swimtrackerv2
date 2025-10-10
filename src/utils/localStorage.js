@@ -29,12 +29,43 @@ export const saveSession = (session) => {
 };
 
 /**
- * Save multiple sessions at once
+ * Check if a session is a duplicate
+ * Two sessions are considered duplicates if they have the same date, distance, and duration
+ */
+const isDuplicate = (session1, session2) => {
+  // Compare dates (within 1 minute tolerance for timestamp differences)
+  const date1 = new Date(session1.date).getTime();
+  const date2 = new Date(session2.date).getTime();
+  const timeDiff = Math.abs(date1 - date2);
+
+  return timeDiff < 60000 && // Within 1 minute
+         session1.distance === session2.distance &&
+         session1.duration === session2.duration;
+};
+
+/**
+ * Save multiple sessions at once with deduplication
  */
 export const saveSessions = (newSessions) => {
   try {
-    const sessions = getSessions();
-    const updated = [...sessions, ...newSessions];
+    const existingSessions = getSessions();
+    const sessionsToAdd = [];
+    let duplicateCount = 0;
+
+    // Check each new session for duplicates
+    for (const newSession of newSessions) {
+      const isDupe = existingSessions.some(existing => isDuplicate(existing, newSession));
+      if (!isDupe) {
+        sessionsToAdd.push(newSession);
+      } else {
+        duplicateCount++;
+        console.log(`Skipping duplicate session: ${newSession.date} - ${newSession.distance}m`);
+      }
+    }
+
+    console.log(`Adding ${sessionsToAdd.length} new sessions, skipped ${duplicateCount} duplicates`);
+
+    const updated = [...existingSessions, ...sessionsToAdd];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     return updated;
   } catch (error) {

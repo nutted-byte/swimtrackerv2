@@ -84,6 +84,7 @@ const extractSwimData = (data) => {
     pace: parseFloat(avgPace.toFixed(2)), // min/100m
     strokes: totalStrokes,
     swolf: swolf,
+    calories: Math.round(session.total_calories || 0),
     laps: lapData,
     sport: session.sport || 'swimming',
     fileName: data.fileName || 'Unknown',
@@ -173,6 +174,7 @@ export const parseTcxFile = async (file) => {
           pace: parseFloat(avgPace.toFixed(2)),
           strokes: Math.round(totalStrokes),
           swolf: 0, // TCX typically doesn't have SWOLF data
+          calories: 0, // TCX typically doesn't have calorie data
           laps: lapData,
           sport: 'swimming',
           fileName: file.name,
@@ -284,6 +286,17 @@ export const parseCsvFile = async (file) => {
               const strokesStr = data.totalswimmingstrokecount || '';
               const strokes = parseInt(strokesStr.replace(/[^0-9]/g, '')) || 0;
 
+              // Debug: Log all available calorie fields
+              console.log('Calorie fields in CSV row:', {
+                totalenergyburned: data.totalenergyburned,
+                activeenergyburned: data.activeenergyburned,
+                calories: data.calories
+              });
+
+              const caloriesStr = data.totalenergyburned || data.activeenergyburned || data.calories || '';
+              const calories = parseFloat(caloriesStr.replace(/[^0-9.]/g, '')) || 0;
+              console.log(`Parsed calories: ${calories} from string: "${caloriesStr}"`);
+
               // Calculate pace (min per 100m)
               const pace = distance > 0 ? (durationMin / (distance / 100)) : 0;
 
@@ -300,12 +313,13 @@ export const parseCsvFile = async (file) => {
                 pace: parseFloat(pace.toFixed(2)),
                 strokes: strokes,
                 swolf: swolf > 0 ? swolf : 0,
+                calories: Math.round(calories),
                 laps: [],
                 sport: 'swimming',
                 fileName: file.name,
               };
             } else {
-              // Parse simple format: date,distance,duration,pace,strokes,swolf
+              // Parse simple format: date,distance,duration,pace,strokes,swolf,calories
               session = {
                 id: `swim_${Date.now()}_${i}_${Math.random().toString(36).substr(2, 9)}`,
                 date: data.date || new Date().toISOString(),
@@ -314,6 +328,7 @@ export const parseCsvFile = async (file) => {
                 pace: parseFloat(data.pace) || 0,
                 strokes: parseInt(data.strokes) || 0,
                 swolf: parseInt(data.swolf) || 0,
+                calories: parseInt(data.calories) || 0,
                 laps: [],
                 sport: data.sport || 'swimming',
                 fileName: file.name,

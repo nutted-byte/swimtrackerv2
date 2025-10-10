@@ -1,7 +1,6 @@
 /**
- * Analytics module - re-exports all swim analytics utilities
- * This file maintains backward compatibility for existing imports
- * All analytics functions have been split into focused modules
+ * Analytics utilities index - re-exports all analytics functions
+ * This file provides backward compatibility and a single import point
  */
 
 // Summary

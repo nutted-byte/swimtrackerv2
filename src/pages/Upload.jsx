@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileUpload } from '../components/FileUpload';
 import { useSwimData } from '../context/SwimDataContext';
-import { CheckCircle, Loader } from 'lucide-react';
+import { CheckCircle, Loader, Trash2, AlertTriangle } from 'lucide-react';
 
 export const Upload = () => {
   const navigate = useNavigate();
-  const { uploadFiles } = useSwimData();
+  const { uploadFiles, clearAllSessions, sessions } = useSwimData();
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [uploadedCount, setUploadedCount] = useState(0);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const handleFilesUploaded = async (files) => {
     setUploading(true);
@@ -30,6 +31,16 @@ export const Upload = () => {
       // Error is handled by FileUpload component
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleClearData = () => {
+    try {
+      clearAllSessions();
+      setShowClearConfirm(false);
+      setSuccess(false);
+    } catch (error) {
+      console.error('Error clearing data:', error);
     }
   };
 
@@ -73,6 +84,61 @@ export const Upload = () => {
             <p className="text-gray-400">
               Redirecting to your dashboard...
             </p>
+          </motion.div>
+        )}
+
+        {/* Clear All Data Section */}
+        {sessions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-12 pt-8 border-t border-dark-border"
+          >
+            <h2 className="font-display text-2xl font-semibold mb-2 text-gray-300">
+              Data Management
+            </h2>
+            <p className="text-gray-400 mb-4">
+              You have {sessions.length} swim session{sessions.length !== 1 ? 's' : ''} stored
+            </p>
+
+            {!showClearConfirm ? (
+              <button
+                onClick={() => setShowClearConfirm(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-gray-400 hover:text-accent-coral rounded-lg transition-colors border border-dark-border hover:border-accent-coral/50"
+              >
+                <Trash2 className="w-4 h-4" />
+                Clear All Data
+              </button>
+            ) : (
+              <div className="bg-accent-coral/10 border border-accent-coral/30 rounded-lg p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <AlertTriangle className="w-6 h-6 text-accent-coral flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold text-accent-coral mb-1">
+                      Are you absolutely sure?
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                      This will permanently delete all {sessions.length} swim sessions. This action cannot be undone.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleClearData}
+                    className="px-4 py-2 bg-accent-coral hover:bg-accent-coral/80 text-white rounded-lg transition-colors font-medium"
+                  >
+                    Yes, delete everything
+                  </button>
+                  <button
+                    onClick={() => setShowClearConfirm(false)}
+                    className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 text-gray-300 rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </motion.div>

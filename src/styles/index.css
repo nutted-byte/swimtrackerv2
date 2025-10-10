@@ -2,9 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme (default) */
+:root {
+  --color-bg: 249 250 251; /* gray-50 */
+  --color-card: 255 255 255; /* white */
+  --color-border: 229 231 235; /* gray-200 */
+  --color-text: 17 24 39; /* gray-900 */
+  --color-text-muted: 107 114 128; /* gray-500 */
+}
+
+/* Dark theme */
+.dark {
+  --color-bg: 10 14 19; /* #0a0e13 */
+  --color-card: 19 25 34; /* #131922 */
+  --color-border: 31 41 55; /* #1f2937 */
+  --color-text: 243 244 246; /* gray-100 */
+  --color-text-muted: 156 163 175; /* gray-400 */
+}
+
 @layer base {
   body {
-    @apply bg-dark-bg text-gray-100 font-sans antialiased;
+    @apply bg-dark-bg font-sans antialiased;
+    color: rgb(var(--color-text));
   }
 
   html {

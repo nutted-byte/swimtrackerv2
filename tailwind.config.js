@@ -26,9 +26,11 @@ export default {
           coral: '#ff6b6b',   // Coral
         },
         dark: {
-          bg: '#0a0e13',
-          card: '#131922',
-          border: '#1f2937',
+          bg: 'rgb(var(--color-bg))',
+          card: 'rgb(var(--color-card))',
+          border: 'rgb(var(--color-border))',
+          text: 'rgb(var(--color-text))',
+          'text-muted': 'rgb(var(--color-text-muted))',
         }
       },
       fontFamily: {

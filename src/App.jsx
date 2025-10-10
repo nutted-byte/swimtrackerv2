@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { SwimDataProvider } from './context/SwimDataContext';
 import { ThemeToggle } from './components/ThemeToggle';
+import { DevTools } from './components/DevTools';
 import { Dashboard } from './pages/Dashboard';
 import { Upload } from './pages/Upload';
 import { Sessions } from './pages/Sessions';
@@ -20,12 +21,14 @@ function App() {
             <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
               <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center">
-                    <Waves className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
+                    🌊
                   </div>
                   <div>
-                    <h1 className="font-display text-xl font-bold">Swim Tracker</h1>
-                    <p className="text-xs text-gray-400">Track your progress</p>
+                    <h1 className="font-display text-xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+                      Swimma
+                    </h1>
+                    <p className="text-xs text-gray-400">Your swimming analytics</p>
                   </div>
                 </Link>
 
@@ -83,6 +86,9 @@ function App() {
                 <Route path="/upload" element={<Upload />} />
               </Routes>
             </main>
+
+            {/* Developer Tools (dev only) */}
+            <DevTools />
           </div>
         </SwimDataProvider>
       </ThemeProvider>

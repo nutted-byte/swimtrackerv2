@@ -5,10 +5,12 @@ import {
   saveSessions,
   updateSession,
   deleteSession,
+  clearSessions,
   getSessionsSorted,
   getRecentSessions
 } from '../utils/localStorage';
 import { parseSwimFile } from '../utils/fileParser';
+import { ensureTestData } from '../utils/testData';
 
 const SwimDataContext = createContext();
 
@@ -20,6 +22,11 @@ export const SwimDataProvider = ({ children }) => {
   // Load sessions from localStorage on mount
   useEffect(() => {
     try {
+      // In development, auto-load test data if none exists
+      if (import.meta.env.DEV) {
+        ensureTestData();
+      }
+
       const storedSessions = getSessionsSorted();
       setSessions(storedSessions);
     } catch (err) {
@@ -129,6 +136,19 @@ export const SwimDataProvider = ({ children }) => {
     return getRecentSessions(days);
   }, []);
 
+  /**
+   * Clear all sessions
+   */
+  const clearAllSessions = useCallback(() => {
+    try {
+      clearSessions();
+      setSessions([]);
+    } catch (err) {
+      setError('Failed to clear sessions');
+      throw err;
+    }
+  }, []);
+
   const value = {
     sessions,
     loading,
@@ -139,6 +159,7 @@ export const SwimDataProvider = ({ children }) => {
     rateSession,
     getLastSession,
     getLastNDaysSessions,
+    clearAllSessions,
   };
 
   return (

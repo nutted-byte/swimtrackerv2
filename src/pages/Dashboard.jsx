@@ -2,9 +2,27 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
-import { Activity, TrendingUp, Zap, Upload, Calendar, Clock, Droplets, Target, ArrowRight, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { DeepInsightCard } from '../components/DeepInsightCard';
+import { ProgressBreakdown } from '../components/ProgressBreakdown';
+import { QuickInsightCard } from '../components/QuickInsightCard';
+import { CollapsibleSection } from '../components/CollapsibleSection';
+import { LastSwimHero } from '../components/LastSwimHero';
+import { SwimRankingCard } from '../components/SwimRankingCard';
+import { SwimComparisonGrid } from '../components/SwimComparisonGrid';
+import { SwimInterrogator } from '../components/SwimInterrogator';
+import { PageContainer, PageHeader } from '../components/layout';
+import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
-import { analyzeProgress, generateCoachingInsight } from '../utils/analytics';
+import {
+  analyzeProgress,
+  generateCoachingInsight,
+  analyzeLastSwimDeep,
+  calculateSwimRanking,
+  generateSwimQuestions,
+  answerSwimQuestion,
+  generateSwimSummary
+} from '../utils/analytics';
+import { tokens } from '../design/tokens';
 
 export const Dashboard = () => {
   const { sessions, rateSession } = useSwimData();
@@ -18,6 +36,29 @@ export const Dashboard = () => {
 
   // Get the most recent swim
   const lastSwim = sessions[0] || null;
+
+  // Deep analysis of last swim
+  const deepAnalysis = lastSwim ? analyzeLastSwimDeep(lastSwim, sessions) : null;
+
+  // Calculate ranking for last swim
+  const ranking = lastSwim ? calculateSwimRanking(lastSwim, sessions) : null;
+
+  // Generate questions for swim interrogator
+  const questions = lastSwim && deepAnalysis ? generateSwimQuestions(lastSwim, deepAnalysis, sessions) : [];
+
+  // Generate answers for all questions
+  const answers = {};
+  questions.forEach(q => {
+    try {
+      answers[q.id] = answerSwimQuestion(q.id, lastSwim, deepAnalysis, ranking, sessions);
+    } catch (err) {
+      console.error(`Error generating answer for ${q.id}:`, err);
+      answers[q.id] = 'Unable to generate answer for this question.';
+    }
+  });
+
+  // Generate swim summary
+  const swimSummary = lastSwim ? generateSwimSummary(lastSwim, deepAnalysis, ranking, sessions) : null;
 
   // Emoji based on status
   const statusEmoji = {
@@ -38,9 +79,9 @@ export const Dashboard = () => {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <div className="text-8xl mb-6">🏊‍♂️</div>
+          <div className="text-8xl mb-6">🌊</div>
           <h1 className="font-display text-4xl font-bold mb-4">
-            Welcome to Swim Tracker!
+            Welcome to Swimma!
           </h1>
           <p className="text-xl text-gray-400 mb-8">
             {message}
@@ -64,279 +105,172 @@ export const Dashboard = () => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Get top recommendation from deep analysis
+  const topRecommendation = deepAnalysis?.recommendations?.[0] || null;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-      {/* Hero Section - "Am I Getting Better?" */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center space-y-4"
-      >
-        <h1 className="font-display text-5xl font-bold">
-          Am I Getting Better?
-        </h1>
-
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="inline-block"
-        >
-          <Card
-            glow={improving}
-            className="inline-block px-12 py-6 text-center"
-          >
-            <motion.div
-              animate={improving ? { y: [-5, 0, -5] } : {}}
-              transition={{ duration: 2, repeat: Infinity }}
+    <PageContainer>
+      <PageHeader
+        title="Dashboard"
+        actions={
+          <>
+            <Link
+              to="/sessions"
+              className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
             >
-              <div className="flex items-center gap-3 justify-center">
-                <span className="text-6xl">
-                  {statusEmoji[status]}
-                </span>
-                <div className="text-left">
-                  <p className={`text-3xl font-display font-bold ${
-                    improving ? 'text-accent-blue' :
-                    status === 'declining' ? 'text-accent-coral' :
-                    'text-gray-300'
-                  }`}>
-                    {status === 'improving' && "You're improving!"}
-                    {status === 'stable' && "Staying consistent!"}
-                    {status === 'declining' && "Let's refocus"}
-                  </p>
-                  <p className="text-lg text-gray-400">
-                    {metrics.weightedScore > 0 ? '+' : ''}{metrics.weightedScore}% over last 30 days
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </Card>
-        </motion.div>
+              <BarChart3 className={tokens.icons.sm} />
+              <span className="hidden sm:inline">View Sessions</span>
+            </Link>
+            <Link
+              to="/upload"
+              className="btn-primary flex items-center gap-2 text-sm"
+            >
+              <Upload className={tokens.icons.sm} />
+              Upload
+            </Link>
+          </>
+        }
+      />
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-gray-400 max-w-2xl mx-auto"
-        >
-          {message} • {metrics.totalSwims} swims analyzed
-        </motion.p>
-      </motion.div>
-
-      {/* Stats Grid */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
-      >
-        <StatCard
-          label="Average Pace"
-          value={formatPace(metrics.avgPace)}
-          unit="min/100m"
-          trend={metrics.trends.pace}
-          icon={Activity}
-          glow={metrics.trends.pace > 0}
-        />
-        <StatCard
-          label="SWOLF"
-          value={Math.round(metrics.avgSwolf)}
-          trend={metrics.trends.swolf}
-          icon={Zap}
-          glow={metrics.trends.swolf > 0}
-        />
-        <StatCard
-          label="Total Distance"
-          value={(metrics.totalDistance / 1000).toFixed(1)}
-          unit="km"
-          trend={metrics.trends.distance}
-          icon={TrendingUp}
-        />
-      </motion.div>
-
-      {/* Last Swim Deep Dive */}
+      {/* 1. Last Swim Hero - MOST PROMINENT */}
       {lastSwim && (
+        <LastSwimHero
+          swim={lastSwim}
+          onRate={rateSession}
+          onViewDetails={(id) => navigate(`/session/${id}`, { state: { from: '/', label: 'Dashboard' } })}
+          formatPace={formatPace}
+          deepAnalysis={deepAnalysis}
+          summary={swimSummary}
+        />
+      )}
+
+      {/* 2. Swim Ranking Card */}
+      {ranking && (
+        <SwimRankingCard ranking={ranking} />
+      )}
+
+      {/* 3. Swim Comparison Grid */}
+      {deepAnalysis?.comparative && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Card className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center">
-                  <Droplets className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-display text-2xl font-bold">Last Swim Deep Dive</h3>
-                  <p className="text-sm text-gray-400">
-                    {new Date(lastSwim.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
+          <SwimComparisonGrid
+            lastSwim={lastSwim}
+            comparative={deepAnalysis.comparative}
+            formatPace={formatPace}
+          />
+        </motion.div>
+      )}
+
+      {/* 4. Swim Interrogator - Interactive Q&A */}
+      {questions.length > 0 && (
+        <SwimInterrogator
+          questions={questions}
+          answers={answers}
+        />
+      )}
+
+      {/* 5. Coaching Insights */}
+      {topRecommendation && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <QuickInsightCard recommendation={topRecommendation} />
+        </motion.div>
+      )}
+
+      {/* Simple coach insight if no recommendation */}
+      {!topRecommendation && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Card>
+            <div className="flex gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">🏊</span>
               </div>
-              <div className="flex items-center gap-2">
-                {/* Rating buttons */}
-                <div className="flex items-center gap-1 bg-dark-bg/50 rounded-lg p-1">
-                  <button
-                    onClick={() => rateSession(lastSwim.id, lastSwim.rating === true ? null : true)}
-                    className={`p-2 rounded-md transition-all ${
-                      lastSwim.rating === true
-                        ? 'bg-accent-blue text-white'
-                        : 'hover:bg-dark-card text-gray-400'
-                    }`}
-                    title="Good swim"
-                  >
-                    <ThumbsUp className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => rateSession(lastSwim.id, lastSwim.rating === false ? null : false)}
-                    className={`p-2 rounded-md transition-all ${
-                      lastSwim.rating === false
-                        ? 'bg-accent-coral text-white'
-                        : 'hover:bg-dark-card text-gray-400'
-                    }`}
-                    title="Could be better"
-                  >
-                    <ThumbsDown className="w-5 h-5" />
-                  </button>
-                </div>
-                <button
-                  onClick={() => navigate(`/session/${lastSwim.id}`)}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors text-sm font-medium"
-                >
-                  Full Details
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+              <div>
+                <h3 className="font-display text-xl font-semibold mb-2">
+                  Coach's Insight
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  {coachingInsight}
+                </p>
               </div>
             </div>
-
-            {/* Key Metrics Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-dark-bg/50 rounded-lg p-4">
-                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
-                  <TrendingUp className="w-4 h-4" />
-                  Distance
-                </div>
-                <p className="font-display text-2xl font-bold">
-                  {(lastSwim.distance / 1000).toFixed(2)} km
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {Math.round(lastSwim.distance / 25)} lengths
-                </p>
-              </div>
-
-              <div className="bg-dark-bg/50 rounded-lg p-4">
-                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
-                  <Clock className="w-4 h-4" />
-                  Duration
-                </div>
-                <p className="font-display text-2xl font-bold">
-                  {lastSwim.duration} min
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {Math.floor(lastSwim.duration / 60)}h {lastSwim.duration % 60}m
-                </p>
-              </div>
-
-              <div className="bg-dark-bg/50 rounded-lg p-4">
-                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
-                  <Activity className="w-4 h-4" />
-                  Pace
-                </div>
-                <p className="font-display text-2xl font-bold">
-                  {formatPace(lastSwim.pace)}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">min/100m</p>
-              </div>
-
-              <div className="bg-dark-bg/50 rounded-lg p-4">
-                <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
-                  <Target className="w-4 h-4" />
-                  Strokes
-                </div>
-                <p className="font-display text-2xl font-bold">
-                  {lastSwim.strokes.toLocaleString()}
-                </p>
-                {lastSwim.swolf > 0 && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    SWOLF: {lastSwim.swolf}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Quick Comparison */}
-            {sessions.length > 1 && (
-              <div className="bg-dark-bg/30 rounded-lg p-4 border border-dark-border">
-                <p className="text-sm text-gray-400 mb-3">vs. Your Average</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Pace</p>
-                    <p className={`text-sm font-semibold ${
-                      lastSwim.pace < metrics.avgPace ? 'text-accent-blue' : 'text-accent-coral'
-                    }`}>
-                      {lastSwim.pace < metrics.avgPace ? '🚀 Faster' : '🐢 Slower'}
-                      {' '}
-                      {Math.abs(((lastSwim.pace - metrics.avgPace) / metrics.avgPace) * 100).toFixed(1)}%
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Distance</p>
-                    <p className={`text-sm font-semibold ${
-                      lastSwim.distance > metrics.totalDistance / sessions.length ? 'text-accent-blue' : 'text-gray-400'
-                    }`}>
-                      {lastSwim.distance > metrics.totalDistance / sessions.length ? '⬆️ Longer' : '⬇️ Shorter'}
-                      {' '}
-                      {Math.abs(((lastSwim.distance - metrics.totalDistance / sessions.length) / (metrics.totalDistance / sessions.length)) * 100).toFixed(1)}%
-                    </p>
-                  </div>
-                  {lastSwim.swolf > 0 && metrics.avgSwolf > 0 && (
-                    <div>
-                      <p className="text-xs text-gray-500 mb-1">SWOLF</p>
-                      <p className={`text-sm font-semibold ${
-                        lastSwim.swolf < metrics.avgSwolf ? 'text-accent-blue' : 'text-accent-coral'
-                      }`}>
-                        {lastSwim.swolf < metrics.avgSwolf ? '✨ Better' : '💪 Room to improve'}
-                        {' '}
-                        {Math.abs(((lastSwim.swolf - metrics.avgSwolf) / metrics.avgSwolf) * 100).toFixed(1)}%
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </Card>
         </motion.div>
       )}
 
-      {/* AI Coach Card */}
+      {/* 6. Progress Overview - Collapsible (moved down) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0 }}
+        transition={{ delay: 0.6 }}
       >
-        <Card>
-          <div className="flex gap-4">
-            <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl">🏊</span>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-semibold mb-2">
-                Coach's Insight
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                {coachingInsight}
-              </p>
-            </div>
+        <CollapsibleSection
+          title="Am I Getting Better?"
+          subtitle={message}
+          icon={TrendingUp}
+          defaultExpanded={false}
+        >
+          {/* Progress Breakdown */}
+          <div className="mb-6">
+            <ProgressBreakdown analysis={analysis} />
           </div>
-        </Card>
+
+          {/* Stats Grid */}
+          <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default}`}>
+            <StatCard
+              label="Average Pace"
+              value={formatPace(metrics.avgPace)}
+              unit="min/100m"
+              trend={metrics.trends.pace}
+              icon={Activity}
+              glow={metrics.trends.pace > 0}
+            />
+            <StatCard
+              label="SWOLF"
+              value={Math.round(metrics.avgSwolf)}
+              trend={metrics.trends.swolf}
+              icon={Zap}
+              glow={metrics.trends.swolf > 0}
+            />
+            <StatCard
+              label="Total Distance"
+              value={(metrics.totalDistance / 1000).toFixed(1)}
+              unit="km"
+              trend={metrics.trends.distance}
+              icon={TrendingUp}
+            />
+          </div>
+        </CollapsibleSection>
       </motion.div>
-    </div>
+
+      {/* 7. Deep Analysis - Collapsible */}
+      {deepAnalysis && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+        >
+          <CollapsibleSection
+            title="Deep Analysis"
+            subtitle={`${deepAnalysis.recommendations?.length || 0} insights & recommendations`}
+            icon={Sparkles}
+            badge={deepAnalysis.recommendations?.length || 0}
+            defaultExpanded={false}
+          >
+            <DeepInsightCard analysis={deepAnalysis} />
+          </CollapsibleSection>
+        </motion.div>
+      )}
+    </PageContainer>
   );
 };
