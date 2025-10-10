@@ -122,57 +122,59 @@ export const Sessions = () => {
 
         {/* Filters & View Toggle */}
         <div className="mb-6 flex flex-wrap items-center gap-4 justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <Filter className="w-4 h-4" />
-              <span>Sort by:</span>
+          {viewMode === 'list' && (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Filter className="w-4 h-4" />
+                <span>Sort by:</span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSortBy('date-desc')}
+                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                    sortBy === 'date-desc'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  Newest First
+                </button>
+                <button
+                  onClick={() => setSortBy('date-asc')}
+                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                    sortBy === 'date-asc'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  Oldest First
+                </button>
+                <button
+                  onClick={() => setSortBy('distance')}
+                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                    sortBy === 'distance'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  Distance
+                </button>
+                <button
+                  onClick={() => setSortBy('pace')}
+                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                    sortBy === 'pace'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  Fastest Pace
+                </button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setSortBy('date-desc')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                  sortBy === 'date-desc'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-dark-card text-gray-400 hover:text-gray-200'
-                }`}
-              >
-                Newest First
-              </button>
-              <button
-                onClick={() => setSortBy('date-asc')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                  sortBy === 'date-asc'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-dark-card text-gray-400 hover:text-gray-200'
-                }`}
-              >
-                Oldest First
-              </button>
-              <button
-                onClick={() => setSortBy('distance')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                  sortBy === 'distance'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-dark-card text-gray-400 hover:text-gray-200'
-                }`}
-              >
-                Distance
-              </button>
-              <button
-                onClick={() => setSortBy('pace')}
-                className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                  sortBy === 'pace'
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-dark-card text-gray-400 hover:text-gray-200'
-                }`}
-              >
-                Fastest Pace
-              </button>
-            </div>
-          </div>
+          )}
 
           {/* View Mode & Collapse Toggle */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 ml-auto">
             {viewMode === 'grouped' && (
               <button
                 onClick={() => setAllCollapsed(!allCollapsed)}
