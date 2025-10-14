@@ -15,7 +15,7 @@ export const Sessions = () => {
   const { sessions, removeSession } = useSwimData();
   const [sortBy, setSortBy] = useState('date-desc'); // date-desc, date-asc, distance, pace
   const [viewMode, setViewMode] = useState('grouped'); // grouped or list
-  const [allCollapsed, setAllCollapsed] = useState(false);
+  const [allCollapsed, setAllCollapsed] = useState(true);
 
   // Sort sessions
   const sortedSessions = [...sessions].sort((a, b) => {

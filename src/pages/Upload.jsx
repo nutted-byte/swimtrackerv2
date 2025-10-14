@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileUpload } from '../components/FileUpload';
+import { VO2MaxUpload } from '../components/VO2MaxUpload';
 import { useSwimData } from '../context/SwimDataContext';
 import { CheckCircle, Loader, Trash2, AlertTriangle } from 'lucide-react';
 
@@ -84,6 +85,18 @@ export const Upload = () => {
             <p className="text-gray-400">
               Redirecting to your dashboard...
             </p>
+          </motion.div>
+        )}
+
+        {/* VO2 Max Upload Section */}
+        {sessions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-12 pt-8 border-t border-dark-border"
+          >
+            <VO2MaxUpload />
           </motion.div>
         )}
 

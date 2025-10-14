@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
@@ -10,8 +11,9 @@ import { LastSwimHero } from '../components/LastSwimHero';
 import { SwimRankingCard } from '../components/SwimRankingCard';
 import { SwimComparisonGrid } from '../components/SwimComparisonGrid';
 import { SwimInterrogator } from '../components/SwimInterrogator';
+import { SessionCard } from '../components/SessionCard';
 import { PageContainer, PageHeader } from '../components/layout';
-import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle } from 'lucide-react';
+import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle, ArrowRight } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import {
   analyzeProgress,
@@ -25,40 +27,66 @@ import {
 import { tokens } from '../design/tokens';
 
 export const Dashboard = () => {
-  const { sessions, rateSession } = useSwimData();
+  const { sessions, rateSession, removeSession } = useSwimData();
   const navigate = useNavigate();
 
+  // Memoize expensive calculations to prevent re-computation on every render
   // Analyze progress from real data
-  const analysis = analyzeProgress(sessions, 30);
-  const coachingInsight = generateCoachingInsight(analysis);
+  const analysis = useMemo(() => analyzeProgress(sessions, 30), [sessions]);
+  const coachingInsight = useMemo(() => generateCoachingInsight(analysis), [analysis]);
 
   const { status, message, improving, metrics } = analysis;
 
   // Get the most recent swim
-  const lastSwim = sessions[0] || null;
+  const lastSwim = useMemo(() => sessions[0] || null, [sessions]);
 
   // Deep analysis of last swim
-  const deepAnalysis = lastSwim ? analyzeLastSwimDeep(lastSwim, sessions) : null;
+  const deepAnalysis = useMemo(
+    () => (lastSwim ? analyzeLastSwimDeep(lastSwim, sessions) : null),
+    [lastSwim, sessions]
+  );
 
   // Calculate ranking for last swim
-  const ranking = lastSwim ? calculateSwimRanking(lastSwim, sessions) : null;
+  const ranking = useMemo(
+    () => (lastSwim ? calculateSwimRanking(lastSwim, sessions) : null),
+    [lastSwim, sessions]
+  );
 
   // Generate questions for swim interrogator
-  const questions = lastSwim && deepAnalysis ? generateSwimQuestions(lastSwim, deepAnalysis, sessions) : [];
+  const questions = useMemo(
+    () => (lastSwim && deepAnalysis ? generateSwimQuestions(lastSwim, deepAnalysis, sessions) : []),
+    [lastSwim, deepAnalysis, sessions]
+  );
 
   // Generate answers for all questions
-  const answers = {};
-  questions.forEach(q => {
-    try {
-      answers[q.id] = answerSwimQuestion(q.id, lastSwim, deepAnalysis, ranking, sessions);
-    } catch (err) {
-      console.error(`Error generating answer for ${q.id}:`, err);
-      answers[q.id] = 'Unable to generate answer for this question.';
-    }
-  });
+  const answers = useMemo(() => {
+    const answersObj = {};
+    questions.forEach(q => {
+      try {
+        answersObj[q.id] = answerSwimQuestion(q.id, lastSwim, deepAnalysis, ranking, sessions);
+      } catch (err) {
+        console.error(`Error generating answer for ${q.id}:`, err);
+        answersObj[q.id] = 'Unable to generate answer for this question.';
+      }
+    });
+    return answersObj;
+  }, [questions, lastSwim, deepAnalysis, ranking, sessions]);
 
   // Generate swim summary
-  const swimSummary = lastSwim ? generateSwimSummary(lastSwim, deepAnalysis, ranking, sessions) : null;
+  const swimSummary = useMemo(
+    () => (lastSwim ? generateSwimSummary(lastSwim, deepAnalysis, ranking, sessions) : null),
+    [lastSwim, deepAnalysis, ranking, sessions]
+  );
+
+  // Get recent sessions (last 3 months) - MUST be before early return
+  const recentSessions = useMemo(() => {
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+    return sessions.filter(session =>
+      new Date(session.date) >= threeMonthsAgo
+    ).slice(0, 10); // Show max 10 sessions
+  }, [sessions]);
 
   // Emoji based on status
   const statusEmoji = {
@@ -108,6 +136,17 @@ export const Dashboard = () => {
   // Get top recommendation from deep analysis
   const topRecommendation = deepAnalysis?.recommendations?.[0] || null;
 
+  const handleSessionClick = (session) => {
+    navigate(`/session/${session.id}`, { state: { from: '/', label: 'Dashboard' } });
+  };
+
+  const handleDelete = (sessionId, e) => {
+    e.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this swim session?')) {
+      removeSession(sessionId);
+    }
+  };
+
   return (
     <PageContainer>
       <PageHeader
@@ -136,6 +175,7 @@ export const Dashboard = () => {
       {lastSwim && (
         <LastSwimHero
           swim={lastSwim}
+          sessions={sessions}
           onRate={rateSession}
           onViewDetails={(id) => navigate(`/session/${id}`, { state: { from: '/', label: 'Dashboard' } })}
           formatPace={formatPace}
@@ -149,126 +189,47 @@ export const Dashboard = () => {
         <SwimRankingCard ranking={ranking} />
       )}
 
-      {/* 3. Swim Comparison Grid */}
-      {deepAnalysis?.comparative && (
+      {/* 3. Recent Sessions */}
+      {recentSessions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <SwimComparisonGrid
-            lastSwim={lastSwim}
-            comparative={deepAnalysis.comparative}
-            formatPace={formatPace}
-          />
-        </motion.div>
-      )}
-
-      {/* 4. Swim Interrogator - Interactive Q&A */}
-      {questions.length > 0 && (
-        <SwimInterrogator
-          questions={questions}
-          answers={answers}
-        />
-      )}
-
-      {/* 5. Coaching Insights */}
-      {topRecommendation && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <QuickInsightCard recommendation={topRecommendation} />
-        </motion.div>
-      )}
-
-      {/* Simple coach insight if no recommendation */}
-      {!topRecommendation && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Card>
-            <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-2xl">🏊</span>
-              </div>
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="font-display text-xl font-semibold mb-2">
-                  Coach's Insight
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {coachingInsight}
-                </p>
+                <h2 className="font-display text-2xl font-bold mb-1">Recent Sessions</h2>
+                <p className="text-gray-400 text-sm">Last 3 months of activity</p>
               </div>
+              <Link
+                to="/sessions"
+                className="inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 transition-colors group"
+              >
+                <span>View all sessions</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="space-y-3">
+              {recentSessions.map((session, index) => (
+                <motion.div
+                  key={session.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <SessionCard
+                    session={session}
+                    onClick={() => handleSessionClick(session)}
+                    onDelete={(e) => handleDelete(session.id, e)}
+                    onRate={rateSession}
+                    formatPace={formatPace}
+                  />
+                </motion.div>
+              ))}
             </div>
           </Card>
-        </motion.div>
-      )}
-
-      {/* 6. Progress Overview - Collapsible (moved down) */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-      >
-        <CollapsibleSection
-          title="Am I Getting Better?"
-          subtitle={message}
-          icon={TrendingUp}
-          defaultExpanded={false}
-        >
-          {/* Progress Breakdown */}
-          <div className="mb-6">
-            <ProgressBreakdown analysis={analysis} />
-          </div>
-
-          {/* Stats Grid */}
-          <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default}`}>
-            <StatCard
-              label="Average Pace"
-              value={formatPace(metrics.avgPace)}
-              unit="min/100m"
-              trend={metrics.trends.pace}
-              icon={Activity}
-              glow={metrics.trends.pace > 0}
-            />
-            <StatCard
-              label="SWOLF"
-              value={Math.round(metrics.avgSwolf)}
-              trend={metrics.trends.swolf}
-              icon={Zap}
-              glow={metrics.trends.swolf > 0}
-            />
-            <StatCard
-              label="Total Distance"
-              value={(metrics.totalDistance / 1000).toFixed(1)}
-              unit="km"
-              trend={metrics.trends.distance}
-              icon={TrendingUp}
-            />
-          </div>
-        </CollapsibleSection>
-      </motion.div>
-
-      {/* 7. Deep Analysis - Collapsible */}
-      {deepAnalysis && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-        >
-          <CollapsibleSection
-            title="Deep Analysis"
-            subtitle={`${deepAnalysis.recommendations?.length || 0} insights & recommendations`}
-            icon={Sparkles}
-            badge={deepAnalysis.recommendations?.length || 0}
-            defaultExpanded={false}
-          >
-            <DeepInsightCard analysis={deepAnalysis} />
-          </CollapsibleSection>
         </motion.div>
       )}
     </PageContainer>

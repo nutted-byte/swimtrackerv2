@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -5,15 +6,31 @@ import { SwimDataProvider } from './context/SwimDataContext';
 import { ThemeToggle } from './components/ThemeToggle';
 import { DevTools } from './components/DevTools';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { Dashboard } from './pages/Dashboard';
-import { Upload } from './pages/Upload';
-import { Sessions } from './pages/Sessions';
-import { SessionDetail } from './pages/SessionDetail';
-import { Insights } from './pages/Insights';
-import { Records } from './pages/Records';
-import { Login } from './pages/Login';
-import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, LogOut, User } from 'lucide-react';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { MobileMenu } from './components/MobileMenu';
+import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
+
+// Lazy load pages for code splitting - improves initial load time
+const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
+const Upload = lazy(() => import('./pages/Upload').then(m => ({ default: m.Upload })));
+const Sessions = lazy(() => import('./pages/Sessions').then(m => ({ default: m.Sessions })));
+const SessionDetail = lazy(() => import('./pages/SessionDetail').then(m => ({ default: m.SessionDetail })));
+const Insights = lazy(() => import('./pages/Insights').then(m => ({ default: m.Insights })));
+const Patterns = lazy(() => import('./pages/Patterns').then(m => ({ default: m.Patterns })));
+const Records = lazy(() => import('./pages/Records').then(m => ({ default: m.Records })));
+const Ask = lazy(() => import('./pages/Ask').then(m => ({ default: m.Ask })));
+const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+    <div className="text-center">
+      <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-400">Loading...</p>
+    </div>
+  </div>
+);
 
 function AppContent() {
   const { user, signOut, isAuthenticated } = useAuth();
@@ -45,7 +62,8 @@ function AppContent() {
             </Link>
 
             <div className="flex items-center gap-4">
-              <nav className="flex gap-2">
+              {/* Desktop Navigation */}
+              <nav className="hidden md:flex gap-2">
                 <Link
                   to="/"
                   className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
@@ -75,6 +93,13 @@ function AppContent() {
                   Records
                 </Link>
                 <Link
+                  to="/ask"
+                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Swim Coach
+                </Link>
+                <Link
                   to="/upload"
                   className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
                 >
@@ -83,8 +108,8 @@ function AppContent() {
                 </Link>
               </nav>
 
-              {/* User Menu */}
-              <div className="flex items-center gap-3 pl-3 border-l border-dark-border">
+              {/* Desktop User Menu */}
+              <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
                 <div className="flex items-center gap-2 text-sm">
                   <User className="w-4 h-4 text-gray-400" />
                   <span className="text-gray-300">{user?.email}</span>
@@ -98,66 +123,93 @@ function AppContent() {
                 </button>
               </div>
 
-              <ThemeToggle />
+              {/* Desktop Theme Toggle */}
+              <div className="hidden md:block">
+                <ThemeToggle />
+              </div>
+
+              {/* Mobile Menu */}
+              <MobileMenu user={user} onSignOut={handleSignOut} />
             </div>
           </div>
         </header>
       )}
 
       {/* Main Content */}
-      <main>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/sessions"
-            element={
-              <ProtectedRoute>
-                <Sessions />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/session/:id"
-            element={
-              <ProtectedRoute>
-                <SessionDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/insights"
-            element={
-              <ProtectedRoute>
-                <Insights />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/records"
-            element={
-              <ProtectedRoute>
-                <Records />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/upload"
-            element={
-              <ProtectedRoute>
-                <Upload />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+      <main className="pb-20 md:pb-0">
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sessions"
+              element={
+                <ProtectedRoute>
+                  <Sessions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/session/:id"
+              element={
+                <ProtectedRoute>
+                  <SessionDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insights"
+              element={
+                <ProtectedRoute>
+                  <Insights />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/patterns"
+              element={
+                <ProtectedRoute>
+                  <Patterns />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/records"
+              element={
+                <ProtectedRoute>
+                  <Records />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ask"
+              element={
+                <ProtectedRoute>
+                  <Ask />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/upload"
+              element={
+                <ProtectedRoute>
+                  <Upload />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      {isAuthenticated && <MobileBottomNav />}
 
       {/* Developer Tools (dev only) */}
       {isAuthenticated && <DevTools />}

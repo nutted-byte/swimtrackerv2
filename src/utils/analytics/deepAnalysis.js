@@ -3,9 +3,9 @@
  */
 
 import { detectPacingStrategy, calculateFatigueIndex } from './lapAnalysis.js';
-import { findPerformancePatterns } from './patterns.js';
-import { calculateStreaks } from './streaks.js';
-import { generateDetailedRecommendations } from './recommendations.js';
+import { findPerformancePatterns } from '../patterns.js';
+import { calculateStreaks } from '../streaks.js';
+import { generateDetailedRecommendations } from '../recommendations.js';
 
 /**
  * Calculate percentile ranking (local helper)

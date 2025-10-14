@@ -29,7 +29,7 @@ export { calculateStreaks } from './streaks.js';
 export { getCompareData } from './comparisons.js';
 
 // Lap Analysis
-export { detectPacingStrategy, calculateFatigueIndex } from './lapAnalysis.js';
+export { detectPacingStrategy, calculateFatigueIndex } from './analytics/lapAnalysis.js';
 
 // Patterns
 export { findPerformancePatterns } from './patterns.js';
@@ -44,7 +44,7 @@ export { checkAchievementBadges, generateFunComparisons } from './achievements.j
 export { calculateSwimRanking } from './ranking.js';
 
 // Questions
-export { generateSwimQuestions, answerSwimQuestion } from './questions.js';
+export { generateSwimQuestions, answerSwimQuestion } from './ai/questions.js';
 
 // Deep Analysis
-export { analyzeLastSwimDeep } from './deepAnalysis.js';
+export { analyzeLastSwimDeep } from './analytics/deepAnalysis.js';

@@ -1,7 +1,7 @@
+import { memo } from 'react';
 import { Card } from './Card';
-import { motion } from 'framer-motion';
 
-export const StatCard = ({
+export const StatCard = memo(({
   label,
   value,
   unit = '',
@@ -28,15 +28,10 @@ export const StatCard = ({
       <div className="flex items-start justify-between">
         <div>
           <p className="stat-label">{label}</p>
-          <motion.div
-            className="flex items-baseline gap-2 mt-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="flex items-baseline gap-2 mt-2">
             <span className="stat-value">{value}</span>
             {unit && <span className="text-xl text-gray-400">{unit}</span>}
-          </motion.div>
+          </div>
           {trend !== null && (
             <p className={`text-sm mt-2 ${getTrendColor()}`}>
               {getTrendSymbol()} {Math.abs(trend)}%
@@ -51,4 +46,4 @@ export const StatCard = ({
       </div>
     </Card>
   );
-};
+});

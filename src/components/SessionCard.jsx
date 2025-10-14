@@ -1,8 +1,8 @@
+import { memo } from 'react';
 import { Card } from './Card';
-import { Calendar, Activity, Zap, TrendingUp, Clock, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Calendar, Activity, Zap, TrendingUp, Clock, ThumbsUp, ThumbsDown, Heart } from 'lucide-react';
 
-export const SessionCard = ({ session, onClick }) => {
+export const SessionCard = memo(({ session, onClick }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -34,12 +34,7 @@ export const SessionCard = ({ session, onClick }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
-    >
+    <div className="transition-opacity duration-300 ease-in-out">
       <Card
         hover={true}
         className="cursor-pointer"
@@ -75,7 +70,7 @@ export const SessionCard = ({ session, onClick }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           <div>
             <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
               <Activity className="w-3 h-3" />
@@ -98,7 +93,20 @@ export const SessionCard = ({ session, onClick }) => {
             </p>
           </div>
 
-          {session.swolf > 0 && (
+          {session.vo2max && (
+            <div>
+              <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
+                <Heart className="w-3 h-3" />
+                <span>VO2 Max</span>
+              </div>
+              <p className="font-display text-lg font-semibold">
+                {session.vo2max}
+                <span className="text-sm text-gray-400 ml-1">ml/kg/min</span>
+              </p>
+            </div>
+          )}
+
+          {session.swolf > 0 && !session.vo2max && (
             <div>
               <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
                 <Zap className="w-3 h-3" />
@@ -110,7 +118,7 @@ export const SessionCard = ({ session, onClick }) => {
             </div>
           )}
 
-          {session.swolf === 0 && session.strokes > 0 && (
+          {session.swolf === 0 && session.strokes > 0 && !session.vo2max && (
             <div>
               <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
                 <TrendingUp className="w-3 h-3" />
@@ -131,6 +139,6 @@ export const SessionCard = ({ session, onClick }) => {
           </div>
         )}
       </Card>
-    </motion.div>
+    </div>
   );
-};
+});

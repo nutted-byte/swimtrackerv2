@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 
-export const Card = ({
+export const Card = memo(({
   children,
   className = '',
   hover = true,
@@ -20,4 +21,4 @@ export const Card = ({
       {children}
     </motion.div>
   );
-};
+});

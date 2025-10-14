@@ -166,7 +166,7 @@ export const Records = () => {
       <PageHero
         title="Your Best Performances"
         icon={Trophy}
-        align="center"
+        align="left"
       >
         {/* Summary Stats */}
         <div className={`flex items-center justify-center ${tokens.gap.compact} text-sm text-gray-400`}>
@@ -230,59 +230,6 @@ export const Records = () => {
           )}
         </div>
       </motion.div>
-
-      {/* Additional Records - Collapsible */}
-      {(records.longestDuration || records.mostStrokes) && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <CollapsibleSection
-            title="More Records"
-            subtitle="Additional personal bests"
-            icon={Trophy}
-            defaultExpanded={false}
-          >
-            <div className={`grid grid-cols-1 md:grid-cols-2 ${tokens.gap.default}`}>
-              {records.longestDuration && (
-                <RecordCard
-                  title="Longest Session"
-                  value={records.longestDuration.duration}
-                  unit="minutes"
-                  subtitle={`${records.longestDuration.distance}m covered`}
-                  icon={Award}
-                  session={records.longestDuration}
-                  color="coral"
-                />
-              )}
-
-              {records.mostStrokes && (
-                <RecordCard
-                  title="Most Strokes"
-                  value={records.mostStrokes.strokes}
-                  unit="strokes"
-                  subtitle={`${records.mostStrokes.distance}m swim`}
-                  icon={TrendingUp}
-                  session={records.mostStrokes}
-                  color="teal"
-                />
-              )}
-            </div>
-          </CollapsibleSection>
-        </motion.div>
-      )}
-
-      {/* Next Milestones */}
-      {milestones && milestones.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <NextMilestones milestones={milestones} />
-        </motion.div>
-      )}
 
       {/* Achievement Badges */}
       {badges && badges.length > 0 && (

@@ -22,7 +22,7 @@ export const PageHeader = ({
       className={`sticky top-0 ${tokens.zIndex.sticky} -mx-4 px-4 py-3 ${tokens.margin.section} bg-dark-bg/95 backdrop-blur-sm border-b border-dark-border`}
     >
       <div className={`flex items-center justify-between ${tokens.container.xl} mx-auto`}>
-        <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
+        <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold}`}>
           {title}
         </h1>
         <div className={`flex items-center ${tokens.gap.tight}`}>

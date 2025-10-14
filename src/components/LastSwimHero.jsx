@@ -1,9 +1,19 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
-import { Activity, TrendingUp, Clock, Target, ThumbsUp, ThumbsDown, ArrowRight, Calendar, Zap, BarChart2, TrendingDown, Flame } from 'lucide-react';
+import { SwimAnalysisPanel } from './SwimAnalysisPanel';
+import { Activity, TrendingUp, Clock, Target, ThumbsUp, ThumbsDown, ArrowRight, Calendar, Zap, BarChart2, TrendingDown, Flame, Sparkles, ChevronUp } from 'lucide-react';
 import { tokens } from '../design/tokens';
+import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
 
-export const LastSwimHero = ({ swim, onRate, onViewDetails, formatPace, deepAnalysis = null, summary = null }) => {
+export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace, deepAnalysis = null, summary = null }) => {
+  const {
+    analysisState,
+    handleAnalyzeSwim,
+    handleAskQuestion,
+    toggleAnalysisPanel,
+    closeAnalysisPanel
+  } = useSwimAnalysis(swim, sessions);
+
   if (!swim) return null;
 
   // Calculate relative time
@@ -32,6 +42,21 @@ export const LastSwimHero = ({ swim, onRate, onViewDetails, formatPace, deepAnal
     minute: '2-digit',
     hour12: true
   });
+
+  // Toggle panel open/closed
+  const togglePanel = () => {
+    if (!analysisState.isOpen) {
+      // Opening - trigger analysis if not already done
+      if (!analysisState.analysis) {
+        handleAnalyzeSwim();
+      } else {
+        toggleAnalysisPanel();
+      }
+    } else {
+      // Closing - keep data for reopening
+      closeAnalysisPanel();
+    }
+  };
 
   return (
     <motion.div
@@ -215,17 +240,51 @@ export const LastSwimHero = ({ swim, onRate, onViewDetails, formatPace, deepAnal
           </motion.div>
         </div>
 
-        {/* View Details Button */}
-        <motion.button
+        {/* Action Buttons */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          onClick={() => onViewDetails(swim.id)}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors font-medium"
+          className="flex flex-col sm:flex-row gap-3"
         >
-          View Full Session Details
-          <ArrowRight className={tokens.icons.sm} />
-        </motion.button>
+          <button
+            onClick={() => onViewDetails(swim.id)}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-dark-bg/60 hover:bg-dark-bg/80 border border-dark-border/50 hover:border-primary-500/50 rounded-lg transition-all font-medium"
+          >
+            View Full Session Details
+            <ArrowRight className={tokens.icons.sm} />
+          </button>
+          <button
+            onClick={togglePanel}
+            disabled={analysisState.loading && !analysisState.isOpen}
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-blue hover:from-primary-600 hover:to-accent-blue/90 rounded-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {analysisState.isOpen ? (
+              <>
+                Close Analysis
+                <ChevronUp className={tokens.icons.sm} />
+              </>
+            ) : (
+              <>
+                <Sparkles className={tokens.icons.sm} />
+                Analyse My Swim
+              </>
+            )}
+          </button>
+        </motion.div>
+
+        {/* Analysis Panel */}
+        <AnimatePresence>
+          {analysisState.isOpen && (
+            <SwimAnalysisPanel
+              swim={swim}
+              analysis={analysisState.analysis}
+              onAnalysisGenerated={handleAnalyzeSwim}
+              loading={analysisState.loading}
+              error={analysisState.error}
+            />
+          )}
+        </AnimatePresence>
       </Card>
     </motion.div>
   );

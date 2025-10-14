@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
-export const TrendBadge = ({ trend, metric = '', size = 'md' }) => {
+export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
   if (!trend) return null;
 
   const getTrendConfig = () => {
@@ -51,4 +52,4 @@ export const TrendBadge = ({ trend, metric = '', size = 'md' }) => {
       <span className="font-medium">{config.label}</span>
     </div>
   );
-};
+});
