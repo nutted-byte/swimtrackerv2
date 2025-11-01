@@ -108,21 +108,26 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
   const vsSameDistance = deepAnalysis?.comparative?.vsSameDistance;
 
   if (vsSameDistance) {
-    const { paceDiff, isBest } = vsSameDistance;
+    const { bestPace, isBest } = vsSameDistance;
     const distanceKm = (lastSwim.distance / 1000).toFixed(lastSwim.distance >= 1000 ? 2 : 1);
+
+    // Convert pace difference to seconds per 25m
+    const currentSecondsPer25m = (lastSwim.pace * 60) / 4;
+    const bestSecondsPer25m = (bestPace * 60) / 4;
+    const secDiff = currentSecondsPer25m - bestSecondsPer25m;
+    const absSecDiff = Math.abs(secDiff);
 
     if (isBest) {
       summary += `This is your fastest ${distanceKm}km swim ever! 🏆`;
-    } else if (paceDiff < 0) {
+    } else if (secDiff < 0) {
       // Faster than best
-      const improvement = Math.abs(paceDiff).toFixed(1);
-      summary += `You were ${improvement}% faster than your previous best at this distance!`;
-    } else if (paceDiff < 5) {
+      summary += `You were ${Math.round(absSecDiff)} seconds per length faster than your previous best at this distance!`;
+    } else if (absSecDiff < 1.0) {
       // Very close to best
-      summary += `You were within ${paceDiff.toFixed(1)}% of your best ${distanceKm}km swim - excellent!`;
-    } else if (paceDiff < 15) {
+      summary += `You were within ${Math.round(absSecDiff)} seconds per length of your best ${distanceKm}km swim - excellent!`;
+    } else if (absSecDiff < 3.0) {
       // Decent performance
-      summary += `This was ${paceDiff.toFixed(1)}% slower than your best ${distanceKm}km swim.`;
+      summary += `This was ${Math.round(absSecDiff)} seconds per length slower than your best ${distanceKm}km swim.`;
     } else {
       // Room for improvement
       summary += `You have swum ${distanceKm}km faster before - keep training!`;

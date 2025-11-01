@@ -18,6 +18,21 @@ export const hasLocalStorageData = () => {
 };
 
 /**
+ * Convert camelCase field names to snake_case for Supabase
+ */
+const convertToSnakeCase = (session) => {
+  const snakeCaseSession = {};
+
+  for (const [key, value] of Object.entries(session)) {
+    // Convert camelCase to snake_case
+    const snakeKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    snakeCaseSession[snakeKey] = value;
+  }
+
+  return snakeCaseSession;
+};
+
+/**
  * Migrate localStorage data to Supabase
  */
 export const migrateLocalStorageToSupabase = async (userId) => {
@@ -43,11 +58,12 @@ export const migrateLocalStorageToSupabase = async (userId) => {
 
     console.log(`Migrating ${sessions.length} sessions to Supabase...`);
 
-    // Prepare sessions for Supabase (add user_id, remove old id)
+    // Prepare sessions for Supabase (add user_id, remove old id, convert to snake_case)
     const sessionsToInsert = sessions.map(session => {
       const { id, ...sessionWithoutId } = session;
+      const snakeCaseSession = convertToSnakeCase(sessionWithoutId);
       return {
-        ...sessionWithoutId,
+        ...snakeCaseSession,
         user_id: userId,
       };
     });

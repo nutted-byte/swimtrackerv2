@@ -141,180 +141,186 @@ export const InsightsChart = ({
 
   if (chartType === 'bar') {
     return (
-      <BarChart data={enrichedChartData}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-        <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
-        <YAxis
-          stroke="#6b7280"
-          style={{ fontSize: '12px' }}
-          domain={barChartDomain}
-          tickFormatter={(value) => `${value.toFixed(1)}km`}
-        />
-        <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
-        <Bar dataKey="distance" fill="#00d4ff" radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
-        <ReferenceLine
-          y={stats.totalDistance / enrichedChartData.length}
-          stroke="#a78bfa"
-          strokeDasharray="5 5"
-          label={{ value: 'Avg', position: 'right', fill: '#a78bfa' }}
-        />
-      </BarChart>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={enrichedChartData}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
+          <YAxis
+            stroke="#6b7280"
+            style={{ fontSize: '12px' }}
+            domain={barChartDomain}
+            tickFormatter={(value) => `${value.toFixed(1)}km`}
+          />
+          <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
+          <Bar dataKey="distance" fill="#00d4ff" radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
+          <ReferenceLine
+            y={stats.totalDistance / enrichedChartData.length}
+            stroke="#a78bfa"
+            strokeDasharray="5 5"
+            label={{ value: 'Avg', position: 'right', fill: '#a78bfa' }}
+          />
+        </BarChart>
+      </ResponsiveContainer>
     );
   }
 
   if (chartType === 'scatter') {
     return (
-      <ScatterChart>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-        <XAxis
-          type="number"
-          dataKey="pace"
-          name="Pace"
-          stroke="#6b7280"
-          style={{ fontSize: '12px' }}
-          domain={scatterPaceDomain}
-          tickFormatter={(value) => formatPace(value)}
-          label={{ value: 'Pace (min/100m)', position: 'bottom', fill: '#6b7280' }}
-        />
-        <YAxis
-          type="number"
-          dataKey="swolf"
-          name="SWOLF"
-          stroke="#6b7280"
-          style={{ fontSize: '12px' }}
-          domain={scatterSwolfDomain}
-          label={{ value: 'SWOLF', angle: -90, position: 'left', fill: '#6b7280' }}
-        />
-        <ZAxis type="number" dataKey="distance" range={[50, 400]} name="Distance" />
-        <Tooltip
-          cursor={{ strokeDasharray: '3 3' }}
-          content={({ active, payload }) => {
-            if (active && payload && payload.length) {
-              const data = payload[0].payload;
-              return (
-                <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg">
-                  <p className="text-sm text-gray-400 mb-2">{data.date}</p>
-                  <p className="text-sm">
-                    <span className="text-gray-400">Pace:</span>{' '}
-                    <span className="font-semibold text-accent-blue">{formatPace(data.pace)}</span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-gray-400">SWOLF:</span>{' '}
-                    <span className="font-semibold text-accent-blue">{data.swolf}</span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-gray-400">Distance:</span>{' '}
-                    <span className="font-semibold text-accent-blue">{data.distance.toFixed(2)} km</span>
-                  </p>
-                </div>
-              );
-            }
-            return null;
-          }}
-        />
-        <Scatter data={scatterData} fill="#00d4ff" isAnimationActive animationDuration={800} />
-        {scatterData.length > 0 && (
-          <>
-            <ReferenceLine
-              x={scatterData.reduce((sum, d) => sum + d.pace, 0) / scatterData.length}
-              stroke="#a78bfa"
-              strokeDasharray="5 5"
-              label={{ value: 'Avg Pace', position: 'top', fill: '#a78bfa' }}
-            />
-            <ReferenceLine
-              y={scatterData.reduce((sum, d) => sum + d.swolf, 0) / scatterData.length}
-              stroke="#a78bfa"
-              strokeDasharray="5 5"
-              label={{ value: 'Avg SWOLF', position: 'right', fill: '#a78bfa' }}
-            />
-          </>
-        )}
-      </ScatterChart>
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart>
+          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <XAxis
+            type="number"
+            dataKey="pace"
+            name="Pace"
+            stroke="#6b7280"
+            style={{ fontSize: '12px' }}
+            domain={scatterPaceDomain}
+            tickFormatter={(value) => formatPace(value)}
+            label={{ value: 'Pace (min/100m)', position: 'bottom', fill: '#6b7280' }}
+          />
+          <YAxis
+            type="number"
+            dataKey="swolf"
+            name="SWOLF"
+            stroke="#6b7280"
+            style={{ fontSize: '12px' }}
+            domain={scatterSwolfDomain}
+            label={{ value: 'SWOLF', angle: -90, position: 'left', fill: '#6b7280' }}
+          />
+          <ZAxis type="number" dataKey="distance" range={[50, 400]} name="Distance" />
+          <Tooltip
+            cursor={{ strokeDasharray: '3 3' }}
+            content={({ active, payload }) => {
+              if (active && payload && payload.length) {
+                const data = payload[0].payload;
+                return (
+                  <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg">
+                    <p className="text-sm text-gray-400 mb-2">{data.date}</p>
+                    <p className="text-sm">
+                      <span className="text-gray-400">Pace:</span>{' '}
+                      <span className="font-semibold text-accent-blue">{formatPace(data.pace)}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-400">SWOLF:</span>{' '}
+                      <span className="font-semibold text-accent-blue">{data.swolf}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-400">Distance:</span>{' '}
+                      <span className="font-semibold text-accent-blue">{data.distance.toFixed(2)} km</span>
+                    </p>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Scatter data={scatterData} fill="#00d4ff" isAnimationActive animationDuration={800} />
+          {scatterData.length > 0 && (
+            <>
+              <ReferenceLine
+                x={scatterData.reduce((sum, d) => sum + d.pace, 0) / scatterData.length}
+                stroke="#a78bfa"
+                strokeDasharray="5 5"
+                label={{ value: 'Avg Pace', position: 'top', fill: '#a78bfa' }}
+              />
+              <ReferenceLine
+                y={scatterData.reduce((sum, d) => sum + d.swolf, 0) / scatterData.length}
+                stroke="#a78bfa"
+                strokeDasharray="5 5"
+                label={{ value: 'Avg SWOLF', position: 'right', fill: '#a78bfa' }}
+              />
+            </>
+          )}
+        </ScatterChart>
+      </ResponsiveContainer>
     );
   }
 
   // Default: line chart
   return (
-    <AreaChart data={enrichedChartData}>
-      <defs>
-        <linearGradient id="colorMetric" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3}/>
-          <stop offset="95%" stopColor="#00d4ff" stopOpacity={0}/>
-        </linearGradient>
-      </defs>
-      <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-      <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
-      <YAxis
-        stroke="#6b7280"
-        style={{ fontSize: '12px' }}
-        domain={lineChartDomain}
-        tickFormatter={(value) => {
-          if (metric === 'pace') return `${Math.floor(value / 60)}:${(value % 60).toFixed(0).padStart(2, '0')}`;
-          if (metric === 'distance') return `${value.toFixed(1)}km`;
-          return value.toFixed(0);
-        }}
-      />
-      <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
-      <Area
-        type="monotone"
-        dataKey={metric === 'pace' ? 'paceSeconds' : metric}
-        stroke="#00d4ff"
-        strokeWidth={3}
-        fill="url(#colorMetric)"
-        dot={(props) => {
-          const milestoneType = getMilestoneType(props.payload);
-          if (milestoneType) {
-            return (
-              <g>
-                <circle cx={props.cx} cy={props.cy} r={8} fill="#fbbf24" stroke="#fbbf24" strokeWidth={2} />
-                <text x={props.cx} y={props.cy - 15} fill="#fbbf24" fontSize="20" textAnchor="middle">⭐</text>
-              </g>
-            );
-          }
-          return <circle cx={props.cx} cy={props.cy} r={5} fill="#00d4ff" />;
-        }}
-        activeDot={{ r: 7, fill: '#00d4ff' }}
-        isAnimationActive
-        animationDuration={800}
-      />
-      {showRollingAvg && (
-        <Line
-          type="monotone"
-          dataKey="rollingAvg"
-          stroke="#a78bfa"
-          strokeWidth={2}
-          strokeDasharray="5 5"
-          dot={false}
-          isAnimationActive
-          animationDuration={800}
-        />
-      )}
-      {showTrendLine && (
-        <Line
-          type="monotone"
-          dataKey="trendValue"
-          stroke="#f97316"
-          strokeWidth={2}
-          strokeDasharray="8 4"
-          dot={false}
-          isAnimationActive
-          animationDuration={800}
-        />
-      )}
-      {showCompare && previousWindowData.length > 0 && (
-        <Line
-          type="monotone"
-          data={previousWindowData}
-          dataKey={metric === 'pace' ? 'paceSeconds' : metric}
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart data={enrichedChartData}>
+        <defs>
+          <linearGradient id="colorMetric" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#00d4ff" stopOpacity={0}/>
+          </linearGradient>
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+        <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
+        <YAxis
           stroke="#6b7280"
-          strokeWidth={2}
-          strokeDasharray="3 3"
-          dot={false}
-          opacity={0.4}
+          style={{ fontSize: '12px' }}
+          domain={lineChartDomain}
+          tickFormatter={(value) => {
+            if (metric === 'pace') return `${Math.floor(value / 60)}:${(value % 60).toFixed(0).padStart(2, '0')}`;
+            if (metric === 'distance') return `${value.toFixed(1)}km`;
+            return value.toFixed(0);
+          }}
+        />
+        <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
+        <Area
+          type="monotone"
+          dataKey={metric === 'pace' ? 'paceSeconds' : metric}
+          stroke="#00d4ff"
+          strokeWidth={3}
+          fill="url(#colorMetric)"
+          dot={(props) => {
+            const milestoneType = getMilestoneType(props.payload);
+            if (milestoneType) {
+              return (
+                <g>
+                  <circle cx={props.cx} cy={props.cy} r={8} fill="#fbbf24" stroke="#fbbf24" strokeWidth={2} />
+                  <text x={props.cx} y={props.cy - 15} fill="#fbbf24" fontSize="20" textAnchor="middle">⭐</text>
+                </g>
+              );
+            }
+            return <circle cx={props.cx} cy={props.cy} r={5} fill="#00d4ff" />;
+          }}
+          activeDot={{ r: 7, fill: '#00d4ff' }}
           isAnimationActive
           animationDuration={800}
         />
-      )}
-    </AreaChart>
+        {showRollingAvg && (
+          <Line
+            type="monotone"
+            dataKey="rollingAvg"
+            stroke="#a78bfa"
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={false}
+            isAnimationActive
+            animationDuration={800}
+          />
+        )}
+        {showTrendLine && (
+          <Line
+            type="monotone"
+            dataKey="trendValue"
+            stroke="#f97316"
+            strokeWidth={2}
+            strokeDasharray="8 4"
+            dot={false}
+            isAnimationActive
+            animationDuration={800}
+          />
+        )}
+        {showCompare && previousWindowData.length > 0 && (
+          <Line
+            type="monotone"
+            data={previousWindowData}
+            dataKey={metric === 'pace' ? 'paceSeconds' : metric}
+            stroke="#6b7280"
+            strokeWidth={2}
+            strokeDasharray="3 3"
+            dot={false}
+            opacity={0.4}
+            isAnimationActive
+            animationDuration={800}
+          />
+        )}
+      </AreaChart>
+    </ResponsiveContainer>
   );
 };

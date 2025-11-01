@@ -1,9 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Card } from './Card';
 import { SwimAnalysisPanel } from './SwimAnalysisPanel';
-import { Activity, TrendingUp, Clock, Target, ThumbsUp, ThumbsDown, ArrowRight, Calendar, Zap, BarChart2, TrendingDown, Flame, Sparkles, ChevronUp } from 'lucide-react';
+import { Activity, TrendingUp, Clock, Target, ThumbsUp, ThumbsDown, ArrowRight, Calendar, Zap, BarChart2, TrendingDown, Flame, Sparkles, ChevronUp, BarChart3 } from 'lucide-react';
 import { tokens } from '../design/tokens';
 import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
+import { EfficiencyBadge } from './ui/EfficiencyBadge';
+import { PaceComparison } from './ui/PaceComparison';
+import { formatDuration } from '../utils/formatters';
 
 export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace, deepAnalysis = null, summary = null }) => {
   const {
@@ -15,6 +19,15 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
   } = useSwimAnalysis(swim, sessions);
 
   if (!swim) return null;
+
+  // Calculate averages for comparison
+  const avgPace = sessions.length > 1
+    ? sessions.reduce((sum, s) => sum + s.pace, 0) / sessions.length
+    : 0;
+
+  const avgSwolf = sessions.filter(s => s.swolf > 0).length > 1
+    ? sessions.filter(s => s.swolf > 0).reduce((sum, s) => sum + s.swolf, 0) / sessions.filter(s => s.swolf > 0).length
+    : 0;
 
   // Calculate relative time
   const getRelativeTime = (dateString) => {
@@ -65,52 +78,22 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
       transition={{ duration: 0.5 }}
     >
       <Card className="bg-gradient-to-br from-primary-500/15 to-accent-blue/10 border-primary-500/30">
-        {/* Header with Date and Rating */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className={`${tokens.icons.md} text-primary-400`} />
-              <span className="text-sm text-gray-400">
-                {fullDate} • {swimTime}
-              </span>
-            </div>
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} text-primary-400`}
-            >
-              {getRelativeTime(swim.date)}
-            </motion.h2>
+        {/* Header with Date */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <Calendar className={`${tokens.icons.md} text-primary-400`} />
+            <span className="text-sm text-gray-400">
+              {fullDate} • {swimTime}
+            </span>
           </div>
-
-          {/* Rating buttons */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 bg-dark-bg/50 rounded-lg p-1">
-              <button
-                onClick={() => onRate(swim.id, swim.rating === true ? null : true)}
-                className={`p-2 rounded-md transition-all ${
-                  swim.rating === true
-                    ? 'bg-accent-blue text-white'
-                    : 'hover:bg-dark-card text-gray-400'
-                }`}
-                title="Good swim"
-              >
-                <ThumbsUp className={tokens.icons.md} />
-              </button>
-              <button
-                onClick={() => onRate(swim.id, swim.rating === false ? null : false)}
-                className={`p-2 rounded-md transition-all ${
-                  swim.rating === false
-                    ? 'bg-accent-coral text-white'
-                    : 'hover:bg-dark-card text-gray-400'
-                }`}
-                title="Could be better"
-              >
-                <ThumbsDown className={tokens.icons.md} />
-              </button>
-            </div>
-          </div>
+          <motion.h2
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} text-primary-400`}
+          >
+            Your latest swim
+          </motion.h2>
         </div>
 
         {/* Swim Summary */}
@@ -127,14 +110,18 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           </motion.div>
         )}
 
-        {/* Pacing Strategy Badge */}
-        {deepAnalysis?.pacing?.strategy && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-4"
-          >
+        {/* Efficiency & Pace Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mb-4 flex flex-wrap gap-3"
+        >
+          {/* Efficiency Badge */}
+          <EfficiencyBadge swolf={swim.swolf} avgSwolf={avgSwolf} />
+
+          {/* Pacing Strategy Badge */}
+          {deepAnalysis?.pacing?.strategy && (
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-dark-bg/60 border border-dark-border/50 rounded-lg">
               {deepAnalysis.pacing.strategy === 'negative' && (
                 <>
@@ -158,8 +145,8 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
                 ({deepAnalysis.pacing.consistency})
               </span>
             </div>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
 
         {/* Key Metrics Grid */}
         <div className={`grid grid-cols-2 md:grid-cols-4 ${tokens.gap.default} mb-6`}>
@@ -167,7 +154,8 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50"
+            onClick={() => onViewDetails(swim.id)}
+            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
           >
             <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
               <TrendingUp className={tokens.icons.sm} />
@@ -185,17 +173,18 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50"
+            onClick={() => onViewDetails(swim.id)}
+            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
           >
             <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
               <Clock className={tokens.icons.sm} />
               Duration
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
-              {swim.duration} min
+              {formatDuration(swim.duration)}
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              {Math.floor(swim.duration / 60)}h {swim.duration % 60}m
+              min:sec
             </p>
             {swim.calories > 0 && (
               <div className="mt-2 pt-2 border-t border-dark-border/30 flex items-center gap-1.5">
@@ -209,7 +198,8 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50"
+            onClick={() => onViewDetails(swim.id)}
+            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
           >
             <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
               <Activity className={tokens.icons.sm} />
@@ -219,13 +209,19 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               {formatPace(swim.pace)}
             </p>
             <p className="text-xs text-gray-500 mt-1">min/100m</p>
+            {avgPace > 0 && (
+              <div className="mt-2 pt-2 border-t border-dark-border/30">
+                <PaceComparison currentPace={swim.pace} averagePace={avgPace} />
+              </div>
+            )}
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50"
+            onClick={() => onViewDetails(swim.id)}
+            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
           >
             <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
               <Target className={tokens.icons.sm} />
@@ -245,32 +241,32 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="flex flex-col sm:flex-row gap-3"
+          className="flex items-center gap-3"
         >
-          <button
-            onClick={() => onViewDetails(swim.id)}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-dark-bg/60 hover:bg-dark-bg/80 border border-dark-border/50 hover:border-primary-500/50 rounded-lg transition-all font-medium"
-          >
-            View Full Session Details
-            <ArrowRight className={tokens.icons.sm} />
-          </button>
           <button
             onClick={togglePanel}
             disabled={analysisState.loading && !analysisState.isOpen}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-blue hover:from-primary-600 hover:to-accent-blue/90 rounded-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-blue hover:from-primary-600 hover:to-accent-blue/90 rounded-lg transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {analysisState.isOpen ? (
               <>
                 Close Analysis
-                <ChevronUp className={tokens.icons.sm} />
+                <ChevronUp className="w-4 h-4" />
               </>
             ) : (
               <>
-                <Sparkles className={tokens.icons.sm} />
+                <Sparkles className="w-4 h-4" />
                 Analyse My Swim
               </>
             )}
           </button>
+          <Link
+            to="/sessions"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-dark-bg/60 hover:bg-dark-bg/80 border border-dark-border/50 hover:border-primary-500/50 rounded-lg transition-all text-sm font-medium"
+          >
+            <BarChart3 className="w-4 h-4" />
+            View Sessions
+          </Link>
         </motion.div>
 
         {/* Analysis Panel */}

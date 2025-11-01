@@ -1,0 +1,827 @@
+// Technique content index
+// Each article has: id, title, category, level, content, tips, drills
+
+export const techniqueArticles = {
+  // SWOLF & Efficiency
+  'understanding-swolf': {
+    id: 'understanding-swolf',
+    title: 'Understanding SWOLF: Your Efficiency Score',
+    category: 'efficiency',
+    level: 'beginner',
+    readTime: '3 min',
+    summary: 'Learn what SWOLF means and why it matters for your swimming.',
+    content: `
+# Understanding SWOLF: Your Efficiency Score
+
+SWOLF stands for **Swimming Golf** - like golf, lower scores are better!
+
+## What is SWOLF?
+
+SWOLF = Strokes per length + Time per length (in seconds)
+
+**Example:**
+- You swim 25m in 30 seconds
+- You take 20 strokes
+- Your SWOLF = 20 + 30 = **50**
+
+## Why Does SWOLF Matter?
+
+SWOLF measures your **swimming efficiency** - how well you balance speed with technique.
+
+- **Low SWOLF (40-55):** Very efficient - smooth, powerful strokes
+- **Medium SWOLF (55-70):** Good for recreational swimmers
+- **High SWOLF (70+):** Room for improvement in technique or fitness
+
+## Two Ways to Improve SWOLF
+
+### 1. Reduce Stroke Count (Better Technique)
+Take fewer, more powerful strokes per length.
+
+**Focus on:**
+- Longer glide phase
+- Stronger pull-through
+- Better body rotation
+
+### 2. Swim Faster (Better Fitness)
+Reduce your time per length while maintaining stroke count.
+
+**Focus on:**
+- Kick strength
+- Aerobic fitness
+- Pace consistency
+
+## The Sweet Spot
+
+The best swimmers optimize BOTH - efficient technique at fast speeds!
+
+Don't just thrash harder - work smarter. 🏊‍♂️
+    `,
+    keyTakeaways: [
+      'SWOLF = strokes + seconds per length (lower is better)',
+      'Good SWOLF for recreational swimmers: 55-70',
+      'Improve through better technique OR better fitness',
+      'Elite swimmers have SWOLF under 50'
+    ]
+  },
+
+  'reduce-stroke-count': {
+    id: 'reduce-stroke-count',
+    title: 'How to Reduce Your Stroke Count',
+    category: 'efficiency',
+    level: 'beginner',
+    readTime: '4 min',
+    summary: 'Practical tips to take fewer strokes per length.',
+    content: `
+# How to Reduce Your Stroke Count
+
+Taking fewer strokes per length means you're gliding farther with each stroke - that's efficiency!
+
+## Count Your Strokes
+
+First, establish your baseline:
+
+1. Swim one length counting each stroke
+2. Count both arms (1 stroke = 1 arm pull)
+3. Record your count
+
+**Typical counts for 25m pool:**
+- Beginners: 25-35 strokes
+- Intermediate: 18-24 strokes
+- Advanced: 14-18 strokes
+- Elite: 10-14 strokes
+
+## 5 Ways to Reduce Stroke Count
+
+### 1. Extend Your Glide
+
+After each stroke, glide forward before starting the next one.
+
+**Drill:** Catch-up freestyle
+- Keep one arm extended while the other completes a full stroke
+- Only start next stroke when recovering arm "catches up"
+- Forces you to glide longer
+
+### 2. Improve Your Pull
+
+Pull more water with each stroke = more distance per stroke.
+
+**Key technique:**
+- High elbow catch (keep elbow higher than hand)
+- Pull straight back, not down
+- Finish stroke at your hip, not halfway
+
+### 3. Rotate Your Body
+
+Body rotation adds power without extra strokes.
+
+**Focus:**
+- Rotate 30-45 degrees on each stroke
+- Shoulders and hips move together
+- Reach further forward on the extended arm
+
+### 4. Streamline Off the Wall
+
+Your push-off should be powerful and streamlined.
+
+**Technique:**
+- Tight streamline position (arms overhead, hands stacked)
+- Dolphin kicks underwater
+- Surface smoothly, resume stroke rhythm
+
+### 5. Kick Efficiently
+
+A strong kick maintains body position and momentum.
+
+**Don't over-kick:**
+- 2-beat or 6-beat kick pattern
+- Kick from hips, not knees
+- Small, fast kicks, not big splashy ones
+
+## Practice Workout
+
+Try this stroke count reduction workout:
+
+- **4 x 50m**
+  - 1st 50m: Count strokes (baseline)
+  - 2nd 50m: Try for -2 strokes
+  - 3rd 50m: Try for -3 strokes
+  - 4th 50m: Try for -4 strokes (might be slower - that's okay!)
+- **Rest 30 seconds between each**
+
+## Progress Tracking
+
+Set a goal: "I want to drop from 24 to 20 strokes per length in 4 weeks"
+
+Track your stroke count each swim - you'll see patterns!
+    `,
+    keyTakeaways: [
+      'Count your strokes to establish baseline',
+      'Focus on gliding longer between strokes',
+      'High elbow catch and full pull-through',
+      'Body rotation adds power without extra strokes'
+    ],
+    drills: [
+      {
+        name: 'Catch-up Freestyle',
+        description: 'Extend one arm while other completes stroke',
+        distance: '4x50m',
+        focus: 'Glide and timing'
+      },
+      {
+        name: 'Fist Swimming',
+        description: 'Swim with closed fists to improve catch',
+        distance: '4x25m',
+        focus: 'High elbow position'
+      }
+    ]
+  },
+
+  'improve-freestyle-technique': {
+    id: 'improve-freestyle-technique',
+    title: 'Freestyle Technique Fundamentals',
+    category: 'technique',
+    level: 'beginner',
+    readTime: '5 min',
+    summary: 'Master the basics of efficient freestyle swimming.',
+    content: `
+# Freestyle Technique Fundamentals
+
+Freestyle is all about efficiency - smooth, powerful, relaxed.
+
+## The 4 Phases of Freestyle
+
+### 1. The Catch (Hand Entry to Elbow Bend)
+
+**What to do:**
+- Enter hand in front of shoulder, fingertips first
+- Extend forward, rotate palm down
+- Bend elbow to "catch" the water (high elbow!)
+
+**Common mistakes:**
+- ❌ Crossing centerline (hand enters in front of face)
+- ❌ Flat hand (no elbow bend)
+- ❌ Dropped elbow
+
+### 2. The Pull (Power Phase)
+
+**What to do:**
+- Pull water straight back (not down!)
+- Keep elbow higher than hand
+- Accelerate through the pull
+- Finish at your hip
+
+**Think:** You're pulling yourself over the water, not pushing water down
+
+### 3. The Recovery (Rest Phase)
+
+**What to do:**
+- Elbow exits water first (high elbow recovery)
+- Relax your arm
+- Swing arm forward close to body
+- Hand stays relaxed (don't tense up!)
+
+**This should feel easy** - it's called recovery for a reason!
+
+### 4. The Glide (Extension Phase)
+
+**What to do:**
+- Extend arm fully forward
+- Rotate body 30-45 degrees
+- Glide for a moment before starting next catch
+- This is where efficiency happens!
+
+## Body Position
+
+### Horizontal Alignment
+- Head in neutral position (look down and slightly forward)
+- Hips near surface (engage core!)
+- Kick keeps legs up
+
+### Body Rotation
+- Rotate from your core, not just shoulders
+- 30-45 degree rotation each side
+- Breathe during rotation (don't lift head)
+
+## Breathing Technique
+
+**The Golden Rule:** Exhale underwater, inhale above water
+
+**How to breathe:**
+1. Exhale continuously through nose/mouth while face is down
+2. Turn head to side (don't lift!) as arm recovers
+3. Take quick breath
+4. Face returns to water before arm enters
+
+**Breathing pattern:**
+- Beginners: Every 2-3 strokes
+- Intermediate: Every 3-5 strokes (bilateral breathing)
+- Advanced: Variable based on effort
+
+## The Kick
+
+**Purpose:** Maintain body position and add propulsion
+
+**Technique:**
+- Kick from hips, not knees
+- Pointed toes (like a ballet dancer)
+- Small, fast kicks
+- Slight knee bend, but mostly straight leg
+
+**Kick patterns:**
+- 2-beat kick: One kick per arm stroke (distance swimming)
+- 6-beat kick: Three kicks per arm stroke (sprint swimming)
+
+## Putting It All Together
+
+**Focus on rhythm:**
+- Stroke-stroke-breathe (if breathing every 3)
+- Glide-pull-recover (one arm at a time)
+- Kick-kick-kick-kick-kick-kick (continuous)
+
+**Practice progression:**
+1. Master body position (streamline drills)
+2. Add arms (focus on catch and pull)
+3. Add breathing (every 3-5 strokes)
+4. Add kick (integrate with arm rhythm)
+
+## Common Freestyle Mistakes
+
+1. **Lifting head to breathe** → Turn to side instead
+2. **Crossing centerline** → Enter hand in front of shoulder
+3. **Bent arm recovery** → High elbow, relaxed arm
+4. **Scissor kick** → Keep legs close together
+5. **Holding breath** → Exhale continuously underwater
+
+## Your Action Plan
+
+**This week:** Pick ONE element to focus on each swim
+- Monday: High elbow catch
+- Wednesday: Body rotation
+- Friday: Breathing rhythm
+
+Don't try to fix everything at once - progressive improvement!
+    `,
+    keyTakeaways: [
+      'Four phases: Catch, Pull, Recovery, Glide',
+      'High elbow catch and pull for power',
+      'Breathe by rotating head, not lifting',
+      'Body rotation comes from core, not shoulders'
+    ]
+  },
+
+  'consistent-pacing': {
+    id: 'consistent-pacing',
+    title: 'Mastering Consistent Pace',
+    category: 'pacing',
+    level: 'intermediate',
+    readTime: '4 min',
+    summary: 'Learn to maintain even pace throughout your swim.',
+    content: `
+# Mastering Consistent Pace
+
+Consistent pacing is the mark of an experienced swimmer - it's not about going fast, it's about going *even*.
+
+## Why Pace Matters
+
+**The Problem:** Most swimmers start too fast and fade
+
+**Example:**
+- Lap 1-2: 1:50/100m (feels easy!)
+- Lap 3-4: 2:00/100m (getting tired...)
+- Lap 5-6: 2:15/100m (struggling!)
+- **Average: 2:01/100m** with 25 seconds of variation
+
+**The Solution:** Start controlled, finish strong
+
+**Better:**
+- Lap 1-2: 2:00/100m (controlled start)
+- Lap 3-4: 1:58/100m (comfortable)
+- Lap 5-6: 1:55/100m (faster finish!)
+- **Average: 1:58/100m** with only 5 seconds variation
+
+You swim **3 seconds faster** just by pacing better!
+
+## How to Pace Yourself
+
+### 1. Know Your Target Pace
+
+Use your recent swims to find your sustainable pace.
+
+**Method:**
+- Check your average pace for 500-1000m swims
+- Add 5-10 seconds = your "easy" pace
+- Subtract 5-10 seconds = your "tempo" pace
+
+**Example:**
+- Average pace: 2:30/100m
+- Easy pace: 2:35-2:40/100m
+- Tempo pace: 2:20-2:25/100m
+
+### 2. Use Stroke Count as a Pacer
+
+Stroke count is more reliable than feel!
+
+**Method:**
+- Count strokes for first 2 lengths
+- Keep that stroke count for entire swim
+- If stroke count creeps up = you're slowing down
+
+### 3. Negative Splitting
+
+Start controlled, finish faster.
+
+**Workout:**
+- **8 x 100m**
+- 1st 50m: Easy (2:40/100m pace)
+- 2nd 50m: Tempo (2:20/100m pace)
+- **Rest 20 seconds between**
+
+You should feel like you're getting FASTER as you go!
+
+### 4. Tempo Trainer
+
+Use a tempo trainer (or metronome app) to maintain rhythm.
+
+**How to use:**
+- Set beep to match your stroke rate
+- Example: Beep every 1.2 seconds = 50 strokes per minute
+- Match your stroke timing to beeps
+
+## Pacing Workouts
+
+### Workout 1: Descending Set
+Build speed while maintaining control
+
+- **5 x 200m**
+  1. 2:40/100m pace
+  2. 2:35/100m pace
+  3. 2:30/100m pace
+  4. 2:25/100m pace
+  5. 2:20/100m pace (fastest!)
+- **Rest 30 seconds between**
+
+### Workout 2: Even Pace Challenge
+Hold target pace for entire set
+
+- **10 x 100m @ 2:30/100m pace**
+- **Rest 15 seconds**
+- Goal: Every 100m within 3 seconds of target
+
+### Workout 3: Negative Split Practice
+Second half faster than first half
+
+- **4 x 400m**
+- 1st 200m: Easy pace
+- 2nd 200m: 5 seconds per 100m faster
+- **Rest 60 seconds**
+
+## Reading Your Body
+
+**Signs you're going too fast:**
+- Breathing gets ragged by lap 3-4
+- Stroke count increases each lap
+- Can't maintain form in last quarter
+
+**Signs you're well-paced:**
+- Breathing stays controlled throughout
+- Stroke count consistent (±1-2 strokes)
+- Could swim another 25% distance
+
+## Using Swimma to Track Pace
+
+**Dashboard shows:**
+- Average pace per swim
+- Pace trend over time
+- "Fast" or "Easy" badges based on your average
+
+**Insights page shows:**
+- Pace consistency over sessions
+- Identify which swims had good pacing
+
+**Ask AI:**
+- "How consistent is my pacing?"
+- "What's my optimal sustainable pace?"
+
+## Practice Challenge
+
+**This week:** Focus on even splits
+
+Pick one swim this week:
+1. Swim 500-1000m continuous
+2. Count stroke rate every 100m
+3. Goal: Stay within ±2 strokes
+
+Track in Swimma and see if your pace is more consistent!
+    `,
+    keyTakeaways: [
+      'Start controlled, finish strong (negative split)',
+      'Use stroke count to maintain consistency',
+      'Know your target pace zones',
+      'Even pacing is faster than fast-start/fade'
+    ]
+  },
+
+  'breathing-patterns': {
+    id: 'breathing-patterns',
+    title: 'Bilateral Breathing & Breathing Patterns',
+    category: 'technique',
+    level: 'intermediate',
+    readTime: '3 min',
+    summary: 'Master different breathing patterns to improve efficiency.',
+    content: `
+# Bilateral Breathing & Breathing Patterns
+
+How you breathe affects your balance, technique, and endurance.
+
+## What is Bilateral Breathing?
+
+**Bilateral = Both sides**
+
+Breathing on both your left and right side, rather than always breathing on the same side.
+
+**Standard pattern:** Every 3 strokes
+- Right arm, left arm, right arm, **breathe left**
+- Left arm, right arm, left arm, **breathe right**
+
+## Why Breathe Bilaterally?
+
+### 1. Better Balance
+Breathing only on one side creates asymmetric rotation - your body naturally favors that side.
+
+**Result:**
+- Swim in slight curve
+- Uneven stroke development
+- One shoulder stronger than other
+
+### 2. Better Navigation (Open Water)
+See both sides of the pool/lake - crucial for races!
+
+### 3. More Balanced Stroke
+Forces even technique on both sides.
+
+## Breathing Patterns Explained
+
+### Every 2 Strokes (Unilateral)
+**When to use:** Sprint swimming, high-effort sets
+- Right arm, left arm, **breathe right**
+- Continuous pattern
+
+**Pros:** Maximum oxygen
+**Cons:** Asymmetric technique
+
+### Every 3 Strokes (Bilateral)
+**When to use:** Most training, distance swimming
+- Right, left, right, **breathe left**
+- Left, right, left, **breathe right**
+
+**Pros:** Balanced technique, good oxygen
+**Cons:** Takes practice to master
+
+### Every 4-5 Strokes
+**When to use:** Short sprints, underwater kick focus
+**Pros:** More streamlined, less disruption
+**Cons:** Lower oxygen (only for short bursts)
+
+### Variable Breathing
+**Advanced technique:** Mix patterns within one swim
+- Easy pace: Every 3-5 strokes
+- Tempo pace: Every 3 strokes
+- Sprint pace: Every 2 strokes
+
+## How to Learn Bilateral Breathing
+
+### Week 1: Get Comfortable Breathing on Weak Side
+
+**Drill:** One-sided focus
+- 4 x 50m breathing only on weak side (every 2 strokes)
+- Focus on smooth head turn, not lifting
+- Rest 20 seconds
+
+### Week 2: Introduce Every-3 Pattern
+
+**Workout:**
+- 25m: Breathe every 3 (bilateral)
+- 25m: Breathe every 2 (comfortable side) - rest
+- **Repeat 8 times**
+
+### Week 3: Increase Bilateral Distance
+
+**Workout:**
+- 4 x 100m breathing every 3 throughout
+- Rest 30 seconds
+- Focus on rhythm, not speed
+
+### Week 4: Make It Your Default
+
+Try to breathe every 3 for most training swims.
+
+## Troubleshooting
+
+**"I run out of air breathing every 3!"**
+- You're holding your breath - exhale continuously underwater
+- Slow down your pace slightly
+- Practice every-3 breathing during warm-up (low intensity)
+
+**"I can't breathe smoothly on my weak side"**
+- Practice side-kicking drill (see drills below)
+- Focus on rotating body, not lifting head
+- Be patient - it takes 2-4 weeks to feel natural
+
+**"I lose my rhythm when breathing"**
+- Count out loud in your head: "1-2-3-breathe, 1-2-3-breathe"
+- Use pull buoy to isolate upper body
+- Slow down tempo
+
+## Drills for Better Breathing
+
+### Side Kick Drill
+- Kick on your side, bottom arm extended
+- Bottom ear in water, look at pool bottom
+- Top arm at your side
+- Practice breathing position without swimming
+
+### 3-5-3-5 Pattern
+- 50m breathing every 3 strokes
+- 50m breathing every 5 strokes
+- Repeat
+- Teaches breath control
+
+### Hypoxic Swimming (Advanced)
+- Breathing every 5, 7, or 9 strokes
+- Short distances only (25-50m)
+- Builds breath control and lung capacity
+- Not for beginners!
+
+## Your Action Plan
+
+**This week:**
+1. Test your comfortable breathing pattern (probably every 2 on one side)
+2. Try 1-2 lengths breathing every 3
+3. Note: Does it feel balanced?
+
+**This month:**
+Make bilateral breathing your default for easy/moderate swimming.
+
+You'll feel off-balance at first - that's normal! Stick with it for 3-4 weeks and it becomes automatic.
+    `,
+    keyTakeaways: [
+      'Bilateral breathing = breathing on both sides',
+      'Most common pattern: every 3 strokes',
+      'Improves balance and stroke symmetry',
+      'Exhale continuously underwater - don\'t hold breath'
+    ]
+  },
+
+  'streamline-technique': {
+    id: 'streamline-technique',
+    title: 'Perfect Your Streamline',
+    category: 'technique',
+    level: 'beginner',
+    readTime: '3 min',
+    summary: 'The most important position in swimming - master your streamline.',
+    content: `
+# Perfect Your Streamline
+
+The streamline position is the fastest position in swimming - faster than your stroke!
+
+## What is Streamline?
+
+**Definition:** The hydrodynamic position used off starts and turns.
+
+**Position:**
+- Arms extended overhead, locked out
+- Hands stacked (one on top of other)
+- Biceps squeeze ears
+- Head neutral (look down)
+- Body straight (no bend at hips)
+- Legs together, toes pointed
+
+**Why it matters:** You can glide 3-5 meters in perfect streamline - that's 2-4 free strokes!
+
+## The Perfect Streamline
+
+### Upper Body
+1. **Arms:** Extend both arms overhead fully
+2. **Hands:** Stack one hand on top of the other (thumbs hooked together)
+3. **Head:** Squeeze head between biceps (ears covered)
+4. **Shoulders:** Shrug shoulders up to ears
+5. **Core:** Engage abs, straight line from hands to toes
+
+### Lower Body
+1. **Hips:** Don't pike! Keep hips in line with torso
+2. **Legs:** Press together tightly
+3. **Feet:** Point toes like ballet (ankle extension)
+4. **Kick:** 3-5 dolphin kicks underwater (optional)
+
+## Why Streamline Matters
+
+### The Physics
+
+**Drag increases with frontal surface area**
+
+- Poor streamline: ~0.5 square meters of frontal area
+- Perfect streamline: ~0.2 square meters of frontal area
+- **Result: 60% less drag!**
+
+### The Numbers
+
+**In a 1000m swim (40 lengths):**
+- 40 push-offs = 40 chances to streamline
+- Good streamline: Glide 4 meters = **160 meters free**
+- Poor streamline: Glide 2 meters = **80 meters gliding**
+- **You just saved 80 meters of swimming!**
+
+That's 6-8 seconds on your time, just from better streamlining!
+
+## Common Streamline Mistakes
+
+### 1. Wide Arms (Not Locked)
+❌ Arms in "Y" shape overhead
+✅ Arms in "I" shape, biceps squeezing head
+
+### 2. Head Up (Looking Forward)
+❌ Lifted head creates drag
+✅ Neutral head (look at bottom of pool)
+
+### 3. Bent at Hips
+❌ Piked position (hips drop)
+✅ Straight body line (engage core)
+
+### 4. Feet Apart/Flexed
+❌ Wide legs, flexed ankles
+✅ Legs together, pointed toes
+
+### 5. Breaking Streamline Too Soon
+❌ Starting stroke immediately off wall
+✅ Glide 3-5 meters before first stroke
+
+## Streamline Drills
+
+### Drill 1: Streamline Kick
+- Push off wall in streamline
+- Dolphin or flutter kick underwater
+- Hold streamline until you surface
+- Goal: Get to 10-12 meters mark underwater
+
+### Drill 2: Streamline Glide
+- Push off wall in perfect streamline
+- NO kicking - just glide
+- See how far you can coast
+- Goal: Reach 5 meters before needing to stroke
+
+### Drill 3: Streamline Comparison
+- Length 1: Push off with poor streamline (test)
+- Length 2: Push off with perfect streamline
+- Count strokes per length
+- You should need 2-3 fewer strokes with good streamline!
+
+### Drill 4: 10-Second Hold
+On deck before swimming:
+- Stand and hold streamline position for 10 seconds
+- Check: Ears covered? Core tight? Toes pointed?
+- Muscle memory practice
+
+## Improving Your Streamline
+
+### Flexibility Work
+
+**Shoulder flexibility:**
+- Wall angels: Stand facing wall, arms overhead, slide up/down
+- Doorway stretch: Hold doorframe, lean forward
+- Do daily for 2 weeks = noticeable improvement
+
+**Ankle flexibility:**
+- Sit on heels (pointed toes) for 30 seconds
+- Stretch tops of feet daily
+- Use fins to practice pointed-toe position
+
+### Strength Work
+
+**Core strength:**
+- Planks (hold streamline position on land)
+- Flutter kicks on back (arms in streamline)
+- Strengthens muscles needed to hold position
+
+## Using Streamline in Your Swims
+
+### Off Every Wall
+1. Plant feet on wall
+2. Strong push-off
+3. Perfect streamline position
+4. 3-5 dolphin kicks (if allowed)
+5. Glide until slowing to stroke speed
+6. Resume stroke
+
+**Goal:** Never waste a turn!
+
+### Starts (Races/Competitions)
+1. Dive entry
+2. Streamline immediately underwater
+3. Dolphin kicks to 15m mark (or before)
+4. Break streamline, begin stroke
+
+## Challenge Yourself
+
+**Streamline Test:**
+- Push off in perfect streamline (no kick)
+- Measure distance before needing to stroke
+- **Good:** 4-5 meters
+- **Great:** 5-7 meters
+- **Elite:** 7-10 meters
+
+Track your streamline distance monthly - it's a great measure of technique efficiency!
+
+## Quick Wins
+
+**This week:** Focus on streamline during EVERY push-off
+- Check position each time
+- Hold for 3-5 seconds
+- Notice: Are you gliding farther?
+
+**This month:** Practice streamline holds on deck for 10 seconds before each swim
+
+You'll add streamlining to your muscle memory and see stroke count drop!
+    `,
+    keyTakeaways: [
+      'Streamline is the fastest position in swimming',
+      'Perfect streamline = 60% less drag',
+      'Hold streamline 3-5 meters off every wall',
+      'Focus: locked arms, neutral head, pointed toes'
+    ]
+  }
+};
+
+// Helper functions
+
+export const getArticlesByCategory = (category) => {
+  return Object.values(techniqueArticles).filter(
+    article => article.category === category
+  );
+};
+
+export const getArticlesByLevel = (level) => {
+  return Object.values(techniqueArticles).filter(
+    article => article.level === level
+  );
+};
+
+export const getArticle = (id) => {
+  return techniqueArticles[id] || null;
+};
+
+export const getAllArticles = () => {
+  return Object.values(techniqueArticles);
+};
+
+export const categories = [
+  { id: 'efficiency', name: 'Efficiency & SWOLF', icon: '⚡' },
+  { id: 'technique', name: 'Technique', icon: '🏊' },
+  { id: 'pacing', name: 'Pacing & Strategy', icon: '⏱️' },
+  { id: 'drills', name: 'Drills & Workouts', icon: '💪' }
+];
+
+export const levels = [
+  { id: 'beginner', name: 'Beginner', color: 'green' },
+  { id: 'intermediate', name: 'Intermediate', color: 'blue' },
+  { id: 'advanced', name: 'Advanced', color: 'purple' }
+];

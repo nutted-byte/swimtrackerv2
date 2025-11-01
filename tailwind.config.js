@@ -31,6 +31,11 @@ export default {
           border: 'rgb(var(--color-border))',
           text: 'rgb(var(--color-text))',
           'text-muted': 'rgb(var(--color-text-muted))',
+        },
+        content: {
+          DEFAULT: 'rgb(var(--color-content))',
+          secondary: 'rgb(var(--color-content-secondary))',
+          tertiary: 'rgb(var(--color-content-tertiary))',
         }
       },
       fontFamily: {

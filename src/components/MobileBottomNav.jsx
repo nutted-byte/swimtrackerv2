@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, List, Trophy, MessageCircle } from 'lucide-react';
+import { Home, List, BarChart3, Target, BookOpen } from 'lucide-react';
 
 export const MobileBottomNav = () => {
   const location = useLocation();
@@ -7,8 +7,9 @@ export const MobileBottomNav = () => {
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
     { path: '/sessions', icon: List, label: 'Sessions' },
-    { path: '/ask', icon: MessageCircle, label: 'Ask AI' },
-    { path: '/records', icon: Trophy, label: 'Records' },
+    { path: '/insights', icon: BarChart3, label: 'Insights' },
+    { path: '/training', icon: Target, label: 'Training' },
+    { path: '/techniques', icon: BookOpen, label: 'Learn' },
   ];
 
   const isActive = (path) => {

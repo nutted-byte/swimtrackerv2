@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
-import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/llmQuery';
+import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
 import { MessageCircle, Send, Sparkles, Loader2, AlertCircle, Upload, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 

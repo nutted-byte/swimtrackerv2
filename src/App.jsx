@@ -3,12 +3,13 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SwimDataProvider } from './context/SwimDataContext';
+import { TrainingPlanProvider } from './context/TrainingPlanContext';
 import { ThemeToggle } from './components/ThemeToggle';
 import { DevTools } from './components/DevTools';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { MobileMenu } from './components/MobileMenu';
-import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User } from 'lucide-react';
+import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User, BookOpen, Target } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 
 // Lazy load pages for code splitting - improves initial load time
@@ -17,9 +18,11 @@ const Upload = lazy(() => import('./pages/Upload').then(m => ({ default: m.Uploa
 const Sessions = lazy(() => import('./pages/Sessions').then(m => ({ default: m.Sessions })));
 const SessionDetail = lazy(() => import('./pages/SessionDetail').then(m => ({ default: m.SessionDetail })));
 const Insights = lazy(() => import('./pages/Insights').then(m => ({ default: m.Insights })));
+const Training = lazy(() => import('./pages/Training').then(m => ({ default: m.Training })));
 const Patterns = lazy(() => import('./pages/Patterns').then(m => ({ default: m.Patterns })));
 const Records = lazy(() => import('./pages/Records').then(m => ({ default: m.Records })));
 const Ask = lazy(() => import('./pages/Ask').then(m => ({ default: m.Ask })));
+const Techniques = lazy(() => import('./pages/Techniques').then(m => ({ default: m.Techniques })));
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
 
 // Loading fallback component
@@ -53,12 +56,9 @@ function AppContent() {
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
                 🌊
               </div>
-              <div>
-                <h1 className="font-display text-xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
-                  Swimma
-                </h1>
-                <p className="text-xs text-gray-400">Your swimming analytics</p>
-              </div>
+              <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+                Swimma
+              </h1>
             </Link>
 
             <div className="flex items-center gap-4">
@@ -86,18 +86,18 @@ function AppContent() {
                   Insights
                 </Link>
                 <Link
-                  to="/records"
+                  to="/training"
                   className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                 >
-                  <Trophy className="w-4 h-4" />
-                  Records
+                  <Target className="w-4 h-4" />
+                  Training
                 </Link>
                 <Link
-                  to="/ask"
+                  to="/techniques"
                   className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  Swim Coach
+                  <BookOpen className="w-4 h-4" />
+                  Techniques
                 </Link>
                 <Link
                   to="/upload"
@@ -112,7 +112,12 @@ function AppContent() {
               <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
                 <div className="flex items-center gap-2 text-sm">
                   <User className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-300">{user?.email}</span>
+                  <span className="text-gray-300">
+                    {user?.user_metadata?.full_name?.split(' ')[0] ||
+                     user?.user_metadata?.name?.split(' ')[0] ||
+                     user?.email?.split('@')[0] ||
+                     'User'}
+                  </span>
                 </div>
                 <button
                   onClick={handleSignOut}
@@ -173,6 +178,14 @@ function AppContent() {
               }
             />
             <Route
+              path="/training"
+              element={
+                <ProtectedRoute>
+                  <Training />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/patterns"
               element={
                 <ProtectedRoute>
@@ -190,17 +203,29 @@ function AppContent() {
             />
             <Route
               path="/ask"
-              element={
-                <ProtectedRoute>
-                  <Ask />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/training" replace />}
             />
             <Route
               path="/upload"
               element={
                 <ProtectedRoute>
                   <Upload />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/techniques"
+              element={
+                <ProtectedRoute>
+                  <Techniques key="library" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/techniques/:articleId"
+              element={
+                <ProtectedRoute>
+                  <Techniques key="article" />
                 </ProtectedRoute>
               }
             />
@@ -223,7 +248,9 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <SwimDataProvider>
-            <AppContent />
+            <TrainingPlanProvider>
+              <AppContent />
+            </TrainingPlanProvider>
           </SwimDataProvider>
         </AuthProvider>
       </ThemeProvider>

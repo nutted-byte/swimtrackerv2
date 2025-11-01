@@ -45,7 +45,7 @@ export const parseTcxFile = async (file) => {
           id: `swim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           date: startTime,
           distance: Math.round(totalDistance),
-          duration: Math.round(totalTime / 60),
+          duration: totalTime / 60, // Keep as decimal minutes to preserve seconds
           pace: parseFloat(avgPace.toFixed(2)),
           strokes: Math.round(totalStrokes),
           swolf: 0, // TCX typically doesn't have SWOLF data

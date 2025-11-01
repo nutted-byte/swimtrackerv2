@@ -9,6 +9,7 @@ import { Upload, Filter, Trash2, List, Calendar, BarChart3 } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import { groupSessionsByMonth } from '../utils/analytics';
 import { tokens } from '../design/tokens';
+import { formatDuration } from '../utils/formatters';
 
 export const Sessions = () => {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ export const Sessions = () => {
           <p className="text-gray-400">
             {totals.count} swim{totals.count !== 1 ? 's' : ''} • {' '}
             {(totals.distance / 1000).toFixed(1)} km total • {' '}
-            {Math.round(totals.duration)} minutes
+            {formatDuration(totals.duration)}
           </p>
         </div>
 
@@ -232,6 +233,7 @@ export const Sessions = () => {
                     <SessionCard
                       session={session}
                       onClick={handleSessionClick}
+                      allSessions={sessions}
                     />
                     <button
                       onClick={(e) => handleDelete(session.id, e)}
@@ -247,7 +249,7 @@ export const Sessions = () => {
           </div>
         ) : (
           // List View
-          <div className={`grid grid-cols-1 md:grid-cols-2 ${tokens.gap.default}`}>
+          <div className="space-y-3">
             {sortedSessions.map((session, index) => (
               <motion.div
                 key={session.id}
@@ -259,6 +261,7 @@ export const Sessions = () => {
                 <SessionCard
                   session={session}
                   onClick={handleSessionClick}
+                  allSessions={sessions}
                 />
                 <button
                   onClick={(e) => handleDelete(session.id, e)}

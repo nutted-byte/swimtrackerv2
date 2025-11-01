@@ -9,6 +9,11 @@
   --color-border: 229 231 235; /* gray-200 */
   --color-text: 17 24 39; /* gray-900 */
   --color-text-muted: 107 114 128; /* gray-500 */
+
+  /* Semantic text colors */
+  --color-content: 17 24 39; /* gray-900 - primary text */
+  --color-content-secondary: 75 85 99; /* gray-600 - secondary text */
+  --color-content-tertiary: 107 114 128; /* gray-500 - tertiary/muted text */
 }
 
 /* Dark theme */
@@ -18,6 +23,11 @@
   --color-border: 31 41 55; /* #1f2937 */
   --color-text: 243 244 246; /* gray-100 */
   --color-text-muted: 156 163 175; /* gray-400 */
+
+  /* Semantic text colors */
+  --color-content: 243 244 246; /* gray-100 - primary text */
+  --color-content-secondary: 209 213 219; /* gray-300 - secondary text */
+  --color-content-tertiary: 156 163 175; /* gray-400 - tertiary/muted text */
 }
 
 @layer base {

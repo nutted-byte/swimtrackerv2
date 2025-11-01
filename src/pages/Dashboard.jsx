@@ -25,6 +25,13 @@ import {
   generateSwimSummary
 } from '../utils/analytics';
 import { tokens } from '../design/tokens';
+import { getTechniqueRecommendation, shouldShowTechniqueTips } from '../utils/techniqueRecommendations';
+import { TechniqueCard } from '../components/TechniqueCard';
+import { ProgressCard } from '../components/dashboard/ProgressCard';
+import { TrainingPlanCard } from '../components/dashboard/TrainingPlanCard';
+import { StreakCard } from '../components/dashboard/StreakCard';
+import { PaceTrendCard } from '../components/dashboard/PaceTrendCard';
+import { AIAssistantCard } from '../components/dashboard/AIAssistantCard';
 
 export const Dashboard = () => {
   const { sessions, rateSession, removeSession } = useSwimData();
@@ -87,6 +94,16 @@ export const Dashboard = () => {
       new Date(session.date) >= threeMonthsAgo
     ).slice(0, 10); // Show max 10 sessions
   }, [sessions]);
+
+  // Get technique recommendation
+  const techniqueRecommendation = useMemo(() => {
+    // TODO: Get user preferences from context (wellness mode)
+    const userPreferences = {}; // Placeholder
+    if (!shouldShowTechniqueTips(userPreferences)) {
+      return null;
+    }
+    return getTechniqueRecommendation(lastSwim, sessions);
+  }, [lastSwim, sessions]);
 
   // Emoji based on status
   const statusEmoji = {
@@ -154,13 +171,6 @@ export const Dashboard = () => {
         actions={
           <>
             <Link
-              to="/sessions"
-              className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
-            >
-              <BarChart3 className={tokens.icons.sm} />
-              <span className="hidden sm:inline">View Sessions</span>
-            </Link>
-            <Link
               to="/upload"
               className="btn-primary flex items-center gap-2 text-sm"
             >
@@ -184,12 +194,16 @@ export const Dashboard = () => {
         />
       )}
 
-      {/* 2. Swim Ranking Card */}
-      {ranking && (
-        <SwimRankingCard ranking={ranking} />
+
+      {/* 3. Training Plan */}
+      <TrainingPlanCard />
+
+      {/* 4. Technique Recommendation */}
+      {techniqueRecommendation && (
+        <TechniqueCard recommendation={techniqueRecommendation} />
       )}
 
-      {/* 3. Recent Sessions */}
+      {/* 5. Recent Sessions */}
       {recentSessions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -225,6 +239,7 @@ export const Dashboard = () => {
                     onDelete={(e) => handleDelete(session.id, e)}
                     onRate={rateSession}
                     formatPace={formatPace}
+                    allSessions={sessions}
                   />
                 </motion.div>
               ))}

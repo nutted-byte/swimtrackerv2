@@ -71,27 +71,6 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
           <div className="hidden md:flex items-center gap-6">
             <div className="text-right">
               <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
-                <Activity className="w-3 h-3" />
-                <span>Avg Pace</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-lg font-semibold">
-                  {formatPace(stats.avgPace)}
-                </span>
-                {paceTrend && (
-                  <span
-                    className={`text-xs ${
-                      paceTrend.isImproving ? 'text-green-400' : 'text-red-400'
-                    }`}
-                  >
-                    {paceTrend.isNegative ? '↓' : '↑'} {paceTrend.value}%
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="text-right">
-              <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
                 <TrendingUp className="w-3 h-3" />
                 <span>Total Distance</span>
               </div>
@@ -110,45 +89,12 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
                 )}
               </div>
             </div>
-
-            {stats.avgSwolf > 0 && (
-              <div className="text-right">
-                <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
-                  <Zap className="w-3 h-3" />
-                  <span>Avg SWOLF</span>
-                </div>
-                <span className="font-display text-lg font-semibold">
-                  {Math.round(stats.avgSwolf)}
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
         {/* Mobile Stats */}
         {isExpanded && (
-          <div className="md:hidden mt-4 grid grid-cols-2 gap-4">
-            <div>
-              <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
-                <Activity className="w-3 h-3" />
-                <span>Avg Pace</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-base font-semibold">
-                  {formatPace(stats.avgPace)}
-                </span>
-                {paceTrend && (
-                  <span
-                    className={`text-xs ${
-                      paceTrend.isImproving ? 'text-green-400' : 'text-red-400'
-                    }`}
-                  >
-                    {paceTrend.isNegative ? '↓' : '↑'} {paceTrend.value}%
-                  </span>
-                )}
-              </div>
-            </div>
-
+          <div className="md:hidden mt-4">
             <div>
               <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
                 <TrendingUp className="w-3 h-3" />
@@ -215,7 +161,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
               {children}
             </div>
           </motion.div>

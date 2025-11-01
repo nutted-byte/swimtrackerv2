@@ -114,7 +114,7 @@ const parseAppleHealthRow = (data, rowIndex) => {
     id: `swim_${Date.now()}_${rowIndex}_${Math.random().toString(36).substr(2, 9)}`,
     date: data.startdate || new Date().toISOString(),
     distance: Math.round(distance),
-    duration: Math.round(durationMin),
+    duration: durationMin, // Keep as decimal minutes to preserve seconds
     pace: parseFloat(pace.toFixed(2)),
     strokes: strokes,
     swolf: swolf > 0 ? swolf : 0,
@@ -132,7 +132,7 @@ const parseSimpleRow = (data, rowIndex) => {
     id: `swim_${Date.now()}_${rowIndex}_${Math.random().toString(36).substr(2, 9)}`,
     date: data.date || new Date().toISOString(),
     distance: parseInt(data.distance) || 0,
-    duration: parseInt(data.duration) || 0,
+    duration: parseFloat(data.duration) || 0, // Keep as decimal to preserve seconds
     pace: parseFloat(data.pace) || 0,
     strokes: parseInt(data.strokes) || 0,
     swolf: parseInt(data.swolf) || 0,

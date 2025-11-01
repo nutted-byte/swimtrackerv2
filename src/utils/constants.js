@@ -5,19 +5,19 @@
 
 // Time range options (in days)
 export const TIME_RANGES = {
-  WEEK: 7,
   MONTH: 30,
   QUARTER: 90,
   HALF_YEAR: 180,
   YEAR: 365,
+  ALL_TIME: null, // null means no date filter
 };
 
 export const TIME_RANGE_OPTIONS = [
-  { value: TIME_RANGES.WEEK, label: '7 Days' },
-  { value: TIME_RANGES.MONTH, label: '30 Days' },
-  { value: TIME_RANGES.QUARTER, label: '90 Days' },
+  { value: TIME_RANGES.MONTH, label: '1 Month' },
+  { value: TIME_RANGES.QUARTER, label: '3 Months' },
   { value: TIME_RANGES.HALF_YEAR, label: '6 Months' },
   { value: TIME_RANGES.YEAR, label: '12 Months' },
+  { value: TIME_RANGES.ALL_TIME, label: 'All Time' },
 ];
 
 // Metric types

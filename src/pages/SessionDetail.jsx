@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
+import { LapPaceChart } from '../components/visualizations/LapPaceChart';
 import {
   ArrowLeft,
   Calendar,
@@ -12,6 +13,7 @@ import {
   Clock,
   Layers
 } from 'lucide-react';
+import { formatDuration } from '../utils/formatters';
 
 export const SessionDetail = () => {
   const { id } = useParams();
@@ -113,8 +115,8 @@ export const SessionDetail = () => {
           />
           <StatCard
             label="Duration"
-            value={session.duration}
-            unit="minutes"
+            value={formatDuration(session.duration)}
+            unit="min:sec"
             icon={Clock}
           />
           {session.swolf > 0 && (
@@ -133,44 +135,51 @@ export const SessionDetail = () => {
           )}
         </div>
 
-        {/* Lap-by-Lap Breakdown */}
+        {/* Length-by-Length Breakdown */}
         {session.laps && session.laps.length > 0 && (
-          <Card className="mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Layers className="w-6 h-6 text-primary-400" />
-              <h2 className="font-display text-2xl font-bold">
-                Lap-by-Lap Analysis
-              </h2>
+          <>
+            {/* Pace Chart */}
+            <div className="mb-8">
+              <LapPaceChart laps={session.laps} />
             </div>
 
-            {lapStats && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-dark-bg rounded-lg">
-                <div>
-                  <p className="text-sm text-gray-400 mb-1">Fastest Lap</p>
-                  <p className="font-display text-lg font-semibold">
-                    Lap {lapStats.fastest.number} • {formatPace(lapStats.fastest.avgPace)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400 mb-1">Slowest Lap</p>
-                  <p className="font-display text-lg font-semibold">
-                    Lap {lapStats.slowest.number} • {formatPace(lapStats.slowest.avgPace)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400 mb-1">Avg Lap Distance</p>
-                  <p className="font-display text-lg font-semibold">
-                    {Math.round(lapStats.avgDistance)} m
-                  </p>
-                </div>
+            {/* Length Table */}
+            <Card className="mb-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Layers className="w-6 h-6 text-primary-400" />
+                <h2 className="font-display text-2xl font-bold">
+                  Length-by-Length Details
+                </h2>
               </div>
-            )}
+
+              {lapStats && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-dark-bg rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-400 mb-1">Fastest Length</p>
+                    <p className="font-display text-lg font-semibold">
+                      Length {lapStats.fastest.number} • {formatPace(lapStats.fastest.avgPace)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400 mb-1">Slowest Length</p>
+                    <p className="font-display text-lg font-semibold">
+                      Length {lapStats.slowest.number} • {formatPace(lapStats.slowest.avgPace)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400 mb-1">Avg Length Distance</p>
+                    <p className="font-display text-lg font-semibold">
+                      {Math.round(lapStats.avgDistance)} m
+                    </p>
+                  </div>
+                </div>
+              )}
 
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-dark-border">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Lap</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Length</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Distance</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Duration</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Pace</th>
@@ -207,6 +216,7 @@ export const SessionDetail = () => {
               </table>
             </div>
           </Card>
+          </>
         )}
 
         {/* Session Metadata */}
@@ -229,7 +239,7 @@ export const SessionDetail = () => {
             </div>
             {session.laps && (
               <div>
-                <span className="text-gray-400">Total Laps:</span>
+                <span className="text-gray-400">Total Lengths:</span>
                 <span className="ml-2 text-gray-200">{session.laps.length}</span>
               </div>
             )}

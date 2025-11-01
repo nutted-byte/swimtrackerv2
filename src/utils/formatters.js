@@ -72,20 +72,16 @@ export const formatChartDate = (dateString) => {
 };
 
 /**
- * Format duration in minutes to hours and minutes
- * @param {number} minutes - Duration in minutes
- * @returns {string} Formatted duration
+ * Format duration in minutes to minutes:seconds format
+ * @param {number} minutes - Duration in minutes (decimal)
+ * @returns {string} Formatted duration (e.g., "25:30")
  */
 export const formatDuration = (minutes) => {
-  if (!minutes || minutes <= 0) return '0 min';
+  if (!minutes || minutes <= 0) return '0:00';
 
-  if (minutes < 60) {
-    return `${Math.round(minutes)} min`;
-  }
-
-  const hours = Math.floor(minutes / 60);
-  const mins = Math.round(minutes % 60);
-  return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+  const mins = Math.floor(minutes);
+  const secs = Math.round((minutes - mins) * 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
 /**

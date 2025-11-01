@@ -11,6 +11,7 @@ import { Trophy, Zap, TrendingUp, Target, Calendar, Award, Sparkles, Upload, Bar
 import { Link } from 'react-router-dom';
 import { calculateNextMilestones, checkAchievementBadges, generateFunComparisons } from '../utils/analytics';
 import { tokens } from '../design/tokens';
+import { formatDuration } from '../utils/formatters';
 
 export const Records = () => {
   const navigate = useNavigate();
@@ -211,7 +212,7 @@ export const Records = () => {
               title="Longest Swim"
               value={(records.longestDistance.distance / 1000).toFixed(2)}
               unit="km"
-              subtitle={`${records.longestDistance.duration} minutes`}
+              subtitle={formatDuration(records.longestDistance.duration)}
               icon={TrendingUp}
               session={records.longestDistance}
               color="teal"

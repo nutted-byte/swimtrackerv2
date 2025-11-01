@@ -194,6 +194,24 @@ export const getExampleQueries = () => {
       description: 'Filter by distance range',
     },
     {
+      id: 'technique-swolf',
+      category: 'Technique',
+      question: 'How do I improve my SWOLF?',
+      description: 'Get technique tips for efficiency',
+    },
+    {
+      id: 'technique-pacing',
+      category: 'Technique',
+      question: 'How can I pace myself better?',
+      description: 'Learn pacing strategies',
+    },
+    {
+      id: 'technique-general',
+      category: 'Technique',
+      question: 'What technique should I work on?',
+      description: 'Personalized technique recommendations',
+    },
+    {
       id: 'recent-trends',
       category: 'Trends',
       question: 'What trends do you see in my last 10 swims?',
@@ -371,6 +389,291 @@ Q: ${question}`;
       success: false,
       error: error.message,
       answer: 'Unable to answer this question. Please try again.',
+    };
+  }
+};
+
+/**
+ * Generate complete AI-powered training plan
+ * AI creates the entire 8-week structure with workout details
+ * @param {Object} planParams - Plan parameters from wizard
+ * @returns {Promise<Object>} Complete training plan structure
+ */
+export const generateFullTrainingPlan = async (planParams) => {
+  const {
+    goalType,
+    currentValue,
+    targetValue,
+    timeline = 8,
+    experienceLevel,
+    daysPerWeek,
+    minutesPerSession,
+    poolLength = 25
+  } = planParams;
+
+  // Build detailed context for AI
+  const context = {
+    goal: {
+      type: goalType,
+      description: goalType === 'distance'
+        ? `Build to ${targetValue}m continuous swim`
+        : goalType === 'pace'
+        ? `Improve pace to ${targetValue} min/100m`
+        : 'General fitness improvement',
+      current: `${currentValue}${goalType === 'distance' ? 'm' : ' min/100m'}`,
+      target: `${targetValue}${goalType === 'distance' ? 'm' : ' min/100m'}`
+    },
+    swimmer: {
+      level: experienceLevel,
+      availability: `${daysPerWeek}x per week`,
+      sessionDuration: `${minutesPerSession} minutes per session`,
+      poolLength: `${poolLength}m pool`,
+      timeline: `${timeline} weeks`
+    }
+  };
+
+  const systemPrompt = `You are an expert swim coach. You MUST respond with ONLY valid JSON, no other text.
+
+CRITICAL UNDERSTANDING:
+- All distances are in METERS (not km)
+- For "distance" goals: current/target refer to SINGLE SESSION continuous swim distance
+  Example: "Build from 800m to 1500m" means Week 1 might have 900m sessions, Week 8 has 1500m sessions
+- For "pace" goals: current/target refer to pace per 100m
+- Respect time constraints: ${minutesPerSession}min sessions at ~2.5 min/100m pace
+- Pool length is ${poolLength}m - ALL distances MUST be multiples of ${poolLength}m (e.g., ${poolLength}m, ${poolLength * 2}m, ${poolLength * 4}m, ${poolLength * 8}m, ${poolLength * 10}m, etc.)
+
+TRAINING PRINCIPLES:
+- Progressive overload: gradual increases week-over-week
+- Recovery weeks: ${timeline >= 6 ? `Mid-point (Week ${Math.floor(timeline / 2)})` : 'Not applicable for short plans'}${timeline >= 8 ? ` and near end (Week ${timeline - 1})` : ''} at ~70% volume
+- Variety: Mix endurance (long steady), technique (drills), and intervals
+- Beginner: smaller jumps, more technique work, longer rest
+- Advanced: bigger jumps, more intensity, race-specific work
+
+REQUIRED JSON STRUCTURE:
+{
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "focus": "Building Base Endurance",
+      "coachingTip": "Focus on smooth technique over speed",
+      "sessions": [
+        {
+          "day": "monday",
+          "title": "Endurance Builder",
+          "description": "This session builds aerobic capacity with steady-state swimming at a sustainable pace. The 200m intervals allow you to focus on maintaining consistent technique while building stamina. Short rest periods train your body to recover quickly between efforts.",
+          "warmup": ["200m easy swim", "4x50m kick with 20s rest"],
+          "mainSet": ["4x200m @ steady pace", "Rest 30s between each", "Focus on breathing rhythm"],
+          "cooldown": ["200m easy swim"],
+          "totalDistance": 1200,
+          "estimatedTime": 35,
+          "targetPace": 2.8
+        }
+      ]
+    }
+  ],
+  "overview": "Your personalized 8-week plan builds progressively toward your goal."
+}
+
+REQUIREMENTS:
+- Generate ALL ${timeline} weeks
+- For ${daysPerWeek} sessions per week, vary days (Monday, Wednesday, Friday for 3x, etc.)
+- Session distances should be realistic and fit in ${minutesPerSession} minutes
+- Main sets should have specific instructions (not just distance)
+- Progressive: each week should logically build on previous
+- CRITICAL: Every session MUST include "totalDistance" (in meters) - sum of warmup + mainSet + cooldown
+- IMPORTANT: Every session MUST include a "description" field (2-3 sentences) explaining:
+  * The primary purpose of the workout (e.g., building aerobic capacity, improving speed, recovery)
+  * Key training concepts or physiological benefits
+  * How the structure supports the goal (e.g., why these intervals, rest periods, or distances)
+
+CRITICAL: Return ONLY the JSON object. No explanations, no markdown, no other text.`;
+
+  const userPrompt = `Create a ${timeline}-week swimming training plan for:
+${JSON.stringify(context, null, 2)}
+
+Return ONLY valid JSON matching the required structure. Do not include any text before or after the JSON.`;
+
+  let response;
+  try {
+    response = await callClaudeAPI(systemPrompt, userPrompt);
+
+    // Parse JSON response with better error handling
+    let content = response.content.trim();
+
+    // Remove markdown code blocks if present
+    content = content.replace(/```json\s*/g, '').replace(/```\s*/g, '');
+
+    // Try to extract JSON if Claude added any text
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      content = jsonMatch[0];
+    }
+
+    // Log for debugging
+    console.log('Attempting to parse AI response, first 200 chars:', content.substring(0, 200));
+
+    const planStructure = JSON.parse(content);
+
+    // Validate structure
+    if (!planStructure.weeks || planStructure.weeks.length !== timeline) {
+      throw new Error(`AI generated invalid plan structure: expected ${timeline} weeks, got ${planStructure.weeks?.length || 0}`);
+    }
+
+    // Ensure totalDistance is set for all sessions
+    planStructure.weeks.forEach(week => {
+      week.sessions.forEach(session => {
+        if (!session.totalDistance || isNaN(session.totalDistance)) {
+          console.warn(`Session "${session.title}" missing totalDistance, attempting to calculate...`);
+
+          // Try to calculate from warmup/mainSet/cooldown
+          let calculatedDistance = 0;
+
+          const extractDistance = (item) => {
+            if (!item) return 0;
+            // Match patterns like "200m", "4x50m", "8x100m"
+            const match = item.match(/(\d+)x(\d+)m|(\d+)m/);
+            if (match) {
+              if (match[1] && match[2]) {
+                // Pattern: 4x50m
+                return parseInt(match[1]) * parseInt(match[2]);
+              } else if (match[3]) {
+                // Pattern: 200m
+                return parseInt(match[3]);
+              }
+            }
+            return 0;
+          };
+
+          // Sum up all parts
+          if (session.warmup) {
+            session.warmup.forEach(item => {
+              calculatedDistance += extractDistance(item);
+            });
+          }
+          if (session.mainSet) {
+            session.mainSet.forEach(item => {
+              calculatedDistance += extractDistance(item);
+            });
+          }
+          if (session.cooldown) {
+            session.cooldown.forEach(item => {
+              calculatedDistance += extractDistance(item);
+            });
+          }
+
+          session.totalDistance = calculatedDistance;
+          console.log(`Calculated totalDistance for "${session.title}": ${calculatedDistance}m`);
+        }
+      });
+    });
+
+    console.log('✅ Successfully generated AI training plan');
+    return {
+      success: true,
+      planStructure,
+      usage: response.usage
+    };
+  } catch (error) {
+    console.error('AI Plan Generation Error:', error);
+    if (response?.content) {
+      console.error('Raw response content:', response.content.substring(0, 500));
+    }
+    return {
+      success: false,
+      error: error.message,
+      planStructure: null
+    };
+  }
+};
+
+/**
+ * Generate AI-enhanced training plan insights
+ * Adds personalized coaching tips and weekly focus descriptions
+ * @param {Object} planParams - Plan parameters from wizard
+ * @returns {Promise<Object>} AI-generated enhancements
+ */
+export const generatePlanEnhancements = async (planParams) => {
+  const {
+    goalType,
+    currentValue,
+    targetValue,
+    experienceLevel,
+    daysPerWeek,
+    minutesPerSession
+  } = planParams;
+
+  // Build concise context for AI
+  const context = {
+    goal: goalType,
+    current: currentValue,
+    target: targetValue,
+    level: experienceLevel,
+    frequency: `${daysPerWeek}x/week`,
+    sessionLength: `${minutesPerSession}min`
+  };
+
+  const systemPrompt = `You are an experienced swim coach creating personalized training plans. Provide concise, motivating guidance.
+
+Generate:
+1. Weekly focus themes (8 weeks): Short phrases (3-5 words) for each week's training emphasis
+2. Coaching tips (8 weeks): One specific, actionable tip per week (max 20 words)
+3. Plan overview: Brief motivational message (max 40 words)
+
+Output as JSON:
+{
+  "weeklyFocus": ["Week 1 focus", "Week 2 focus", ...],
+  "coachingTips": ["Week 1 tip", "Week 2 tip", ...],
+  "overview": "Plan overview message"
+}`;
+
+  const userPrompt = `Swimmer profile: ${JSON.stringify(context)}
+
+Create personalized weekly focuses and coaching tips for this 8-week plan. Make it specific to their goal and experience level.`;
+
+  try {
+    const response = await callClaudeAPI(systemPrompt, userPrompt);
+
+    // Parse JSON response
+    const content = response.content.trim();
+    // Remove markdown code blocks if present
+    const jsonStr = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const enhancements = JSON.parse(jsonStr);
+
+    return {
+      success: true,
+      enhancements,
+      usage: response.usage
+    };
+  } catch (error) {
+    console.error('Plan Enhancement Error:', error);
+
+    // Fallback to generic enhancements if AI fails
+    return {
+      success: false,
+      error: error.message,
+      enhancements: {
+        weeklyFocus: [
+          'Building Base',
+          'Aerobic Development',
+          'Volume Increase',
+          'Recovery Week',
+          'Speed Endurance',
+          'Threshold Work',
+          'Recovery & Refine',
+          'Peak & Taper'
+        ],
+        coachingTips: [
+          'Focus on technique over speed this week',
+          'Build aerobic capacity with steady pacing',
+          'Embrace the increased volume gradually',
+          'Use recovery week to perfect your form',
+          'Add controlled speed to build power',
+          'Push your threshold with focused intervals',
+          'Sharpen technique during recovery',
+          'Taper smart - trust your training'
+        ],
+        overview: 'Your personalized 8-week plan progressively builds toward your goal.'
+      }
     };
   }
 };

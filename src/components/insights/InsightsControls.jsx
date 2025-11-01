@@ -1,5 +1,5 @@
 import { Activity, TrendingUp, Zap } from 'lucide-react';
-import { TIME_RANGE_OPTIONS, GRANULARITY_OPTIONS } from '../../utils/constants';
+import { TIME_RANGE_OPTIONS } from '../../utils/constants';
 
 /**
  * Controls for filtering and configuring the insights view
@@ -9,31 +9,9 @@ export const InsightsControls = ({
   setTimeRange,
   metric,
   setMetric,
-  granularity,
-  setGranularity,
 }) => {
   return (
     <div className="flex flex-wrap gap-4 mb-8">
-      {/* Time Range Selector */}
-      <div>
-        <p className="text-sm text-gray-400 mb-2">Time Range</p>
-        <div className="flex gap-2 flex-wrap">
-          {TIME_RANGE_OPTIONS.map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => setTimeRange(value)}
-              className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                timeRange === value
-                  ? 'bg-primary-500 text-white'
-                  : 'bg-dark-card text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Metric Selector */}
       <div>
         <p className="text-sm text-gray-400 mb-2">Metric</p>
@@ -74,16 +52,16 @@ export const InsightsControls = ({
         </div>
       </div>
 
-      {/* Granularity Selector */}
+      {/* Time Range Selector */}
       <div>
-        <p className="text-sm text-gray-400 mb-2">Granularity</p>
-        <div className="flex gap-2">
-          {GRANULARITY_OPTIONS.map(({ value, label }) => (
+        <p className="text-sm text-gray-400 mb-2">Time Range</p>
+        <div className="flex gap-2 flex-wrap">
+          {TIME_RANGE_OPTIONS.map(({ value, label }) => (
             <button
               key={value}
-              onClick={() => setGranularity(value)}
+              onClick={() => setTimeRange(value)}
               className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-                granularity === value
+                timeRange === value
                   ? 'bg-primary-500 text-white'
                   : 'bg-dark-card text-gray-400 hover:text-gray-200'
               }`}

@@ -80,7 +80,7 @@ const extractSwimData = (data) => {
     id: `swim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     date: session.start_time || new Date().toISOString(),
     distance: Math.round(totalDistance), // meters
-    duration: Math.round(totalTime / 60), // minutes
+    duration: totalTime / 60, // Keep as decimal minutes to preserve seconds
     pace: parseFloat(avgPace.toFixed(2)), // min/100m
     strokes: totalStrokes,
     swolf: swolf,

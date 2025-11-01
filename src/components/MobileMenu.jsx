@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Upload, LogOut, User } from 'lucide-react';
+import { Menu, X, Upload, LogOut, User, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -72,12 +72,30 @@ export const MobileMenu = ({ user, onSignOut }) => {
             <div className="p-4 border-b border-dark-border bg-dark-bg/50">
               <div className="flex items-center gap-2 text-sm">
                 <User className="w-4 h-4 text-gray-400" />
-                <span className="text-gray-300 truncate">{user?.email}</span>
+                <span className="text-gray-300 truncate">
+                  {user?.user_metadata?.full_name?.split(' ')[0] ||
+                   user?.user_metadata?.name?.split(' ')[0] ||
+                   user?.email?.split('@')[0] ||
+                   'User'}
+                </span>
               </div>
             </div>
 
             {/* Menu Items */}
             <div className="p-4 space-y-2">
+              <Link
+                to="/techniques"
+                onClick={closeMenu}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  isActive('/techniques')
+                    ? 'bg-primary-500/20 text-primary-400'
+                    : 'hover:bg-dark-bg text-gray-300'
+                }`}
+              >
+                <BookOpen className="w-5 h-5" />
+                <span className="font-medium">Techniques</span>
+              </Link>
+
               <Link
                 to="/upload"
                 onClick={closeMenu}

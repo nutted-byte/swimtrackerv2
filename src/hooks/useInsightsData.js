@@ -15,6 +15,11 @@ import {
 export const useInsightsData = (sessions, timeRange, granularity, metric) => {
   // Filter sessions by time range
   const filteredSessions = useMemo(() => {
+    // If timeRange is null (All Time), return all sessions
+    if (timeRange === null) {
+      return sessions.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
     const endDate = new Date();
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - timeRange);
