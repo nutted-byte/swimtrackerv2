@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card } from './Card';
@@ -12,9 +13,12 @@ import { DPSComparison } from './ui/DPSComparison';
 import { formatDuration } from '../utils/formatters';
 import { useTheme } from '../context/ThemeContext';
 import { calculateDPS, calculateAverageDPS } from '../utils/strokeEfficiency';
+import { ShareButton } from './sharing/ShareButton';
+import { ShareModal } from './sharing/ShareModal';
 
 export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace, deepAnalysis = null, summary = null }) => {
   const { isDark } = useTheme();
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const {
     analysisState,
     handleAnalyzeSwim,
@@ -325,6 +329,13 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             <BarChart3 className="w-4 h-4" />
             View All Swims
           </Link>
+          <ShareButton
+            onClick={() => setShareModalOpen(true)}
+            variant="ghost"
+            size="md"
+          >
+            Share
+          </ShareButton>
         </motion.div>
 
         {/* Analysis Panel */}
@@ -340,6 +351,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           )}
         </AnimatePresence>
       </Card>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        swim={swim}
+        type="swim"
+      />
     </motion.div>
   );
 };

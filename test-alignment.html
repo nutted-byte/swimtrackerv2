@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Card Alignment Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0e27;
+      padding: 50px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .container {
+      width: 1080px;
+      height: 1080px;
+      margin: 0 auto;
+      background: #0a0e27;
+      position: relative;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 420px 420px;
+      grid-template-rows: 340px 200px;
+      gap: 40px;
+      justify-content: center;
+      padding-top: 250px;
+    }
+
+    .box {
+      position: relative;
+      text-align: center;
+      border-radius: 32px;
+      backdrop-filter: blur(20px);
+    }
+
+    .box-top {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 125, 155, 0.1));
+      border: 3px solid rgba(0, 212, 255, 0.3);
+      box-shadow: inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .box-bottom {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .label {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
+
+    .label-top {
+      color: #66b1c3;
+      font-size: 20px;
+    }
+
+    .label-bottom {
+      color: #9ca3af;
+      font-size: 18px;
+    }
+
+    .number {
+      font-weight: 900;
+      line-height: 1;
+      color: white;
+    }
+
+    .number-top {
+      font-size: 110px;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+    }
+
+    .number-bottom {
+      font-size: 70px;
+    }
+
+    .subtitle {
+      font-weight: 700;
+    }
+
+    .subtitle-top {
+      color: #d1d5db;
+      font-size: 28px;
+    }
+
+    .subtitle-bottom {
+      color: #6b7280;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    /* Test different padding values */
+    .test-1 .box-top { padding: 60px 30px 0; }
+    .test-1 .label-top { margin-bottom: 20px; }
+    .test-1 .number-top { margin-bottom: 15px; }
+    .test-1 .box-bottom { padding: 35px 30px 0; }
+    .test-1 .label-bottom { margin-bottom: 15px; }
+    .test-1 .number-bottom { margin-bottom: 10px; }
+
+    .guide-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .guide-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 0, 0, 0.5);
+    }
+
+    .guide-line::before {
+      content: attr(data-label);
+      position: absolute;
+      right: 10px;
+      top: -10px;
+      color: rgba(255, 0, 0, 0.8);
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: white; text-align: center; margin-bottom: 30px;">Share Card Alignment Test</h1>
+
+  <div class="container">
+    <div class="guide-lines">
+      <div class="guide-line" style="top: 310px;" data-label="Top Label"></div>
+      <div class="guide-line" style="top: 350px;" data-label="Top Number"></div>
+      <div class="guide-line" style="top: 630px;" data-label="Bottom Label"></div>
+      <div class="guide-line" style="top: 665px;" data-label="Bottom Number"></div>
+    </div>
+
+    <div class="grid test-1">
+      <!-- Distance -->
+      <div class="box box-top">
+        <div class="label label-top">DISTANCE</div>
+        <div class="number number-top font-display">1250</div>
+        <div class="subtitle subtitle-top">meters</div>
+      </div>
+
+      <!-- Duration -->
+      <div class="box box-top">
+        <div class="label label-top">DURATION</div>
+        <div class="number number-top font-display">0:34</div>
+        <div class="subtitle subtitle-top" style="color: transparent; height: 28px;">&nbsp;</div>
+      </div>
+
+      <!-- Pace -->
+      <div class="box box-bottom">
+        <div class="label label-bottom">PACE</div>
+        <div class="number number-bottom font-display">2:43</div>
+        <div class="subtitle subtitle-bottom">/100m</div>
+      </div>
+
+      <!-- SWOLF -->
+      <div class="box box-bottom">
+        <div class="label label-bottom">SWOLF</div>
+        <div class="number number-bottom font-display">57</div>
+        <div class="subtitle subtitle-bottom" style="color: transparent; height: 20px;">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="color: white; text-align: center; margin-top: 30px;">
+    <p>Red lines show target alignment positions</p>
+    <p>Open this file in a browser to test alignment</p>
+  </div>
+</body>
+</html>

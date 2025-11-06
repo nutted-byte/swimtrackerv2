@@ -1,13 +1,16 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { Tooltip } from './Tooltip';
 import { Calendar, Activity, Zap, TrendingUp, Clock, Heart, Waves, Flame, Award, TrendingDown } from 'lucide-react';
 import { formatDuration } from '../utils/formatters';
 import { useTheme } from '../context/ThemeContext';
+import { ShareButton } from './sharing/ShareButton';
+import { ShareModal } from './sharing/ShareModal';
 
 export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
   const { isDark } = useTheme();
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -85,7 +88,7 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
       >
         {/* Header with Date and Rating */}
         <div className="flex items-start justify-between mb-4">
-          <div>
+          <div className="flex-1">
             <div className="flex items-center gap-2 text-content-secondary text-xs mb-1.5">
               <Calendar className="w-3 h-3" />
               <span className="font-medium">{formatDate(session.date)}</span>
@@ -117,6 +120,14 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
               )}
             </div>
           </div>
+          <ShareButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setShareModalOpen(true);
+            }}
+            variant="minimal"
+            size="sm"
+          />
         </div>
 
         {/* Metrics Grid */}
@@ -287,6 +298,14 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
           </div>
         )}
       </Card>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        swim={session}
+        type="swim"
+      />
     </motion.div>
   );
 });
