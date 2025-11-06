@@ -72,12 +72,19 @@ export const formatChartDate = (dateString) => {
 };
 
 /**
- * Format duration in minutes to minutes:seconds format
+ * Format duration in minutes to hours:minutes format for totals, or minutes:seconds for single sessions
  * @param {number} minutes - Duration in minutes (decimal)
- * @returns {string} Formatted duration (e.g., "25:30")
+ * @param {boolean} showHours - Whether to show hours instead of minutes (default: false)
+ * @returns {string} Formatted duration (e.g., "25:30" or "49h 13m")
  */
-export const formatDuration = (minutes) => {
-  if (!minutes || minutes <= 0) return '0:00';
+export const formatDuration = (minutes, showHours = false) => {
+  if (!minutes || minutes <= 0) return showHours ? '0h 0m' : '0:00';
+
+  if (showHours) {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    return `${hours}h ${mins}m`;
+  }
 
   const mins = Math.floor(minutes);
   const secs = Math.round((minutes - mins) * 60);

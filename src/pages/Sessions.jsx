@@ -5,7 +5,7 @@ import { useSwimData } from '../context/SwimDataContext';
 import { SessionCard } from '../components/SessionCard';
 import { MonthGroup } from '../components/MonthGroup';
 import { PageContainer, PageHeader } from '../components/layout';
-import { Upload, Filter, Trash2, List, Calendar, BarChart3 } from 'lucide-react';
+import { Filter, Trash2, List, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { groupSessionsByMonth } from '../utils/analytics';
 import { tokens } from '../design/tokens';
@@ -38,7 +38,7 @@ export const Sessions = () => {
   const monthlyGroups = groupSessionsByMonth(sortedSessions);
 
   const handleSessionClick = (session) => {
-    navigate(`/session/${session.id}`, { state: { from: '/sessions', label: 'Sessions' } });
+    navigate(`/swim/${session.id}`, { state: { from: '/swims', label: 'Swims' } });
   };
 
   const handleDelete = (sessionId, e) => {
@@ -86,25 +86,7 @@ export const Sessions = () => {
   return (
     <PageContainer>
       <PageHeader
-        title="All Sessions"
-        actions={
-          <>
-            <Link
-              to="/insights"
-              className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
-            >
-              <BarChart3 className={tokens.icons.sm} />
-              <span className="hidden sm:inline">View Insights</span>
-            </Link>
-            <Link
-              to="/upload"
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Upload className={tokens.icons.sm} />
-              Upload
-            </Link>
-          </>
-        }
+        title="All Swims"
       />
 
       <motion.div
@@ -113,16 +95,16 @@ export const Sessions = () => {
         transition={{ duration: 0.5 }}
       >
         {/* Stats Summary */}
-        <div className="text-center mb-8">
+        <div className="mb-8">
           <p className="text-gray-400">
             {totals.count} swim{totals.count !== 1 ? 's' : ''} • {' '}
             {(totals.distance / 1000).toFixed(1)} km total • {' '}
-            {formatDuration(totals.duration)}
+            {formatDuration(totals.duration, true)}
           </p>
         </div>
 
         {/* Filters & View Toggle */}
-        <div className="mb-6 flex flex-wrap items-center gap-4 justify-between">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
           {viewMode === 'list' && (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -175,7 +157,7 @@ export const Sessions = () => {
           )}
 
           {/* View Mode & Collapse Toggle */}
-          <div className="flex gap-2 ml-auto">
+          <div className="flex gap-2">
             {viewMode === 'grouped' && (
               <button
                 onClick={() => setAllCollapsed(!allCollapsed)}

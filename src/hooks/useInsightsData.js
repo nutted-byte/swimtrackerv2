@@ -8,6 +8,7 @@ import {
   calculateRollingAverage,
   findMilestones
 } from '../utils/analytics';
+import { calculateDPS } from '../utils/strokeEfficiency';
 
 /**
  * Custom hook to process insights data
@@ -55,6 +56,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         paceSeconds: item.pace * 60,
         distance: item.distance / 1000,
         swolf: item.swolf,
+        dps: calculateDPS(item),
         id: item.id,
         index
       };
@@ -66,6 +68,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         paceSeconds: item.avgPace * 60,
         distance: item.totalDistance / 1000,
         swolf: item.avgSwolf,
+        dps: item.avgDPS || 0,
         count: item.count,
         index
       };
@@ -78,6 +81,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         paceSeconds: item.avgPace * 60,
         distance: item.totalDistance / 1000,
         swolf: item.avgSwolf,
+        dps: item.avgDPS || 0,
         count: item.count,
         index
       };
@@ -87,6 +91,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
   // Calculate valid data subsets
   const validPaceData = useMemo(() => chartData.filter(d => d.pace > 0), [chartData]);
   const validSwolfData = useMemo(() => chartData.filter(d => d.swolf > 0), [chartData]);
+  const validDPSData = useMemo(() => chartData.filter(d => d.dps > 0), [chartData]);
 
   // Calculate statistics
   const stats = useMemo(() => ({
@@ -97,13 +102,17 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
     avgSwolf: validSwolfData.length > 0
       ? validSwolfData.reduce((sum, d) => sum + d.swolf, 0) / validSwolfData.length
       : 0,
+    avgDPS: validDPSData.length > 0
+      ? validDPSData.reduce((sum, d) => sum + d.dps, 0) / validDPSData.length
+      : 0,
     count: filteredSessions.length
-  }), [validPaceData, validSwolfData, chartData, filteredSessions.length]);
+  }), [validPaceData, validSwolfData, validDPSData, chartData, filteredSessions.length]);
 
   // Calculate trends
   const paceTrend = useMemo(() => calculateLinearRegression(validPaceData, 'index', 'pace'), [validPaceData]);
   const distanceTrend = useMemo(() => calculateLinearRegression(chartData, 'index', 'distance'), [chartData]);
   const swolfTrend = useMemo(() => calculateLinearRegression(validSwolfData, 'index', 'swolf'), [validSwolfData]);
+  const dpsTrend = useMemo(() => calculateLinearRegression(validDPSData, 'index', 'dps'), [validDPSData]);
 
   // Calculate consistency score
   const consistencyScore = useMemo(() =>
@@ -145,7 +154,10 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
 
   const metricKey = getMetricKey();
   const chartDataWithRollingAvg = calculateRollingAverage(chartData, metricKey, 3);
-  const currentTrend = metric === 'pace' ? paceTrend : metric === 'distance' ? distanceTrend : swolfTrend;
+  const currentTrend = metric === 'pace' ? paceTrend
+    : metric === 'distance' ? distanceTrend
+    : metric === 'dps' ? dpsTrend
+    : swolfTrend;
 
   const enrichedChartData = chartData.map((point, index) => {
     const rollingPoint = chartDataWithRollingAvg[index];
@@ -177,8 +189,9 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
     enrichedChartData,
     validPaceData,
     validSwolfData,
+    validDPSData,
     stats,
-    trends: { paceTrend, distanceTrend, swolfTrend },
+    trends: { paceTrend, distanceTrend, swolfTrend, dpsTrend },
     currentTrend,
     consistencyScore,
     sparklineData,

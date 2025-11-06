@@ -8,7 +8,7 @@ import { TrendBadge } from '../components/TrendBadge';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { AchievementBadges } from '../components/AchievementBadges';
 import { FunComparisons } from '../components/FunComparisons';
-import { InsightsControls, InsightsSummary, InsightsMilestones, InsightsChart } from '../components/insights';
+import { InsightsControls, InsightsSummary, InsightsChart } from '../components/insights';
 import { PageContainer, PageHeader } from '../components/layout';
 import { BarChart3, LineChart as LineChartIcon, ScatterChart as ScatterIcon, Upload, Trophy, Zap, TrendingUp, Target, Calendar, Award, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -46,6 +46,11 @@ export const Insights = () => {
   const {
     enrichedChartData: distanceChartData,
   } = useInsightsData(sessions, timeRange, granularity, 'distance');
+
+  // Get DPS data separately
+  const {
+    enrichedChartData: dpsChartData,
+  } = useInsightsData(sessions, timeRange, granularity, 'dps');
 
   // Calculate records for Records section
   const records = {
@@ -98,7 +103,7 @@ export const Insights = () => {
       >
         <Card
           className={`bg-gradient-to-br ${colorClasses[color]} cursor-pointer`}
-          onClick={() => session && navigate(`/session/${session.id}`, { state: { from: '/insights', label: 'Insights' } })}
+          onClick={() => session && navigate(`/swim/${session.id}`, { state: { from: '/insight', label: 'Insight' } })}
         >
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 rounded-xl bg-dark-bg/50">
@@ -177,25 +182,7 @@ export const Insights = () => {
   return (
     <PageContainer>
       <PageHeader
-        title="Performance Insights"
-        actions={
-          <>
-            <Link
-              to="/sessions"
-              className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
-            >
-              <BarChart3 className={tokens.icons.sm} />
-              <span className="hidden sm:inline">View Sessions</span>
-            </Link>
-            <Link
-              to="/upload"
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Upload className={tokens.icons.sm} />
-              Upload
-            </Link>
-          </>
-        }
+        title="Performance Insight"
       />
 
       <motion.div
@@ -237,7 +224,7 @@ export const Insights = () => {
             <div className="flex flex-col gap-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <h2 className="font-display text-xl font-bold">Pace Over Time</h2>
+                  <h2 className="font-display text-xl font-bold">Pace & SWOLF Over Time</h2>
                   <TrendBadge trend={currentTrend.trend} metric="pace" />
                 </div>
               </div>
@@ -260,7 +247,14 @@ export const Insights = () => {
             </div>
 
             <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
-              <span>Lower is better • min/100m</span>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-accent-blue"></div>
+                <span>Pace (min/100m) - Higher is faster</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-purple-400"></div>
+                <span>SWOLF - Lower is better</span>
+              </div>
             </div>
           </Card>
 
@@ -294,10 +288,38 @@ export const Insights = () => {
               <span>Distance per swim session (km)</span>
             </div>
           </Card>
-        </div>
 
-        {/* Milestones */}
-        <InsightsMilestones milestones={milestones} />
+          {/* DPS (Stroke Efficiency) Chart */}
+          <Card className="p-6">
+            <div className="flex flex-col gap-4 mb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <h2 className="font-display text-xl font-bold">Stroke Efficiency (DPS)</h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-80">
+              <InsightsChart
+                chartType="line"
+                metric="dps"
+                enrichedChartData={dpsChartData}
+                scatterData={scatterData}
+                stats={stats}
+                showRollingAvg={false}
+                showTrendLine={false}
+                showCompare={false}
+                previousWindowData={previousWindowData}
+                getMilestoneType={getMilestoneType}
+                granularity={granularity}
+              />
+            </div>
+
+            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
+              <span>Distance Per Stroke - Higher is better</span>
+            </div>
+          </Card>
+        </div>
 
         {/* Personal Records Section */}
         <motion.div

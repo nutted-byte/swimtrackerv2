@@ -136,7 +136,7 @@ export const PaceTrendCard = ({ sessions }) => {
         )}
 
         <Link
-          to="/insights?metric=pace"
+          to="/insight?metric=pace"
           className="text-xs text-accent-blue hover:text-accent-blue/80 flex items-center justify-center gap-1 group transition-colors"
         >
           Analyze Trend

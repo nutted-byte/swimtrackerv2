@@ -1,28 +1,42 @@
 /**
- * Calculate current swim streak (consecutive days with swims)
+ * Get month key (YYYY-MM) for a given date
+ */
+const getMonthKey = (date) => {
+  const d = new Date(date);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+};
+
+/**
+ * Calculate current swim streak (consecutive months with at least one swim)
  */
 export const calculateStreak = (sessions) => {
   if (sessions.length === 0) return 0;
 
-  const sortedDates = sessions
-    .map(s => new Date(s.date).toDateString())
-    .sort((a, b) => new Date(b) - new Date(a));
+  // Group sessions by month
+  const monthMap = new Map();
+  sessions.forEach(session => {
+    const monthKey = getMonthKey(new Date(session.date));
+    if (!monthMap.has(monthKey)) {
+      monthMap.set(monthKey, []);
+    }
+    monthMap.get(monthKey).push(session);
+  });
 
-  const uniqueDates = [...new Set(sortedDates)];
+  // Sort months (newest first)
+  const sortedMonths = Array.from(monthMap.keys()).sort((a, b) => b.localeCompare(a));
 
+  // Calculate streak from current month backwards
   let streak = 0;
-  let currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
+  const now = new Date();
 
-  for (let i = 0; i < uniqueDates.length; i++) {
-    const sessionDate = new Date(uniqueDates[i]);
-    sessionDate.setHours(0, 0, 0, 0);
+  for (let i = 0; i < sortedMonths.length; i++) {
+    const expectedDate = new Date(now.getFullYear(), now.getMonth() - streak, 1);
+    const expectedMonthKey = getMonthKey(expectedDate);
 
-    const dayDiff = Math.floor((currentDate - sessionDate) / (1000 * 60 * 60 * 24));
-
-    if (dayDiff === streak) {
+    if (sortedMonths[i] === expectedMonthKey) {
       streak++;
-    } else if (dayDiff > streak) {
+    } else {
+      // There's a gap - streak is broken
       break;
     }
   }
@@ -74,55 +88,55 @@ export const getLast7DaysActivity = (sessions) => {
 };
 
 /**
- * Get last 30 days activity with intensity levels
+ * Get last 12 months activity with session counts and metrics
  */
-export const getLast30DaysActivity = (sessions) => {
-  const weeks = [];
+export const getLast12MonthsActivity = (sessions) => {
+  const months = [];
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
 
-  // Group into 4 weeks (roughly 30 days)
-  for (let weekIndex = 0; weekIndex < 4; weekIndex++) {
-    const weekData = {
-      days: [],
-      weekLabel: weekIndex === 0 ? 'This week' : `${weekIndex + 1} weeks ago`
-    };
+  // Generate last 12 months
+  for (let i = 11; i >= 0; i--) {
+    const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    const monthName = date.toLocaleDateString('en-US', { month: 'short' });
 
-    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-      const daysBack = weekIndex * 7 + (6 - dayIndex);
-      const date = new Date(today);
-      date.setDate(date.getDate() - daysBack);
-      const dateStr = date.toDateString();
+    // Count sessions in this month
+    const monthSessions = sessions.filter(s => {
+      const sessionDate = new Date(s.date);
+      return `${sessionDate.getFullYear()}-${String(sessionDate.getMonth() + 1).padStart(2, '0')}` === monthKey;
+    });
 
-      const daySessions = sessions.filter(s =>
-        new Date(s.date).toDateString() === dateStr
-      );
+    const hasActivity = monthSessions.length > 0;
+    const totalDistance = hasActivity
+      ? monthSessions.reduce((sum, s) => sum + s.distance, 0)
+      : 0;
 
-      const hasActivity = daySessions.length > 0;
-      const totalDistance = hasActivity
-        ? daySessions.reduce((sum, s) => sum + s.distance, 0)
-        : 0;
+    // Calculate total lengths (assuming 25m pool)
+    const totalLengths = hasActivity
+      ? Math.round(totalDistance / 25)
+      : 0;
 
-      // Intensity: 0 (none), 1 (light <2km), 2 (moderate 2-3km), 3 (heavy >3km)
-      let intensity = 0;
-      if (hasActivity) {
-        const distanceKm = totalDistance / 1000;
-        if (distanceKm > 3) intensity = 3;
-        else if (distanceKm > 2) intensity = 2;
-        else intensity = 1;
-      }
+    // Calculate averages
+    const avgPace = hasActivity
+      ? monthSessions.reduce((sum, s) => sum + (s.pace || 0), 0) / monthSessions.length
+      : 0;
 
-      weekData.days.push({
-        date: dateStr,
-        dayLetter: date.toLocaleDateString('en-US', { weekday: 'narrow' }),
-        hasActivity,
-        intensity,
-        totalDistance
-      });
-    }
+    const avgSwolf = hasActivity
+      ? monthSessions.reduce((sum, s) => sum + (s.swolf || 0), 0) / monthSessions.length
+      : 0;
 
-    weeks.push(weekData);
+    months.push({
+      monthKey,
+      monthName,
+      hasActivity,
+      sessionCount: monthSessions.length,
+      totalDistance,
+      totalLengths,
+      avgPace,
+      avgSwolf,
+      isCurrentMonth: i === 0
+    });
   }
 
-  return weeks.reverse(); // Oldest first
+  return months;
 };

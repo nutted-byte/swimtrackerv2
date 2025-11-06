@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export const CollapsibleSection = ({
   title,
@@ -12,6 +13,7 @@ export const CollapsibleSection = ({
   className = ''
 }) => {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const { isDark } = useTheme();
 
   return (
     <div className={className}>
@@ -20,36 +22,68 @@ export const CollapsibleSection = ({
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full group"
       >
-        <div className="flex items-center justify-between p-4 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors border border-dark-border hover:border-primary-500/30">
+        <div className={`
+          flex items-center justify-between p-4 rounded-lg transition-all border
+          ${isDark
+            ? 'bg-dark-card hover:bg-dark-card/80 border-dark-border hover:border-primary-500/30'
+            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-primary-400 shadow-card-light hover:shadow-elevated'
+          }
+        `}>
           <div className="flex items-center gap-3">
             {Icon && (
-              <div className="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/30 transition-colors">
-                <Icon className="w-5 h-5 text-primary-400" />
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center transition-colors
+                ${isDark
+                  ? 'bg-primary-500/20 group-hover:bg-primary-500/30'
+                  : 'bg-primary-50 group-hover:bg-primary-100'
+                }
+              `}>
+                <Icon className={`w-5 h-5 ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
               </div>
             )}
             <div className="text-left">
               <div className="flex items-center gap-2">
                 <h3 className="font-display text-xl font-bold">{title}</h3>
                 {badge && (
-                  <span className="px-2 py-0.5 text-xs font-medium bg-primary-500/20 text-primary-400 rounded-full">
+                  <span className={`
+                    px-2 py-0.5 text-xs font-medium rounded-full
+                    ${isDark
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : 'bg-primary-100 text-primary-700'
+                    }
+                  `}>
                     {badge}
                   </span>
                 )}
               </div>
               {subtitle && (
-                <p className="text-sm text-gray-400 mt-0.5">{subtitle}</p>
+                <p className={`text-sm mt-0.5 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+                  {subtitle}
+                </p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">
+            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               {isExpanded ? 'Hide' : 'Show'}
             </span>
             {isExpanded ? (
-              <ChevronUp className="w-5 h-5 text-gray-400 group-hover:text-primary-400 transition-colors" />
+              <ChevronUp className={`
+                w-5 h-5 transition-colors
+                ${isDark
+                  ? 'text-gray-400 group-hover:text-primary-400'
+                  : 'text-slate-500 group-hover:text-primary-500'
+                }
+              `} />
             ) : (
-              <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-primary-400 transition-colors" />
+              <ChevronDown className={`
+                w-5 h-5 transition-colors
+                ${isDark
+                  ? 'text-gray-400 group-hover:text-primary-400'
+                  : 'text-slate-500 group-hover:text-primary-500'
+                }
+              `} />
             )}
           </div>
         </div>

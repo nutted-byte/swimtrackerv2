@@ -32,7 +32,7 @@ export const SessionDetail = () => {
         <h1 className="font-display text-3xl font-bold mb-4">
           Session Not Found
         </h1>
-        <Link to="/sessions" className="btn-primary">
+        <Link to="/swims" className="btn-primary">
           Back to Sessions
         </Link>
       </div>

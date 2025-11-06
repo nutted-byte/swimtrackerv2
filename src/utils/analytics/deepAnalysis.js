@@ -106,8 +106,8 @@ export const analyzeLastSwimDeep = (lastSwim, allSessions) => {
     }
   }
 
-  // Generate recommendations
-  analysis.recommendations = generateDetailedRecommendations(analysis);
+  // Generate recommendations (pass all sessions for context-aware recommendations)
+  analysis.recommendations = generateDetailedRecommendations(analysis, allSessions);
 
   return analysis;
 };

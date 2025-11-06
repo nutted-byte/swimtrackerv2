@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Card } from './Card';
+import { useTheme } from '../context/ThemeContext';
 
 export const StatCard = memo(({
   label,
@@ -9,11 +10,13 @@ export const StatCard = memo(({
   icon: Icon = null,
   glow = false
 }) => {
+  const { isDark } = useTheme();
+
   const getTrendColor = () => {
-    if (!trend) return 'text-gray-400';
+    if (!trend) return isDark ? 'text-gray-400' : 'text-slate-500';
     if (trend > 0) return 'text-accent-blue';
     if (trend < 0) return 'text-accent-coral';
-    return 'text-gray-400';
+    return isDark ? 'text-gray-400' : 'text-slate-500';
   };
 
   const getTrendSymbol = () => {
@@ -24,22 +27,26 @@ export const StatCard = memo(({
   };
 
   return (
-    <Card glow={glow} glowColor={trend > 0 ? 'blue' : 'coral'}>
+    <Card glow={glow} glowColor={trend > 0 ? 'blue' : 'coral'} elevated>
       <div className="flex items-start justify-between">
         <div>
           <p className="stat-label">{label}</p>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="stat-value">{value}</span>
-            {unit && <span className="text-xl text-gray-400">{unit}</span>}
+            {unit && (
+              <span className={`text-xl ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
+                {unit}
+              </span>
+            )}
           </div>
           {trend !== null && (
-            <p className={`text-sm mt-2 ${getTrendColor()}`}>
+            <p className={`text-sm mt-2 font-medium ${getTrendColor()}`}>
               {getTrendSymbol()} {Math.abs(trend)}%
             </p>
           )}
         </div>
         {Icon && (
-          <div className="text-primary-400">
+          <div className={isDark ? 'text-primary-400' : 'text-primary-500'}>
             <Icon size={32} />
           </div>
         )}

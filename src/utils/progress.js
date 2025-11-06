@@ -126,8 +126,10 @@ export const analyzeProgress = (sessions, days = 30) => {
 
 /**
  * Generate AI coaching insight based on analysis
+ * @param {Object} analysis - Progress analysis
+ * @param {Array} sessions - All sessions for streak/momentum context
  */
-export const generateCoachingInsight = (analysis) => {
+export const generateCoachingInsight = (analysis, sessions = []) => {
   const { status, metrics } = analysis;
 
   if (status === 'no-data' || status === 'insufficient-data') {
@@ -136,6 +138,48 @@ export const generateCoachingInsight = (analysis) => {
 
   const trends = metrics.trends;
   const insights = [];
+
+  // Import utilities dynamically to avoid circular dependencies
+  let streak = 0;
+  let momentum = null;
+  let weekStats = null;
+
+  try {
+    const { calculateStreak } = require('./streakCalculation');
+    const { calculateMomentum } = require('./momentumCalculation');
+    const { getCurrentWeekStats } = require('./weeklyStats');
+
+    if (sessions.length > 0) {
+      streak = calculateStreak(sessions);
+      momentum = calculateMomentum(sessions);
+      weekStats = getCurrentWeekStats(sessions);
+    }
+  } catch (e) {
+    // Fallback if utilities not available
+  }
+
+  // Streak-aware insights (prioritize for motivation) - MONTHLY STREAKS
+  if (streak >= 12) {
+    insights.push(`🔥 Impressive ${streak}-month streak! Over a year of consistency!`);
+  } else if (streak >= 3) {
+    insights.push(`You're on a ${streak}-month streak!`);
+  }
+
+  // Momentum insights
+  if (momentum && momentum.trend === 'up' && momentum.percentage > 15) {
+    insights.push(`Building great momentum (${momentum.trend === 'up' ? '+' : ''}${momentum.percentage}%).`);
+  } else if (momentum && momentum.trend === 'down' && momentum.percentage < -15) {
+    insights.push(`Let's rebuild momentum - get back to your weekly routine.`);
+  }
+
+  // Weekly context (adjusted for once-a-week swimmers)
+  if (weekStats && weekStats.count > 0) {
+    if (weekStats.count >= 1) {
+      insights.push(`Swam this week - keeping the streak alive!`);
+    }
+  } else if (weekStats && weekStats.count === 0 && new Date().getDay() >= 4) {
+    insights.push(`No swim yet this week - try to get one in!`);
+  }
 
   // Pace insights
   if (trends.pace > 5) {

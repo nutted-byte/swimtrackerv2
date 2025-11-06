@@ -6,10 +6,10 @@ export const MobileBottomNav = () => {
 
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
-    { path: '/sessions', icon: List, label: 'Sessions' },
-    { path: '/insights', icon: BarChart3, label: 'Insights' },
-    { path: '/training', icon: Target, label: 'Training' },
-    { path: '/techniques', icon: BookOpen, label: 'Learn' },
+    { path: '/swims', icon: List, label: 'Swims' },
+    { path: '/insight', icon: BarChart3, label: 'Insight' },
+    { path: '/train', icon: Target, label: 'Train' },
+    { path: '/learn', icon: BookOpen, label: 'Learn' },
   ];
 
   const isActive = (path) => {

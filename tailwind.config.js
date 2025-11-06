@@ -36,6 +36,11 @@ export default {
           DEFAULT: 'rgb(var(--color-content))',
           secondary: 'rgb(var(--color-content-secondary))',
           tertiary: 'rgb(var(--color-content-tertiary))',
+        },
+        // Light mode surface colors
+        surface: {
+          tint: 'rgb(var(--color-surface-tint))',
+          accent: 'rgb(var(--color-surface-accent))',
         }
       },
       fontFamily: {
@@ -43,10 +48,20 @@ export default {
         display: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
+        // Dark mode shadows (deeper, more dramatic)
         'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+
+        // Light mode shadows (soft, layered, modern)
+        'card-light': '0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04)',
+        'card-hover-light': '0 10px 20px rgba(15, 23, 42, 0.08), 0 3px 6px rgba(15, 23, 42, 0.05)',
+        'elevated': '0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -1px rgba(15, 23, 42, 0.06)',
+
+        // Glows (theme-aware)
         'glow-blue': '0 0 20px rgba(0, 212, 255, 0.3)',
         'glow-coral': '0 0 20px rgba(255, 107, 107, 0.3)',
+        'glow-blue-light': '0 0 20px rgba(0, 125, 155, 0.15)',
+        'glow-coral-light': '0 0 20px rgba(255, 107, 107, 0.15)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

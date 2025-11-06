@@ -8,7 +8,7 @@ import { ThemeToggle } from './components/ThemeToggle';
 import { DevTools } from './components/DevTools';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { MobileBottomNav } from './components/MobileBottomNav';
-import { MobileMenu } from './components/MobileMenu';
+import { MobileMenu, MobileMenuProvider } from './components/MobileMenu';
 import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User, BookOpen, Target } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 
@@ -47,98 +47,103 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg">
-      {/* Header */}
-      {isAuthenticated && (
-        <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
-                🌊
-              </div>
-              <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
-                Swimma
-              </h1>
-            </Link>
+    <MobileMenuProvider>
+      <div className="min-h-screen bg-dark-bg">
+        {/* Header */}
+        {isAuthenticated && (
+          <>
+            <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
+              <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+                <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
+                    🌊
+                  </div>
+                  <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+                    Swimma
+                  </h1>
+                </Link>
 
-            <div className="flex items-center gap-4">
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex gap-2">
-                <Link
-                  to="/"
-                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
-                >
-                  <Home className="w-4 h-4" />
-                  Dashboard
-                </Link>
-                <Link
-                  to="/sessions"
-                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
-                >
-                  <List className="w-4 h-4" />
-                  Sessions
-                </Link>
-                <Link
-                  to="/insights"
-                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
-                >
-                  <BarChart3 className="w-4 h-4" />
-                  Insights
-                </Link>
-                <Link
-                  to="/training"
-                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
-                >
-                  <Target className="w-4 h-4" />
-                  Training
-                </Link>
-                <Link
-                  to="/techniques"
-                  className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  Techniques
-                </Link>
-                <Link
-                  to="/upload"
-                  className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
-                >
-                  <UploadIcon className="w-4 h-4" />
-                  Upload
-                </Link>
-              </nav>
+                <div className="flex items-center gap-4">
+                  {/* Desktop Navigation */}
+                  <nav className="hidden md:flex gap-2">
+                    <Link
+                      to="/"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <Home className="w-4 h-4" />
+                      Home
+                    </Link>
+                    <Link
+                      to="/swims"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <List className="w-4 h-4" />
+                      Swims
+                    </Link>
+                    <Link
+                      to="/insight"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <BarChart3 className="w-4 h-4" />
+                      Insight
+                    </Link>
+                    <Link
+                      to="/train"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <Target className="w-4 h-4" />
+                      Train
+                    </Link>
+                    <Link
+                      to="/learn"
+                      className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      Learn
+                    </Link>
+                    <Link
+                      to="/upload"
+                      className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
+                    >
+                      <UploadIcon className="w-4 h-4" />
+                      Upload
+                    </Link>
+                  </nav>
 
-              {/* Desktop User Menu */}
-              <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
-                <div className="flex items-center gap-2 text-sm">
-                  <User className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-300">
-                    {user?.user_metadata?.full_name?.split(' ')[0] ||
-                     user?.user_metadata?.name?.split(' ')[0] ||
-                     user?.email?.split('@')[0] ||
-                     'User'}
-                  </span>
+                  {/* Desktop User Menu */}
+                  <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
+                    <div className="flex items-center gap-2 text-sm">
+                      <User className="w-4 h-4 text-gray-400" />
+                      <span className="text-gray-300">
+                        {user?.user_metadata?.full_name?.split(' ')[0] ||
+                         user?.user_metadata?.name?.split(' ')[0] ||
+                         user?.email?.split('@')[0] ||
+                         'User'}
+                      </span>
+                    </div>
+                    <button
+                      onClick={handleSignOut}
+                      className="p-2 rounded-lg hover:bg-dark-card transition-colors text-gray-400 hover:text-red-400"
+                      title="Sign out"
+                    >
+                      <LogOut className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Desktop Theme Toggle */}
+                  <div className="hidden md:block">
+                    <ThemeToggle />
+                  </div>
+
+                  {/* Mobile Menu Button */}
+                  <MobileMenu user={user} onSignOut={handleSignOut} />
                 </div>
-                <button
-                  onClick={handleSignOut}
-                  className="p-2 rounded-lg hover:bg-dark-card transition-colors text-gray-400 hover:text-red-400"
-                  title="Sign out"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
               </div>
-
-              {/* Desktop Theme Toggle */}
-              <div className="hidden md:block">
-                <ThemeToggle />
-              </div>
-
-              {/* Mobile Menu */}
-              <MobileMenu user={user} onSignOut={handleSignOut} />
-            </div>
-          </div>
-        </header>
-      )}
+            </header>
+            {/* Mobile Menu Dropdown - Full Width */}
+            <MobileMenu user={user} onSignOut={handleSignOut} menuOnly={true} />
+          </>
+        )}
 
       {/* Main Content */}
       <main className="pb-20 md:pb-0">
@@ -154,7 +159,7 @@ function AppContent() {
               }
             />
             <Route
-              path="/sessions"
+              path="/swims"
               element={
                 <ProtectedRoute>
                   <Sessions />
@@ -162,7 +167,7 @@ function AppContent() {
               }
             />
             <Route
-              path="/session/:id"
+              path="/swim/:id"
               element={
                 <ProtectedRoute>
                   <SessionDetail />
@@ -170,7 +175,7 @@ function AppContent() {
               }
             />
             <Route
-              path="/insights"
+              path="/insight"
               element={
                 <ProtectedRoute>
                   <Insights />
@@ -178,13 +183,18 @@ function AppContent() {
               }
             />
             <Route
-              path="/training"
+              path="/train"
               element={
                 <ProtectedRoute>
                   <Training />
                 </ProtectedRoute>
               }
             />
+            {/* Redirect old URLs */}
+            <Route path="/sessions" element={<Navigate to="/swims" replace />} />
+            <Route path="/session/:id" element={<Navigate to="/swim/:id" replace />} />
+            <Route path="/insights" element={<Navigate to="/insight" replace />} />
+            <Route path="/training" element={<Navigate to="/train" replace />} />
             <Route
               path="/patterns"
               element={
@@ -203,7 +213,7 @@ function AppContent() {
             />
             <Route
               path="/ask"
-              element={<Navigate to="/training" replace />}
+              element={<Navigate to="/train" replace />}
             />
             <Route
               path="/upload"
@@ -214,7 +224,7 @@ function AppContent() {
               }
             />
             <Route
-              path="/techniques"
+              path="/learn"
               element={
                 <ProtectedRoute>
                   <Techniques key="library" />
@@ -222,23 +232,27 @@ function AppContent() {
               }
             />
             <Route
-              path="/techniques/:articleId"
+              path="/learn/:articleId"
               element={
                 <ProtectedRoute>
                   <Techniques key="article" />
                 </ProtectedRoute>
               }
             />
+            {/* Redirect old URLs */}
+            <Route path="/techniques" element={<Navigate to="/learn" replace />} />
+            <Route path="/techniques/:articleId" element={<Navigate to="/learn/:articleId" replace />} />
           </Routes>
         </Suspense>
       </main>
 
-      {/* Mobile Bottom Navigation */}
-      {isAuthenticated && <MobileBottomNav />}
+        {/* Mobile Bottom Navigation */}
+        {isAuthenticated && <MobileBottomNav />}
 
-      {/* Developer Tools (dev only) */}
-      {isAuthenticated && <DevTools />}
-    </div>
+        {/* Developer Tools (dev only) */}
+        {isAuthenticated && <DevTools />}
+      </div>
+    </MobileMenuProvider>
   );
 }
 

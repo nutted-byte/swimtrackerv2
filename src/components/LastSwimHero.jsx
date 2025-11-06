@@ -7,9 +7,14 @@ import { tokens } from '../design/tokens';
 import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
 import { EfficiencyBadge } from './ui/EfficiencyBadge';
 import { PaceComparison } from './ui/PaceComparison';
+import { DPSBadge } from './ui/DPSBadge';
+import { DPSComparison } from './ui/DPSComparison';
 import { formatDuration } from '../utils/formatters';
+import { useTheme } from '../context/ThemeContext';
+import { calculateDPS, calculateAverageDPS } from '../utils/strokeEfficiency';
 
 export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace, deepAnalysis = null, summary = null }) => {
+  const { isDark } = useTheme();
   const {
     analysisState,
     handleAnalyzeSwim,
@@ -28,6 +33,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
   const avgSwolf = sessions.filter(s => s.swolf > 0).length > 1
     ? sessions.filter(s => s.swolf > 0).reduce((sum, s) => sum + s.swolf, 0) / sessions.filter(s => s.swolf > 0).length
     : 0;
+
+  // Calculate DPS for current swim and average
+  const currentDPS = calculateDPS(swim);
+  const avgDPS = calculateAverageDPS(sessions);
 
   // Calculate relative time
   const getRelativeTime = (dateString) => {
@@ -77,12 +86,18 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="bg-gradient-to-br from-primary-500/15 to-accent-blue/10 border-primary-500/30">
+      <Card className={`
+        bg-gradient-to-br border
+        ${isDark
+          ? 'from-primary-500/15 to-accent-blue/10 border-primary-500/30'
+          : 'from-primary-50 to-blue-50 border-primary-200'
+        }
+      `}>
         {/* Header with Date */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-2">
-            <Calendar className={`${tokens.icons.md} text-primary-400`} />
-            <span className="text-sm text-gray-400">
+            <Calendar className={`${tokens.icons.md} ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
+            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               {fullDate} • {swimTime}
             </span>
           </div>
@@ -90,7 +105,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} text-primary-400`}
+            className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-700'}`}
           >
             Your latest swim
           </motion.h2>
@@ -104,7 +119,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.3 }}
             className="mb-6"
           >
-            <p className="text-base text-gray-300 leading-relaxed">
+            <p className={`text-base leading-relaxed ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
               {summary}
             </p>
           </motion.div>
@@ -120,9 +135,17 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           {/* Efficiency Badge */}
           <EfficiencyBadge swolf={swim.swolf} avgSwolf={avgSwolf} />
 
+          {/* DPS Badge */}
+          {currentDPS > 0 && (
+            <DPSBadge dps={currentDPS} />
+          )}
+
           {/* Pacing Strategy Badge */}
           {deepAnalysis?.pacing?.strategy && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-dark-bg/60 border border-dark-border/50 rounded-lg">
+            <div className={`
+              inline-flex items-center gap-2 px-4 py-2 rounded-lg border
+              ${isDark ? 'bg-dark-bg/60 border-dark-border/50' : 'bg-white border-slate-200'}
+            `}>
               {deepAnalysis.pacing.strategy === 'negative' && (
                 <>
                   <Zap className={`${tokens.icons.sm} text-accent-blue`} />
@@ -131,17 +154,17 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               )}
               {deepAnalysis.pacing.strategy === 'even' && (
                 <>
-                  <BarChart2 className={`${tokens.icons.sm} text-primary-400`} />
-                  <span className="text-sm font-medium text-primary-400">Even Pace</span>
+                  <BarChart2 className={`${tokens.icons.sm} ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
+                  <span className={`text-sm font-medium ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>Even Pace</span>
                 </>
               )}
               {deepAnalysis.pacing.strategy === 'positive' && (
                 <>
-                  <TrendingDown className={`${tokens.icons.sm} text-gray-400`} />
-                  <span className="text-sm font-medium text-gray-400">Positive Split</span>
+                  <TrendingDown className={`${tokens.icons.sm} ${isDark ? 'text-gray-400' : 'text-slate-500'}`} />
+                  <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>Positive Split</span>
                 </>
               )}
-              <span className="text-xs text-gray-500 ml-1">
+              <span className={`text-xs ml-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
                 ({deepAnalysis.pacing.consistency})
               </span>
             </div>
@@ -155,18 +178,29 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             onClick={() => onViewDetails(swim.id)}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
+            className={`
+              rounded-lg p-4 border transition-all cursor-pointer
+              ${isDark
+                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
+                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+              }
+            `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               <TrendingUp className={tokens.icons.sm} />
               Distance
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {(swim.distance / 1000).toFixed(2)} km
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
               {Math.round(swim.distance / 25)} lengths
             </p>
+            {currentDPS > 0 && avgDPS > 0 && (
+              <div className={`mt-2 pt-2 border-t ${isDark ? 'border-dark-border/30' : 'border-slate-200'}`}>
+                <DPSComparison currentDPS={currentDPS} averageDPS={avgDPS} />
+              </div>
+            )}
           </motion.div>
 
           <motion.div
@@ -174,22 +208,28 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             onClick={() => onViewDetails(swim.id)}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
+            className={`
+              rounded-lg p-4 border transition-all cursor-pointer
+              ${isDark
+                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
+                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+              }
+            `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               <Clock className={tokens.icons.sm} />
               Duration
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {formatDuration(swim.duration)}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
               min:sec
             </p>
             {swim.calories > 0 && (
-              <div className="mt-2 pt-2 border-t border-dark-border/30 flex items-center gap-1.5">
+              <div className={`mt-2 pt-2 border-t flex items-center gap-1.5 ${isDark ? 'border-dark-border/30' : 'border-slate-200'}`}>
                 <Flame className="w-3 h-3 text-accent-coral" />
-                <span className="text-xs text-gray-400">{swim.calories} cal</span>
+                <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>{swim.calories} cal</span>
               </div>
             )}
           </motion.div>
@@ -199,18 +239,24 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             onClick={() => onViewDetails(swim.id)}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
+            className={`
+              rounded-lg p-4 border transition-all cursor-pointer
+              ${isDark
+                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
+                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+              }
+            `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               <Activity className={tokens.icons.sm} />
               Pace
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>
               {formatPace(swim.pace)}
             </p>
-            <p className="text-xs text-gray-500 mt-1">min/100m</p>
+            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>min/100m</p>
             {avgPace > 0 && (
-              <div className="mt-2 pt-2 border-t border-dark-border/30">
+              <div className={`mt-2 pt-2 border-t ${isDark ? 'border-dark-border/30' : 'border-slate-200'}`}>
                 <PaceComparison currentPace={swim.pace} averagePace={avgPace} />
               </div>
             )}
@@ -221,16 +267,22 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
             onClick={() => onViewDetails(swim.id)}
-            className="bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50 transition-all cursor-pointer"
+            className={`
+              rounded-lg p-4 border transition-all cursor-pointer
+              ${isDark
+                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
+                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+              }
+            `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-gray-400 text-sm mb-2`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
               <Target className={tokens.icons.sm} />
               {swim.swolf > 0 ? 'SWOLF' : 'Strokes'}
             </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-primary-400`}>
+            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>
               {swim.swolf > 0 ? swim.swolf : swim.strokes.toLocaleString()}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
               {swim.swolf > 0 ? 'Efficiency score' : 'Total strokes'}
             </p>
           </motion.div>
@@ -261,11 +313,17 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             )}
           </button>
           <Link
-            to="/sessions"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-dark-bg/60 hover:bg-dark-bg/80 border border-dark-border/50 hover:border-primary-500/50 rounded-lg transition-all text-sm font-medium"
+            to="/swims"
+            className={`
+              inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium border
+              ${isDark
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80 border-dark-border/50 hover:border-primary-500/50'
+                : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-primary-400 shadow-sm'
+              }
+            `}
           >
             <BarChart3 className="w-4 h-4" />
-            View Sessions
+            View All Swims
           </Link>
         </motion.div>
 

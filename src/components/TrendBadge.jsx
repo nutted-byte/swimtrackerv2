@@ -1,27 +1,33 @@
 import { memo } from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
+  const { isDark } = useTheme();
+
   if (!trend) return null;
 
   const getTrendConfig = () => {
     switch (trend) {
       case 'improving':
         return {
-          color: 'bg-green-500/20 text-green-400 border-green-500/30',
+          colorDark: 'bg-green-500/20 text-green-400 border-green-500/30',
+          colorLight: 'bg-green-50 text-green-700 border-green-200',
           icon: TrendingUp,
           label: 'Improving'
         };
       case 'declining':
         return {
-          color: 'bg-red-500/20 text-red-400 border-red-500/30',
+          colorDark: 'bg-red-500/20 text-red-400 border-red-500/30',
+          colorLight: 'bg-red-50 text-red-700 border-red-200',
           icon: TrendingDown,
           label: 'Declining'
         };
       case 'stable':
       default:
         return {
-          color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+          colorDark: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+          colorLight: 'bg-yellow-50 text-yellow-700 border-yellow-200',
           icon: Minus,
           label: 'Stable'
         };
@@ -43,9 +49,11 @@ export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
     lg: 16
   };
 
+  const colorClass = isDark ? config.colorDark : config.colorLight;
+
   return (
     <div
-      className={`inline-flex items-center rounded-full border ${config.color} ${sizeClasses[size]}`}
+      className={`inline-flex items-center rounded-full border ${colorClass} ${sizeClasses[size]}`}
       title={`${metric ? `${metric} is ` : ''}${config.label.toLowerCase()}`}
     >
       <Icon size={iconSizes[size]} />

@@ -4,8 +4,11 @@ import { Card } from './Card';
 import { Tooltip } from './Tooltip';
 import { Calendar, Activity, Zap, TrendingUp, Clock, Heart, Waves, Flame, Award, TrendingDown } from 'lucide-react';
 import { formatDuration } from '../utils/formatters';
+import { useTheme } from '../context/ThemeContext';
 
 export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
+  const { isDark } = useTheme();
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -91,7 +94,11 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
               <span>{formatTime(session.date)}</span>
             </div>
             <div className="flex items-baseline gap-2">
-              <h3 className="font-display text-3xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+              <h3 className={`font-display text-3xl font-bold ${
+                isDark
+                  ? 'bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent'
+                  : 'text-primary-600'
+              }`}>
                 {formatDistance(session.distance)}
               </h3>
               <span className="text-content-tertiary text-sm">

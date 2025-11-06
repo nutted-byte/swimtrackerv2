@@ -73,7 +73,7 @@ export const TechniqueCard = ({ recommendation }) => {
           {articlesToShow.map((currentArticle, index) => (
             <Link
               key={currentArticle.id}
-              to={`/techniques/${currentArticle.id}`}
+              to={`/learn/${currentArticle.id}`}
               className="block"
             >
               <motion.div

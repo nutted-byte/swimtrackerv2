@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { tokens } from '../../design/tokens';
+import { useTheme } from '../../context/ThemeContext';
 
 /**
  * PageHeader
@@ -14,12 +15,14 @@ export const PageHeader = ({
   title,
   actions
 }) => {
+  const { isDark } = useTheme();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className={`sticky top-0 ${tokens.zIndex.sticky} -mx-4 px-4 py-3 ${tokens.margin.section} bg-dark-bg/95 backdrop-blur-sm border-b border-dark-border`}
+      className={`py-3 ${tokens.margin.section}`}
     >
       <div className={`flex items-center justify-between ${tokens.container.xl} mx-auto`}>
         <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold}`}>

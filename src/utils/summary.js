@@ -3,6 +3,8 @@
  * Generates natural language summaries and groups sessions by time periods
  */
 
+import { formatDuration } from './formatters';
+
 /**
  * Group sessions by month/year
  * @param {Array} sessions - Sessions to group
@@ -96,7 +98,9 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
   const lengths = Math.round(lastSwim.distance / 25);
 
   // First sentence: Basic stats
-  let summary = `You swam ${lengths} lengths in ${lastSwim.duration} minutes`;
+  const mins = Math.floor(lastSwim.duration);
+  const secs = Math.round((lastSwim.duration - mins) * 60);
+  let summary = `You swam ${lengths} lengths in ${mins} mins ${secs} seconds`;
 
   if (lastSwim.calories && lastSwim.calories > 0) {
     summary += ` and burnt ${lastSwim.calories} calories`;

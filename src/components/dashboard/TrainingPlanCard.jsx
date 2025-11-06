@@ -70,7 +70,7 @@ export const TrainingPlanCard = () => {
           </div>
 
           <Link
-            to="/training"
+            to="/train"
             className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors font-medium"
           >
             Create Training Plan
@@ -180,7 +180,7 @@ export const TrainingPlanCard = () => {
 
         {/* Action Button */}
         <Link
-          to="/training"
+          to="/train"
           className="flex items-center justify-between w-full px-4 py-2.5 bg-accent-blue/10 hover:bg-accent-blue/20 border border-accent-blue/30 rounded-lg transition-colors group"
         >
           <span className="font-semibold text-sm text-accent-blue">View Full Plan</span>

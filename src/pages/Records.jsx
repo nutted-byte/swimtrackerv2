@@ -92,7 +92,7 @@ export const Records = () => {
       >
         <Card
           className={`bg-gradient-to-br ${colorClasses[color]} cursor-pointer`}
-          onClick={() => session && navigate(`/session/${session.id}`, { state: { from: '/records', label: 'Records' } })}
+          onClick={() => session && navigate(`/swim/${session.id}`, { state: { from: '/records', label: 'Records' } })}
         >
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 rounded-xl bg-dark-bg/50">
@@ -147,7 +147,7 @@ export const Records = () => {
         actions={
           <>
             <Link
-              to="/sessions"
+              to="/swims"
               className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
             >
               <BarChart3 className={tokens.icons.sm} />

@@ -1,9 +1,7 @@
-// Technique content index
-// Article content moved to separate file to optimize token usage
-import { techniqueArticlesContent } from './content';
+// Technique articles metadata
+// Content is lazy-loaded to optimize token usage
 
-// Article metadata (lightweight)
-const articlesMetadata = {
+export const techniqueArticlesMetadata = {
   'understanding-swolf': {
     id: 'understanding-swolf',
     title: 'Understanding SWOLF: Your Efficiency Score',
@@ -104,79 +102,31 @@ const articlesMetadata = {
   }
 };
 
-// Combine metadata with content
+// Lazy-load article content only when needed
+export const loadArticleContent = async (articleId) => {
+  try {
+    const module = await import(`./content/${articleId}.js`);
+    return module.default;
+  } catch (error) {
+    console.error(`Failed to load article content for ${articleId}:`, error);
+    return null;
+  }
+};
+
+// Combined article data (metadata + content)
+// This will be populated lazily
 export const techniqueArticles = {};
-Object.keys(articlesMetadata).forEach(id => {
+
+// Initialize articles with metadata
+Object.keys(techniqueArticlesMetadata).forEach(id => {
   techniqueArticles[id] = {
-    ...articlesMetadata[id],
-    content: techniqueArticlesContent[id] || ''
+    ...techniqueArticlesMetadata[id],
+    content: null, // Will be loaded on demand
+    _loadContent: async function() {
+      if (!this.content) {
+        this.content = await loadArticleContent(id);
+      }
+      return this.content;
+    }
   };
 });
-
-// Helper functions
-export const getArticlesByCategory = (category) => {
-  return Object.values(techniqueArticles).filter(
-    article => article.category === category
-  );
-};
-
-export const getArticlesByLevel = (level) => {
-  return Object.values(techniqueArticles).filter(
-    article => article.level === level
-  );
-};
-
-export const getArticle = (id) => {
-  return techniqueArticles[id] || null;
-};
-
-export const getAllArticles = () => {
-  return Object.values(techniqueArticles);
-};
-
-export const categories = [
-  { id: 'efficiency', name: 'Efficiency & SWOLF', icon: '⚡' },
-  { id: 'technique', name: 'Technique', icon: '🏊' },
-  { id: 'pacing', name: 'Pacing & Strategy', icon: '⏱️' },
-  { id: 'drills', name: 'Drills & Workouts', icon: '💪' }
-];
-
-export const levels = [
-  { id: 'beginner', name: 'Beginner', color: 'green' },
-  { id: 'intermediate', name: 'Intermediate', color: 'blue' },
-  { id: 'advanced', name: 'Advanced', color: 'purple' }
-];
-
-// Learning Paths - Guided journeys through related content
-export const learningPaths = [
-  {
-    id: 'getting-started',
-    name: 'Getting Started',
-    description: 'Essential fundamentals for every swimmer',
-    icon: '🌊',
-    level: 'beginner',
-    articleIds: ['understanding-swolf', 'streamline-technique', 'improve-freestyle-technique'],
-    color: 'from-green-500/20 to-green-500/5',
-    estimatedTime: '12 min'
-  },
-  {
-    id: 'efficiency-master',
-    name: 'Efficiency Master',
-    description: 'Swim smarter, not harder',
-    icon: '⚡',
-    level: 'intermediate',
-    articleIds: ['understanding-swolf', 'reduce-stroke-count', 'streamline-technique'],
-    color: 'from-blue-500/20 to-blue-500/5',
-    estimatedTime: '10 min'
-  },
-  {
-    id: 'technical-excellence',
-    name: 'Technical Excellence',
-    description: 'Perfect your form and breathing',
-    icon: '🏊',
-    level: 'intermediate',
-    articleIds: ['streamline-technique', 'improve-freestyle-technique', 'breathing-patterns'],
-    color: 'from-purple-500/20 to-purple-500/5',
-    estimatedTime: '12 min'
-  }
-];

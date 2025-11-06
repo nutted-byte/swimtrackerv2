@@ -40,7 +40,7 @@ export const Dashboard = () => {
   // Memoize expensive calculations to prevent re-computation on every render
   // Analyze progress from real data
   const analysis = useMemo(() => analyzeProgress(sessions, 30), [sessions]);
-  const coachingInsight = useMemo(() => generateCoachingInsight(analysis), [analysis]);
+  const coachingInsight = useMemo(() => generateCoachingInsight(analysis, sessions), [analysis, sessions]);
 
   const { status, message, improving, metrics } = analysis;
 
@@ -154,7 +154,7 @@ export const Dashboard = () => {
   const topRecommendation = deepAnalysis?.recommendations?.[0] || null;
 
   const handleSessionClick = (session) => {
-    navigate(`/session/${session.id}`, { state: { from: '/', label: 'Dashboard' } });
+    navigate(`/swim/${session.id}`, { state: { from: '/', label: 'Home' } });
   };
 
   const handleDelete = (sessionId, e) => {
@@ -166,20 +166,6 @@ export const Dashboard = () => {
 
   return (
     <PageContainer>
-      <PageHeader
-        title="Dashboard"
-        actions={
-          <>
-            <Link
-              to="/upload"
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Upload className={tokens.icons.sm} />
-              Upload
-            </Link>
-          </>
-        }
-      />
 
       {/* 1. Last Swim Hero - MOST PROMINENT */}
       {lastSwim && (
@@ -187,13 +173,17 @@ export const Dashboard = () => {
           swim={lastSwim}
           sessions={sessions}
           onRate={rateSession}
-          onViewDetails={(id) => navigate(`/session/${id}`, { state: { from: '/', label: 'Dashboard' } })}
+          onViewDetails={(id) => navigate(`/swim/${id}`, { state: { from: '/', label: 'Home' } })}
           formatPace={formatPace}
           deepAnalysis={deepAnalysis}
           summary={swimSummary}
         />
       )}
 
+      {/* 2. Monthly Streak */}
+      {sessions.length > 0 && (
+        <StreakCard sessions={sessions} />
+      )}
 
       {/* 3. Training Plan */}
       <TrainingPlanCard />
@@ -203,7 +193,7 @@ export const Dashboard = () => {
         <TechniqueCard recommendation={techniqueRecommendation} />
       )}
 
-      {/* 5. Recent Sessions */}
+      {/* 5. Recent Swims */}
       {recentSessions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -213,14 +203,14 @@ export const Dashboard = () => {
           <Card>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="font-display text-2xl font-bold mb-1">Recent Sessions</h2>
+                <h2 className="font-display text-2xl font-bold mb-1">Recent Swims</h2>
                 <p className="text-gray-400 text-sm">Last 3 months of activity</p>
               </div>
               <Link
-                to="/sessions"
+                to="/swims"
                 className="inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 transition-colors group"
               >
-                <span>View all sessions</span>
+                <span>View all swims</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

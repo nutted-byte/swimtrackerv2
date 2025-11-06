@@ -58,7 +58,7 @@ export const Patterns = () => {
         actions={
           <>
             <Link
-              to="/insights"
+              to="/insight"
               className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
             >
               <BarChart3 className={tokens.icons.sm} />
@@ -120,7 +120,7 @@ export const Patterns = () => {
                 return (
                   <div
                     key={index}
-                    onClick={() => navigate(`/session/${anomaly.session.id}`, { state: { from: '/patterns', label: 'Patterns' } })}
+                    onClick={() => navigate(`/swim/${anomaly.session.id}`, { state: { from: '/patterns', label: 'Patterns' } })}
                     className={`p-4 rounded-lg border cursor-pointer transition-all hover:scale-[1.02] ${
                       isPositive
                         ? 'bg-green-500/10 border-green-500/30 hover:border-green-500/50'

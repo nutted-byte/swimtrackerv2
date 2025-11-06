@@ -60,6 +60,9 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
     } else if (metric === 'swolf' && data.swolf > 0 && previousData?.swolf > 0) {
       currentValue = data.swolf;
       deltaInfo = calculateDelta(data.swolf, previousData.swolf, 'swolf');
+    } else if (metric === 'dps' && data.dps > 0 && previousData?.dps > 0) {
+      currentValue = data.dps;
+      deltaInfo = calculateDelta(data.dps, previousData.dps, 'dps');
     }
 
     const milestoneType = getMilestoneType(data);
@@ -75,11 +78,21 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
         )}
 
         {metric === 'pace' && (
-          <div>
-            <p className="font-display font-semibold text-accent-blue text-lg">
-              {formatPace(data.pace)}
-            </p>
-            <p className="text-xs text-gray-500">min/100m</p>
+          <div className="space-y-2">
+            <div>
+              <p className="font-display font-semibold text-accent-blue text-lg">
+                {formatPace(data.pace)}
+              </p>
+              <p className="text-xs text-gray-500">min/100m</p>
+            </div>
+            {data.swolf > 0 && (
+              <div className="pt-2 border-t border-dark-border">
+                <p className="font-display font-semibold text-purple-400">
+                  SWOLF: {data.swolf}
+                </p>
+                <p className="text-xs text-gray-500">efficiency score</p>
+              </div>
+            )}
           </div>
         )}
         {metric === 'distance' && (
@@ -94,6 +107,14 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
             <p className="font-display font-semibold text-accent-blue text-lg">
               SWOLF: {data.swolf}
             </p>
+          </div>
+        )}
+        {metric === 'dps' && data.dps > 0 && (
+          <div>
+            <p className="font-display font-semibold text-accent-blue text-lg">
+              {data.dps.toFixed(2)}m/stroke
+            </p>
+            <p className="text-xs text-gray-500">Distance Per Stroke</p>
           </div>
         )}
 
@@ -132,7 +153,7 @@ export const InsightsChart = ({
 }) => {
   const lineChartDomain = calculateDomain(
     enrichedChartData,
-    metric === 'pace' ? 'paceSeconds' : metric
+    metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric
   );
 
   const barChartDomain = calculateDomain(enrichedChartData, 'distance');
@@ -237,6 +258,9 @@ export const InsightsChart = ({
     );
   }
 
+  // Calculate swolf domain for dual axis
+  const swolfDomain = calculateDomain(enrichedChartData, 'swolf');
+
   // Default: line chart
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -246,23 +270,42 @@ export const InsightsChart = ({
             <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3}/>
             <stop offset="95%" stopColor="#00d4ff" stopOpacity={0}/>
           </linearGradient>
+          <linearGradient id="colorSwolf" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#a78bfa" stopOpacity={0.2}/>
+            <stop offset="95%" stopColor="#a78bfa" stopOpacity={0}/>
+          </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
         <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
         <YAxis
+          yAxisId="left"
           stroke="#6b7280"
           style={{ fontSize: '12px' }}
           domain={lineChartDomain}
+          reversed={metric === 'pace'}
           tickFormatter={(value) => {
             if (metric === 'pace') return `${Math.floor(value / 60)}:${(value % 60).toFixed(0).padStart(2, '0')}`;
             if (metric === 'distance') return `${value.toFixed(1)}km`;
+            if (metric === 'dps') return `${value.toFixed(2)}m`;
             return value.toFixed(0);
           }}
         />
+        {metric === 'pace' && (
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            stroke="#a78bfa"
+            style={{ fontSize: '11px', opacity: 0.6 }}
+            domain={swolfDomain}
+            tickFormatter={(value) => value.toFixed(0)}
+            label={{ value: 'SWOLF', angle: 90, position: 'insideRight', fill: '#a78bfa', opacity: 0.6 }}
+          />
+        )}
         <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
         <Area
+          yAxisId="left"
           type="monotone"
-          dataKey={metric === 'pace' ? 'paceSeconds' : metric}
+          dataKey={metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric}
           stroke="#00d4ff"
           strokeWidth={3}
           fill="url(#colorMetric)"
@@ -282,6 +325,21 @@ export const InsightsChart = ({
           isAnimationActive
           animationDuration={800}
         />
+        {metric === 'pace' && (
+          <Line
+            yAxisId="right"
+            type="monotone"
+            dataKey="swolf"
+            stroke="#a78bfa"
+            strokeWidth={1.5}
+            strokeDasharray="3 3"
+            opacity={0.5}
+            dot={false}
+            activeDot={{ r: 5, fill: '#a78bfa', opacity: 1 }}
+            isAnimationActive
+            animationDuration={800}
+          />
+        )}
         {showRollingAvg && (
           <Line
             type="monotone"
@@ -310,7 +368,7 @@ export const InsightsChart = ({
           <Line
             type="monotone"
             data={previousWindowData}
-            dataKey={metric === 'pace' ? 'paceSeconds' : metric}
+            dataKey={metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric}
             stroke="#6b7280"
             strokeWidth={2}
             strokeDasharray="3 3"

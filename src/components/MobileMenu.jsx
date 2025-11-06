@@ -1,136 +1,133 @@
-import { useState } from 'react';
+import { useState, createContext, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Upload, LogOut, User, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
+import { useTheme } from '../context/ThemeContext';
 
-export const MobileMenu = ({ user, onSignOut }) => {
+// Create a context to share menu state
+const MobileMenuContext = createContext();
+
+export const MobileMenuProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
+  return (
+    <MobileMenuContext.Provider value={{ isOpen, toggleMenu, closeMenu }}>
+      {children}
+    </MobileMenuContext.Provider>
+  );
+};
+
+const useMobileMenu = () => {
+  const context = useContext(MobileMenuContext);
+  if (!context) {
+    // Fallback for when used outside provider
+    const [isOpen, setIsOpen] = useState(false);
+    return {
+      isOpen,
+      toggleMenu: () => setIsOpen(!isOpen),
+      closeMenu: () => setIsOpen(false)
+    };
+  }
+  return context;
+};
+
+export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
+  const { isOpen, toggleMenu, closeMenu } = useMobileMenu();
+  const { isDark } = useTheme();
+  const location = useLocation();
+
   const isActive = (path) => location.pathname.startsWith(path);
 
-  return (
-    <>
-      {/* Hamburger Button */}
-      <button
-        onClick={toggleMenu}
-        className="md:hidden p-2 rounded-lg hover:bg-dark-card transition-colors text-gray-400 hover:text-gray-200"
-        aria-label="Menu"
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-
-      {/* Overlay */}
+  // If menuOnly is true, only render the dropdown menu
+  if (menuOnly) {
+    return (
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeMenu}
-            className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Slide-out Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ height: 0 }}
+            animate={{ height: 'auto' }}
+            exit={{ height: 0 }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="md:hidden fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-dark-card border-l border-dark-border z-50 overflow-y-auto"
+            className={`md:hidden overflow-hidden border-b sticky top-[73px] z-40 ${
+              isDark
+                ? 'bg-dark-card border-dark-border'
+                : 'bg-white border-slate-200'
+            }`}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-dark-border">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
-                  🌊
-                </div>
-                <div>
-                  <h2 className="font-display text-lg font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
-                    Swimma
-                  </h2>
-                  <p className="text-xs text-gray-400">Menu</p>
-                </div>
-              </div>
-              <button
-                onClick={closeMenu}
-                className="p-2 rounded-lg hover:bg-dark-bg transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* User Info */}
-            <div className="p-4 border-b border-dark-border bg-dark-bg/50">
-              <div className="flex items-center gap-2 text-sm">
-                <User className="w-4 h-4 text-gray-400" />
-                <span className="text-gray-300 truncate">
-                  {user?.user_metadata?.full_name?.split(' ')[0] ||
-                   user?.user_metadata?.name?.split(' ')[0] ||
-                   user?.email?.split('@')[0] ||
-                   'User'}
-                </span>
-              </div>
-            </div>
-
             {/* Menu Items */}
-            <div className="p-4 space-y-2">
-              <Link
-                to="/techniques"
-                onClick={closeMenu}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive('/techniques')
-                    ? 'bg-primary-500/20 text-primary-400'
-                    : 'hover:bg-dark-bg text-gray-300'
-                }`}
-              >
-                <BookOpen className="w-5 h-5" />
-                <span className="font-medium">Techniques</span>
-              </Link>
-
+            <div className="p-6 space-y-3">
+              {/* 1. Upload */}
               <Link
                 to="/upload"
                 onClick={closeMenu}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive('/upload')
-                    ? 'bg-primary-500/20 text-primary-400'
-                    : 'bg-primary-500 hover:bg-primary-600 text-white'
-                }`}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors bg-primary-500 hover:bg-primary-600 text-white"
               >
                 <Upload className="w-5 h-5" />
                 <span className="font-medium">Upload</span>
               </Link>
 
-              <div className="flex items-center justify-between px-4 py-3">
-                <span className="text-sm text-gray-400">Theme</span>
+              {/* 2. Toggle light/dark mode */}
+              <div className={`flex items-center justify-between px-4 py-3 rounded-lg ${
+                isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
+              }`}>
+                <span className={`text-sm font-medium ${
+                  isDark ? 'text-gray-300' : 'text-slate-700'
+                }`}>Toggle light / dark mode</span>
                 <ThemeToggle />
               </div>
-            </div>
 
-            {/* Sign Out */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-dark-border bg-dark-card">
+              {/* 3. Name */}
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
+                isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
+              }`}>
+                <User className={`w-5 h-5 ${isDark ? 'text-gray-400' : 'text-slate-500'}`} />
+                <span className={`font-medium ${
+                  isDark ? 'text-gray-300' : 'text-slate-700'
+                }`}>
+                  {user?.user_metadata?.full_name ||
+                   user?.user_metadata?.name ||
+                   user?.email?.split('@')[0] ||
+                   'User'}
+                </span>
+              </div>
+
+              {/* 4. Logout */}
               <button
                 onClick={() => {
                   closeMenu();
                   onSignOut();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-dark-bg hover:bg-accent-coral/20 text-gray-400 hover:text-accent-coral transition-colors"
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  isDark
+                    ? 'bg-dark-bg hover:bg-accent-coral/20 text-gray-400 hover:text-accent-coral'
+                    : 'bg-slate-50 hover:bg-red-50 text-slate-600 hover:text-red-600'
+                }`}
               >
                 <LogOut className="w-5 h-5" />
-                <span className="font-medium">Sign Out</span>
+                <span className="font-medium">Logout</span>
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    );
+  }
+
+  // Otherwise, only render the hamburger button
+  return (
+    <button
+      onClick={toggleMenu}
+      className={`md:hidden p-2 rounded-lg transition-colors ${
+        isDark
+          ? 'hover:bg-dark-card text-gray-400 hover:text-gray-200'
+          : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+      }`}
+      aria-label="Menu"
+    >
+      {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+    </button>
   );
 };

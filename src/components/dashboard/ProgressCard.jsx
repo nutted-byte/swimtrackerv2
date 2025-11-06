@@ -53,7 +53,7 @@ export const ProgressCard = ({ sessions }) => {
         </div>
 
         <Link
-          to="/insights"
+          to="/insight"
           className="text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 group transition-colors"
         >
           View Full Progress

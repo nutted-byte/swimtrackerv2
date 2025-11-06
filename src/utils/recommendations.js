@@ -2,17 +2,27 @@
  * Recommendation generation utilities
  */
 
+import { calculateStreak } from './streakCalculation';
+import { calculateMomentum } from './momentumCalculation';
+import { getCurrentWeekStats } from './weeklyStats';
+
 /**
  * Generate detailed recommendations based on analysis
  * @param {Object} analysis - Deep analysis results
+ * @param {Array} allSessions - All sessions for streak/momentum context
  * @returns {Array} Array of recommendation objects
  */
-export const generateDetailedRecommendations = (analysis) => {
+export const generateDetailedRecommendations = (analysis, allSessions = []) => {
   const recommendations = [];
 
   if (!analysis) return recommendations;
 
   const { pacing, fatigue, comparative, patterns } = analysis;
+
+  // Get streak and momentum for context-aware recommendations
+  const streak = allSessions.length > 0 ? calculateStreak(allSessions) : 0;
+  const momentum = allSessions.length > 0 ? calculateMomentum(allSessions) : null;
+  const weekStats = allSessions.length > 0 ? getCurrentWeekStats(allSessions) : null;
 
   // Pacing recommendations
   if (pacing?.strategy === 'positive' && pacing.paceChange > 5) {
@@ -105,6 +115,79 @@ export const generateDetailedRecommendations = (analysis) => {
       title: 'Work on Consistency',
       message: 'Your pace consistency could improve. This often comes from technique refinement.',
       action: 'Try 6x100m at target pace with focus on stroke count'
+    });
+  }
+
+  // ========== NEW: Streak-aware recommendations (weekly streaks) ==========
+  if (streak >= 8) {
+    recommendations.push({
+      category: 'motivation',
+      priority: 'positive',
+      title: `${streak}-Week Streak!`,
+      message: `You've swum every week for ${streak} weeks! That's ${Math.floor(streak / 4)} months of consistency.`,
+      action: 'Keep up the weekly routine - consistency is key'
+    });
+  } else if (streak >= 4) {
+    recommendations.push({
+      category: 'motivation',
+      priority: 'positive',
+      title: `${streak}-Week Streak Going Strong!`,
+      message: `You're building excellent weekly consistency. ${streak < 12 ? 'Keep it up to hit 3 months!' : 'Amazing dedication!'}`,
+      action: 'Schedule your swim for this week to maintain the streak'
+    });
+  }
+
+  // ========== NEW: Momentum-based recommendations ==========
+  if (momentum && momentum.trend === 'down' && momentum.percentage < -20) {
+    recommendations.push({
+      category: 'motivation',
+      priority: 'medium',
+      title: 'Get Back on Track',
+      message: `Training dipped ${Math.abs(momentum.percentage)}% recently. Small consistent swims will rebuild momentum.`,
+      action: 'Aim for 2-3 shorter sessions this week to rebuild consistency'
+    });
+  } else if (momentum && momentum.trend === 'up' && momentum.percentage > 20) {
+    recommendations.push({
+      category: 'motivation',
+      priority: 'positive',
+      title: 'Momentum Building!',
+      message: `Training is up ${momentum.percentage}% - you're crushing it! Watch for signs of overtraining.`,
+      action: 'Include at least one easy/recovery swim this week'
+    });
+  }
+
+  // ========== NEW: Weekly training recommendations (adjusted for weekly swimmers) ==========
+  if (weekStats && weekStats.count === 0 && new Date().getDay() >= 3) {
+    recommendations.push({
+      category: 'consistency',
+      priority: 'medium',
+      title: 'No Swim This Week Yet',
+      message: 'Haven\'t swum this week. Try to get one session in to maintain your streak!',
+      action: 'Schedule a swim before Sunday'
+    });
+  }
+
+  // ========== NEW: Forward-looking guidance based on patterns ==========
+  if (patterns?.bestDay && patterns.bestTime && analysis.daysSinceLastSwim >= 2) {
+    const nextBestDay = patterns.bestDay.dayName;
+    const bestTime = patterns.bestTime.time;
+    recommendations.push({
+      category: 'timing',
+      priority: 'low',
+      title: 'Optimize Your Next Swim',
+      message: `It's been ${analysis.daysSinceLastSwim} days. You typically perform best on ${nextBestDay}s in the ${bestTime}.`,
+      action: `Schedule your next swim for a ${nextBestDay} ${bestTime}`
+    });
+  }
+
+  // If been away for a while (>5 days), suggest easy comeback swim
+  if (analysis.daysSinceLastSwim >= 5) {
+    recommendations.push({
+      category: 'comeback',
+      priority: 'medium',
+      title: 'Welcome Back!',
+      message: `${analysis.daysSinceLastSwim} days since last swim. Start with an easy session to rebuild.`,
+      action: 'Do 60-70% of your normal distance at comfortable pace'
     });
   }
 
