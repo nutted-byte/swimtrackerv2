@@ -297,7 +297,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="flex items-center gap-3"
+          className="flex flex-wrap items-center gap-3"
         >
           <button
             onClick={togglePanel}
@@ -312,7 +312,8 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             ) : (
               <>
                 <Sparkles className="w-4 h-4" />
-                Analyse My Swim
+                <span className="hidden sm:inline">Analyse My Swim</span>
+                <span className="sm:hidden">Analyse</span>
               </>
             )}
           </button>
@@ -327,7 +328,8 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             `}
           >
             <BarChart3 className="w-4 h-4" />
-            View All Swims
+            <span className="hidden sm:inline">View All Swims</span>
+            <span className="sm:hidden">Swims</span>
           </Link>
           <ShareButton
             onClick={() => setShareModalOpen(true)}
