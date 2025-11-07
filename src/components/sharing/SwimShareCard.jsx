@@ -126,39 +126,44 @@ export const SwimShareCard = forwardRef(({
             borderRadius: '32px',
             backdropFilter: 'blur(20px)',
             border: '3px solid rgba(0, 212, 255, 0.3)',
-            boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)',
-            paddingTop: '60px',
-            paddingLeft: '30px',
-            paddingRight: '30px',
-            textAlign: 'center'
+            boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)'
           }}>
             <div style={{
-              color: '#66b1c3',
-              fontSize: '20px',
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontWeight: '700',
-              marginBottom: '20px'
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              width: '100%'
             }}>
-              DISTANCE
-            </div>
-            <div className="font-display" style={{
-              color: 'white',
-              fontSize: '110px',
-              lineHeight: '1',
-              fontWeight: '900',
-              letterSpacing: '-0.02em',
-              textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
-              marginBottom: '15px'
-            }}>
-              {swim.distance}
-            </div>
-            <div style={{
-              color: '#d1d5db',
-              fontSize: '28px',
-              fontWeight: '700'
-            }}>
-              meters
+              <div style={{
+                color: '#66b1c3',
+                fontSize: '20px',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                fontWeight: '700',
+                marginBottom: '10px'
+              }}>
+                DISTANCE
+              </div>
+              <div className="font-display" style={{
+                color: 'white',
+                fontSize: '110px',
+                lineHeight: '1',
+                fontWeight: '900',
+                letterSpacing: '-0.02em',
+                textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
+                marginBottom: '8px'
+              }}>
+                {swim.distance}
+              </div>
+              <div style={{
+                color: '#d1d5db',
+                fontSize: '28px',
+                fontWeight: '700'
+              }}>
+                meters
+              </div>
             </div>
           </div>
 
@@ -171,41 +176,46 @@ export const SwimShareCard = forwardRef(({
             borderRadius: '32px',
             backdropFilter: 'blur(20px)',
             border: '3px solid rgba(0, 212, 255, 0.3)',
-            boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)',
-            paddingTop: '60px',
-            paddingLeft: '30px',
-            paddingRight: '30px',
-            textAlign: 'center'
+            boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)'
           }}>
             <div style={{
-              color: '#66b1c3',
-              fontSize: '20px',
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              fontWeight: '700',
-              marginBottom: '20px'
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              width: '100%'
             }}>
-              DURATION
-            </div>
-            <div className="font-display" style={{
-              color: 'white',
-              fontSize: '110px',
-              fontWeight: '900',
-              lineHeight: '1',
-              letterSpacing: '-0.02em',
-              textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
-              fontFeatureSettings: '"tnum"',
-              marginBottom: '15px'
-            }}>
-              {formatDuration(swim.duration)}
-            </div>
-            <div style={{
-              color: 'transparent',
-              fontSize: '28px',
-              fontWeight: '700',
-              height: '28px'
-            }}>
-              &nbsp;
+              <div style={{
+                color: '#66b1c3',
+                fontSize: '20px',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                fontWeight: '700',
+                marginBottom: '10px'
+              }}>
+                DURATION
+              </div>
+              <div className="font-display" style={{
+                color: 'white',
+                fontSize: '110px',
+                fontWeight: '900',
+                lineHeight: '1',
+                letterSpacing: '-0.02em',
+                textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
+                fontFeatureSettings: '"tnum"',
+                marginBottom: '8px'
+              }}>
+                {formatDuration(swim.duration)}
+              </div>
+              <div style={{
+                color: 'transparent',
+                fontSize: '28px',
+                fontWeight: '700',
+                height: '28px'
+              }}>
+                &nbsp;
+              </div>
             </div>
           </div>
 
@@ -219,38 +229,43 @@ export const SwimShareCard = forwardRef(({
               borderRadius: '32px',
               backdropFilter: 'blur(20px)',
               border: '3px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-              paddingTop: '35px',
-              paddingLeft: '30px',
-              paddingRight: '30px',
-              textAlign: 'center'
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
             }}>
               <div style={{
-                color: '#9ca3af',
-                fontSize: '18px',
-                textTransform: 'uppercase',
-                letterSpacing: '3px',
-                fontWeight: '700',
-                marginBottom: '15px'
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                width: '100%'
               }}>
-                PACE
-              </div>
-              <div className="font-display" style={{
-                color: 'white',
-                fontSize: '70px',
-                fontWeight: '900',
-                lineHeight: '1',
-                fontFeatureSettings: '"tnum"',
-                marginBottom: '10px'
-              }}>
-                {formatPace(swim.pace)}
-              </div>
-              <div style={{
-                color: '#6b7280',
-                fontSize: '20px',
-                fontWeight: '600'
-              }}>
-                /100m
+                <div style={{
+                  color: '#9ca3af',
+                  fontSize: '18px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '3px',
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>
+                  PACE
+                </div>
+                <div className="font-display" style={{
+                  color: 'white',
+                  fontSize: '70px',
+                  fontWeight: '900',
+                  lineHeight: '1',
+                  fontFeatureSettings: '"tnum"',
+                  marginBottom: '6px'
+                }}>
+                  {formatPace(swim.pace)}
+                </div>
+                <div style={{
+                  color: '#6b7280',
+                  fontSize: '20px',
+                  fontWeight: '600'
+                }}>
+                  /100m
+                </div>
               </div>
             </div>
           )}
@@ -265,39 +280,44 @@ export const SwimShareCard = forwardRef(({
               borderRadius: '32px',
               backdropFilter: 'blur(20px)',
               border: '3px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-              paddingTop: '35px',
-              paddingLeft: '30px',
-              paddingRight: '30px',
-              textAlign: 'center'
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
             }}>
               <div style={{
-                color: '#9ca3af',
-                fontSize: '18px',
-                textTransform: 'uppercase',
-                letterSpacing: '3px',
-                fontWeight: '700',
-                marginBottom: '15px'
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                width: '100%'
               }}>
-                SWOLF
-              </div>
-              <div className="font-display" style={{
-                color: 'white',
-                fontSize: '70px',
-                fontWeight: '900',
-                lineHeight: '1',
-                fontFeatureSettings: '"tnum"',
-                marginBottom: '10px'
-              }}>
-                {swim.swolf}
-              </div>
-              <div style={{
-                color: 'transparent',
-                fontSize: '20px',
-                fontWeight: '600',
-                height: '20px'
-              }}>
-                &nbsp;
+                <div style={{
+                  color: '#9ca3af',
+                  fontSize: '18px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '3px',
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>
+                  SWOLF
+                </div>
+                <div className="font-display" style={{
+                  color: 'white',
+                  fontSize: '70px',
+                  fontWeight: '900',
+                  lineHeight: '1',
+                  fontFeatureSettings: '"tnum"',
+                  marginBottom: '6px'
+                }}>
+                  {swim.swolf}
+                </div>
+                <div style={{
+                  color: 'transparent',
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  height: '20px'
+                }}>
+                  &nbsp;
+                </div>
               </div>
             </div>
           )}

@@ -50,10 +50,15 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       setLoading(true);
 
+      // Store the current origin to redirect back after auth
+      const currentOrigin = window.location.origin;
+      sessionStorage.setItem('auth_redirect_origin', currentOrigin);
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: currentOrigin,
+          skipBrowserRedirect: false,
         },
       });
 

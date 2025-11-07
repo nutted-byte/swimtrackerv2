@@ -15,6 +15,14 @@ export const generateShareImage = async (element, options = {}) => {
   } = options;
 
   try {
+    // Wait for fonts to load before capturing
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready;
+    }
+
+    // Small delay to ensure layout is complete
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     const canvas = await html2canvas(element, {
       scale,
       backgroundColor,
@@ -25,6 +33,11 @@ export const generateShareImage = async (element, options = {}) => {
       height,
       windowWidth: width,
       windowHeight: height || element.scrollHeight,
+      onclone: (clonedDoc) => {
+        // Ensure fonts are applied in cloned document
+        const clonedElement = clonedDoc.querySelector('[data-html2canvas-clone]') || clonedDoc.body;
+        clonedElement.style.fontFamily = 'Space Grotesk, system-ui, -apple-system, sans-serif';
+      }
     });
 
     return canvas.toDataURL('image/png');

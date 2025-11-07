@@ -4,6 +4,7 @@
  */
 
 import { formatDuration } from './formatters';
+import { calculateDPS, getDPSGrade } from './strokeEfficiency';
 
 /**
  * Group sessions by month/year
@@ -100,13 +101,54 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
   // First sentence: Basic stats
   const mins = Math.floor(lastSwim.duration);
   const secs = Math.round((lastSwim.duration - mins) * 60);
-  let summary = `You swam ${lengths} lengths in ${mins} mins ${secs} seconds`;
+  let summary = `You swam ${lengths} lengths in ${mins} minutes and ${secs} seconds`;
 
   if (lastSwim.calories && lastSwim.calories > 0) {
-    summary += ` and burnt ${lastSwim.calories} calories`;
+    summary += `, burning ${lastSwim.calories} calories`;
   }
 
   summary += '. ';
+
+  // Add efficiency and DPS information
+  const avgSwolf = sessions.filter(s => s.swolf > 0).length > 1
+    ? sessions.filter(s => s.swolf > 0).reduce((sum, s) => sum + s.swolf, 0) / sessions.filter(s => s.swolf > 0).length
+    : 0;
+
+  if (lastSwim.swolf && lastSwim.swolf > 0) {
+    // Get efficiency rating with more conversational labels
+    const getEfficiencyDescription = (currentSwolf, averageSwolf) => {
+      if (!averageSwolf || averageSwolf === 0) {
+        if (currentSwolf < 40) return 'Your efficiency was excellent';
+        if (currentSwolf < 50) return 'Your efficiency was good';
+        return 'There\'s room to improve your efficiency';
+      }
+      const improvement = ((averageSwolf - currentSwolf) / averageSwolf) * 100;
+      if (improvement > 5) return 'Your efficiency was excellent';
+      if (improvement > -5) return 'Your efficiency was good';
+      return 'There\'s room to improve your efficiency';
+    };
+
+    const efficiencyDesc = getEfficiencyDescription(lastSwim.swolf, avgSwolf);
+    summary += `${efficiencyDesc} with a SWOLF score of ${lastSwim.swolf}`;
+    if (avgSwolf > 0) {
+      summary += ` compared to your average of ${avgSwolf.toFixed(0)}`;
+    }
+    summary += '. ';
+  }
+
+  // Add DPS information in plain English
+  const currentDPS = calculateDPS(lastSwim);
+  if (currentDPS > 0) {
+    const { grade } = getDPSGrade(currentDPS);
+    const gradeMap = {
+      'Excellent': 'excellent',
+      'Good': 'good',
+      'Fair': 'fair',
+      'Needs Work': 'could be improved'
+    };
+    const plainGrade = gradeMap[grade] || grade.toLowerCase();
+    summary += `Your stroke length was ${plainGrade} at ${currentDPS.toFixed(2)} meters per stroke. `;
+  }
 
   // Second sentence: Comparison to same distance swims
   const vsSameDistance = deepAnalysis?.comparative?.vsSameDistance;
@@ -122,19 +164,19 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
     const absSecDiff = Math.abs(secDiff);
 
     if (isBest) {
-      summary += `This is your fastest ${distanceKm}km swim ever! 🏆`;
+      summary += `This is your fastest ${distanceKm}km swim ever!`;
     } else if (secDiff < 0) {
       // Faster than best
-      summary += `You were ${Math.round(absSecDiff)} seconds per length faster than your previous best at this distance!`;
+      summary += `You swam ${Math.round(absSecDiff)} seconds faster per length than your previous best at this distance.`;
     } else if (absSecDiff < 1.0) {
       // Very close to best
-      summary += `You were within ${Math.round(absSecDiff)} seconds per length of your best ${distanceKm}km swim - excellent!`;
+      summary += `You were just ${Math.round(absSecDiff)} seconds per length off your best ${distanceKm}km time.`;
     } else if (absSecDiff < 3.0) {
       // Decent performance
-      summary += `This was ${Math.round(absSecDiff)} seconds per length slower than your best ${distanceKm}km swim.`;
+      summary += `You swam ${Math.round(absSecDiff)} seconds per length slower than your best ${distanceKm}km time.`;
     } else {
       // Room for improvement
-      summary += `You have swum ${distanceKm}km faster before - keep training!`;
+      summary += `You've swum this distance faster before - keep at it!`;
     }
   }
 

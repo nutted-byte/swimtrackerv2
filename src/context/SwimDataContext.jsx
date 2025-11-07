@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
 import { hasLocalStorageData, migrateLocalStorageToSupabase } from '../utils/migration';
@@ -14,28 +14,50 @@ export const SwimDataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [migrationStatus, setMigrationStatus] = useState(null);
   const { user, isAuthenticated } = useAuth();
+  const loadedForUser = useRef(null); // Cache: track which user we've loaded data for
 
   /**
-   * Load all sessions for the current user from Supabase
+   * Load recent sessions first (90 days), then load older sessions in background
    */
   const loadSessions = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const { data, error: fetchError } = await supabase
+      // Calculate date 90 days ago
+      const ninetyDaysAgo = new Date();
+      ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
+      // First, load recent sessions (last 90 days) - FAST
+      const { data: recentData, error: recentError } = await supabase
         .from('swim_sessions')
         .select('*')
         .eq('user_id', user.id)
+        .gte('date', ninetyDaysAgo.toISOString())
         .order('date', { ascending: false });
 
-      if (fetchError) throw fetchError;
+      if (recentError) throw recentError;
 
-      setSessions(data || []);
+      // Set recent sessions immediately so UI can render
+      setSessions(recentData || []);
+      setLoading(false); // UI is ready!
+
+      // Then, load older sessions in the background
+      const { data: olderData, error: olderError } = await supabase
+        .from('swim_sessions')
+        .select('*')
+        .eq('user_id', user.id)
+        .lt('date', ninetyDaysAgo.toISOString())
+        .order('date', { ascending: false });
+
+      if (!olderError && olderData && olderData.length > 0) {
+        // Merge older sessions with recent ones
+        setSessions(prev => [...prev, ...olderData]);
+      }
+
     } catch (err) {
       setError('Failed to load sessions');
       console.error('Error loading sessions:', err);
-    } finally {
       setLoading(false);
     }
   };
@@ -78,9 +100,17 @@ export const SwimDataProvider = ({ children }) => {
     if (!isAuthenticated || !user) {
       setSessions([]);
       setLoading(false);
+      loadedForUser.current = null;
       return;
     }
 
+    // Cache: only load if we haven't loaded for this user yet
+    if (loadedForUser.current === user.id) {
+      setLoading(false); // Already loaded, no need to fetch again
+      return;
+    }
+
+    loadedForUser.current = user.id;
     initializeData();
   }, [user, isAuthenticated]);
 

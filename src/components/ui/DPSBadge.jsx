@@ -26,12 +26,14 @@ export const DPSBadge = ({ dps }) => {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border ${colorClasses[color]}`}
+      className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border ${colorClasses[color]}`}
       title={description}
     >
       <Activity className="w-4 h-4" />
-      <span className="text-sm font-medium">{grade} Efficiency</span>
-      <span className="text-xs opacity-75">{dps.toFixed(2)}m/stroke</span>
+      <div className="flex flex-col">
+        <span className="text-sm font-semibold">{grade} Stroke Length</span>
+        <span className="text-xs opacity-75">{dps.toFixed(2)}m/stroke</span>
+      </div>
     </div>
   );
 };

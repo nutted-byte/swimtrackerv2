@@ -7,8 +7,8 @@ import { TrainingPlanProvider } from './context/TrainingPlanContext';
 import { ThemeToggle } from './components/ThemeToggle';
 import { DevTools } from './components/DevTools';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { MobileBottomNav } from './components/MobileBottomNav';
 import { MobileMenu, MobileMenuProvider } from './components/MobileMenu';
+import { ScrollToTop } from './components/ScrollToTop';
 import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User, BookOpen, Target } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 
@@ -48,6 +48,7 @@ function AppContent() {
 
   return (
     <MobileMenuProvider>
+      <ScrollToTop />
       <div className="min-h-screen bg-dark-bg">
         {/* Header */}
         {isAuthenticated && (
@@ -146,7 +147,7 @@ function AppContent() {
         )}
 
       {/* Main Content */}
-      <main className="pb-20 md:pb-0">
+      <main>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -245,9 +246,6 @@ function AppContent() {
           </Routes>
         </Suspense>
       </main>
-
-        {/* Mobile Bottom Navigation */}
-        {isAuthenticated && <MobileBottomNav />}
 
         {/* Developer Tools (dev only) */}
         {isAuthenticated && <DevTools />}

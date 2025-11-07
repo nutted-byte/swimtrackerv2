@@ -1,6 +1,6 @@
 import { useState, createContext, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Upload, LogOut, User, BookOpen } from 'lucide-react';
+import { Menu, X, Upload, LogOut, User, BookOpen, Home, List, BarChart3, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
@@ -59,7 +59,88 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
           >
             {/* Menu Items */}
             <div className="p-6 space-y-3">
-              {/* 1. Upload */}
+              {/* Navigation Links */}
+              <div className="space-y-2 mb-4">
+                <Link
+                  to="/"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    location.pathname === '/'
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : isDark
+                        ? 'text-gray-300 hover:bg-dark-bg/50'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <Home className="w-5 h-5" />
+                  <span className="font-medium">Home</span>
+                </Link>
+
+                <Link
+                  to="/swims"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive('/swims')
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : isDark
+                        ? 'text-gray-300 hover:bg-dark-bg/50'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <List className="w-5 h-5" />
+                  <span className="font-medium">Swims</span>
+                </Link>
+
+                <Link
+                  to="/insight"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive('/insight')
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : isDark
+                        ? 'text-gray-300 hover:bg-dark-bg/50'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <BarChart3 className="w-5 h-5" />
+                  <span className="font-medium">Insight</span>
+                </Link>
+
+                <Link
+                  to="/train"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive('/train')
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : isDark
+                        ? 'text-gray-300 hover:bg-dark-bg/50'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <Target className="w-5 h-5" />
+                  <span className="font-medium">Train</span>
+                </Link>
+
+                <Link
+                  to="/learn"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive('/learn')
+                      ? 'bg-primary-500/20 text-primary-400'
+                      : isDark
+                        ? 'text-gray-300 hover:bg-dark-bg/50'
+                        : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <BookOpen className="w-5 h-5" />
+                  <span className="font-medium">Learn</span>
+                </Link>
+              </div>
+
+              {/* Divider */}
+              <div className={`border-t ${isDark ? 'border-dark-border' : 'border-slate-200'}`}></div>
+
+              {/* Upload */}
               <Link
                 to="/upload"
                 onClick={closeMenu}
@@ -69,7 +150,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <span className="font-medium">Upload</span>
               </Link>
 
-              {/* 2. Toggle light/dark mode */}
+              {/* Toggle light/dark mode */}
               <div className={`flex items-center justify-between px-4 py-3 rounded-lg ${
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
@@ -79,7 +160,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <ThemeToggle />
               </div>
 
-              {/* 3. Name */}
+              {/* Name */}
               <div className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
@@ -94,7 +175,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 </span>
               </div>
 
-              {/* 4. Logout */}
+              {/* Logout */}
               <button
                 onClick={() => {
                   closeMenu();

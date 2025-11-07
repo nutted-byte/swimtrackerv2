@@ -192,7 +192,8 @@ export const Insights = () => {
       >
         {/* Time Range Controls */}
         <Card className="p-4 mb-6">
-          <div className="flex items-center gap-3 flex-wrap">
+          {/* Desktop: Buttons */}
+          <div className="hidden md:flex items-center gap-3 flex-wrap">
             <span className="text-sm text-gray-400">Time Range:</span>
             {[
               { value: 7, label: '7 days' },
@@ -215,10 +216,61 @@ export const Insights = () => {
               </button>
             ))}
           </div>
+
+          {/* Mobile: Dropdown */}
+          <div className="md:hidden">
+            <label htmlFor="timeRange" className="block text-sm text-gray-400 mb-2">
+              Time Range:
+            </label>
+            <select
+              id="timeRange"
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value === 'Infinity' ? Infinity : Number(e.target.value))}
+              className="w-full px-4 py-2 rounded-lg bg-dark-card text-white border border-dark-border focus:border-primary-500 focus:outline-none"
+            >
+              <option value="7">7 days</option>
+              <option value="30">1 month</option>
+              <option value="90">3 months</option>
+              <option value="180">6 months</option>
+              <option value="365">1 year</option>
+              <option value="Infinity">All time</option>
+            </select>
+          </div>
         </Card>
 
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Distance Chart */}
+          <Card className="p-6">
+            <div className="flex flex-col gap-4 mb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <h2 className="font-display text-xl font-bold">Distance Over Time</h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-80">
+              <InsightsChart
+                chartType="bar"
+                metric="distance"
+                enrichedChartData={distanceChartData}
+                scatterData={scatterData}
+                stats={stats}
+                showRollingAvg={false}
+                showTrendLine={false}
+                showCompare={false}
+                previousWindowData={previousWindowData}
+                getMilestoneType={getMilestoneType}
+                granularity={granularity}
+              />
+            </div>
+
+            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
+              <span>Distance per swim session (km)</span>
+            </div>
+          </Card>
+
           {/* Pace Chart */}
           <Card className="p-6">
             <div className="flex flex-col gap-4 mb-6">
@@ -255,37 +307,6 @@ export const Insights = () => {
                 <div className="w-3 h-3 rounded-full bg-purple-400"></div>
                 <span>SWOLF - Lower is better</span>
               </div>
-            </div>
-          </Card>
-
-          {/* Distance Chart */}
-          <Card className="p-6">
-            <div className="flex flex-col gap-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <h2 className="font-display text-xl font-bold">Distance Over Time</h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="h-80">
-              <InsightsChart
-                chartType="line"
-                metric="distance"
-                enrichedChartData={distanceChartData}
-                scatterData={scatterData}
-                stats={stats}
-                showRollingAvg={false}
-                showTrendLine={false}
-                showCompare={false}
-                previousWindowData={previousWindowData}
-                getMilestoneType={getMilestoneType}
-                granularity={granularity}
-              />
-            </div>
-
-            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
-              <span>Distance per swim session (km)</span>
             </div>
           </Card>
 

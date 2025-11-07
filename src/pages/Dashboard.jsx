@@ -32,9 +32,10 @@ import { TrainingPlanCard } from '../components/dashboard/TrainingPlanCard';
 import { StreakCard } from '../components/dashboard/StreakCard';
 import { PaceTrendCard } from '../components/dashboard/PaceTrendCard';
 import { AIAssistantCard } from '../components/dashboard/AIAssistantCard';
+import { HeroSkeleton, CardGridSkeleton, StatCardSkeleton } from '../components/LoadingSkeletons';
 
 export const Dashboard = () => {
-  const { sessions, rateSession, removeSession } = useSwimData();
+  const { sessions, rateSession, removeSession, loading } = useSwimData();
   const navigate = useNavigate();
 
   // Memoize expensive calculations to prevent re-computation on every render
@@ -113,6 +114,19 @@ export const Dashboard = () => {
     'no-data': '📊',
     'insufficient-data': '📈'
   };
+
+  // Show loading skeletons
+  if (loading && sessions.length === 0) {
+    return (
+      <PageContainer>
+        <div className="space-y-6">
+          <HeroSkeleton />
+          <StatCardSkeleton />
+          <CardGridSkeleton count={2} />
+        </div>
+      </PageContainer>
+    );
+  }
 
   // If no data, show empty state
   if (status === 'no-data' || status === 'insufficient-data') {

@@ -66,34 +66,34 @@ export const StreakCard = ({ sessions }) => {
                   } transition-colors`}
                 >
                   <td className="py-3 px-3">
-                    <span className={`text-sm font-medium ${
+                    <span className={`text-base font-medium ${
                       month.isCurrentMonth ? 'text-blue-400' : 'text-content-primary'
                     }`}>
                       {month.monthName}
                     </span>
                   </td>
                   <td className="text-center py-3 px-3">
-                    <span className={`text-sm ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? month.sessionCount : '—'}
                     </span>
                   </td>
                   <td className="text-center py-3 px-3">
-                    <span className={`text-sm ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? month.totalLengths : '—'}
                     </span>
                   </td>
                   <td className="text-center py-3 px-3">
-                    <span className={`text-sm ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? `${(month.totalDistance / 1000).toFixed(1)}km` : '—'}
                     </span>
                   </td>
                   <td className="text-center py-3 px-3">
-                    <span className={`text-sm ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? formatPace(month.avgPace) : '—'}
                     </span>
                   </td>
                   <td className="text-center py-3 px-3">
-                    <span className={`text-sm ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity && month.avgSwolf > 0 ? Math.round(month.avgSwolf) : '—'}
                     </span>
                   </td>
