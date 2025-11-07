@@ -10,8 +10,8 @@ import {
   analyzeDayOfWeekPerformance,
   detectPerformanceStreaks,
   analyzeMonthlyPatterns,
-} from '../utils/patternRecognition';
-import { detectAnomalies, detectSuddenChanges } from '../utils/anomalyDetection';
+} from '../utils/analytics/patternRecognition';
+import { detectAnomalies, detectSuddenChanges } from '../utils/analytics/anomalyDetection';
 
 export const Patterns = () => {
   const { sessions } = useSwimData();

@@ -38,9 +38,9 @@ export default defineConfig({
           // Analytics utilities
           'analytics': [
             './src/utils/analytics.js',
-            './src/utils/deepAnalysis.js',
-            './src/utils/patternRecognition.js',
-            './src/utils/anomalyDetection.js'
+            './src/utils/analytics/deepAnalysis.js',
+            './src/utils/analytics/patternRecognition.js',
+            './src/utils/analytics/anomalyDetection.js'
           ]
         }
       }
