@@ -2,7 +2,12 @@
 
 ## Overview
 
-This document provides a strategic overview of the visual enhancement plan for Swimma. Full details are available in the linked documents below.
+This document provides a strategic overview of the visual enhancement plan for Swimma.
+
+**📖 Related Documentation:**
+- [Detailed Visual Content Strategy](visual-content-strategy.md) - Implementation details
+- [Quick Start: Visual Implementation](quick-start-guide.md) - Start building today
+- [Implementation Roadmap](implementation-roadmap.md) - Step-by-step plan
 
 ---
 

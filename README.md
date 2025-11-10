@@ -26,6 +26,8 @@ A modern web app that helps casual swimmers track their progress and get AI-powe
 
 - Node.js 16+ installed
 - npm or yarn
+- A Supabase account (free tier works great!)
+- A Google Cloud account for OAuth
 
 ### Installation
 
@@ -33,15 +35,31 @@ A modern web app that helps casual swimmers track their progress and get AI-powe
 # Install dependencies
 npm install
 
-# Copy environment variables
-cp .env.example .env
-
-# Edit .env and add your API keys:
-# - Supabase credentials (required)
-# - Anthropic API key (optional, for Ask AI feature)
-
 # Start development server
 npm run dev
+```
+
+### Configuration
+
+**📖 Complete Setup Guide:** See [SETUP.md](./SETUP.md) for detailed instructions.
+
+**Quick setup:**
+1. Create a Supabase project and run `supabase-schema.sql`
+2. Set up Google OAuth in Google Cloud Console
+3. Configure Google OAuth in Supabase
+4. Copy `.env.example` to `.env` and add your credentials
+5. (Optional) Set up Edge Functions for AI features - see [EDGE_FUNCTION_SETUP.md](./EDGE_FUNCTION_SETUP.md)
+
+## Development
+
+```bash
+# Start dev server
+npm run dev
+# App runs at http://localhost:5173
+
+# Test on mobile (same WiFi network)
+npm run dev -- --host
+# Access from phone: http://YOUR_LOCAL_IP:5173
 
 # Build for production
 npm run build
@@ -50,50 +68,86 @@ npm run build
 npm run preview
 ```
 
-### Configuration
-
-1. **Supabase Setup** (Required)
-   - Create a project at [supabase.com](https://supabase.com)
-   - Run the SQL schema from `supabase-schema.sql`
-   - Add your project URL and anon key to `.env`
-
-2. **Ask AI Feature** (Optional)
-   - Requires deploying a Supabase Edge Function
-   - See [EDGE_FUNCTION_SETUP.md](./EDGE_FUNCTION_SETUP.md) for detailed instructions
-   - Get your API key from [console.anthropic.com](https://console.anthropic.com/)
-   - Uses Claude 3.5 Haiku for cost-effective analysis (~$0.0005 per query)
-
-## Development
-
-The app will run on `http://localhost:3000` by default.
+**📱 Mobile Testing:** See [docs/deployment/LOCAL_MOBILE_TESTING.md](./docs/deployment/LOCAL_MOBILE_TESTING.md)
 
 ## Deployment
 
-This app is configured for easy deployment to Netlify:
+**⚠️ IMPORTANT:** Before deploying to production, follow the complete checklist!
 
-1. Push your code to GitHub
-2. Connect your GitHub repo to Netlify
-3. Netlify will auto-detect Vite settings
-4. Deploy!
+**📋 Deployment Checklist:** [docs/deployment/DEPLOYMENT_CHECKLIST.md](./docs/deployment/DEPLOYMENT_CHECKLIST.md)
 
-Build command: `npm run build`
-Publish directory: `dist`
+### Quick Deploy
+
+```bash
+# 1. Run pre-deploy checks
+./scripts/pre-deploy-check.sh
+
+# 2. If all checks pass, deploy via GitHub
+git push origin main
+# Netlify will automatically build and deploy
+```
+
+### Critical Pre-Deployment Steps
+
+1. ✅ **Supabase Auth URLs** - Configure at https://supabase.com/dashboard/project/YOUR_PROJECT/auth/url-configuration
+   - Set Site URL to production domain
+   - Add production domain to Redirect URLs
+
+2. ✅ **Google OAuth** - Update authorized origins and redirect URIs in Google Cloud Console
+
+3. ✅ **Netlify Environment Variables** - Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+
+**See [docs/deployment/](./docs/deployment/) for complete deployment documentation.**
 
 ## Project Structure
 
 ```
 src/
 ├── components/     # Reusable UI components
-├── pages/         # Page components
-├── context/       # React context (theme, etc.)
-├── hooks/         # Custom React hooks
-├── utils/         # Helper functions
-└── styles/        # Global CSS
+│   ├── dashboard/  # Dashboard-specific components
+│   ├── insights/   # Insights & analytics components
+│   ├── layout/     # Layout components (PageContainer, Header, etc.)
+│   ├── shared/     # Shared utility components
+│   ├── sharing/    # Social sharing components
+│   ├── techniques/ # Swimming technique components
+│   └── ui/         # Base UI components
+├── pages/          # Page components (Dashboard, Sessions, etc.)
+├── context/        # React context providers
+├── hooks/          # Custom React hooks
+├── utils/          # Helper functions & utilities
+│   ├── ai/         # AI/LLM integration
+│   ├── parsers/    # File parsers (TCX, FIT, CSV)
+│   └── analytics/  # Analytics & calculations
+├── design/         # Design tokens & theme
+└── lib/            # External library configs
 ```
+
+## Documentation
+
+**📚 Complete Documentation:** [docs/README.md](./docs/README.md)
+
+### Key Documents
+
+- **[Setup Guide](./SETUP.md)** - Complete local development setup
+- **[Deployment Checklist](./docs/deployment/DEPLOYMENT_CHECKLIST.md)** - Production deployment steps
+- **[Testing Guide](./docs/development/TESTING.md)** - How to test features
+- **[2025 Roadmap](./docs/roadmap/2025-roadmap.md)** - Product roadmap
+- **[User Personas](./docs/personas/README.md)** - Testing with user personas
 
 ## Contributing
 
 This is an MVP in active development. More features coming soon!
+
+### Before Committing
+
+1. Run tests (if applicable)
+2. Ensure build succeeds: `npm run build`
+3. Follow conventional commit messages
+4. Update documentation if needed
+
+### Before Deploying
+
+Always run: `./scripts/pre-deploy-check.sh`
 
 ## License
 

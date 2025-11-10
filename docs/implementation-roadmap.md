@@ -1,5 +1,12 @@
 # Visual Enhancement Implementation Roadmap
 
+**📖 Related Documentation:**
+- [Visual Strategy Summary](VISUAL_STRATEGY_SUMMARY.md) - Strategic overview
+- [Detailed Visual Strategy](visual-content-strategy.md) - Complete strategy
+- [Quick Start Guide](quick-start-guide.md) - Start building today
+
+---
+
 ## Overview
 Prioritized roadmap for implementing visual enhancements to Swimma, organized by impact, effort, and user value.
 
