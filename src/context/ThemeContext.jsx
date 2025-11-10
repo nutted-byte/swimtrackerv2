@@ -3,10 +3,10 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(true); // Dark mode by default
+  const [isDark, setIsDark] = useState(false); // Light mode by default
 
   useEffect(() => {
-    // Load theme from localStorage or default to dark
+    // Load theme from localStorage or default to light
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       setIsDark(savedTheme === 'dark');

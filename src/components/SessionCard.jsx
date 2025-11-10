@@ -74,13 +74,11 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
       className="transition-all duration-300 ease-in-out"
     >
       <Card
         hover={true}
-        className={`cursor-pointer overflow-hidden ${
+        className={`cursor-pointer overflow-hidden hover:!transform-none ${
           session.rating === true ? 'ring-2 ring-accent-blue/30' :
           session.rating === false ? 'ring-2 ring-accent-coral/30' : ''
         }`}
@@ -92,7 +90,7 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
             <div className="flex items-center gap-2 text-content-secondary text-xs mb-1.5">
               <Calendar className="w-3 h-3" />
               <span className="font-medium">{formatDate(session.date)}</span>
-              <span className="text-gray-600">•</span>
+              <span className="text-content-tertiary">•</span>
               <Clock className="w-3 h-3" />
               <span>{formatTime(session.date)}</span>
             </div>

@@ -2,23 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme (default) - Modern, airy fitness app aesthetic */
+/* Light theme (default) - "Crisp & Clean" Calm-inspired */
 :root {
-  --color-bg: 248 250 252; /* slate-50 - softer than gray-50 */
-  --color-card: 255 255 255; /* white */
-  --color-card-elevated: 255 255 255; /* white with subtle blue tint */
-  --color-border: 226 232 240; /* slate-200 - softer borders */
-  --color-text: 15 23 42; /* slate-900 - deeper contrast */
-  --color-text-muted: 100 116 139; /* slate-500 */
+  --color-bg: 221 221 221; /* #dddddd - warm grey */
+  --color-card: 255 255 255; /* pure white - crisp contrast */
+  --color-card-elevated: 255 255 255;
+  --color-border: 197 197 197; /* #c5c5c5 - warm grey borders, darker than bg */
+  --color-text: 15 23 42; /* #0F172A - near-black for maximum contrast */
+  --color-text-muted: 71 85 105; /* slate-600 - muted but readable */
 
   /* Semantic text colors */
-  --color-content: 15 23 42; /* slate-900 - primary text */
-  --color-content-secondary: 51 65 85; /* slate-700 - secondary text */
-  --color-content-tertiary: 100 116 139; /* slate-500 - tertiary/muted text */
+  --color-content: 15 23 42; /* slate-900 - primary text, strong and clear */
+  --color-content-secondary: 51 65 85; /* slate-700 - secondary text, still readable */
+  --color-content-tertiary: 100 116 139; /* slate-500 - tertiary/muted */
 
   /* Surface tints for subtle depth */
-  --color-surface-tint: 240 249 255; /* blue-50 - ocean theme hint */
-  --color-surface-accent: 236 254 255; /* cyan-50 - subtle water accent */
+  --color-surface-tint: 240 249 255; /* blue-50 - subtle ocean tint */
+  --color-surface-accent: 236 254 255; /* cyan-50 - water accent */
+}
+
+/* New Light Theme V2 - "Crisp & Clean" Calm-inspired */
+.light-v2 {
+  /* Backgrounds - Warm grey foundation */
+  --color-bg: 221 221 221; /* #dddddd - warm grey */
+  --color-card: 255 255 255; /* pure white - crisp contrast */
+  --color-card-elevated: 255 255 255;
+
+  /* Borders - Warm grey, visible and intentional */
+  --color-border: 197 197 197; /* #c5c5c5 - warm grey borders, darker than bg */
+
+  /* Text - Strong contrast for readability */
+  --color-text: 15 23 42; /* #0F172A - near-black for maximum contrast */
+  --color-text-muted: 71 85 105; /* slate-600 - muted but readable */
+
+  /* Semantic text colors - Progressive depth */
+  --color-content: 15 23 42; /* slate-900 - primary text, strong and clear */
+  --color-content-secondary: 51 65 85; /* slate-700 - secondary text, still readable */
+  --color-content-tertiary: 100 116 139; /* slate-500 - tertiary/muted */
+
+  /* Surface tints - Ocean theme hints */
+  --color-surface-tint: 240 249 255; /* blue-50 - subtle ocean tint */
+  --color-surface-accent: 236 254 255; /* cyan-50 - water accent */
 }
 
 /* Dark theme */
@@ -44,6 +68,40 @@
   html {
     @apply scroll-smooth;
   }
+
+  /* Bolder headings for Crisp & Clean light mode */
+  :root h1,
+  :root h2,
+  :root h3,
+  :root h4,
+  :root h5,
+  :root h6 {
+    color: rgb(var(--color-text));
+    font-weight: 700;
+  }
+
+  :root h1 {
+    font-weight: 800; /* Extra bold for main headings */
+  }
+
+  /* Force text colors for light-v2 theme */
+  .light-v2 {
+    color: rgb(var(--color-text));
+  }
+
+  .light-v2 h1,
+  .light-v2 h2,
+  .light-v2 h3,
+  .light-v2 h4,
+  .light-v2 h5,
+  .light-v2 h6 {
+    color: rgb(var(--color-text));
+    font-weight: 700; /* Bolder headings for Crisp & Clean */
+  }
+
+  .light-v2 h1 {
+    font-weight: 800; /* Extra bold for main headings */
+  }
 }
 
 @layer components {
@@ -52,13 +110,22 @@
     @apply bg-dark-card rounded-2xl p-6 border border-dark-border transition-all duration-300;
   }
 
-  /* Light mode cards get softer, layered shadows */
+  /* Light mode cards get stronger, more defined shadows - Crisp & Clean */
   :root .card {
-    @apply shadow-[0_1px_3px_rgba(15,23,42,0.08),0_1px_2px_rgba(15,23,42,0.04)];
+    @apply shadow-[0_4px_12px_rgba(15,23,42,0.15),0_2px_4px_rgba(15,23,42,0.10)];
   }
 
   :root .card:hover {
-    @apply shadow-[0_10px_20px_rgba(15,23,42,0.08),0_3px_6px_rgba(15,23,42,0.05)] -translate-y-1;
+    @apply shadow-[0_16px_32px_rgba(15,23,42,0.15),0_6px_12px_rgba(15,23,42,0.10)] -translate-y-1;
+  }
+
+  /* New Light V2 cards get stronger, more defined shadows - Crisp & Clean */
+  .light-v2 .card {
+    @apply shadow-[0_4px_12px_rgba(15,23,42,0.15),0_2px_4px_rgba(15,23,42,0.10)];
+  }
+
+  .light-v2 .card:hover {
+    @apply shadow-[0_16px_32px_rgba(15,23,42,0.15),0_6px_12px_rgba(15,23,42,0.10)] -translate-y-1;
   }
 
   /* Dark mode cards get standard shadows */
@@ -75,9 +142,14 @@
     @apply bg-primary-500 hover:bg-primary-600 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105;
   }
 
-  /* Light mode buttons get better shadows */
+  /* Light mode buttons get stronger shadows - Crisp & Clean */
   :root .btn-primary {
-    @apply shadow-[0_2px_4px_rgba(0,125,155,0.2)] hover:shadow-[0_4px_8px_rgba(0,125,155,0.3)];
+    @apply shadow-[0_4px_8px_rgba(0,107,125,0.30)] hover:shadow-[0_8px_16px_rgba(0,107,125,0.40)];
+  }
+
+  /* New Light V2 buttons get even stronger shadows - Crisp & Clean */
+  .light-v2 .btn-primary {
+    @apply shadow-[0_4px_8px_rgba(0,107,125,0.30)] hover:shadow-[0_8px_16px_rgba(0,107,125,0.40)];
   }
 
   .btn-secondary {
@@ -85,7 +157,11 @@
   }
 
   :root .btn-secondary {
-    @apply text-slate-700 hover:bg-slate-50 hover:border-slate-300;
+    @apply text-slate-800 hover:bg-slate-100 hover:border-slate-400;
+  }
+
+  .light-v2 .btn-secondary {
+    @apply text-slate-800 hover:bg-slate-100 hover:border-slate-400;
   }
 
   .dark .btn-secondary {
@@ -102,7 +178,11 @@
   }
 
   :root .stat-label {
-    @apply text-slate-600;
+    @apply text-slate-700 font-medium;
+  }
+
+  .light-v2 .stat-label {
+    @apply text-slate-700 font-medium;
   }
 
   .dark .stat-label {

@@ -14,7 +14,7 @@ export const TrainingPlanCard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <Card className="bg-gradient-to-br from-accent-blue/20 to-accent-blue/5 border-accent-blue/30">
+        <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
           <div className="flex items-center justify-center py-8">
             <div className="w-8 h-8 border-4 border-accent-blue border-t-transparent rounded-full animate-spin"></div>
           </div>
@@ -31,7 +31,7 @@ export const TrainingPlanCard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <Card className="bg-gradient-to-br from-accent-blue/20 to-accent-blue/5 border-accent-blue/30">
+        <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <motion.div

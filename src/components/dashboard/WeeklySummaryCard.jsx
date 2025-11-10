@@ -44,7 +44,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 }}
     >
-      <Card className="bg-gradient-to-br from-blue-500/20 to-accent-blue/5 border-blue-500/30 h-full">
+      <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 h-full">
         <div className="flex items-center gap-2 mb-4">
           <Calendar className="w-4 h-4 text-blue-400" />
           <span className="text-sm font-medium text-content-secondary">

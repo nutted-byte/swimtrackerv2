@@ -310,13 +310,13 @@ const ArticleCard = ({ article }) => {
 
   const levelColorsDark = {
     beginner: 'from-green-500/20 to-green-500/5 border-green-500/30',
-    intermediate: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
+    intermediate: 'from-primary-50 to-blue-50 border-primary-200',
     advanced: 'from-purple-500/20 to-purple-500/5 border-purple-500/30'
   };
 
   const levelColorsLight = {
     beginner: 'from-green-50 to-emerald-50 border-green-200',
-    intermediate: 'from-blue-50 to-cyan-50 border-blue-200',
+    intermediate: 'from-primary-50 to-blue-50 border-primary-200',
     advanced: 'from-purple-50 to-indigo-50 border-purple-200'
   };
 
@@ -439,13 +439,13 @@ const ArticleView = ({ articleId }) => {
 
   const levelColorsDark = {
     beginner: 'from-green-500/20 to-green-500/5',
-    intermediate: 'from-blue-500/20 to-blue-500/5',
+    intermediate: 'from-primary-50 to-blue-50',
     advanced: 'from-purple-500/20 to-purple-500/5'
   };
 
   const levelColorsLight = {
     beginner: 'from-green-50 to-emerald-50',
-    intermediate: 'from-blue-50 to-cyan-50',
+    intermediate: 'from-primary-50 to-blue-50',
     advanced: 'from-purple-50 to-indigo-50'
   };
 
@@ -690,11 +690,11 @@ const ArticleView = ({ articleId }) => {
             {relatedArticles.map((related, index) => {
               const relatedLevelColors = isDark ? {
                 beginner: 'from-green-500/20 to-green-500/5 border-green-500/30',
-                intermediate: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
+                intermediate: 'from-primary-50 to-blue-50 border-primary-200',
                 advanced: 'from-purple-500/20 to-purple-500/5 border-purple-500/30'
               } : {
                 beginner: 'from-green-50 to-emerald-50 border-green-200',
-                intermediate: 'from-blue-50 to-cyan-50 border-blue-200',
+                intermediate: 'from-primary-50 to-blue-50 border-primary-200',
                 advanced: 'from-purple-50 to-indigo-50 border-purple-200'
               };
 

@@ -89,7 +89,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           </motion.h2>
           <div className="flex items-center gap-2">
             <Calendar className={`${tokens.icons.md} ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
-            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <span className="text-sm text-content-tertiary">
               {fullDate} • {swimTime}
             </span>
           </div>
@@ -110,14 +110,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
               <TrendingUp className={tokens.icons.sm} />
               Distance
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {(swim.distance / 1000).toFixed(2)} km
             </p>
-            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
+            <p className="text-xs mt-1 text-content-tertiary">
               {Math.round(swim.distance / 25)} lengths
             </p>
           </motion.div>
@@ -135,14 +135,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
               <Clock className={tokens.icons.sm} />
               Duration
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {formatDuration(swim.duration)}
             </p>
-            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
+            <p className="text-xs mt-1 text-content-tertiary">
               min:sec
             </p>
           </motion.div>
@@ -160,14 +160,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
               <Activity className={tokens.icons.sm} />
               Pace
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>
               {formatPace(swim.pace)}
             </p>
-            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>min/100m</p>
+            <p className="text-xs mt-1 text-content-tertiary">min/100m</p>
           </motion.div>
 
           <motion.div
@@ -183,14 +183,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
               <Target className={tokens.icons.sm} />
               {swim.swolf > 0 ? 'SWOLF' : 'Strokes'}
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>
               {swim.swolf > 0 ? swim.swolf : swim.strokes.toLocaleString()}
             </p>
-            <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
+            <p className="text-xs mt-1 text-content-tertiary">
               {swim.swolf > 0 ? 'Efficiency score' : 'Total strokes'}
             </p>
           </motion.div>
@@ -204,7 +204,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.7 }}
             className="mb-6"
           >
-            <p className={`text-base leading-relaxed ${isDark ? 'text-gray-300' : 'text-slate-700'}`}>
+            <p className="text-base leading-relaxed text-content-secondary">
               {summary}
             </p>
           </motion.div>
@@ -220,7 +220,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           <button
             onClick={togglePanel}
             disabled={analysisState.loading && !analysisState.isOpen}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-accent-blue hover:from-primary-600 hover:to-accent-blue/90 rounded-lg transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {analysisState.isOpen ? (
               <>

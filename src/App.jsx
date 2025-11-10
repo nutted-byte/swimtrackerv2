@@ -24,6 +24,7 @@ const Records = lazy(() => import('./pages/Records').then(m => ({ default: m.Rec
 const Ask = lazy(() => import('./pages/Ask').then(m => ({ default: m.Ask })));
 const Techniques = lazy(() => import('./pages/Techniques').then(m => ({ default: m.Techniques })));
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
+const DesignTest = lazy(() => import('./pages/DesignTest').then(m => ({ default: m.DesignTest })));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -104,7 +105,7 @@ function AppContent() {
                     </Link>
                     <Link
                       to="/upload"
-                      className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
+                      className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 text-white transition-colors flex items-center gap-2 text-sm font-medium"
                     >
                       <UploadIcon className="w-4 h-4" />
                       Upload
@@ -243,6 +244,15 @@ function AppContent() {
             {/* Redirect old URLs */}
             <Route path="/techniques" element={<Navigate to="/learn" replace />} />
             <Route path="/techniques/:articleId" element={<Navigate to="/learn/:articleId" replace />} />
+            {/* Design Test Page (hidden from navigation) */}
+            <Route
+              path="/design-test"
+              element={
+                <ProtectedRoute>
+                  <DesignTest />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </main>

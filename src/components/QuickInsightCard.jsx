@@ -40,7 +40,7 @@ export const QuickInsightCard = ({ recommendation }) => {
           badge: '💡 Tip',
           badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
           iconColor: 'text-blue-400',
-          bgGradient: 'from-blue-500/10 to-blue-500/5',
+          bgGradient: 'from-primary-50 to-blue-50',
           borderColor: 'border-blue-500/20'
         };
     }

@@ -68,8 +68,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     location.pathname === '/'
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
-                        ? 'text-gray-300 hover:bg-dark-bg/50'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'text-content-secondary hover:bg-dark-bg/50'
+                        : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
                   <Home className="w-5 h-5" />
@@ -83,8 +83,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     isActive('/swims')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
-                        ? 'text-gray-300 hover:bg-dark-bg/50'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'text-content-secondary hover:bg-dark-bg/50'
+                        : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
                   <List className="w-5 h-5" />
@@ -98,8 +98,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     isActive('/insight')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
-                        ? 'text-gray-300 hover:bg-dark-bg/50'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'text-content-secondary hover:bg-dark-bg/50'
+                        : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
                   <BarChart3 className="w-5 h-5" />
@@ -113,8 +113,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     isActive('/train')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
-                        ? 'text-gray-300 hover:bg-dark-bg/50'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'text-content-secondary hover:bg-dark-bg/50'
+                        : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
                   <Target className="w-5 h-5" />
@@ -128,8 +128,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     isActive('/learn')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
-                        ? 'text-gray-300 hover:bg-dark-bg/50'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'text-content-secondary hover:bg-dark-bg/50'
+                        : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
                   <BookOpen className="w-5 h-5" />
@@ -155,7 +155,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
                 <span className={`text-sm font-medium ${
-                  isDark ? 'text-gray-300' : 'text-slate-700'
+                  isDark ? 'text-content-secondary' : 'text-content-secondary'
                 }`}>Toggle light / dark mode</span>
                 <ThemeToggle />
               </div>
@@ -164,9 +164,9 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
               <div className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
-                <User className={`w-5 h-5 ${isDark ? 'text-gray-400' : 'text-slate-500'}`} />
+                <User className={`w-5 h-5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`} />
                 <span className={`font-medium ${
-                  isDark ? 'text-gray-300' : 'text-slate-700'
+                  isDark ? 'text-content-secondary' : 'text-content-secondary'
                 }`}>
                   {user?.user_metadata?.full_name ||
                    user?.user_metadata?.name ||
@@ -183,8 +183,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   isDark
-                    ? 'bg-dark-bg hover:bg-accent-coral/20 text-gray-400 hover:text-accent-coral'
-                    : 'bg-slate-50 hover:bg-red-50 text-slate-600 hover:text-red-600'
+                    ? 'bg-dark-bg hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral'
+                    : 'bg-slate-50 hover:bg-red-50 text-content-tertiary hover:text-red-600'
                 }`}
               >
                 <LogOut className="w-5 h-5" />
@@ -203,8 +203,8 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
       onClick={toggleMenu}
       className={`md:hidden p-2 rounded-lg transition-colors ${
         isDark
-          ? 'hover:bg-dark-card text-gray-400 hover:text-gray-200'
-          : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+          ? 'hover:bg-dark-card text-content-tertiary hover:text-content-secondary'
+          : 'hover:bg-slate-100 text-content-tertiary hover:text-content'
       }`}
       aria-label="Menu"
     >

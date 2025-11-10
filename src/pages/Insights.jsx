@@ -89,7 +89,7 @@ export const Insights = () => {
 
   const RecordCard = ({ title, value, unit, subtitle, icon: Icon, session, color = 'blue' }) => {
     const colorClasses = {
-      blue: 'from-accent-blue/20 to-accent-blue/5 border-accent-blue/30',
+      blue: 'from-primary-50 to-blue-50 border-primary-200',
       coral: 'from-accent-coral/20 to-accent-coral/5 border-accent-coral/30',
       teal: 'from-primary-500/20 to-primary-500/5 border-primary-500/30',
     };
@@ -112,21 +112,21 @@ export const Insights = () => {
             <Trophy className="w-6 h-6 text-yellow-500" />
           </div>
 
-          <h3 className="text-sm text-gray-400 uppercase tracking-wide mb-2">
+          <h3 className="text-sm text-content-tertiary uppercase tracking-wide mb-2">
             {title}
           </h3>
 
           <div className="flex items-baseline gap-2 mb-2">
             <span className="font-display text-2xl font-bold">{value}</span>
-            {unit && <span className="text-lg text-gray-400">{unit}</span>}
+            {unit && <span className="text-lg text-content-tertiary">{unit}</span>}
           </div>
 
           {subtitle && (
-            <p className="text-sm text-gray-500 mb-3">{subtitle}</p>
+            <p className="text-sm text-content-tertiary mb-3">{subtitle}</p>
           )}
 
           {session && (
-            <div className="flex items-center gap-2 text-xs text-gray-500 pt-3 border-t border-dark-border">
+            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-3 border-t border-dark-border">
               <Calendar className="w-3 h-3" />
               {formatDate(session.date)}
             </div>
@@ -159,7 +159,7 @@ export const Insights = () => {
           <h1 className="font-display text-4xl font-bold mb-4">
             No Data to Visualize
           </h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-content-tertiary mb-8">
             Upload some swims to see your performance trends!
           </p>
           <Link to="/upload" className="btn-primary">
@@ -194,7 +194,7 @@ export const Insights = () => {
         <Card className="p-4 mb-6">
           {/* Desktop: Buttons */}
           <div className="hidden md:flex items-center gap-3 flex-wrap">
-            <span className="text-sm text-gray-400">Time Range:</span>
+            <span className="text-sm text-content-tertiary">Time Range:</span>
             {[
               { value: 7, label: '7 days' },
               { value: 30, label: '1 month' },
@@ -209,7 +209,7 @@ export const Insights = () => {
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   timeRange === value
                     ? 'bg-primary-500 text-white'
-                    : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                    : 'bg-dark-card text-content-tertiary hover:text-content-secondary'
                 }`}
               >
                 {label}
@@ -219,7 +219,7 @@ export const Insights = () => {
 
           {/* Mobile: Dropdown */}
           <div className="md:hidden">
-            <label htmlFor="timeRange" className="block text-sm text-gray-400 mb-2">
+            <label htmlFor="timeRange" className="block text-sm text-content-tertiary mb-2">
               Time Range:
             </label>
             <select
@@ -266,7 +266,7 @@ export const Insights = () => {
               />
             </div>
 
-            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-content-tertiary">
               <span>Distance per swim session (km)</span>
             </div>
           </Card>
@@ -298,7 +298,7 @@ export const Insights = () => {
               />
             </div>
 
-            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-content-tertiary">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-accent-blue"></div>
                 <span>Pace (min/100m) - Higher is faster</span>
@@ -336,7 +336,7 @@ export const Insights = () => {
               />
             </div>
 
-            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-6 mt-4 text-sm text-content-tertiary">
               <span>Distance Per Stroke - Higher is better</span>
             </div>
           </Card>
@@ -350,7 +350,7 @@ export const Insights = () => {
           className="mt-12"
         >
           <h2 className="font-display text-3xl font-bold mb-2">Personal Records</h2>
-          <p className="text-gray-400 mb-6">Your best performances</p>
+          <p className="text-content-tertiary mb-6">Your best performances</p>
 
           <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default} mb-8`}>
             {records.fastestPace && (
@@ -406,31 +406,31 @@ export const Insights = () => {
             >
               <div className={`grid grid-cols-1 md:grid-cols-3 ${tokens.gap.default} p-6 bg-dark-card rounded-lg`}>
                 <div className="text-center p-6 bg-dark-bg rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">Total Distance</p>
+                  <p className="text-sm text-content-tertiary mb-2">Total Distance</p>
                   <p className="font-display text-2xl font-bold text-accent-blue">
                     {(totalDistance / 1000).toFixed(1)} km
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-content-tertiary mt-1">
                     That's {Math.round(totalDistance / 25)} lengths!
                   </p>
                 </div>
 
                 <div className="text-center p-6 bg-dark-bg rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">Total Strokes</p>
+                  <p className="text-sm text-content-tertiary mb-2">Total Strokes</p>
                   <p className="font-display text-2xl font-bold text-primary-400">
                     {totalStrokes.toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-content-tertiary mt-1">
                     Avg {Math.round(totalStrokes / sessions.length)} per swim
                   </p>
                 </div>
 
                 <div className="text-center p-6 bg-dark-bg rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">Average Pace</p>
+                  <p className="text-sm text-content-tertiary mb-2">Average Pace</p>
                   <p className="font-display text-2xl font-bold text-accent-blue">
                     {formatPace(avgPace)}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">min/100m overall</p>
+                  <p className="text-xs text-content-tertiary mt-1">min/100m overall</p>
                 </div>
               </div>
             </CollapsibleSection>
@@ -450,7 +450,7 @@ export const Insights = () => {
             </div>
           )}
 
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-content-tertiary">
             Click on any record to view the full session details
           </p>
         </motion.div>

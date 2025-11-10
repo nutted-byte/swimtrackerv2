@@ -68,7 +68,7 @@ export const Sessions = () => {
           <h1 className="font-display text-4xl font-bold mb-4">
             No Sessions Yet
           </h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-content-secondary mb-8">
             Upload your first swim to get started!
           </p>
           <Link
@@ -95,8 +95,8 @@ export const Sessions = () => {
         transition={{ duration: 0.5 }}
       >
         {/* Stats Summary */}
-        <div className="mb-8">
-          <p className="text-gray-400">
+        <div className="mb-4">
+          <p className="text-content-tertiary">
             {totals.count} swim{totals.count !== 1 ? 's' : ''} • {' '}
             {(totals.distance / 1000).toFixed(1)} km total • {' '}
             {formatDuration(totals.duration, true)}
@@ -107,7 +107,7 @@ export const Sessions = () => {
         <div className="mb-6 flex flex-wrap items-center gap-4">
           {viewMode === 'list' && (
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-gray-400">
+              <div className="flex items-center gap-2 text-sm text-content-tertiary">
                 <Filter className="w-4 h-4" />
                 <span>Sort by:</span>
               </div>
@@ -117,7 +117,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'date-desc'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
                   }`}
                 >
                   Newest First
@@ -127,7 +127,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'date-asc'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
                   }`}
                 >
                   Oldest First
@@ -137,7 +137,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'distance'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
                   }`}
                 >
                   Distance
@@ -147,7 +147,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'pace'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-gray-400 hover:text-gray-200'
+                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
                   }`}
                 >
                   Fastest Pace
@@ -161,18 +161,18 @@ export const Sessions = () => {
             {viewMode === 'grouped' && (
               <button
                 onClick={() => setAllCollapsed(!allCollapsed)}
-                className="px-3 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg text-sm transition-colors text-gray-400 hover:text-gray-200"
+                className="px-3 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg text-sm transition-colors text-content-secondary hover:text-content border border-dark-border"
               >
                 {allCollapsed ? 'Expand All' : 'Collapse All'}
               </button>
             )}
-            <div className="flex gap-2 bg-dark-card rounded-lg p-1">
+            <div className="flex gap-2 bg-dark-card rounded-lg p-1 border border-dark-border">
               <button
                 onClick={() => setViewMode('grouped')}
                 className={`px-3 py-1 rounded-md text-sm transition-colors flex items-center gap-2 ${
                   viewMode === 'grouped'
                     ? 'bg-primary-500 text-white'
-                    : 'text-gray-400 hover:text-gray-200'
+                    : 'text-content-secondary hover:text-content'
                 }`}
               >
                 <Calendar className="w-4 h-4" />
@@ -183,7 +183,7 @@ export const Sessions = () => {
                 className={`px-3 py-1 rounded-md text-sm transition-colors flex items-center gap-2 ${
                   viewMode === 'list'
                     ? 'bg-primary-500 text-white'
-                    : 'text-gray-400 hover:text-gray-200'
+                    : 'text-content-secondary hover:text-content'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -196,7 +196,7 @@ export const Sessions = () => {
         {/* Sessions Display */}
         {viewMode === 'grouped' ? (
           // Grouped by Month View
-          <div className="space-y-0">
+          <div className="space-y-[15px]">
             {monthlyGroups.map((monthGroup, groupIndex) => (
               <MonthGroup
                 key={monthGroup.monthKey}

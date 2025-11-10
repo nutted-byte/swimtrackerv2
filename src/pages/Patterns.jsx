@@ -30,7 +30,7 @@ export const Patterns = () => {
           <h1 className="font-display text-4xl font-bold mb-4">
             Pattern Analysis
           </h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-content-tertiary mb-8">
             Upload swim data to discover your performance patterns!
           </p>
           <Link to="/upload" className="btn-primary inline-flex items-center gap-2">
@@ -92,7 +92,7 @@ export const Patterns = () => {
                 <h3 className="font-display text-xl font-semibold mb-2 capitalize">
                   {streakAnalysis.streakType} Streak!
                 </h3>
-                <p className="text-gray-300 mb-3">
+                <p className="text-content-secondary mb-3">
                   {streakAnalysis.message}
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-500/20 rounded-full text-sm text-primary-400">
@@ -133,21 +133,21 @@ export const Patterns = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-2">
-                          <p className="text-sm font-medium text-gray-300">
+                          <p className="text-sm font-medium text-content-secondary">
                             {formatDate(anomaly.session.date)}
                           </p>
                           <span className={`text-xs px-2 py-0.5 rounded-full ${
                             anomaly.severity === 'extreme'
                               ? 'bg-primary-500/20 text-primary-400'
-                              : 'bg-gray-700 text-gray-400'
+                              : 'bg-dark-bg text-content-tertiary'
                           }`}>
                             {anomaly.severity === 'extreme' ? 'Extreme' : 'Notable'}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-400 mb-2">
+                        <p className="text-sm text-content-tertiary mb-2">
                           {anomaly.message}
                         </p>
-                        <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-4 text-xs text-content-tertiary">
                           <span>{(anomaly.session.distance / 1000).toFixed(2)}km</span>
                           {anomaly.session.pace > 0 && (
                             <span>{formatPace(anomaly.session.pace)} pace</span>
@@ -161,7 +161,7 @@ export const Patterns = () => {
             </div>
 
             {anomalyAnalysis.anomalies.length > 5 && (
-              <p className="text-sm text-gray-500 text-center mt-4">
+              <p className="text-sm text-content-tertiary text-center mt-4">
                 + {anomalyAnalysis.anomalies.length - 5} more unusual swims
               </p>
             )}
@@ -199,7 +199,7 @@ export const Patterns = () => {
                         {isImprovement ? '↑' : '↓'} {Math.abs(change.changePercent).toFixed(1)}%
                       </span>
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-content-tertiary">
                       {change.message}
                     </p>
                   </div>
@@ -237,7 +237,7 @@ export const Patterns = () => {
                       {isBest && <span className="text-xs text-green-400">⭐ Best</span>}
                       {isMostFrequent && <span className="text-xs text-primary-400">🔥 Most</span>}
                     </div>
-                    <p className="text-xs text-gray-400 mb-1">{dayStat.count} swims</p>
+                    <p className="text-xs text-content-tertiary mb-1">{dayStat.count} swims</p>
                     {dayStat.avgPace > 0 && (
                       <p className="text-sm font-semibold text-accent-blue">
                         {formatPace(dayStat.avgPace)}
@@ -251,7 +251,7 @@ export const Patterns = () => {
             {/* Insights */}
             {dayOfWeekAnalysis.insights.length > 0 && (
               <div className="space-y-3">
-                <p className="text-sm font-medium text-gray-400">Insights:</p>
+                <p className="text-sm font-medium text-content-tertiary">Insights:</p>
                 {dayOfWeekAnalysis.insights.map((insight, index) => (
                   <div
                     key={index}
@@ -261,7 +261,7 @@ export const Patterns = () => {
                       {insight.type === 'pace' ? '⚡' :
                        insight.type === 'frequency' ? '📅' : '📊'}
                     </div>
-                    <p className="text-sm text-gray-300">{insight.message}</p>
+                    <p className="text-sm text-content-secondary">{insight.message}</p>
                   </div>
                 ))}
               </div>
@@ -280,14 +280,14 @@ export const Patterns = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {monthlyAnalysis.bestMonth && (
                 <div className="p-4 bg-dark-bg rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">Best Month (Pace)</p>
+                  <p className="text-sm text-content-tertiary mb-2">Best Month (Pace)</p>
                   <p className="font-display text-2xl font-bold text-accent-blue mb-1">
                     {new Date(monthlyAnalysis.bestMonth.month + '-01').toLocaleDateString('en-US', {
                       month: 'long',
                       year: 'numeric'
                     })}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-content-tertiary">
                     {formatPace(monthlyAnalysis.bestMonth.avgPace)} avg pace
                   </p>
                 </div>
@@ -295,14 +295,14 @@ export const Patterns = () => {
 
               {monthlyAnalysis.mostActiveMonth && (
                 <div className="p-4 bg-dark-bg rounded-lg">
-                  <p className="text-sm text-gray-400 mb-2">Most Active Month</p>
+                  <p className="text-sm text-content-tertiary mb-2">Most Active Month</p>
                   <p className="font-display text-2xl font-bold text-primary-400 mb-1">
                     {new Date(monthlyAnalysis.mostActiveMonth.month + '-01').toLocaleDateString('en-US', {
                       month: 'long',
                       year: 'numeric'
                     })}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-content-tertiary">
                     {monthlyAnalysis.mostActiveMonth.count} swims
                   </p>
                 </div>
@@ -311,10 +311,10 @@ export const Patterns = () => {
 
             {/* Monthly timeline */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400 mb-3">Activity Timeline:</p>
+              <p className="text-sm font-medium text-content-tertiary mb-3">Activity Timeline:</p>
               {monthlyAnalysis.monthStats.slice(-6).map((month) => (
                 <div key={month.month} className="flex items-center gap-3">
-                  <span className="text-xs text-gray-500 w-24">
+                  <span className="text-xs text-content-tertiary w-24">
                     {new Date(month.month + '-01').toLocaleDateString('en-US', {
                       month: 'short',
                       year: 'numeric'
@@ -340,8 +340,8 @@ export const Patterns = () => {
         {!dayOfWeekAnalysis.hasSufficientData && !monthlyAnalysis.hasSufficientData && (
           <Card>
             <div className="text-center py-8">
-              <p className="text-xl text-gray-400 mb-2">Not Enough Data Yet</p>
-              <p className="text-sm text-gray-500">
+              <p className="text-xl text-content-tertiary mb-2">Not Enough Data Yet</p>
+              <p className="text-sm text-content-tertiary">
                 Upload more swim sessions to see detailed pattern analysis!
               </p>
             </div>

@@ -40,26 +40,26 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
     : null;
 
   return (
-    <div className="mb-6">
+    <div className="bg-dark-card border border-dark-border rounded-xl overflow-hidden">
       {/* Month Header */}
       <div
-        className="sticky top-0 z-10 bg-dark-bg/95 backdrop-blur-sm border-b border-dark-border mb-4 -mx-4 px-4 py-4 cursor-pointer"
+        className="sticky top-0 z-10 bg-dark-card backdrop-blur-sm px-4 py-4 cursor-pointer border-b border-dark-border"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-dark-card rounded-lg transition-colors">
+            <button className="p-2 hover:bg-dark-bg rounded-lg transition-colors">
               {isExpanded ? (
-                <ChevronDown className="w-5 h-5 text-gray-400" />
+                <ChevronDown className="w-5 h-5 text-content-tertiary" />
               ) : (
-                <ChevronUp className="w-5 h-5 text-gray-400" />
+                <ChevronUp className="w-5 h-5 text-content-tertiary" />
               )}
             </button>
             <div>
               <h2 className="font-display text-2xl font-bold flex items-center gap-2">
                 {monthName}
               </h2>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-content-tertiary mt-1">
                 {stats.totalSwims} swim{stats.totalSwims !== 1 ? 's' : ''} •{' '}
                 {(stats.totalDistance / 1000).toFixed(1)} km •{' '}
                 {Math.round(stats.totalDuration)} minutes
@@ -70,7 +70,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
           {/* Month Stats Summary */}
           <div className="hidden md:flex items-center gap-6">
             <div className="text-right">
-              <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
+              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-1">
                 <TrendingUp className="w-3 h-3" />
                 <span>Total Distance</span>
               </div>
@@ -96,7 +96,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
         {isExpanded && (
           <div className="md:hidden mt-4">
             <div>
-              <div className="flex items-center gap-2 text-xs text-gray-400 mb-1">
+              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-1">
                 <TrendingUp className="w-3 h-3" />
                 <span>Total Distance</span>
               </div>
@@ -124,7 +124,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
             <div className="flex flex-wrap gap-3">
               {stats.bestPace && (
                 <div className="px-3 py-2 bg-accent-blue/10 border border-accent-blue/20 rounded-lg">
-                  <p className="text-xs text-gray-400 mb-1">Best Pace</p>
+                  <p className="text-xs text-content-tertiary mb-1">Best Pace</p>
                   <p className="text-sm font-semibold text-accent-blue">
                     {formatPace(stats.bestPace.pace)} on{' '}
                     {new Date(stats.bestPace.date).toLocaleDateString('en-US', {
@@ -136,7 +136,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
               )}
               {stats.longestSwim && (
                 <div className="px-3 py-2 bg-primary-500/10 border border-primary-500/20 rounded-lg">
-                  <p className="text-xs text-gray-400 mb-1">Longest Swim</p>
+                  <p className="text-xs text-content-tertiary mb-1">Longest Swim</p>
                   <p className="text-sm font-semibold text-primary-400">
                     {(stats.longestSwim.distance / 1000).toFixed(2)} km on{' '}
                     {new Date(stats.longestSwim.date).toLocaleDateString('en-US', {
@@ -159,9 +159,9 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden"
+            className="overflow-hidden bg-dark-bg"
           >
-            <div className="space-y-3">
+            <div className="space-y-3 p-4">
               {children}
             </div>
           </motion.div>

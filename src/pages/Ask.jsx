@@ -158,7 +158,7 @@ export const Ask = () => {
           <h1 className="font-display text-4xl font-bold mb-4">
             Swim Coach
           </h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-content-tertiary mb-8">
             Upload some swim data first to start asking questions!
           </p>
           <Link to="/upload" className="btn-primary inline-flex items-center gap-2">
@@ -178,7 +178,7 @@ export const Ask = () => {
           tokenStats.queryCount > 0 && (
             <div className="flex items-center gap-2 px-3 py-1.5 bg-dark-card rounded-lg text-sm">
               <Zap className="w-4 h-4 text-yellow-400" />
-              <span className="text-gray-400">
+              <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
               </span>
               {tokenStats.cachedCount > 0 && (
@@ -214,12 +214,12 @@ export const Ask = () => {
                   <h3 className="font-display text-xl font-semibold mb-2">
                     Ask me anything about your swimming!
                   </h3>
-                  <p className="text-gray-400 mb-4">
+                  <p className="text-content-tertiary mb-4">
                     I can analyze your {sessions.length} swim sessions and help you understand your progress, find patterns, and identify your best performances.
                   </p>
 
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-500 font-medium">Try asking:</p>
+                    <p className="text-sm text-content-tertiary font-medium">Try asking:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {exampleQueries.slice(0, 6).map(example => (
                         <button
@@ -229,7 +229,7 @@ export const Ask = () => {
                         >
                           <div className="flex items-center gap-2">
                             <MessageCircle className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                            <span className="text-gray-300 group-hover:text-white transition-colors">
+                            <span className="text-content-secondary group-hover:text-white transition-colors">
                               "{example.question}"
                             </span>
                           </div>
@@ -271,15 +271,15 @@ export const Ask = () => {
                         <span className="font-medium text-sm">
                           {message.role === 'user' ? 'You' : 'AI Coach'}
                         </span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-content-tertiary">
                           {message.timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </span>
                       </div>
-                      <div className="text-gray-300 whitespace-pre-wrap leading-relaxed">
+                      <div className="text-content-secondary whitespace-pre-wrap leading-relaxed">
                         {message.content}
                       </div>
                       {message.usage && (
-                        <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
+                        <div className="mt-2 flex items-center gap-2 text-xs text-content-tertiary">
                           <span>
                             {message.usage.inputTokens + message.usage.outputTokens} tokens
                           </span>
@@ -307,7 +307,7 @@ export const Ask = () => {
                   <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center">
                     <Loader2 className="w-5 h-5 text-accent-blue animate-spin" />
                   </div>
-                  <div className="text-gray-400">Analyzing your swim data...</div>
+                  <div className="text-content-tertiary">Analyzing your swim data...</div>
                 </div>
               </Card>
             </motion.div>
@@ -327,9 +327,9 @@ export const Ask = () => {
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-red-400 font-medium mb-1">Error</p>
-                <p className="text-sm text-gray-400">{error}</p>
+                <p className="text-sm text-content-tertiary">{error}</p>
                 {error.includes('API key') && (
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-content-tertiary mt-2">
                     Add your Anthropic API key to .env file: VITE_ANTHROPIC_API_KEY=your-key-here
                   </p>
                 )}
@@ -348,12 +348,12 @@ export const Ask = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question about your swimming..."
               disabled={loading}
-              className="flex-1 bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-700 disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-bg disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-2"
             >
               {loading ? (
                 <>

@@ -19,7 +19,7 @@ export const DeepInsightCard = ({ analysis }) => {
     return (
       <Card>
         <div className="text-center py-8">
-          <p className="text-gray-400">No detailed analysis available</p>
+          <p className="text-content-tertiary">No detailed analysis available</p>
         </div>
       </Card>
     );
@@ -39,7 +39,7 @@ export const DeepInsightCard = ({ analysis }) => {
       case 'high': return 'text-accent-coral';
       case 'medium': return 'text-yellow-400';
       case 'positive': return 'text-green-400';
-      default: return 'text-gray-400';
+      default: return 'text-content-tertiary';
     }
   };
 
@@ -61,7 +61,7 @@ export const DeepInsightCard = ({ analysis }) => {
           </div>
           <div>
             <h3 className="font-display text-2xl font-bold">Deep Dive Analysis</h3>
-            <p className="text-sm text-gray-400">AI-powered insights from your latest swim</p>
+            <p className="text-sm text-content-tertiary">AI-powered insights from your latest swim</p>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ export const DeepInsightCard = ({ analysis }) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           {comparative && (
             <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-gray-400 mb-1">Top Percentile</p>
+              <p className="text-xs text-content-tertiary mb-1">Top Percentile</p>
               <p className="font-display text-2xl font-bold text-accent-blue">
                 {comparative.percentile}%
               </p>
@@ -79,17 +79,17 @@ export const DeepInsightCard = ({ analysis }) => {
             <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Flame className="w-3 h-3 text-orange-400" />
-                <p className="text-xs text-gray-400">Streak</p>
+                <p className="text-xs text-content-tertiary">Streak</p>
               </div>
               <p className="font-display text-2xl font-bold text-orange-400">
                 {streaks.currentStreak}
               </p>
-              <p className="text-xs text-gray-500">weeks</p>
+              <p className="text-xs text-content-tertiary">weeks</p>
             </div>
           )}
           {daysSinceLastSwim !== undefined && (
             <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-gray-400 mb-1">Days Rest</p>
+              <p className="text-xs text-content-tertiary mb-1">Days Rest</p>
               <p className="font-display text-2xl font-bold text-primary-400">
                 {daysSinceLastSwim}
               </p>
@@ -97,7 +97,7 @@ export const DeepInsightCard = ({ analysis }) => {
           )}
           {pacing?.consistency && (
             <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-gray-400 mb-1">Consistency</p>
+              <p className="text-xs text-content-tertiary mb-1">Consistency</p>
               <p className="font-display text-2xl font-bold text-accent-blue">
                 {pacing.consistency}%
               </p>
@@ -117,7 +117,7 @@ export const DeepInsightCard = ({ analysis }) => {
               <h4 className="font-display text-xl font-semibold mb-2">Pacing Strategy</h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-400">Strategy:</span>
+                  <span className="text-content-tertiary">Strategy:</span>
                   <span className={`font-semibold capitalize ${
                     pacing.strategy === 'negative' ? 'text-green-400' :
                     pacing.strategy === 'even' ? 'text-accent-blue' :
@@ -128,12 +128,12 @@ export const DeepInsightCard = ({ analysis }) => {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-400">Pace Change:</span>
+                  <span className="text-content-tertiary">Pace Change:</span>
                   <span className="font-semibold">
                     {pacing.paceChange > 0 ? '+' : ''}{pacing.paceChange}%
                   </span>
                 </div>
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-sm text-content-tertiary mt-2">
                   {pacing.strategy === 'negative' && 'Excellent! You got faster as you swam - ideal race pacing.'}
                   {pacing.strategy === 'even' && 'Nice consistent pace throughout your swim.'}
                   {pacing.strategy === 'positive' && 'You started fast and slowed down - watch your starting pace.'}
@@ -164,7 +164,7 @@ export const DeepInsightCard = ({ analysis }) => {
               <h4 className="font-display text-xl font-semibold mb-2">Endurance & Fatigue</h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-400">Fatigue Index:</span>
+                  <span className="text-content-tertiary">Fatigue Index:</span>
                   <span className={`font-semibold ${
                     fatigue.fatigueIndex < 5 ? 'text-green-400' :
                     fatigue.fatigueIndex < 10 ? 'text-yellow-400' :
@@ -174,12 +174,12 @@ export const DeepInsightCard = ({ analysis }) => {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-400">Final vs Baseline:</span>
+                  <span className="text-content-tertiary">Final vs Baseline:</span>
                   <span className="font-semibold">
                     {formatPace(fatigue.finalPace)} vs {formatPace(fatigue.baselinePace)}
                   </span>
                 </div>
-                <p className="text-sm text-gray-400 mt-2">{fatigue.description}</p>
+                <p className="text-sm text-content-tertiary mt-2">{fatigue.description}</p>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ export const DeepInsightCard = ({ analysis }) => {
                 {comparative.vsRecent && (
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-gray-400">vs Recent Average (10 swims)</span>
+                      <span className="text-sm text-content-tertiary">vs Recent Average (10 swims)</span>
                       <span className={`text-sm font-semibold ${
                         comparative.vsRecent.isBetter ? 'text-green-400' : 'text-red-400'
                       }`}>
@@ -208,7 +208,7 @@ export const DeepInsightCard = ({ analysis }) => {
                         {Math.abs(comparative.vsRecent.paceDiff).toFixed(1)}%
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-content-tertiary">
                       Avg: {formatPace(comparative.vsRecent.avgPace)}
                     </p>
                   </div>
@@ -216,17 +216,17 @@ export const DeepInsightCard = ({ analysis }) => {
                 {comparative.vsPB && (
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-gray-400">vs Personal Best</span>
+                      <span className="text-sm text-content-tertiary">vs Personal Best</span>
                       <span className={`text-sm font-semibold ${
                         comparative.vsPB.isPB ? 'text-yellow-400' :
                         Math.abs(comparative.vsPB.paceDiff) < 3 ? 'text-green-400' :
-                        'text-gray-400'
+                        'text-content-tertiary'
                       }`}>
                         {comparative.vsPB.isPB ? '⭐ New PB!' :
                          `${comparative.vsPB.paceDiff > 0 ? '+' : ''}${comparative.vsPB.paceDiff.toFixed(1)}%`}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-content-tertiary">
                       PB: {formatPace(comparative.vsPB.pbPace)}
                     </p>
                   </div>
@@ -234,15 +234,15 @@ export const DeepInsightCard = ({ analysis }) => {
                 {comparative.vsSameDistance && (
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-gray-400">Best at This Distance</span>
+                      <span className="text-sm text-content-tertiary">Best at This Distance</span>
                       <span className={`text-sm font-semibold ${
-                        comparative.vsSameDistance.isBest ? 'text-yellow-400' : 'text-gray-400'
+                        comparative.vsSameDistance.isBest ? 'text-yellow-400' : 'text-content-tertiary'
                       }`}>
                         {comparative.vsSameDistance.isBest ? '⭐ Best!' :
                          `${comparative.vsSameDistance.paceDiff > 0 ? '+' : ''}${comparative.vsSameDistance.paceDiff.toFixed(1)}%`}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-content-tertiary">
                       Best: {formatPace(comparative.vsSameDistance.bestPace)}
                     </p>
                   </div>
@@ -265,22 +265,22 @@ export const DeepInsightCard = ({ analysis }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {patterns.bestDay && (
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <p className="text-sm text-gray-400 mb-1">Best Day</p>
+                    <p className="text-sm text-content-tertiary mb-1">Best Day</p>
                     <p className="font-display text-lg font-semibold text-accent-blue">
                       {patterns.bestDay.dayName}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-content-tertiary mt-1">
                       Avg: {formatPace(patterns.bestDay.avgPace)} ({patterns.bestDay.count} swims)
                     </p>
                   </div>
                 )}
                 {patterns.bestTime && (
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <p className="text-sm text-gray-400 mb-1">Best Time of Day</p>
+                    <p className="text-sm text-content-tertiary mb-1">Best Time of Day</p>
                     <p className="font-display text-lg font-semibold text-accent-blue capitalize">
                       {patterns.bestTime.time}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-content-tertiary mt-1">
                       Avg: {formatPace(patterns.bestTime.avgPace)} ({patterns.bestTime.count} swims)
                     </p>
                   </div>
@@ -300,7 +300,7 @@ export const DeepInsightCard = ({ analysis }) => {
             </div>
             <div>
               <h4 className="font-display text-xl font-semibold">Coach's Recommendations</h4>
-              <p className="text-sm text-gray-400">Personalized tips to improve your swimming</p>
+              <p className="text-sm text-content-tertiary">Personalized tips to improve your swimming</p>
             </div>
           </div>
 
@@ -319,9 +319,9 @@ export const DeepInsightCard = ({ analysis }) => {
                     <Icon className={`w-5 h-5 mt-0.5 ${getPriorityColor(rec.priority)}`} />
                     <div className="flex-1">
                       <h5 className="font-semibold mb-1">{rec.title}</h5>
-                      <p className="text-sm text-gray-400 mb-2">{rec.message}</p>
+                      <p className="text-sm text-content-tertiary mb-2">{rec.message}</p>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-500">Next Step:</span>
+                        <span className="text-xs text-content-tertiary">Next Step:</span>
                         <span className="text-xs text-primary-400 font-medium">{rec.action}</span>
                       </div>
                     </div>

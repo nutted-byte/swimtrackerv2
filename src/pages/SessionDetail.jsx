@@ -85,7 +85,7 @@ export const SessionDetail = () => {
         {/* Back Button */}
         <button
           onClick={() => navigate(backPath)}
-          className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-6"
+          className="flex items-center gap-2 text-content-tertiary hover:text-content transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to {backLabel}
@@ -93,14 +93,14 @@ export const SessionDetail = () => {
 
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-gray-400 mb-2">
+          <div className="flex items-center gap-2 text-content-tertiary mb-2">
             <Calendar className="w-4 h-4" />
             <span>{formatDate(session.date)}</span>
           </div>
           <h1 className="font-display text-5xl font-bold mb-2">
             {formatDistance(session.distance)}
           </h1>
-          <p className="text-xl text-gray-400">
+          <p className="text-xl text-content-tertiary">
             {session.sport || 'Swimming'} Session
           </p>
         </div>
@@ -155,19 +155,19 @@ export const SessionDetail = () => {
               {lapStats && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-dark-bg rounded-lg">
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">Fastest Length</p>
+                    <p className="text-sm text-content-tertiary mb-1">Fastest Length</p>
                     <p className="font-display text-lg font-semibold">
                       Length {lapStats.fastest.number} • {formatPace(lapStats.fastest.avgPace)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">Slowest Length</p>
+                    <p className="text-sm text-content-tertiary mb-1">Slowest Length</p>
                     <p className="font-display text-lg font-semibold">
                       Length {lapStats.slowest.number} • {formatPace(lapStats.slowest.avgPace)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">Avg Length Distance</p>
+                    <p className="text-sm text-content-tertiary mb-1">Avg Length Distance</p>
                     <p className="font-display text-lg font-semibold">
                       {Math.round(lapStats.avgDistance)} m
                     </p>
@@ -179,11 +179,11 @@ export const SessionDetail = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-dark-border">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Length</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Distance</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Duration</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Pace</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Strokes</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Length</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Distance</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Duration</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Pace</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Strokes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -226,21 +226,21 @@ export const SessionDetail = () => {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-400">File Name:</span>
-              <span className="ml-2 text-gray-200">{session.fileName || 'Unknown'}</span>
+              <span className="text-content-tertiary">File Name:</span>
+              <span className="ml-2 text-content-secondary">{session.fileName || 'Unknown'}</span>
             </div>
             <div>
-              <span className="text-gray-400">Session ID:</span>
-              <span className="ml-2 text-gray-200 font-mono text-xs">{session.id}</span>
+              <span className="text-content-tertiary">Session ID:</span>
+              <span className="ml-2 text-content-secondary font-mono text-xs">{session.id}</span>
             </div>
             <div>
-              <span className="text-gray-400">Sport:</span>
-              <span className="ml-2 text-gray-200">{session.sport || 'Swimming'}</span>
+              <span className="text-content-tertiary">Sport:</span>
+              <span className="ml-2 text-content-secondary">{session.sport || 'Swimming'}</span>
             </div>
             {session.laps && (
               <div>
-                <span className="text-gray-400">Total Lengths:</span>
-                <span className="ml-2 text-gray-200">{session.laps.length}</span>
+                <span className="text-content-tertiary">Total Lengths:</span>
+                <span className="ml-2 text-content-secondary">{session.laps.length}</span>
               </div>
             )}
           </div>

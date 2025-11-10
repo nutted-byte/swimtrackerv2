@@ -24,7 +24,7 @@ export const StreakCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <Card className="bg-gradient-to-br from-blue-500/20 to-accent-blue/5 border-blue-500/30">
+      <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-blue-500/20">

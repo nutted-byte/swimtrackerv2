@@ -142,7 +142,7 @@ export const Dashboard = () => {
           <h1 className="font-display text-4xl font-bold mb-4">
             Welcome to Swimma!
           </h1>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-content-tertiary mb-8">
             {message}
           </p>
           <Link
@@ -218,7 +218,7 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="font-display text-2xl font-bold mb-1">Recent Swims</h2>
-                <p className="text-gray-400 text-sm">Last 3 months of activity</p>
+                <p className="text-content-tertiary text-sm">Last 3 months of activity</p>
               </div>
               <Link
                 to="/swims"

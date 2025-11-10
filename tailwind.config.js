@@ -10,16 +10,16 @@ export default {
       colors: {
         // Ocean-inspired color palette
         primary: {
-          50: '#e6f2f5',
-          100: '#cce5eb',
-          200: '#99cbd7',
-          300: '#66b1c3',
-          400: '#3397af',
-          500: '#007d9b',  // Deep teal base
-          600: '#00647c',
-          700: '#004b5d',
-          800: '#00323e',
-          900: '#00191f',
+          50: '#e6f4f6',
+          100: '#cce9ed',
+          200: '#99d3db',
+          300: '#66bdc9',
+          400: '#33a7b7',
+          500: '#006B7D',  // Deeper ocean teal (was #007d9b)
+          600: '#005664',
+          700: '#00404b',
+          800: '#002b32',
+          900: '#001519',
         },
         accent: {
           blue: '#00d4ff',    // Electric blue
