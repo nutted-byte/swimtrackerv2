@@ -138,7 +138,7 @@ If you were using the app before with localStorage:
 
 When deploying to production (e.g., Netlify):
 
-⚠️ **IMPORTANT:** Follow the complete deployment checklist at `docs/DEPLOYMENT_CHECKLIST.md` before deploying!
+⚠️ **IMPORTANT:** Follow the complete deployment checklist at `docs/deployment/DEPLOYMENT_CHECKLIST.md` before deploying!
 
 ### 1. Configure Supabase Auth URLs (CRITICAL!)
 
@@ -180,7 +180,7 @@ This automatically triggers a Netlify deployment.
 
 ### 5. Verify Deployment
 
-See `docs/DEPLOYMENT_CHECKLIST.md` for post-deployment verification steps.
+See `docs/deployment/DEPLOYMENT_CHECKLIST.md` for post-deployment verification steps.
 
 ---
 
