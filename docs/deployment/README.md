@@ -8,6 +8,14 @@ Everything you need to safely deploy Swimma to production.
 
 **Before every production deployment, complete ALL steps:**
 
+### 0. Install Git Hooks (One-Time Setup)
+
+```bash
+./scripts/install-git-hooks.sh
+```
+
+This installs a pre-push hook that will automatically remind you to check Supabase Auth URLs before every push to main.
+
 ### 1. Run Automated Checks
 
 ```bash

@@ -39,6 +39,14 @@ Files in `.claude/rules/` are automatically included in Claude's context at the 
 - How to test features for each persona
 - When to reference full persona docs
 
+### `rules/deployment.md` ⚠️ CRITICAL
+- **REQUIRED checks before ANY production deployment**
+- **MUST ask user to verify Supabase Auth URLs manually**
+- Deployment procedures and methods
+- Post-deployment verification steps
+- Common deployment scenarios
+- Why this rule exists: Prevent production login failures
+
 ## Adding New Rules
 
 To add a new rule, create a markdown file in `.claude/rules/`:
@@ -116,5 +124,15 @@ With these rules, I'll automatically know:
 - Strategic product management capabilities
 - Your 5 user personas and their needs
 - How to test features for different user types
+- **⚠️ CRITICAL: To always ask about Supabase Auth URLs before deploying**
 
 This means you don't need to explain the same context in every conversation!
+
+## Most Important Rule: Deployment
+
+**The `deployment.md` rule is critical** because:
+1. Forgetting to verify Supabase Auth URLs causes production login failures
+2. This has happened before and must never happen again
+3. The automated script cannot check this - only you (the user) can
+4. I (Claude) will always ask you to verify before deploying
+5. Even if it seems repetitive - I'll always ask!
