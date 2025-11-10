@@ -138,7 +138,19 @@ If you were using the app before with localStorage:
 
 When deploying to production (e.g., Netlify):
 
-### Update Google OAuth
+⚠️ **IMPORTANT:** Follow the complete deployment checklist at `docs/DEPLOYMENT_CHECKLIST.md` before deploying!
+
+### 1. Configure Supabase Auth URLs (CRITICAL!)
+
+1. Go to your Supabase dashboard: **Authentication** > **URL Configuration**
+   - Direct link: `https://supabase.com/dashboard/project/YOUR_PROJECT_REF/auth/url-configuration`
+2. Set **Site URL** to: `https://your-app.netlify.app`
+3. Add to **Redirect URLs**:
+   - `https://your-app.netlify.app/**`
+   - `https://your-app.netlify.app/auth/callback`
+4. Click **Save**
+
+### 2. Update Google OAuth
 
 1. Go back to Google Cloud Console > Credentials
 2. Edit your OAuth client
@@ -147,7 +159,7 @@ When deploying to production (e.g., Netlify):
    - **Authorized redirect URIs**: `https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback`
 4. Save
 
-### Set Environment Variables in Netlify
+### 3. Set Environment Variables in Netlify
 
 1. Go to your Netlify site settings
 2. Navigate to "Site settings" > "Environment variables"
@@ -155,6 +167,20 @@ When deploying to production (e.g., Netlify):
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
 4. Redeploy your site
+
+### 4. Deploy via GitHub (Recommended)
+
+Since Netlify is connected to your GitHub repo, simply push to main:
+
+```bash
+git push origin main
+```
+
+This automatically triggers a Netlify deployment.
+
+### 5. Verify Deployment
+
+See `docs/DEPLOYMENT_CHECKLIST.md` for post-deployment verification steps.
 
 ---
 
