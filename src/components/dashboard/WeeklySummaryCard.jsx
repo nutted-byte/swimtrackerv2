@@ -28,7 +28,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
       case 'down':
         return { Icon: TrendingDown, color: 'text-red-400' };
       default:
-        return { Icon: Minus, color: 'text-gray-400' };
+        return { Icon: Minus, color: 'text-content-tertiary' };
     }
   };
 

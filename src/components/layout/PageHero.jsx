@@ -46,7 +46,7 @@ export const PageHero = ({
       </div>
 
       {subtitle && (
-        <p className="text-gray-400">
+        <p className="text-content-tertiary">
           {subtitle}
         </p>
       )}

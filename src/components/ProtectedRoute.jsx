@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ children }) => {
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Loading...</p>
+          <p className="text-content-tertiary">Loading...</p>
         </div>
       </div>
     );

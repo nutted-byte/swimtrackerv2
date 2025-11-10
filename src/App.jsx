@@ -31,7 +31,7 @@ const PageLoader = () => (
   <div className="min-h-screen bg-dark-bg flex items-center justify-center">
     <div className="text-center">
       <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-      <p className="text-gray-400">Loading...</p>
+      <p className="text-content-tertiary">Loading...</p>
     </div>
   </div>
 );
@@ -115,8 +115,8 @@ function AppContent() {
                   {/* Desktop User Menu */}
                   <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
                     <div className="flex items-center gap-2 text-sm">
-                      <User className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-300">
+                      <User className="w-4 h-4 text-content-tertiary" />
+                      <span className="text-content-secondary">
                         {user?.user_metadata?.full_name?.split(' ')[0] ||
                          user?.user_metadata?.name?.split(' ')[0] ||
                          user?.email?.split('@')[0] ||
@@ -125,7 +125,7 @@ function AppContent() {
                     </div>
                     <button
                       onClick={handleSignOut}
-                      className="p-2 rounded-lg hover:bg-dark-card transition-colors text-gray-400 hover:text-red-400"
+                      className="p-2 rounded-lg hover:bg-dark-card transition-colors text-content-tertiary hover:text-red-400"
                       title="Sign out"
                     >
                       <LogOut className="w-4 h-4" />

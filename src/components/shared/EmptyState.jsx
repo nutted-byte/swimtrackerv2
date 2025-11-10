@@ -24,7 +24,7 @@ export const EmptyState = ({
         <h1 className="font-display text-4xl font-bold mb-4">
           {title}
         </h1>
-        <p className="text-xl text-gray-400 mb-8">
+        <p className="text-xl text-content-tertiary mb-8">
           {description}
         </p>
         {actionLabel && actionTo && (

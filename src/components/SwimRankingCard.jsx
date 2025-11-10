@@ -74,10 +74,10 @@ export const SwimRankingCard = ({ ranking }) => {
         <div className="text-3xl">{emoji}</div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <Icon className="w-4 h-4 text-gray-400" />
+            <Icon className="w-4 h-4 text-content-tertiary" />
             <h4 className="font-semibold text-white">{label}</h4>
           </div>
-          <p className="text-sm text-gray-300">{description}</p>
+          <p className="text-sm text-content-secondary">{description}</p>
         </div>
       </div>
     </motion.div>
@@ -97,7 +97,7 @@ export const SwimRankingCard = ({ ranking }) => {
             <h3 className="font-display text-xl font-bold">
               How This Swim Compares
             </h3>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-content-tertiary">
               Compared to your recent swims
             </p>
           </div>
@@ -126,7 +126,7 @@ export const SwimRankingCard = ({ ranking }) => {
                 <p className="text-sm font-semibold text-primary-400">
                   #{ranking.monthRank} This Month
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-content-tertiary">
                   Out of {ranking.monthTotal} swims in the last 30 days
                 </p>
               </div>

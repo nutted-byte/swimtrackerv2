@@ -26,10 +26,10 @@ export const ShareButton = ({
   };
 
   const variants = {
-    default: 'bg-dark-card hover:bg-dark-border text-gray-300 hover:text-primary-400',
+    default: 'bg-dark-card hover:bg-dark-border text-content-secondary hover:text-primary-400',
     primary: 'bg-primary-500 hover:bg-primary-600 text-white',
-    ghost: 'bg-transparent hover:bg-dark-card/50 text-gray-400 hover:text-primary-400',
-    minimal: 'bg-transparent hover:bg-dark-card text-gray-500 hover:text-primary-400'
+    ghost: 'bg-transparent hover:bg-dark-card/50 text-content-tertiary hover:text-primary-400',
+    minimal: 'bg-transparent hover:bg-dark-card text-content-tertiary hover:text-primary-400'
   };
 
   if (children) {

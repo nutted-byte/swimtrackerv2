@@ -15,7 +15,7 @@ export const PaceComparison = ({ currentPace, averagePace }) => {
   // Determine status
   let status = 'neutral';
   let Icon = Minus;
-  let color = 'text-gray-400';
+  let color = 'text-content-tertiary';
   let bgColor = 'bg-gray-500/20';
   let borderColor = 'border-gray-500/30';
   let label = 'On pace';

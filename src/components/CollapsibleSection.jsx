@@ -57,7 +57,7 @@ export const CollapsibleSection = ({
                 )}
               </div>
               {subtitle && (
-                <p className={`text-sm mt-0.5 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+                <p className={`text-sm mt-0.5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
                   {subtitle}
                 </p>
               )}
@@ -65,23 +65,23 @@ export const CollapsibleSection = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-600'}`}>
+            <span className={`text-sm ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
               {isExpanded ? 'Hide' : 'Show'}
             </span>
             {isExpanded ? (
               <ChevronUp className={`
                 w-5 h-5 transition-colors
                 ${isDark
-                  ? 'text-gray-400 group-hover:text-primary-400'
-                  : 'text-slate-500 group-hover:text-primary-500'
+                  ? 'text-content-tertiary group-hover:text-primary-400'
+                  : 'text-content-tertiary group-hover:text-primary-500'
                 }
               `} />
             ) : (
               <ChevronDown className={`
                 w-5 h-5 transition-colors
                 ${isDark
-                  ? 'text-gray-400 group-hover:text-primary-400'
-                  : 'text-slate-500 group-hover:text-primary-500'
+                  ? 'text-content-tertiary group-hover:text-primary-400'
+                  : 'text-content-tertiary group-hover:text-primary-500'
                 }
               `} />
             )}

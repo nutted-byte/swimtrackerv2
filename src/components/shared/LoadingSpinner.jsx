@@ -14,7 +14,7 @@ export const LoadingSpinner = ({ size = 'md', className = '', text }) => {
   return (
     <div className={`flex flex-col items-center justify-center gap-3 ${className}`}>
       <Loader2 className={`${sizeClasses[size]} animate-spin text-primary-400`} />
-      {text && <p className="text-sm text-gray-400">{text}</p>}
+      {text && <p className="text-sm text-content-tertiary">{text}</p>}
     </div>
   );
 };

@@ -19,11 +19,11 @@ export const FunComparisons = ({ comparisons }) => {
       <div className="flex items-center gap-3 mb-2">
         <span className="text-2xl">{item.icon}</span>
         <div className="flex-1">
-          <p className="text-sm text-gray-400">{item.label}</p>
+          <p className="text-sm text-content-tertiary">{item.label}</p>
           <p className="font-display text-2xl font-bold">{item.value}</p>
         </div>
       </div>
-      <p className="text-xs text-gray-500">{item.description}</p>
+      <p className="text-xs text-content-tertiary">{item.description}</p>
     </motion.div>
   );
 
@@ -35,7 +35,7 @@ export const FunComparisons = ({ comparisons }) => {
         </div>
         <div>
           <h2 className="font-display text-2xl font-bold">Fun Facts</h2>
-          <p className="text-sm text-gray-400">Your swimming journey in perspective</p>
+          <p className="text-sm text-content-tertiary">Your swimming journey in perspective</p>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ export const FunComparisons = ({ comparisons }) => {
         {/* Distance Comparisons */}
         {distance && distance.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-content-tertiary mb-3 flex items-center gap-2">
               <span>🏊</span> Distance
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,7 +57,7 @@ export const FunComparisons = ({ comparisons }) => {
         {/* Stroke Comparisons */}
         {strokes && strokes.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-content-tertiary mb-3 flex items-center gap-2">
               <span>💪</span> Strokes
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -75,7 +75,7 @@ export const FunComparisons = ({ comparisons }) => {
         {/* Duration Comparisons */}
         {duration && duration.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-content-tertiary mb-3 flex items-center gap-2">
               <span>⏰</span> Time
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

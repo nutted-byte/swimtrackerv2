@@ -615,7 +615,7 @@ export const SwimShareCard = forwardRef(({
               }}>
                 Swimma
               </h1>
-              <p className="text-gray-400" style={{ fontSize: '22px' }}>Swim Tracker</p>
+              <p className="text-content-tertiary" style={{ fontSize: '22px' }}>Swim Tracker</p>
             </div>
           </div>
 

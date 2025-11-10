@@ -15,7 +15,7 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
     const getStatusColor = (isBetter) => {
       if (isBetter === true) return 'text-accent-blue';
       if (isBetter === false) return 'text-accent-coral';
-      return 'text-gray-400';
+      return 'text-content-tertiary';
     };
 
     const getStatusIcon = (isBetter) => {
@@ -36,7 +36,7 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
             <div className="p-2 rounded-lg bg-dark-bg">
               <Icon className={`${tokens.icons.md} text-primary-400`} />
             </div>
-            <h4 className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-gray-300`}>
+            <h4 className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-content-secondary`}>
               {title}
             </h4>
           </div>
@@ -46,7 +46,7 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
             {/* Pace */}
             {data.paceDiff !== undefined && (
               <div>
-                <p className="text-xs text-gray-500 mb-2">Pace Difference</p>
+                <p className="text-xs text-content-tertiary mb-2">Pace Difference</p>
                 <div className="flex items-center gap-2">
                   {(() => {
                     const StatusIcon = getStatusIcon(data.isBetter || data.isPB);
@@ -60,7 +60,7 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
                     {data.paceDiff > 0 ? '+' : ''}{data.paceDiff.toFixed(1)}%
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-content-tertiary mt-1">
                   {data.isBetter || data.isPB
                     ? '🚀 Faster than reference'
                     : '🐢 Slower than reference'}
@@ -71,11 +71,11 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
             {/* Reference pace */}
             {(data.avgPace || data.pbPace || data.bestPace) && (
               <div className="pt-3 border-t border-dark-border">
-                <p className="text-xs text-gray-500 mb-1">Reference Pace</p>
-                <p className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-gray-300`}>
+                <p className="text-xs text-content-tertiary mb-1">Reference Pace</p>
+                <p className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-content-secondary`}>
                   {formatPace(data.avgPace || data.pbPace || data.bestPace)}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">min/100m</p>
+                <p className="text-xs text-content-tertiary mt-1">min/100m</p>
               </div>
             )}
 

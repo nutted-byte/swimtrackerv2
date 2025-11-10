@@ -37,7 +37,7 @@ export const NextMilestones = ({ milestones }) => {
         </div>
         <div>
           <h2 className="font-display text-2xl font-bold">Next Milestones</h2>
-          <p className="text-sm text-gray-400">You're so close to these achievements!</p>
+          <p className="text-sm text-content-tertiary">You're so close to these achievements!</p>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ export const NextMilestones = ({ milestones }) => {
                   </div>
                   <div>
                     <h3 className="font-semibold">{milestone.title}</h3>
-                    <p className="text-xs text-gray-500">{milestone.unit}</p>
+                    <p className="text-xs text-content-tertiary">{milestone.unit}</p>
                   </div>
                 </div>
                 <span className="text-sm font-semibold text-primary-400">
@@ -84,18 +84,18 @@ export const NextMilestones = ({ milestones }) => {
               {/* Current vs Target */}
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-xs text-gray-500">Current</p>
+                  <p className="text-xs text-content-tertiary">Current</p>
                   <p className="font-display text-lg font-bold">{milestone.displayCurrent}</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-600" />
+                <ChevronRight className="w-5 h-5 text-content-tertiary" />
                 <div className="text-right">
-                  <p className="text-xs text-gray-500">Target</p>
+                  <p className="text-xs text-content-tertiary">Target</p>
                   <p className="font-display text-lg font-bold text-primary-400">{milestone.displayTarget}</p>
                 </div>
               </div>
 
               {/* Message */}
-              <p className="text-sm text-gray-400">{milestone.message}</p>
+              <p className="text-sm text-content-tertiary">{milestone.message}</p>
             </motion.div>
           );
         })}

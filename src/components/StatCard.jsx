@@ -13,10 +13,10 @@ export const StatCard = memo(({
   const { isDark } = useTheme();
 
   const getTrendColor = () => {
-    if (!trend) return isDark ? 'text-gray-400' : 'text-slate-500';
+    if (!trend) return isDark ? 'text-content-tertiary' : 'text-content-tertiary';
     if (trend > 0) return 'text-accent-blue';
     if (trend < 0) return 'text-accent-coral';
-    return isDark ? 'text-gray-400' : 'text-slate-500';
+    return isDark ? 'text-content-tertiary' : 'text-content-tertiary';
   };
 
   const getTrendSymbol = () => {
@@ -34,7 +34,7 @@ export const StatCard = memo(({
           <div className="flex items-baseline gap-2 mt-2">
             <span className="stat-value">{value}</span>
             {unit && (
-              <span className={`text-xl ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
+              <span className={`text-xl ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
                 {unit}
               </span>
             )}

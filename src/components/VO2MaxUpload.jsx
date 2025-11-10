@@ -52,7 +52,7 @@ export const VO2MaxUpload = () => {
           <h3 className="font-display text-lg font-semibold mb-2">
             Add VO2 Max Data
           </h3>
-          <p className="text-gray-400 text-sm mb-4">
+          <p className="text-content-tertiary text-sm mb-4">
             Upload a CSV file with VO2 max data to automatically match it to your swim sessions by date.
             Supports Apple Health export format.
           </p>
@@ -99,7 +99,7 @@ export const VO2MaxUpload = () => {
                 <h4 className="font-semibold text-accent-blue mb-1">
                   VO2 Max Data Uploaded Successfully
                 </h4>
-                <div className="text-sm text-gray-400 space-y-1">
+                <div className="text-sm text-content-tertiary space-y-1">
                   <p>✓ {result.matchedCount} swim session{result.matchedCount !== 1 ? 's' : ''} updated</p>
                 </div>
               </div>
@@ -107,7 +107,7 @@ export const VO2MaxUpload = () => {
                 onClick={handleDismiss}
                 className="p-1 hover:bg-accent-blue/20 rounded transition-colors"
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X className="w-4 h-4 text-content-tertiary" />
               </button>
             </div>
           </motion.div>
@@ -124,20 +124,20 @@ export const VO2MaxUpload = () => {
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
                 <h4 className="font-semibold text-red-400 mb-1">Upload Failed</h4>
-                <p className="text-sm text-gray-400">{error}</p>
+                <p className="text-sm text-content-tertiary">{error}</p>
               </div>
               <button
                 onClick={handleDismiss}
                 className="p-1 hover:bg-red-500/20 rounded transition-colors"
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X className="w-4 h-4 text-content-tertiary" />
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="text-xs text-gray-500 space-y-1">
+      <div className="text-xs text-content-tertiary space-y-1">
         <p>Expected CSV format:</p>
         <ul className="list-disc list-inside ml-2 space-y-1">
           <li>Apple Health: Direct export from Apple Health app</li>

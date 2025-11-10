@@ -33,7 +33,7 @@ export const MobileBottomNav = () => {
               className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-all ${
                 active
                   ? 'bg-primary-500/20 text-primary-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  : 'text-content-tertiary hover:text-content-secondary'
               }`}
             >
               <Icon className="w-6 h-6" />

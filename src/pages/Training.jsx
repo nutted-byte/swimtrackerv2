@@ -419,7 +419,7 @@ export const Training = () => {
               <Zap className="w-4 h-4 text-yellow-400" />
               <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
-
+              </span>
               {tokenStats.cachedCount > 0 && (
                 <span className="text-green-400 text-xs">
                   ({tokenStats.cachedCount} cached)

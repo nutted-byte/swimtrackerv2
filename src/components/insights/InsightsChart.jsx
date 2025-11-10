@@ -69,7 +69,7 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
 
     return (
       <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg min-w-[200px]">
-        <p className="text-sm text-gray-400 mb-2">{data.fullDate}</p>
+        <p className="text-sm text-content-tertiary mb-2">{data.fullDate}</p>
 
         {milestoneType && (
           <div className="mb-2 px-2 py-1 bg-yellow-500/20 rounded text-yellow-400 text-xs font-semibold flex items-center gap-1">
@@ -83,14 +83,14 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
               <p className="font-display font-semibold text-accent-blue text-lg">
                 {formatPace(data.pace)}
               </p>
-              <p className="text-xs text-gray-500">min/100m</p>
+              <p className="text-xs text-content-tertiary">min/100m</p>
             </div>
             {data.swolf > 0 && (
               <div className="pt-2 border-t border-dark-border">
                 <p className="font-display font-semibold text-purple-400">
                   SWOLF: {data.swolf}
                 </p>
-                <p className="text-xs text-gray-500">efficiency score</p>
+                <p className="text-xs text-content-tertiary">efficiency score</p>
               </div>
             )}
           </div>
@@ -114,7 +114,7 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
             <p className="font-display font-semibold text-accent-blue text-lg">
               {data.dps.toFixed(2)}m/stroke
             </p>
-            <p className="text-xs text-gray-500">Distance Per Stroke</p>
+            <p className="text-xs text-content-tertiary">Distance Per Stroke</p>
           </div>
         )}
 
@@ -125,7 +125,7 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
         )}
 
         {granularity !== 'session' && data.count && (
-          <div className="mt-2 text-xs text-gray-500">
+          <div className="mt-2 text-xs text-content-tertiary">
             {data.count} swim{data.count > 1 ? 's' : ''}
           </div>
         )}
@@ -217,17 +217,17 @@ export const InsightsChart = ({
                 const data = payload[0].payload;
                 return (
                   <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg">
-                    <p className="text-sm text-gray-400 mb-2">{data.date}</p>
+                    <p className="text-sm text-content-tertiary mb-2">{data.date}</p>
                     <p className="text-sm">
-                      <span className="text-gray-400">Pace:</span>{' '}
+                      <span className="text-content-tertiary">Pace:</span>{' '}
                       <span className="font-semibold text-accent-blue">{formatPace(data.pace)}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="text-gray-400">SWOLF:</span>{' '}
+                      <span className="text-content-tertiary">SWOLF:</span>{' '}
                       <span className="font-semibold text-accent-blue">{data.swolf}</span>
                     </p>
                     <p className="text-sm">
-                      <span className="text-gray-400">Distance:</span>{' '}
+                      <span className="text-content-tertiary">Distance:</span>{' '}
                       <span className="font-semibold text-accent-blue">{data.distance.toFixed(2)} km</span>
                     </p>
                   </div>

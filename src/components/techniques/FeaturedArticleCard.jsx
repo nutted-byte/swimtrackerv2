@@ -79,7 +79,7 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
           <div className="flex items-start justify-between mb-4">
             <div className="text-4xl">{categoryIcons[article.category]}</div>
             <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
-              isDark ? 'bg-dark-bg/50 text-gray-300' : 'bg-white/80 text-slate-700'
+              isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
             }`}>
               {article.level}
             </span>

@@ -93,10 +93,10 @@ export const FileUpload = ({ onFilesUploaded }) => {
             <h3 className="font-display text-xl font-semibold mb-2">
               Upload Swim Data
             </h3>
-            <p className="text-gray-400 mb-4">
+            <p className="text-content-tertiary mb-4">
               Drag and drop your swim files here, or click to browse
             </p>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-content-tertiary mb-6">
               Supports .FIT, .TCX, and .CSV files (max 10MB)
             </p>
 
@@ -155,7 +155,7 @@ export const FileUpload = ({ onFilesUploaded }) => {
                     <File className="w-5 h-5 text-primary-400" />
                     <div>
                       <p className="text-sm font-medium">{file.name}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-content-tertiary">
                         {(file.size / 1024).toFixed(1)} KB
                       </p>
                     </div>
@@ -164,7 +164,7 @@ export const FileUpload = ({ onFilesUploaded }) => {
                     <CheckCircle className="w-5 h-5 text-accent-blue" />
                     <button
                       onClick={() => removeFile(index)}
-                      className="text-gray-400 hover:text-accent-coral transition-colors"
+                      className="text-content-tertiary hover:text-accent-coral transition-colors"
                     >
                       <XCircle className="w-5 h-5" />
                     </button>

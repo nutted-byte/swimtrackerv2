@@ -35,7 +35,7 @@ export const Login = () => {
               <h1 className="font-display text-4xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
                 Swimma
               </h1>
-              <p className="text-gray-400 text-sm">Your swimming analytics</p>
+              <p className="text-content-tertiary text-sm">Your swimming analytics</p>
             </div>
           </div>
 
@@ -44,7 +44,7 @@ export const Login = () => {
             See Every Improvement.
           </h2>
 
-          <p className="text-gray-400 text-lg mb-8">
+          <p className="text-content-tertiary text-lg mb-8">
             Upload your swim data, analyze your performance, and watch yourself get faster.
           </p>
 
@@ -76,7 +76,7 @@ export const Login = () => {
         >
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-2 text-white">Welcome Back</h3>
-            <p className="text-gray-400">Sign in to access your swim data</p>
+            <p className="text-content-tertiary">Sign in to access your swim data</p>
           </div>
 
           <button
@@ -120,7 +120,7 @@ export const Login = () => {
             </div>
           )}
 
-          <p className="text-xs text-gray-500 text-center mt-6">
+          <p className="text-xs text-content-tertiary text-center mt-6">
             By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </motion.div>
@@ -137,7 +137,7 @@ const FeatureItem = ({ icon, title, description }) => (
     </div>
     <div>
       <h4 className="font-semibold text-white mb-1">{title}</h4>
-      <p className="text-sm text-gray-400">{description}</p>
+      <p className="text-sm text-content-tertiary">{description}</p>
     </div>
   </div>
 );

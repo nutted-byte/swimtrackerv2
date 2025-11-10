@@ -55,7 +55,7 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
 
   if (chartData.data.length === 0) {
     return (
-      <div className="text-center text-gray-500 text-sm py-4">
+      <div className="text-center text-content-tertiary text-sm py-4">
         Not enough data for comparison
       </div>
     );
@@ -91,8 +91,8 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
     <div className="bg-dark-bg/30 rounded-lg p-4">
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h4 className="text-sm font-medium text-gray-300 mb-1">Performance Comparison</h4>
-          <p className="text-xs text-gray-500">
+          <h4 className="text-sm font-medium text-content-secondary mb-1">Performance Comparison</h4>
+          <p className="text-xs text-content-tertiary">
             vs average of your {chartData.comparisonCount} most recent swim{chartData.comparisonCount > 1 ? 's' : ''}
             {getComparisonDateRange() && ` (${getComparisonDateRange()})`}
           </p>
@@ -136,17 +136,17 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
 
           return (
             <div key={metric.metric} className="text-center">
-              <div className="text-gray-500 mb-1">{metric.metric}</div>
+              <div className="text-content-tertiary mb-1">{metric.metric}</div>
               <div className="space-y-1">
                 <div>
-                  <div className="text-[10px] text-gray-600 uppercase">This swim</div>
+                  <div className="text-[10px] text-content-tertiary uppercase">This swim</div>
                   <div className="font-semibold text-white text-sm">
                     {metric.current.toFixed(2)}{metric.unit}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-600 uppercase">Average</div>
-                  <div className="text-gray-400 text-xs">
+                  <div className="text-[10px] text-content-tertiary uppercase">Average</div>
+                  <div className="text-content-tertiary text-xs">
                     {metric.average.toFixed(2)}{metric.unit}
                   </div>
                 </div>

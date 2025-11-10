@@ -25,11 +25,11 @@ export const InsightsMilestones = ({ milestones }) => {
             <div className="flex items-center gap-3">
               <div className="text-3xl">⭐</div>
               <div className="flex-1">
-                <p className="text-xs text-gray-400 mb-1">Best Pace</p>
+                <p className="text-xs text-content-tertiary mb-1">Best Pace</p>
                 <p className="font-display text-xl font-bold text-yellow-400">
                   {formatPace(bestPace.pace)}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-content-tertiary">
                   {new Date(bestPace.date).toLocaleDateString()}
                 </p>
               </div>
@@ -48,11 +48,11 @@ export const InsightsMilestones = ({ milestones }) => {
             <div className="flex items-center gap-3">
               <div className="text-3xl">🏊</div>
               <div className="flex-1">
-                <p className="text-xs text-gray-400 mb-1">Longest Swim</p>
+                <p className="text-xs text-content-tertiary mb-1">Longest Swim</p>
                 <p className="font-display text-xl font-bold text-yellow-400">
                   {(longestSwim.distance / 1000).toFixed(2)} km
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-content-tertiary">
                   {new Date(longestSwim.date).toLocaleDateString()}
                 </p>
               </div>
@@ -71,11 +71,11 @@ export const InsightsMilestones = ({ milestones }) => {
             <div className="flex items-center gap-3">
               <div className="text-3xl">⚡</div>
               <div className="flex-1">
-                <p className="text-xs text-gray-400 mb-1">Best SWOLF</p>
+                <p className="text-xs text-content-tertiary mb-1">Best SWOLF</p>
                 <p className="font-display text-xl font-bold text-yellow-400">
                   {bestSwolf.swolf}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-content-tertiary">
                   {new Date(bestSwolf.date).toLocaleDateString()}
                 </p>
               </div>

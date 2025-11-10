@@ -15,10 +15,10 @@ export const InsightStatCard = ({
   metricName = '' // For TrendBadge context
 }) => {
   const getDeltaColor = () => {
-    if (!delta) return 'text-gray-400';
+    if (!delta) return 'text-content-tertiary';
     if (delta > 0) return 'text-green-400';
     if (delta < 0) return 'text-red-400';
-    return 'text-gray-400';
+    return 'text-content-tertiary';
   };
 
   const getDeltaIcon = () => {
@@ -33,7 +33,7 @@ export const InsightStatCard = ({
       <div className="space-y-3">
         {/* Header with label and trend badge */}
         <div className="flex items-start justify-between">
-          <p className="text-sm text-gray-400">{label}</p>
+          <p className="text-sm text-content-tertiary">{label}</p>
           {trend && <TrendBadge trend={trend} metric={metricName} size="sm" />}
         </div>
 
@@ -46,7 +46,7 @@ export const InsightStatCard = ({
           >
             <div className="flex items-baseline gap-2">
               <span className="font-display text-3xl font-bold">{value}</span>
-              {unit && <span className="text-lg text-gray-400">{unit}</span>}
+              {unit && <span className="text-lg text-content-tertiary">{unit}</span>}
             </div>
             {delta !== null && delta !== undefined && (
               <div className={`flex items-center gap-1 text-sm mt-1 ${getDeltaColor()}`}>

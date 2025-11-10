@@ -166,7 +166,7 @@ export const Techniques = () => {
                   w-full pl-10 pr-4 py-2 rounded-lg border transition-colors
                   focus:outline-none focus:ring-2 focus:ring-primary-500/50
                   ${isDark
-                    ? 'bg-dark-bg border-dark-border text-white placeholder-gray-500'
+                    ? 'bg-dark-bg border-dark-border text-white placeholder-content-tertiary'
                     : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
                   }
                 `}
@@ -186,7 +186,7 @@ export const Techniques = () => {
                       ? 'bg-primary-500 text-white'
                       : isDark
                         ? 'bg-dark-bg hover:bg-dark-card text-content-secondary'
-                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                        : 'bg-slate-100 hover:bg-slate-200 text-content-secondary border border-slate-200'
                   }`}
                 >
                   All
@@ -200,7 +200,7 @@ export const Techniques = () => {
                         ? 'bg-primary-500 text-white'
                         : isDark
                           ? 'bg-dark-bg hover:bg-dark-card text-content-secondary'
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                          : 'bg-slate-100 hover:bg-slate-200 text-content-secondary border border-slate-200'
                     }`}
                   >
                     {cat.icon} {cat.name}
@@ -222,7 +222,7 @@ export const Techniques = () => {
                       ? 'bg-primary-500 text-white'
                       : isDark
                         ? 'bg-dark-bg hover:bg-dark-card text-content-secondary'
-                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                        : 'bg-slate-100 hover:bg-slate-200 text-content-secondary border border-slate-200'
                   }`}
                 >
                   All Levels
@@ -236,7 +236,7 @@ export const Techniques = () => {
                         ? 'bg-primary-500 text-white'
                         : isDark
                           ? 'bg-dark-bg hover:bg-dark-card text-content-secondary'
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                          : 'bg-slate-100 hover:bg-slate-200 text-content-secondary border border-slate-200'
                     }`}
                   >
                     {lvl.name}
@@ -338,7 +338,7 @@ const ArticleCard = ({ article }) => {
         <div className="flex items-start justify-between mb-3">
           <div className="text-2xl">{categoryIcons[article.category]}</div>
           <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
-            isDark ? 'bg-dark-bg/50 text-gray-300' : 'bg-white/80 text-slate-700'
+            isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
           }`}>
             {article.level}
           </span>
@@ -494,7 +494,7 @@ const ArticleView = ({ articleId }) => {
                 <span className="text-4xl">{categoryInfo?.icon || '📚'}</span>
                 <div>
                   <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
-                    isDark ? 'bg-dark-bg/50 text-gray-300' : 'bg-white/80 text-slate-700'
+                    isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
                   }`}>
                     {article.level}
                   </span>
@@ -526,7 +526,7 @@ const ArticleView = ({ articleId }) => {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                 isDark
                   ? 'bg-dark-bg/50 hover:bg-dark-bg text-content-secondary hover:text-content'
-                  : 'bg-white/80 hover:bg-white text-slate-600 hover:text-slate-900'
+                  : 'bg-white/80 hover:bg-white text-content-tertiary hover:text-slate-900'
               }`}
             >
               <Share2 className="w-4 h-4" />
@@ -720,7 +720,7 @@ const ArticleView = ({ articleId }) => {
                       <div className="flex items-start justify-between mb-3">
                         <div className="text-2xl">{categoryIcons[related.category]}</div>
                         <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
-                          isDark ? 'bg-dark-bg/50 text-gray-300' : 'bg-white/80 text-slate-700'
+                          isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
                         }`}>
                           {related.level}
                         </span>

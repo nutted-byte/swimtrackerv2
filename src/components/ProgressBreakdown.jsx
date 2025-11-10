@@ -21,7 +21,7 @@ export const ProgressBreakdown = ({ analysis }) => {
   };
 
   const getTrendColor = (value, lowerIsBetter = false) => {
-    if (Math.abs(value) < 2) return 'text-gray-400';
+    if (Math.abs(value) < 2) return 'text-content-tertiary';
     const isImproving = lowerIsBetter ? value < 0 : value > 0;
     return isImproving ? 'text-green-400' : 'text-red-400';
   };
@@ -81,13 +81,13 @@ export const ProgressBreakdown = ({ analysis }) => {
           <h2 className={`font-display text-3xl font-bold mb-2 ${
             improving ? 'text-accent-blue' :
             status === 'declining' ? 'text-accent-coral' :
-            'text-gray-300'
+            'text-content-secondary'
           }`}>
             {status === 'improving' && "You're improving!"}
             {status === 'stable' && "Staying consistent!"}
             {status === 'declining' && "Let's refocus"}
           </h2>
-          <p className="text-sm text-gray-400">{comparisonText}</p>
+          <p className="text-sm text-content-tertiary">{comparisonText}</p>
         </div>
 
         {/* Breakdown Grid */}
@@ -107,8 +107,8 @@ export const ProgressBreakdown = ({ analysis }) => {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm font-medium text-gray-300">{metric.name}</span>
+                    <Icon className="w-4 h-4 text-content-tertiary" />
+                    <span className="text-sm font-medium text-content-secondary">{metric.name}</span>
                   </div>
                   <TrendIcon className={`w-4 h-4 ${trendColor}`} />
                 </div>
@@ -117,7 +117,7 @@ export const ProgressBreakdown = ({ analysis }) => {
                     {formatTrendValue(metric.value)}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">{metric.description}</p>
+                <p className="text-xs text-content-tertiary mt-2">{metric.description}</p>
               </motion.div>
             );
           })}
@@ -125,15 +125,15 @@ export const ProgressBreakdown = ({ analysis }) => {
 
         {/* Overall Score */}
         <div className="text-center pt-4 border-t border-dark-border/50">
-          <p className="text-sm text-gray-400 mb-1">Overall Improvement Score</p>
+          <p className="text-sm text-content-tertiary mb-1">Overall Improvement Score</p>
           <p className={`text-3xl font-display font-bold ${
             metrics.weightedScore > 0 ? 'text-green-400' :
             metrics.weightedScore < 0 ? 'text-red-400' :
-            'text-gray-400'
+            'text-content-tertiary'
           }`}>
             {metrics.weightedScore > 0 ? '+' : ''}{metrics.weightedScore}%
           </p>
-          <p className="text-xs text-gray-500 mt-1">Based on pace (40%), efficiency (40%), distance (20%)</p>
+          <p className="text-xs text-content-tertiary mt-1">Based on pace (40%), efficiency (40%), distance (20%)</p>
         </div>
       </div>
     </Card>

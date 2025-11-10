@@ -44,7 +44,7 @@ export const DesignTest = () => {
               className={`px-6 py-3 rounded-lg font-medium transition-all ${
                 localIsDark
                   ? 'bg-dark-card border border-dark-border'
-                  : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                  : 'bg-white border border-slate-300 text-content-secondary hover:bg-slate-50'
               }`}
             >
               {localIsDark ? '🌙 Dark Mode' : '☀️ Light Mode'}
@@ -55,7 +55,7 @@ export const DesignTest = () => {
                 className={`px-6 py-3 rounded-lg font-medium transition-all ${
                   useNewTheme
                     ? 'bg-primary-500 text-white'
-                    : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                    : 'bg-white border border-slate-300 text-content-secondary hover:bg-slate-50'
                 }`}
               >
                 {useNewTheme ? '✨ New Theme' : '📋 Original Theme'}

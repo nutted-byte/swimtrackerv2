@@ -20,10 +20,10 @@ export const SwimSummaryCard = ({ summary }) => {
             </div>
           </div>
           <div>
-            <h3 className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-gray-200 mb-2`}>
+            <h3 className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-content-secondary mb-2`}>
               Swim Summary
             </h3>
-            <p className={`${tokens.typography.sizes.base} text-gray-300 leading-relaxed`}>
+            <p className={`${tokens.typography.sizes.base} text-content-secondary leading-relaxed`}>
               {summary}
             </p>
           </div>

@@ -42,7 +42,7 @@ export const ShareableCard = forwardRef(({
           <div className="text-3xl">🌊</div>
           <div>
             <div className="text-white text-sm font-medium">Tracked with Swimma</div>
-            <div className="text-gray-400 text-xs">Your swim tracking companion</div>
+            <div className="text-content-tertiary text-xs">Your swim tracking companion</div>
           </div>
         </div>
       )}

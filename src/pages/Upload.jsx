@@ -55,7 +55,7 @@ export const Upload = () => {
         <h1 className="font-display text-4xl font-bold mb-2">
           Upload Swim Data
         </h1>
-        <p className="text-gray-400 mb-8">
+        <p className="text-content-tertiary mb-8">
           Upload your swim activity files to start tracking your progress
         </p>
 
@@ -82,7 +82,7 @@ export const Upload = () => {
             <h3 className="font-display text-xl font-semibold mb-2">
               Successfully uploaded {uploadedCount} swim{uploadedCount !== 1 ? 's' : ''}!
             </h3>
-            <p className="text-gray-400">
+            <p className="text-content-tertiary">
               Redirecting to your dashboard...
             </p>
           </motion.div>
@@ -108,17 +108,17 @@ export const Upload = () => {
             transition={{ delay: 0.3 }}
             className="mt-12 pt-8 border-t border-dark-border"
           >
-            <h2 className="font-display text-2xl font-semibold mb-2 text-gray-300">
+            <h2 className="font-display text-2xl font-semibold mb-2 text-content-secondary">
               Data Management
             </h2>
-            <p className="text-gray-400 mb-4">
+            <p className="text-content-tertiary mb-4">
               You have {sessions.length} swim session{sessions.length !== 1 ? 's' : ''} stored
             </p>
 
             {!showClearConfirm ? (
               <button
                 onClick={() => setShowClearConfirm(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-gray-400 hover:text-accent-coral rounded-lg transition-colors border border-dark-border hover:border-accent-coral/50"
+                className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral rounded-lg transition-colors border border-dark-border hover:border-accent-coral/50"
               >
                 <Trash2 className="w-4 h-4" />
                 Clear All Data
@@ -131,7 +131,7 @@ export const Upload = () => {
                     <h3 className="font-semibold text-accent-coral mb-1">
                       Are you absolutely sure?
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-content-tertiary">
                       This will permanently delete all {sessions.length} swim sessions. This action cannot be undone.
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export const Upload = () => {
                   </button>
                   <button
                     onClick={() => setShowClearConfirm(false)}
-                    className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 text-gray-300 rounded-lg transition-colors"
+                    className="px-4 py-2 bg-dark-card hover:bg-dark-card/80 text-content-secondary rounded-lg transition-colors"
                   >
                     Cancel
                   </button>

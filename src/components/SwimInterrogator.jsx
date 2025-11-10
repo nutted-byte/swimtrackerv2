@@ -33,7 +33,7 @@ export const SwimInterrogator = ({ questions, answers }) => {
       case 'comparison':
         return 'text-orange-400';
       default:
-        return 'text-gray-400';
+        return 'text-content-tertiary';
     }
   };
 
@@ -53,7 +53,7 @@ export const SwimInterrogator = ({ questions, answers }) => {
             <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold}`}>
               Ask About This Swim
             </h3>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-content-tertiary">
               Click any question to learn more
             </p>
           </div>
@@ -85,7 +85,7 @@ export const SwimInterrogator = ({ questions, answers }) => {
                       <span className="text-xl flex-shrink-0 mt-0.5">{q.icon}</span>
                       <div className="flex-1 min-w-0">
                         <p className={`${tokens.typography.weights.semibold} ${
-                          expandedId === q.id ? 'text-primary-400' : 'text-gray-200'
+                          expandedId === q.id ? 'text-primary-400' : 'text-content-secondary'
                         }`}>
                           {q.question}
                         </p>
@@ -118,7 +118,7 @@ export const SwimInterrogator = ({ questions, answers }) => {
                               Analysis
                             </span>
                           </div>
-                          <p className="text-gray-300 leading-relaxed">
+                          <p className="text-content-secondary leading-relaxed">
                             {answers[q.id] || 'Generating answer...'}
                           </p>
                         </div>
@@ -136,7 +136,7 @@ export const SwimInterrogator = ({ questions, answers }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: questions.length * 0.05 + 0.3 }}
-          className="text-xs text-gray-500 text-center mt-6"
+          className="text-xs text-content-tertiary text-center mt-6"
         >
           {questions.length} questions generated based on your swim data
         </motion.p>

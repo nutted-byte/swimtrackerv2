@@ -34,13 +34,13 @@ export const SwimAnalysisPanel = memo(({
 
             <div className="bg-dark-bg/30 rounded-lg p-4 mb-4">
               <div className="prose prose-invert prose-sm max-w-none">
-                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                <p className="text-content-secondary leading-relaxed whitespace-pre-wrap">
                   {analysis.content}
                 </p>
               </div>
 
               {analysis.usage && (
-                <div className="mt-3 flex items-center gap-2 text-xs text-gray-600">
+                <div className="mt-3 flex items-center gap-2 text-xs text-content-tertiary">
                   <Zap className="w-3 h-3" />
                   <span>{analysis.usage.inputTokens + analysis.usage.outputTokens} tokens</span>
                   {analysis.cached && (
@@ -74,7 +74,7 @@ export const SwimAnalysisPanel = memo(({
             </div>
             <div className="bg-dark-bg/30 rounded-lg p-8 flex flex-col items-center justify-center">
               <Loader2 className="w-8 h-8 text-primary-400 animate-spin mb-3" />
-              <p className="text-gray-400 text-sm">Generating insights...</p>
+              <p className="text-content-tertiary text-sm">Generating insights...</p>
             </div>
           </div>
         )}
@@ -86,7 +86,7 @@ export const SwimAnalysisPanel = memo(({
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-red-400 font-medium mb-1">Analysis Failed</p>
-                <p className="text-sm text-gray-400">{error}</p>
+                <p className="text-sm text-content-tertiary">{error}</p>
                 {!analysis && (
                   <button
                     onClick={onAnalysisGenerated}

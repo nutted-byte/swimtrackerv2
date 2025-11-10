@@ -38,29 +38,29 @@ export const AchievementBadges = ({ badges }) => {
             {isEarned ? (
               <span className="text-3xl">{badge.icon}</span>
             ) : (
-              <Lock className="w-6 h-6 text-gray-600" />
+              <Lock className="w-6 h-6 text-content-tertiary" />
             )}
           </motion.div>
 
           {/* Category Badge */}
-          <div className="inline-block px-2 py-0.5 bg-dark-bg/50 rounded text-xs text-gray-500 capitalize mb-2">
+          <div className="inline-block px-2 py-0.5 bg-dark-bg/50 rounded text-xs text-content-tertiary capitalize mb-2">
             {badge.category}
           </div>
         </div>
 
         {/* Badge Info */}
         <div className="text-center mb-3">
-          <h3 className={`font-semibold mb-1 ${isEarned ? 'text-yellow-400' : 'text-gray-400'}`}>
+          <h3 className={`font-semibold mb-1 ${isEarned ? 'text-yellow-400' : 'text-content-tertiary'}`}>
             {badge.name}
           </h3>
-          <p className="text-xs text-gray-500">{badge.description}</p>
+          <p className="text-xs text-content-tertiary">{badge.description}</p>
         </div>
 
         {/* Progress Bar (for unearned) */}
         {!isEarned && badge.progress > 0 && (
           <div className="mt-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-500">Progress</span>
+              <span className="text-xs text-content-tertiary">Progress</span>
               <span className="text-xs font-semibold text-primary-400">
                 {Math.round(badge.progress)}%
               </span>
@@ -102,7 +102,7 @@ export const AchievementBadges = ({ badges }) => {
         </div>
         <div>
           <h2 className="font-display text-2xl font-bold">Achievements</h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-content-tertiary">
             {earnedBadges.length} of {badges.length} unlocked
           </p>
         </div>
@@ -111,7 +111,7 @@ export const AchievementBadges = ({ badges }) => {
       {/* Progress Overview */}
       <div className="mb-6 p-4 bg-dark-bg/50 rounded-lg">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-400">Overall Progress</span>
+          <span className="text-sm text-content-tertiary">Overall Progress</span>
           <span className="font-semibold text-yellow-400">
             {Math.round((earnedBadges.length / badges.length) * 100)}%
           </span>
@@ -129,7 +129,7 @@ export const AchievementBadges = ({ badges }) => {
       {/* Earned Badges */}
       {earnedBadges.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-400 mb-3">Unlocked</h3>
+          <h3 className="text-sm font-semibold text-content-tertiary mb-3">Unlocked</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {earnedBadges.map((badge, index) => (
               <BadgeCard key={badge.id} badge={badge} index={index} />
@@ -141,7 +141,7 @@ export const AchievementBadges = ({ badges }) => {
       {/* Unearned Badges */}
       {unearnedBadges.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-400 mb-3">Locked</h3>
+          <h3 className="text-sm font-semibold text-content-tertiary mb-3">Locked</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {unearnedBadges.map((badge, index) => (
               <BadgeCard

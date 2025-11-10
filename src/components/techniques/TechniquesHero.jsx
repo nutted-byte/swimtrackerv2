@@ -63,7 +63,7 @@ export const TechniquesHero = ({ totalArticles, completedArticles, categoryCount
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                       isDark
                         ? 'bg-dark-bg/50 text-content-secondary'
-                        : 'bg-white/80 text-slate-700'
+                        : 'bg-white/80 text-content-secondary'
                     }`}
                   >
                     {cat.icon} {cat.name}: {count.completed}/{count.total}

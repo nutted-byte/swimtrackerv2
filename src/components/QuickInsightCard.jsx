@@ -77,13 +77,13 @@ export const QuickInsightCard = ({ recommendation }) => {
             </h3>
 
             {/* Message */}
-            <p className="text-gray-400 leading-relaxed mb-4">
+            <p className="text-content-tertiary leading-relaxed mb-4">
               {recommendation.message}
             </p>
 
             {/* Action */}
             <div className="flex items-center gap-2 text-sm">
-              <span className="text-gray-500">Next Step:</span>
+              <span className="text-content-tertiary">Next Step:</span>
               <span className={`font-medium ${config.iconColor} flex items-center gap-1`}>
                 {recommendation.action}
                 <ArrowRight className="w-4 h-4" />

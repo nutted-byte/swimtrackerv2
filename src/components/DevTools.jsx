@@ -63,7 +63,7 @@ export const DevTools = () => {
 
           {/* Status */}
           <div className="mb-4 p-3 bg-dark-bg rounded-lg">
-            <p className="text-xs text-gray-400 mb-1">Data Status</p>
+            <p className="text-xs text-content-tertiary mb-1">Data Status</p>
             <p className={`text-sm font-semibold ${dataExists ? 'text-green-400' : 'text-red-400'}`}>
               {dataExists ? '✓ Data exists' : '✗ No data'}
             </p>
@@ -89,7 +89,7 @@ export const DevTools = () => {
 
             <button
               onClick={handleRefresh}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-bg hover:bg-gray-700 text-gray-300 rounded-lg transition-colors text-sm font-medium"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-bg hover:bg-gray-700 text-content-secondary rounded-lg transition-colors text-sm font-medium"
             >
               <RefreshCw className="w-4 h-4" />
               Refresh Page
@@ -98,7 +98,7 @@ export const DevTools = () => {
 
           {/* Info */}
           <div className="mt-4 p-3 bg-purple-900/20 border border-purple-500/20 rounded-lg">
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-content-tertiary">
               Test data includes varied performance, personal records, and realistic swim patterns
             </p>
           </div>
