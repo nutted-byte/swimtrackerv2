@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card } from './Card';
+import { CardHeader } from './primitives';
 import { Trophy, Activity, TrendingUp, Zap } from 'lucide-react';
 
 export const SwimRankingCard = ({ ranking }) => {
@@ -70,10 +71,10 @@ export const SwimRankingCard = ({ ranking }) => {
       transition={{ delay: index * 0.1 }}
       className={`relative overflow-hidden rounded-lg p-4 ${colorClass}`}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-4">
         <div className="text-3xl">{emoji}</div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-2">
             <Icon className="w-4 h-4 text-content-tertiary" />
             <h4 className="font-semibold text-white">{label}</h4>
           </div>
@@ -90,21 +91,16 @@ export const SwimRankingCard = ({ ranking }) => {
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <Card>
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-6">
-          <Trophy className="w-6 h-6 text-primary-400" />
-          <div>
-            <h3 className="font-display text-xl font-bold">
-              How This Swim Compares
-            </h3>
-            <p className="text-xs text-content-tertiary">
-              Compared to your recent swims
-            </p>
-          </div>
-        </div>
+        <CardHeader
+          icon={Trophy}
+          title="How This Swim Compares"
+          subtitle="Compared to your recent swims"
+          iconColor="text-primary-400"
+          iconBgColor="bg-primary-500/20"
+        />
 
         {/* Comparison Cards */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {comparisons.map((comp, index) => (
             <ComparisonCard key={index} {...comp} index={index} />
           ))}
@@ -116,7 +112,7 @@ export const SwimRankingCard = ({ ranking }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: comparisons.length * 0.1 + 0.1 }}
-            className="mt-4 p-3 bg-primary-500/10 rounded-lg border border-primary-500/20"
+            className="mt-4 p-4 bg-primary-500/10 rounded-lg border border-primary-500/20"
           >
             <div className="flex items-center gap-2">
               <span className="text-2xl">

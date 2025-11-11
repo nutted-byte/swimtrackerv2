@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { CheckCircle, Circle, Clock, ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
+import { Button } from '../Button';
+import { ProgressBar } from '../primitives';
 import { useTheme } from '../../context/ThemeContext';
 import { tokens } from '../../design/tokens';
 import { getArticle } from '../../content/techniques/index.js';
@@ -36,14 +38,14 @@ export const LearningPathCard = ({ path, index }) => {
       >
         {/* Path Header */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="text-3xl">{path.icon}</div>
             <div>
               <h3 className="font-display text-lg font-bold">{path.name}</h3>
               <p className="text-xs text-content-tertiary">{path.level}</p>
             </div>
           </div>
-          <div className="flex items-center gap-1 text-xs text-content-tertiary">
+          <div className="flex items-center gap-2 text-xs text-content-tertiary">
             <Clock className="w-3 h-3" />
             <span>{path.estimatedTime}</span>
           </div>
@@ -54,22 +56,14 @@ export const LearningPathCard = ({ path, index }) => {
         </p>
 
         {/* Progress Bar */}
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-content-secondary">Progress</span>
-            <span className="text-xs font-bold text-primary-400">
-              {completedCount}/{totalCount}
-            </span>
-          </div>
-          <div className="w-full bg-dark-border rounded-full h-1.5 overflow-hidden">
-            <motion.div
-              className="bg-primary-500 h-full rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-            />
-          </div>
-        </div>
+        <ProgressBar
+          value={progressPercent}
+          label="Progress"
+          valueDisplay={`${completedCount}/${totalCount}`}
+          color="primary"
+          animationDelay={0.2 + index * 0.1}
+          className="mb-4"
+        />
 
         {/* Articles List */}
         <div className="space-y-2 mb-4">
@@ -84,7 +78,7 @@ export const LearningPathCard = ({ path, index }) => {
                 <motion.div
                   whileHover={{ x: 4 }}
                   className={`
-                    flex items-center gap-2 p-2 rounded-lg
+                    flex items-center gap-2 p-3 rounded-lg
                     transition-colors cursor-pointer
                     ${isDark
                       ? 'hover:bg-dark-bg/50'
@@ -102,7 +96,7 @@ export const LearningPathCard = ({ path, index }) => {
                   }`}>
                     {article.title}
                   </span>
-                  <span className="text-[10px] text-content-tertiary">
+                  <span className="text-xs text-content-tertiary">
                     {article.readTime}
                   </span>
                 </motion.div>
@@ -114,14 +108,13 @@ export const LearningPathCard = ({ path, index }) => {
         {/* CTA */}
         {nextArticle ? (
           <Link to={`/learn/${nextArticle.id}`}>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full btn-primary flex items-center justify-center gap-2 text-sm"
+            <Button
+              fullWidth
+              size="sm"
+              rightIcon={<ArrowRight />}
             >
               Continue Path
-              <ArrowRight className={tokens.icons.sm} />
-            </motion.button>
+            </Button>
           </Link>
         ) : (
           <div className={`

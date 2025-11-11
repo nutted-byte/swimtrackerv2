@@ -118,7 +118,7 @@ export const Upload = () => {
             {!showClearConfirm ? (
               <button
                 onClick={() => setShowClearConfirm(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral rounded-lg transition-colors border border-dark-border hover:border-accent-coral/50"
+                className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral rounded-lg transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
                 Clear All Data

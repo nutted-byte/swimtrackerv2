@@ -47,6 +47,14 @@ Files in `.claude/rules/` are automatically included in Claude's context at the 
 - Common deployment scenarios
 - Why this rule exists: Prevent production login failures
 
+### `rules/documentation.md` 🚨 IMPORTANT
+- **PREVENTS random markdown files from being created everywhere**
+- **Only README.md allowed in project root**
+- Decision tree for placing documentation
+- Enforcement examples and automated checks
+- Where to put setup, feature, testing, and design docs
+- Why this rule exists: Keep documentation organized and findable
+
 ## Adding New Rules
 
 To add a new rule, create a markdown file in `.claude/rules/`:
@@ -125,14 +133,24 @@ With these rules, I'll automatically know:
 - Your 5 user personas and their needs
 - How to test features for different user types
 - **⚠️ CRITICAL: To always ask about Supabase Auth URLs before deploying**
+- **🚨 IMPORTANT: Where to place documentation (never in root except README.md)**
 
 This means you don't need to explain the same context in every conversation!
 
-## Most Important Rule: Deployment
+## Most Important Rules
 
+### 1. Deployment (deployment.md) ⚠️
 **The `deployment.md` rule is critical** because:
 1. Forgetting to verify Supabase Auth URLs causes production login failures
 2. This has happened before and must never happen again
 3. The automated script cannot check this - only you (the user) can
 4. I (Claude) will always ask you to verify before deploying
 5. Even if it seems repetitive - I'll always ask!
+
+### 2. Documentation Organization (documentation.md) 🚨
+**The `documentation.md` rule prevents chaos** because:
+1. Random markdown files scattered everywhere make docs impossible to find
+2. Only `README.md` belongs in the root directory
+3. All other docs must go in appropriate `docs/` subdirectories
+4. I (Claude) will always check the decision tree before creating docs
+5. I'll flag any markdown files in the wrong location!

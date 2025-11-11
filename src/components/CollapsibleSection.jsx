@@ -23,10 +23,10 @@ export const CollapsibleSection = ({
         className="w-full group"
       >
         <div className={`
-          flex items-center justify-between p-4 rounded-lg transition-all border
+          flex items-center justify-between p-4 rounded-lg transition-all
           ${isDark
-            ? 'bg-dark-card hover:bg-dark-card/80 border-dark-border hover:border-primary-500/30'
-            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-primary-400 shadow-card-light hover:shadow-elevated'
+            ? 'bg-dark-card hover:bg-dark-card/80'
+            : 'bg-white hover:bg-slate-50'
           }
         `}>
           <div className="flex items-center gap-3">

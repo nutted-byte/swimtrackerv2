@@ -70,7 +70,7 @@ export const ProgressBreakdown = ({ analysis }) => {
           <motion.div
             animate={improving ? { scale: [1, 1.1, 1] } : {}}
             transition={{ duration: 2, repeat: Infinity }}
-            className="inline-block mb-3"
+            className="inline-block mb-4"
           >
             <span className="text-6xl">
               {status === 'improving' && '✅'}
@@ -103,9 +103,9 @@ export const ProgressBreakdown = ({ analysis }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-dark-bg/50 rounded-lg p-4 border border-dark-border"
+                className="bg-dark-bg/50 rounded-lg p-4"
               >
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Icon className="w-4 h-4 text-content-tertiary" />
                     <span className="text-sm font-medium text-content-secondary">{metric.name}</span>
@@ -124,7 +124,7 @@ export const ProgressBreakdown = ({ analysis }) => {
         </div>
 
         {/* Overall Score */}
-        <div className="text-center pt-4 border-t border-dark-border/50">
+        <div className="text-center pt-4/50">
           <p className="text-sm text-content-tertiary mb-1">Overall Improvement Score</p>
           <p className={`text-3xl font-display font-bold ${
             metrics.weightedScore > 0 ? 'text-green-400' :

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
+import { CardHeader } from './primitives';
 import {
   Target,
   User,
@@ -139,15 +140,15 @@ export const PlanCreationWizard = ({ onComplete }) => {
 
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-accent-blue/20">
-                <Target className="w-6 h-6 text-accent-blue" />
-              </div>
-              <div>
-                <h2 className="font-display text-2xl font-bold">Create Training Plan</h2>
-                <p className="text-sm text-content-secondary">Step {currentStep} of {totalSteps}</p>
-              </div>
-            </div>
+            <CardHeader
+              icon={Target}
+              title="Create Training Plan"
+              subtitle={`Step ${currentStep} of ${totalSteps}`}
+              iconColor="text-accent-blue"
+              iconBgColor="bg-accent-blue/20"
+              iconSize="w-6 h-6"
+              className="mb-4"
+            />
 
             {/* Progress Bar */}
             <div className="w-full h-2 bg-dark-bg rounded-full overflow-hidden">
@@ -191,7 +192,7 @@ export const PlanCreationWizard = ({ onComplete }) => {
 
           {/* Error message */}
           {errors.submit && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
               {errors.submit}
             </div>
           )}
@@ -272,7 +273,7 @@ const StepOne = ({ formData, updateFormData, errors }) => {
       </div>
 
       {/* Goal Type Selection */}
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-4">
         {goalOptions.map((option) => {
           const Icon = option.icon;
           const isDisabled = option.type === GOAL_TYPES.EVENT;
@@ -288,8 +289,8 @@ const StepOne = ({ formData, updateFormData, errors }) => {
                   : 'border-dark-border hover:border-dark-border/60'
               } ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <div className="flex items-start gap-3">
-                <div className={`p-2 rounded-lg ${
+              <div className="flex items-start gap-4">
+                <div className={`p-3 rounded-lg ${
                   formData.goalType === option.type ? 'bg-accent-blue/20' : 'bg-dark-bg'
                 }`}>
                   <Icon className={`w-5 h-5 ${
@@ -361,7 +362,7 @@ const StepOne = ({ formData, updateFormData, errors }) => {
             <select
               value={formData.timeline}
               onChange={(e) => updateFormData('timeline', parseInt(e.target.value))}
-              className="w-full px-4 py-2 bg-dark-bg border border-dark-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="w-full px-4 py-2 bg-dark-bg rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
             >
               <option value={4}>4 weeks</option>
               <option value={6}>6 weeks</option>
@@ -413,7 +414,7 @@ const StepTwo = ({ formData, updateFormData }) => {
         <p className="text-sm text-content-secondary">This helps us tailor the training intensity</p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {levels.map((option) => (
           <button
             key={option.level}
@@ -433,7 +434,7 @@ const StepTwo = ({ formData, updateFormData }) => {
                 <CheckCircle2 className="w-5 h-5 text-accent-blue flex-shrink-0" />
               )}
             </div>
-            <div className="flex flex-wrap gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-4">
               {option.features.map((feature, i) => (
                 <span
                   key={i}
@@ -471,13 +472,13 @@ const StepThree = ({ formData, updateFormData }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-3">Swims per week</label>
+        <label className="block text-sm font-medium mb-4">Swims per week</label>
         <div className="grid grid-cols-6 gap-2">
           {[1, 2, 3, 4, 5, 6].map((freq) => (
             <button
               key={freq}
               onClick={() => updateFormData('frequency', freq)}
-              className={`p-3 rounded-lg border-2 font-semibold transition-all ${
+              className={`p-4 rounded-lg border-2 font-semibold transition-all ${
                 formData.frequency === freq
                   ? 'border-accent-blue bg-accent-blue/10 text-accent-blue'
                   : 'border-dark-border hover:border-dark-border/60'
@@ -490,13 +491,13 @@ const StepThree = ({ formData, updateFormData }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-3">Typical session length</label>
+        <label className="block text-sm font-medium mb-4">Typical session length</label>
         <div className="grid grid-cols-4 gap-2">
           {[30, 45, 60, 90].map((length) => (
             <button
               key={length}
               onClick={() => updateFormData('sessionLength', length)}
-              className={`p-3 rounded-lg border-2 font-semibold transition-all ${
+              className={`p-4 rounded-lg border-2 font-semibold transition-all ${
                 formData.sessionLength === length
                   ? 'border-accent-blue bg-accent-blue/10 text-accent-blue'
                   : 'border-dark-border hover:border-dark-border/60'
@@ -509,13 +510,13 @@ const StepThree = ({ formData, updateFormData }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-3">Pool length</label>
+        <label className="block text-sm font-medium mb-4">Pool length</label>
         <div className="grid grid-cols-2 gap-2">
           {[25, 50].map((length) => (
             <button
               key={length}
               onClick={() => updateFormData('poolLength', length)}
-              className={`p-3 rounded-lg border-2 font-semibold transition-all ${
+              className={`p-4 rounded-lg border-2 font-semibold transition-all ${
                 formData.poolLength === length
                   ? 'border-accent-blue bg-accent-blue/10 text-accent-blue'
                   : 'border-dark-border hover:border-dark-border/60'
@@ -530,8 +531,8 @@ const StepThree = ({ formData, updateFormData }) => {
         </p>
       </div>
 
-      <div className="bg-dark-bg/50 rounded-lg p-4 border border-dark-border">
-        <div className="flex items-start gap-3">
+      <div className="bg-dark-bg/50 rounded-lg p-4">
+        <div className="flex items-start gap-4">
           <Clock className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
           <div>
             <div className="font-medium mb-1">Recommended: {formData.frequency}x per week, {formData.sessionLength} min</div>
@@ -584,7 +585,7 @@ const StepFour = ({ formData, getGoalDescription }) => {
         </div>
       </div>
 
-      <div className="bg-dark-bg/50 rounded-lg p-4 border border-dark-border">
+      <div className="bg-dark-bg/50 rounded-lg p-4">
         <h5 className="font-semibold mb-2">What happens next?</h5>
         <ul className="space-y-2 text-sm text-content-secondary">
           <li className="flex gap-2">

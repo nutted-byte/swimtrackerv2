@@ -13,6 +13,7 @@ import { SwimComparisonGrid } from '../components/SwimComparisonGrid';
 import { SwimInterrogator } from '../components/SwimInterrogator';
 import { SessionCard } from '../components/SessionCard';
 import { PageContainer, PageHeader } from '../components/layout';
+import { Button } from '../components/Button';
 import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle, ArrowRight } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import {
@@ -145,12 +146,10 @@ export const Dashboard = () => {
           <p className="text-xl text-content-tertiary mb-8">
             {message}
           </p>
-          <Link
-            to="/upload"
-            className="btn-primary inline-flex items-center gap-2"
-          >
-            <Upload className="w-5 h-5" />
-            Upload Your First Swim
+          <Link to="/upload">
+            <Button leftIcon={<Upload />}>
+              Upload Your First Swim
+            </Button>
           </Link>
         </motion.div>
       </div>
@@ -251,6 +250,21 @@ export const Dashboard = () => {
           </Card>
         </motion.div>
       )}
+
+      {/* Footer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="mt-12 pt-6 border-t border-dark-border text-center"
+      >
+        <Link
+          to="/components"
+          className="text-sm text-content-tertiary hover:text-primary-400 transition-colors"
+        >
+          Component Showcase
+        </Link>
+      </motion.div>
     </PageContainer>
   );
 };

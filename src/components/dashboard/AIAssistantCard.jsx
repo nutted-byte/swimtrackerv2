@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
+import { CardHeader } from '../primitives';
 
 export const AIAssistantCard = () => {
   const sampleQuestions = [
@@ -35,14 +36,15 @@ export const AIAssistantCard = () => {
         />
 
         <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm font-medium text-content-secondary">
-              Ask About Swimming
-            </span>
-          </div>
+          <CardHeader
+            icon={Sparkles}
+            title="Ask About Swimming"
+            iconColor="text-purple-400"
+            iconBgColor="bg-purple-500/20"
+            iconSize="w-4 h-4"
+          />
 
-          <div className="mb-4 p-3 bg-dark-bg/50 rounded-lg border border-dark-border/30">
+          <div className="mb-4 p-4 bg-dark-bg/50 rounded-lg">
             <MessageCircle className="w-6 h-6 text-purple-400 mb-2" />
             <p className="text-xs text-content-secondary">
               Get personalized insights about your swimming
@@ -51,7 +53,7 @@ export const AIAssistantCard = () => {
 
           <div className="mb-4">
             <p className="text-xs text-content-tertiary mb-2">Popular questions:</p>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {sampleQuestions.map((q, i) => (
                 <motion.div
                   key={i}
@@ -68,7 +70,7 @@ export const AIAssistantCard = () => {
 
           <Link
             to="/ask"
-            className="text-xs text-purple-400 hover:text-purple-300 flex items-center justify-center gap-1 group transition-colors"
+            className="text-xs text-purple-400 hover:text-purple-300 flex items-center justify-center gap-2 group transition-colors"
           >
             Ask Question
             <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />

@@ -40,15 +40,15 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
     : null;
 
   return (
-    <div className="bg-dark-card border border-dark-border rounded-xl overflow-hidden">
+    <div className="bg-dark-card rounded-lg overflow-hidden">
       {/* Month Header */}
       <div
-        className="sticky top-0 z-10 bg-dark-card backdrop-blur-sm px-4 py-4 cursor-pointer border-b border-dark-border"
+        className="sticky top-0 z-10 bg-dark-card backdrop-blur-sm px-4 py-4 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-dark-bg rounded-lg transition-colors">
+            <button className="p-3 hover:bg-dark-bg rounded-lg transition-colors">
               {isExpanded ? (
                 <ChevronDown className="w-5 h-5 text-content-tertiary" />
               ) : (
@@ -56,7 +56,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
               )}
             </button>
             <div>
-              <h2 className="font-display text-2xl font-bold flex items-center gap-2">
+              <h2 className="font-display text-2xl font-bold flex items-center gap-4">
                 {monthName}
               </h2>
               <p className="text-sm text-content-tertiary mt-1">
@@ -70,7 +70,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
           {/* Month Stats Summary */}
           <div className="hidden md:flex items-center gap-6">
             <div className="text-right">
-              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-1">
+              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-2">
                 <TrendingUp className="w-3 h-3" />
                 <span>Total Distance</span>
               </div>
@@ -96,7 +96,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
         {isExpanded && (
           <div className="md:hidden mt-4">
             <div>
-              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-1">
+              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-2">
                 <TrendingUp className="w-3 h-3" />
                 <span>Total Distance</span>
               </div>
@@ -120,10 +120,10 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
 
         {/* Best Performance Highlights */}
         {isExpanded && (stats.bestPace || stats.longestSwim) && (
-          <div className="mt-4 pt-4 border-t border-dark-border/50">
-            <div className="flex flex-wrap gap-3">
+          <div className="mt-4 pt-4">
+            <div className="flex flex-wrap gap-4">
               {stats.bestPace && (
-                <div className="px-3 py-2 bg-accent-blue/10 border border-accent-blue/20 rounded-lg">
+                <div className="px-4 py-3 bg-accent-blue/10 border border-accent-blue/20 rounded-lg">
                   <p className="text-xs text-content-tertiary mb-1">Best Pace</p>
                   <p className="text-sm font-semibold text-accent-blue">
                     {formatPace(stats.bestPace.pace)} on{' '}
@@ -135,7 +135,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
                 </div>
               )}
               {stats.longestSwim && (
-                <div className="px-3 py-2 bg-primary-500/10 border border-primary-500/20 rounded-lg">
+                <div className="px-4 py-3 bg-primary-500/10 border border-primary-500/20 rounded-lg">
                   <p className="text-xs text-content-tertiary mb-1">Longest Swim</p>
                   <p className="text-sm font-semibold text-primary-400">
                     {(stats.longestSwim.distance / 1000).toFixed(2)} km on{' '}
@@ -161,7 +161,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
             transition={{ duration: 0.3 }}
             className="overflow-hidden bg-dark-bg"
           >
-            <div className="space-y-3 p-4">
+            <div className="space-y-4 p-4">
               {children}
             </div>
           </motion.div>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Button } from '../Button';
 
 /**
  * Reusable empty state component
@@ -28,8 +29,8 @@ export const EmptyState = ({
           {description}
         </p>
         {actionLabel && actionTo && (
-          <Link to={actionTo} className="btn-primary">
-            {actionLabel}
+          <Link to={actionTo}>
+            <Button>{actionLabel}</Button>
           </Link>
         )}
       </motion.div>

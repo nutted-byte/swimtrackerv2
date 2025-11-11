@@ -110,6 +110,59 @@ export const tokens = {
     popover: 'z-40',
     tooltip: 'z-50',
   },
+
+  // Component Styles (centralized visual patterns)
+  components: {
+    // Card base styles (NO inline borders or shadows - use global .card class)
+    card: {
+      base: 'bg-dark-card rounded-2xl p-6',
+      compact: 'bg-dark-card rounded-xl p-4',
+      hero: 'bg-gradient-to-br',
+    },
+
+    // Accent borders for visual emphasis (when you MUST use a border)
+    accentBorder: {
+      primary: 'border border-primary-500/30',
+      blue: 'border border-accent-blue/30',
+      coral: 'border border-accent-coral/30',
+      green: 'border border-green-500/30',
+      yellow: 'border border-yellow-500/30',
+      orange: 'border border-orange-500/30',
+      purple: 'border border-purple-500/30',
+    },
+
+    // Section dividers
+    divider: {
+      horizontal: 'border-t border-dark-border/50',
+      vertical: 'border-l border-dark-border/50',
+    },
+
+    // Difficulty levels (for technique cards)
+    difficulty: {
+      beginner: {
+        gradient: 'from-green-500/20 to-green-500/5',
+        border: 'border-green-500/30',
+        text: 'text-green-400',
+      },
+      intermediate: {
+        gradient: 'from-blue-500/20 to-blue-500/5',
+        border: 'border-blue-500/30',
+        text: 'text-blue-400',
+      },
+      advanced: {
+        gradient: 'from-purple-500/20 to-purple-500/5',
+        border: 'border-purple-500/30',
+        text: 'text-purple-400',
+      },
+    },
+
+    // State-based styles
+    states: {
+      dragging: 'border-accent-blue border-2 bg-primary-500/10',
+      hover: 'hover:bg-dark-card/80',
+      focus: 'focus:outline-none focus:ring-2 focus:ring-primary-500/20',
+    },
+  },
 };
 
 /**

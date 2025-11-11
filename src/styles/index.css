@@ -107,34 +107,7 @@
 @layer components {
   /* Card component styles */
   .card {
-    @apply bg-dark-card rounded-2xl p-6 border border-dark-border transition-all duration-300;
-  }
-
-  /* Light mode cards get stronger, more defined shadows - Crisp & Clean */
-  :root .card {
-    @apply shadow-[0_4px_12px_rgba(15,23,42,0.15),0_2px_4px_rgba(15,23,42,0.10)];
-  }
-
-  :root .card:hover {
-    @apply shadow-[0_16px_32px_rgba(15,23,42,0.15),0_6px_12px_rgba(15,23,42,0.10)] -translate-y-1;
-  }
-
-  /* New Light V2 cards get stronger, more defined shadows - Crisp & Clean */
-  .light-v2 .card {
-    @apply shadow-[0_4px_12px_rgba(15,23,42,0.15),0_2px_4px_rgba(15,23,42,0.10)];
-  }
-
-  .light-v2 .card:hover {
-    @apply shadow-[0_16px_32px_rgba(15,23,42,0.15),0_6px_12px_rgba(15,23,42,0.10)] -translate-y-1;
-  }
-
-  /* Dark mode cards get standard shadows */
-  .dark .card {
-    @apply shadow-card;
-  }
-
-  .dark .card:hover {
-    @apply shadow-card-hover;
+    @apply bg-dark-card rounded-2xl p-6 transition-all duration-300;
   }
 
   /* Button styles */
@@ -142,26 +115,16 @@
     @apply bg-primary-500 hover:bg-primary-600 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105;
   }
 
-  /* Light mode buttons get stronger shadows - Crisp & Clean */
-  :root .btn-primary {
-    @apply shadow-[0_4px_8px_rgba(0,107,125,0.30)] hover:shadow-[0_8px_16px_rgba(0,107,125,0.40)];
-  }
-
-  /* New Light V2 buttons get even stronger shadows - Crisp & Clean */
-  .light-v2 .btn-primary {
-    @apply shadow-[0_4px_8px_rgba(0,107,125,0.30)] hover:shadow-[0_8px_16px_rgba(0,107,125,0.40)];
-  }
-
   .btn-secondary {
-    @apply bg-dark-card font-medium px-6 py-3 rounded-lg border border-dark-border transition-all duration-200;
+    @apply bg-dark-card font-medium px-6 py-3 rounded-lg transition-all duration-200;
   }
 
   :root .btn-secondary {
-    @apply text-slate-800 hover:bg-slate-100 hover:border-slate-400;
+    @apply text-slate-800 hover:bg-slate-100;
   }
 
   .light-v2 .btn-secondary {
-    @apply text-slate-800 hover:bg-slate-100 hover:border-slate-400;
+    @apply text-slate-800 hover:bg-slate-100;
   }
 
   .dark .btn-secondary {

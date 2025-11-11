@@ -59,7 +59,7 @@ export const Tooltip = ({ content, children, icon = true, className = '' }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 5, scale: 0.95 }}
               transition={{ duration: 0.15 }}
-              className="fixed px-3 py-2 bg-dark-card border border-dark-border rounded-lg shadow-2xl max-w-xs pointer-events-none"
+              className="fixed px-3 py-2 bg-dark-card rounded-lg max-w-xs pointer-events-none"
               style={{
                 zIndex: 99999,
                 left: `${position.x}px`,

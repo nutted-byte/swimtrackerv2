@@ -41,14 +41,14 @@ npm run dev
 
 ### Configuration
 
-**📖 Complete Setup Guide:** See [SETUP.md](./SETUP.md) for detailed instructions.
+**📖 Complete Setup Guide:** See [docs/setup/SETUP.md](./docs/setup/SETUP.md) for detailed instructions.
 
 **Quick setup:**
 1. Create a Supabase project and run `supabase-schema.sql`
 2. Set up Google OAuth in Google Cloud Console
 3. Configure Google OAuth in Supabase
 4. Copy `.env.example` to `.env` and add your credentials
-5. (Optional) Set up Edge Functions for AI features - see [EDGE_FUNCTION_SETUP.md](./EDGE_FUNCTION_SETUP.md)
+5. (Optional) Set up Edge Functions for AI features - see [docs/setup/EDGE_FUNCTION_SETUP.md](./docs/setup/EDGE_FUNCTION_SETUP.md)
 
 ## Development
 
@@ -69,6 +69,59 @@ npm run preview
 ```
 
 **📱 Mobile Testing:** See [docs/deployment/LOCAL_MOBILE_TESTING.md](./docs/deployment/LOCAL_MOBILE_TESTING.md)
+
+## Component Development
+
+**🎨 Design System Primitives:**
+This project uses a composable design system to maintain consistency and reduce code duplication.
+
+**Before creating any new component:**
+1. **Read the guide:** [src/components/primitives/README.md](./src/components/primitives/README.md)
+2. **See examples:** http://localhost:3000/components (Primitives tab)
+3. **Use primitives:** CardHeader, StatGrid, ProgressBar, CircularProgressBar, ComparisonBadge
+
+**Quick example:**
+```jsx
+import { Card } from './components/Card';
+import { CardHeader, StatGrid } from './components/primitives';
+
+// ✅ CORRECT - Uses primitives
+export const MyCard = ({ stats }) => (
+  <Card>
+    <CardHeader
+      icon={Activity}
+      title="Your Stats"
+      subtitle="Last 30 days"
+      iconColor="text-blue-400"
+      iconBgColor="bg-blue-500/20"
+    />
+    <StatGrid stats={stats} columns={3} />
+  </Card>
+);
+
+// ❌ WRONG - Manual markup (creates duplication)
+<div className="flex items-center gap-3">
+  <div className="p-3 bg-blue-500/20">
+    <Activity className="w-6 h-6" />
+  </div>
+  <h2>Your Stats</h2>
+</div>
+```
+
+**Documentation:**
+- **Primitives Guide:** [src/components/primitives/README.md](./src/components/primitives/README.md) - Complete reference
+- **Design System Docs:** [docs/design-system/](./docs/design-system/) - All design system documentation
+- **Maintenance Guide:** [docs/design-system/DESIGN_SYSTEM_MAINTENANCE.md](./docs/design-system/DESIGN_SYSTEM_MAINTENANCE.md) - Keep it clean!
+- **Enforcement Script:** [scripts/check-design-system.sh](./scripts/check-design-system.sh) - Optional checker
+
+## Documentation
+
+**📚 Complete Documentation:** See [docs/README.md](./docs/README.md) for all documentation.
+
+**Quick Links:**
+- **[Setup Guide](./docs/setup/SETUP.md)** - Get started with local development
+- **[Design System](./docs/design-system/)** - Component development guide
+- **[Deployment Checklist](./docs/deployment/DEPLOYMENT_CHECKLIST.md)** - Before deploying to production
 
 ## Deployment
 

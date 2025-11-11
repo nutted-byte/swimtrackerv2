@@ -46,7 +46,7 @@ export const PaceComparison = ({ currentPace, averagePace }) => {
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.6 }}
-      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md border ${bgColor} ${borderColor}`}
+      className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg border ${bgColor} ${borderColor}`}
     >
       <Icon className={`w-3.5 h-3.5 ${color}`} />
       <span className={`text-xs font-medium ${color}`}>

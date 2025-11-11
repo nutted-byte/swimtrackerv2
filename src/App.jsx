@@ -25,6 +25,7 @@ const Ask = lazy(() => import('./pages/Ask').then(m => ({ default: m.Ask })));
 const Techniques = lazy(() => import('./pages/Techniques').then(m => ({ default: m.Techniques })));
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
 const DesignTest = lazy(() => import('./pages/DesignTest').then(m => ({ default: m.DesignTest })));
+const ComponentShowcase = lazy(() => import('./pages/ComponentShowcase').then(m => ({ default: m.ComponentShowcase })));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -56,7 +57,7 @@ function AppContent() {
           <>
             <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
               <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
                     🌊
                   </div>
@@ -67,7 +68,7 @@ function AppContent() {
 
                 <div className="flex items-center gap-4">
                   {/* Desktop Navigation */}
-                  <nav className="hidden md:flex gap-2">
+                  <nav className="hidden md:flex gap-4">
                     <Link
                       to="/"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
@@ -113,7 +114,7 @@ function AppContent() {
                   </nav>
 
                   {/* Desktop User Menu */}
-                  <div className="hidden md:flex items-center gap-3 pl-3 border-l border-dark-border">
+                  <div className="hidden md:flex items-center gap-4 pl-4 border-l border-dark-border">
                     <div className="flex items-center gap-2 text-sm">
                       <User className="w-4 h-4 text-content-tertiary" />
                       <span className="text-content-secondary">
@@ -125,7 +126,7 @@ function AppContent() {
                     </div>
                     <button
                       onClick={handleSignOut}
-                      className="p-2 rounded-lg hover:bg-dark-card transition-colors text-content-tertiary hover:text-red-400"
+                      className="p-3 rounded-lg hover:bg-dark-card transition-colors text-content-tertiary hover:text-red-400"
                       title="Sign out"
                     >
                       <LogOut className="w-4 h-4" />
@@ -250,6 +251,15 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <DesignTest />
+                </ProtectedRoute>
+              }
+            />
+            {/* Component Showcase Page (hidden from navigation) */}
+            <Route
+              path="/components"
+              element={
+                <ProtectedRoute>
+                  <ComponentShowcase />
                 </ProtectedRoute>
               }
             />

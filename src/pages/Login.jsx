@@ -72,7 +72,7 @@ export const Login = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-dark-card border border-dark-border rounded-2xl p-8 lg:p-12"
+          className="bg-dark-card rounded-2xl p-8 lg:p-12"
         >
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-2 text-white">Welcome Back</h3>

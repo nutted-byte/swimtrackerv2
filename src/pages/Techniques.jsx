@@ -146,7 +146,7 @@ export const Techniques = () => {
           <h2 className="font-display text-2xl font-bold">
             {showFilters ? 'Search & Filter' : 'Explore by Category'}
           </h2>
-          <div className="flex items-center gap-2 text-sm text-content-tertiary">
+          <div className="flex items-center gap-3 text-sm text-content-tertiary">
             <Filter className="w-4 h-4" />
             <span className="hidden sm:inline">{showFilters ? 'Hide filters' : 'Show search'}</span>
           </div>
@@ -175,10 +175,10 @@ export const Techniques = () => {
 
             {/* Category Filter */}
             <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-3 mb-2">
                 <span className="text-sm font-medium text-content-secondary">Category</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setSelectedCategory('all')}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -211,10 +211,10 @@ export const Techniques = () => {
 
             {/* Level Filter */}
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-3 mb-2">
                 <span className="text-sm font-medium text-content-secondary">Level</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setSelectedLevel('all')}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -335,9 +335,9 @@ const ArticleCard = ({ article }) => {
         hover
         className={`h-full bg-gradient-to-br ${levelColors[article.level]} border transition-all duration-300`}
       >
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between mb-4">
           <div className="text-2xl">{categoryIcons[article.category]}</div>
-          <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
+          <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
             isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
           }`}>
             {article.level}
@@ -345,7 +345,7 @@ const ArticleCard = ({ article }) => {
         </div>
 
         <h3 className="font-display text-lg font-bold mb-2">{article.title}</h3>
-        <p className="text-sm text-content-secondary mb-4 line-clamp-2">
+        <p className="text-sm text-content-secondary mb-4 line-clamp-3">
           {article.summary}
         </p>
 
@@ -462,7 +462,7 @@ const ArticleView = ({ articleId }) => {
       </div>
 
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-sm text-content-tertiary mb-6">
+      <div className="flex items-center gap-3 text-sm text-content-tertiary mb-6">
         <Link to="/" className="hover:text-content transition-colors">
           <Home className="w-4 h-4" />
         </Link>
@@ -490,7 +490,7 @@ const ArticleView = ({ articleId }) => {
         `}>
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-4 mb-4">
                 <span className="text-4xl">{categoryInfo?.icon || '📚'}</span>
                 <div>
                   <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
@@ -508,7 +508,7 @@ const ArticleView = ({ articleId }) => {
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="ml-4 flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-lg"
+                className="ml-4 flex items-center gap-3 px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-lg"
               >
                 <CheckCircle className="w-5 h-5 text-green-400" />
                 <span className="text-sm font-medium text-green-400">Completed</span>
@@ -517,13 +517,13 @@ const ArticleView = ({ articleId }) => {
           </div>
 
           <div className="flex items-center gap-6 text-sm">
-            <div className="flex items-center gap-2 text-content-secondary">
+            <div className="flex items-center gap-3 text-content-secondary">
               <Clock className="w-4 h-4" />
               <span>{article.readTime} read</span>
             </div>
             <button
               onClick={handleShare}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
                 isDark
                   ? 'bg-dark-bg/50 hover:bg-dark-bg text-content-secondary hover:text-content'
                   : 'bg-white/80 hover:bg-white text-content-tertiary hover:text-slate-900'
@@ -549,7 +549,7 @@ const ArticleView = ({ articleId }) => {
                 components={{
                   h1: (props) => <h1 className="text-3xl font-bold mb-4 mt-8 first:mt-0 text-content" {...props} />,
                   h2: (props) => <h2 className="text-2xl font-bold mb-4 mt-8 text-content border-b border-dark-border pb-2" {...props} />,
-                  h3: (props) => <h3 className="text-xl font-bold mb-3 mt-6 text-content" {...props} />,
+                  h3: (props) => <h3 className="text-xl font-bold mb-4 mt-6 text-content" {...props} />,
                   p: (props) => {
                     const text = props.children?.toString() || '';
 
@@ -561,7 +561,7 @@ const ArticleView = ({ articleId }) => {
                             ? 'bg-blue-500/10 border-blue-500'
                             : 'bg-blue-50 border-blue-500'
                         }`}>
-                          <div className="flex gap-3">
+                          <div className="flex gap-4">
                             <Lightbulb className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
                               isDark ? 'text-blue-400' : 'text-blue-600'
                             }`} />
@@ -579,7 +579,7 @@ const ArticleView = ({ articleId }) => {
                             ? 'bg-orange-500/10 border-orange-500'
                             : 'bg-orange-50 border-orange-500'
                         }`}>
-                          <div className="flex gap-3">
+                          <div className="flex gap-4">
                             <AlertTriangle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
                               isDark ? 'text-orange-400' : 'text-orange-600'
                             }`} />
@@ -632,12 +632,12 @@ const ArticleView = ({ articleId }) => {
           className="mt-6"
         >
           <Card className="bg-gradient-to-br from-primary-500/20 to-primary-500/5 border border-primary-500/30">
-            <h3 className="font-display text-lg font-bold mb-3 flex items-center gap-2">
+            <h3 className="font-display text-lg font-bold mb-4 flex items-center gap-3">
               <span>✨</span> Key Takeaways
             </h3>
             <ul className="space-y-2">
               {article.keyTakeaways.map((takeaway, index) => (
-                <li key={index} className="flex items-start gap-2 text-sm">
+                <li key={index} className="flex items-start gap-3 text-sm">
                   <span className="text-primary-400 mt-0.5">•</span>
                   <span className="text-content-secondary">{takeaway}</span>
                 </li>
@@ -656,7 +656,7 @@ const ArticleView = ({ articleId }) => {
           className="mt-6"
         >
           <Card>
-            <h3 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
+            <h3 className="font-display text-lg font-bold mb-4 flex items-center gap-3">
               <span>💪</span> Practice Drills
             </h3>
             <div className="space-y-4">
@@ -717,16 +717,16 @@ const ArticleView = ({ articleId }) => {
                       hover
                       className={`h-full bg-gradient-to-br ${relatedLevelColors[related.level]} border`}
                     >
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-4">
                         <div className="text-2xl">{categoryIcons[related.category]}</div>
-                        <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
+                        <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
                           isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
                         }`}>
                           {related.level}
                         </span>
                       </div>
                       <h4 className="font-display text-base font-bold mb-2">{related.title}</h4>
-                      <p className="text-xs text-content-tertiary line-clamp-2 mb-3">
+                      <p className="text-xs text-content-tertiary line-clamp-3 mb-4">
                         {related.summary}
                       </p>
                       <div className="flex items-center gap-1 text-xs text-content-tertiary">

@@ -9,10 +9,10 @@ export const ThemeToggle = () => {
     <motion.button
       onClick={toggleTheme}
       className={`
-        relative p-2.5 rounded-xl border transition-all duration-200
+        relative p-2.5 rounded-xl transition-all duration-200
         ${isDark
-          ? 'bg-dark-card border-dark-border hover:bg-gray-700'
-          : 'bg-white border-slate-200 hover:bg-slate-50 shadow-card-light hover:shadow-elevated'
+          ? 'bg-dark-card hover:bg-gray-700'
+          : 'bg-white hover:bg-slate-50'
         }
       `}
       whileHover={{ scale: 1.05 }}

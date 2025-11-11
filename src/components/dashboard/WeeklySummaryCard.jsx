@@ -87,7 +87,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
               )}
             </div>
             {trend.distance.change !== 0 && (
-              <div className={`text-[10px] ${distanceTrendColor} mt-1`}>
+              <div className={`text-xs ${distanceTrendColor} mt-1`}>
                 {trend.distance.change > 0 ? '+' : ''}{trend.distance.change}% vs last week
               </div>
             )}
@@ -105,7 +105,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
               )}
             </div>
             {trend.pace.change !== 0 && currentWeek.avgPace > 0 && (
-              <div className={`text-[10px] ${paceTrendColor} mt-1`}>
+              <div className={`text-xs ${paceTrendColor} mt-1`}>
                 {trend.pace.change > 0 ? '+' : ''}{Math.abs(trend.pace.change)}% {trend.pace.change > 0 ? 'faster' : 'slower'}
               </div>
             )}
@@ -139,7 +139,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
                     } ${isToday ? 'ring-2 ring-blue-400 ring-offset-1 ring-offset-dark-card' : ''}`}
                     style={{ minHeight: '4px' }}
                   />
-                  <span className={`text-[10px] ${isToday ? 'text-blue-400 font-semibold' : 'text-content-tertiary'}`}>
+                  <span className={`text-xs ${isToday ? 'text-blue-400 font-semibold' : 'text-content-tertiary'}`}>
                     {day.day}
                   </span>
                 </div>

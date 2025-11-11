@@ -5,7 +5,7 @@ import { tokens } from '../../design/tokens';
  */
 export const MetricDisplay = ({ icon: Icon, label, value, subtitle, className = '' }) => {
   return (
-    <div className={`bg-dark-bg/60 rounded-lg p-4 border border-dark-border/50 ${className}`}>
+    <div className={`bg-dark-bg/60 rounded-lg p-4 ${className}`}>
       <div className={`flex items-center ${tokens.gap.tight} text-content-tertiary text-sm mb-2`}>
         {Icon && <Icon className={tokens.icons.sm} />}
         {label}

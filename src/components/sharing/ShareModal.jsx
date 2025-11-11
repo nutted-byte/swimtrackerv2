@@ -219,7 +219,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
             className="relative bg-dark-card rounded-none sm:rounded-2xl shadow-2xl max-w-2xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-hidden border-0 sm:border border-dark-border"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-dark-border">
+            <div className="flex items-center justify-between p-4 sm:p-6">
               <div>
                 <h2 className="text-2xl font-bold text-white font-display">
                   Share Your Swim
@@ -445,7 +445,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                   <button
                     onClick={handleCopy}
                     disabled={!imageDataUrl || isGenerating}
-                    className="flex items-center justify-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-dark-card hover:bg-dark-border disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm sm:text-base font-medium transition-colors border border-dark-border"
+                    className="flex items-center justify-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-dark-card hover:bg-dark-border disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm sm:text-base font-medium transition-colors"
                   >
                     {copied ? (
                       <>
@@ -467,7 +467,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                 <button
                   onClick={handleWebShare}
                   disabled={!imageDataUrl || isGenerating}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-card hover:bg-dark-border disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm transition-colors border border-dark-border"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-card hover:bg-dark-border disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm transition-colors"
                 >
                   <Share2 className="w-4 h-4" />
                   More share options

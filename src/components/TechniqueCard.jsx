@@ -58,7 +58,7 @@ export const TechniqueCard = ({ recommendation }) => {
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-display text-lg font-bold">Improve Your Swimming</h3>
                 {priority === 'high' && (
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${style.badge}`}>
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${style.badge}`}>
                     Recommended
                   </span>
                 )}

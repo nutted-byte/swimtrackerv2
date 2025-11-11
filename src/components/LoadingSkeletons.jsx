@@ -20,7 +20,7 @@ export const HeroSkeleton = () => (
       </div>
 
       {/* Badges */}
-      <div className="flex gap-3 mb-6">
+      <div className="flex gap-4 mb-6">
         <SkeletonPulse className="h-10 w-32" />
         <SkeletonPulse className="h-10 w-32" />
       </div>
@@ -37,7 +37,7 @@ export const HeroSkeleton = () => (
       </div>
 
       {/* Buttons */}
-      <div className="flex gap-3">
+      <div className="flex gap-4">
         <SkeletonPulse className="h-10 w-40" />
         <SkeletonPulse className="h-10 w-32" />
       </div>
@@ -62,7 +62,7 @@ export const SessionCardSkeleton = () => (
     {/* Metrics */}
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
       {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="bg-dark-bg/50 rounded-lg p-3">
+        <div key={i} className="bg-dark-bg/50 rounded-lg p-4">
           <SkeletonPulse className="h-3 w-12 mb-2" />
           <SkeletonPulse className="h-6 w-16 mb-1" />
           <SkeletonPulse className="h-3 w-10" />

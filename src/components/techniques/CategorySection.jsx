@@ -151,7 +151,7 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
 
                           <div className="flex items-start justify-between mb-3">
                             <div className="text-2xl">{categoryIcons[article.category]}</div>
-                            <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
+                            <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
                               isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
                             }`}>
                               {article.level}

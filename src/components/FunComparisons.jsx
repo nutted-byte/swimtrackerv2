@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card } from './Card';
+import { CardHeader } from './primitives';
 import { Sparkles } from 'lucide-react';
 
 export const FunComparisons = ({ comparisons }) => {
@@ -14,7 +15,7 @@ export const FunComparisons = ({ comparisons }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="p-4 bg-dark-bg/50 rounded-lg border border-dark-border hover:border-primary-500/30 transition-colors"
+      className="p-4 bg-dark-bg/50 rounded-lg transition-colors"
     >
       <div className="flex items-center gap-3 mb-2">
         <span className="text-2xl">{item.icon}</span>
@@ -29,15 +30,14 @@ export const FunComparisons = ({ comparisons }) => {
 
   return (
     <Card>
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 bg-primary-500/20 rounded-lg">
-          <Sparkles className="w-6 h-6 text-primary-400" />
-        </div>
-        <div>
-          <h2 className="font-display text-2xl font-bold">Fun Facts</h2>
-          <p className="text-sm text-content-tertiary">Your swimming journey in perspective</p>
-        </div>
-      </div>
+      <CardHeader
+        icon={Sparkles}
+        title="Fun Facts"
+        subtitle="Your swimming journey in perspective"
+        iconColor="text-primary-400"
+        iconBgColor="bg-primary-500/20"
+        iconSize="w-6 h-6"
+      />
 
       <div className="space-y-6">
         {/* Distance Comparisons */}

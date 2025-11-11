@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card } from '../Card';
+import { CardHeader, ProgressBar } from '../primitives';
 import { Calendar, CheckCircle2, Target, TrendingUp, Clock, ArrowRight, Flame } from 'lucide-react';
 import { useTrainingPlan } from '../../context/TrainingPlanContext';
 
@@ -109,7 +110,7 @@ export const TrainingPlanCard = () => {
             </div>
           </div>
           {trainingPlan.status === 'active' && (
-            <span className="text-[10px] px-2 py-1 rounded-full font-semibold bg-accent-blue/20 text-accent-blue">
+            <span className="text-xs px-2 py-1 rounded-full font-semibold bg-accent-blue/20 text-accent-blue">
               Active
             </span>
           )}
@@ -117,20 +118,14 @@ export const TrainingPlanCard = () => {
 
         {/* Progress Section */}
         <div className="bg-dark-bg/30 rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-content-secondary">Week {progress.currentWeek} of {weeks.length}</span>
-            <span className="text-sm font-semibold text-accent-blue">{progress.percentComplete}%</span>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="w-full h-2 bg-dark-bg rounded-full overflow-hidden mb-3">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress.percentComplete}%` }}
-              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-accent-blue to-primary-500 rounded-full"
-            />
-          </div>
+          <ProgressBar
+            value={progress.percentComplete}
+            label={`Week ${progress.currentWeek} of ${weeks.length}`}
+            showPercentage
+            color="blue"
+            animationDelay={0.5}
+            className="mb-3"
+          />
 
           {/* Current Week Focus */}
           {currentWeek && (

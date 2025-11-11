@@ -71,10 +71,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
       transition={{ duration: 0.5 }}
     >
       <Card className={`
-        bg-gradient-to-br border
+        bg-gradient-to-br
         ${isDark
-          ? 'from-primary-500/15 to-accent-blue/10 border-primary-500/30'
-          : 'from-primary-50 to-blue-50 border-primary-200'
+          ? 'from-primary-500/15 to-accent-blue/10'
+          : 'from-primary-50 to-blue-50'
         }
       `}>
         {/* Header with Date */}
@@ -103,10 +103,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.3 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 border transition-all cursor-pointer
+              rounded-lg p-4 transition-all cursor-pointer
               ${isDark
-                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
-                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                : 'bg-white hover:bg-slate-50'
               }
             `}
           >
@@ -128,10 +128,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.4 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 border transition-all cursor-pointer
+              rounded-lg p-4 transition-all cursor-pointer
               ${isDark
-                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
-                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                : 'bg-white hover:bg-slate-50'
               }
             `}
           >
@@ -153,10 +153,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.5 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 border transition-all cursor-pointer
+              rounded-lg p-4 transition-all cursor-pointer
               ${isDark
-                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
-                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                : 'bg-white hover:bg-slate-50'
               }
             `}
           >
@@ -176,10 +176,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.6 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 border transition-all cursor-pointer
+              rounded-lg p-4 transition-all cursor-pointer
               ${isDark
-                ? 'bg-dark-bg/60 border-dark-border/50 hover:bg-dark-bg/80 hover:border-primary-500/50'
-                : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-primary-400 shadow-sm'
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                : 'bg-white hover:bg-slate-50'
               }
             `}
           >
@@ -237,10 +237,10 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           <button
             onClick={() => setShareModalOpen(true)}
             className={`
-              inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium border
+              inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium
               ${isDark
-                ? 'bg-dark-bg/60 hover:bg-dark-bg/80 border-dark-border/50 hover:border-primary-500/50'
-                : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-primary-400 shadow-sm'
+                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                : 'bg-white hover:bg-slate-50'
               }
             `}
           >

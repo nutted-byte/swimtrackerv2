@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { BookOpen, TrendingUp, Zap, Target, ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
+import { ProgressBar } from '../primitives';
 import { useTheme } from '../../context/ThemeContext';
 import { tokens } from '../../design/tokens';
 import { categories } from '../../content/techniques/index.js';
@@ -35,22 +36,14 @@ export const TechniquesHero = ({ totalArticles, completedArticles, categoryCount
 
             {/* Progress Stats */}
             <div className="mt-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-content-secondary">
-                  Your Progress
-                </span>
-                <span className="text-sm font-bold text-primary-400">
-                  {completedArticles} of {totalArticles} completed • {progressPercent}%
-                </span>
-              </div>
-              <div className="w-full bg-dark-border rounded-full h-2.5 overflow-hidden">
-                <motion.div
-                  className="bg-gradient-to-r from-primary-500 to-primary-400 h-full rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                />
-              </div>
+              <ProgressBar
+                value={progressPercent}
+                label="Your Progress"
+                valueDisplay={`${completedArticles} of ${totalArticles} completed • ${progressPercent}%`}
+                color="primary"
+                size="lg"
+                animationDelay={0.2}
+              />
             </div>
 
             {/* Category Quick Stats */}

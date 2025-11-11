@@ -37,7 +37,7 @@ export const DevTools = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg transition-all"
+          className="p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg transition-all"
           title="Developer Tools"
         >
           <Database className="w-5 h-5" />
@@ -55,14 +55,14 @@ export const DevTools = () => {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1 hover:bg-dark-bg rounded transition-colors"
+              className="p-3 hover:bg-dark-bg rounded-lg transition-colors"
             >
               <ChevronDown className="w-4 h-4" />
             </button>
           </div>
 
           {/* Status */}
-          <div className="mb-4 p-3 bg-dark-bg rounded-lg">
+          <div className="mb-4 p-4 bg-dark-bg rounded-lg">
             <p className="text-xs text-content-tertiary mb-1">Data Status</p>
             <p className={`text-sm font-semibold ${dataExists ? 'text-green-400' : 'text-red-400'}`}>
               {dataExists ? '✓ Data exists' : '✗ No data'}
@@ -97,7 +97,7 @@ export const DevTools = () => {
           </div>
 
           {/* Info */}
-          <div className="mt-4 p-3 bg-purple-900/20 border border-purple-500/20 rounded-lg">
+          <div className="mt-4 p-4 bg-purple-900/20 border border-purple-500/20 rounded-lg">
             <p className="text-xs text-content-tertiary">
               Test data includes varied performance, personal records, and realistic swim patterns
             </p>

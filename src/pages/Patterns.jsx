@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Calendar, TrendingUp, Flame, BarChart3, Upload, AlertTriangle, Zap, TrendingDown } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,9 +34,10 @@ export const Patterns = () => {
           <p className="text-xl text-content-tertiary mb-8">
             Upload swim data to discover your performance patterns!
           </p>
-          <Link to="/upload" className="btn-primary inline-flex items-center gap-2">
-            <Upload className="w-5 h-5" />
-            Upload Swim Data
+          <Link to="/upload">
+            <Button leftIcon={<Upload />}>
+              Upload Swim Data
+            </Button>
           </Link>
         </motion.div>
       </div>
@@ -64,12 +66,10 @@ export const Patterns = () => {
               <BarChart3 className={tokens.icons.sm} />
               <span className="hidden sm:inline">View Insights</span>
             </Link>
-            <Link
-              to="/upload"
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Upload className={tokens.icons.sm} />
-              Upload
+            <Link to="/upload">
+              <Button size="sm" leftIcon={<Upload />}>
+                Upload
+              </Button>
             </Link>
           </>
         }
@@ -92,7 +92,7 @@ export const Patterns = () => {
                 <h3 className="font-display text-xl font-semibold mb-2 capitalize">
                   {streakAnalysis.streakType} Streak!
                 </h3>
-                <p className="text-content-secondary mb-3">
+                <p className="text-content-secondary mb-4">
                   {streakAnalysis.message}
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-500/20 rounded-full text-sm text-primary-400">
@@ -107,12 +107,12 @@ export const Patterns = () => {
         {/* Anomalies & Unusual Swims */}
         {anomalyAnalysis.hasSufficientData && anomalyAnalysis.anomalies.length > 0 && (
           <Card>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-500" />
               <h2 className="font-display text-2xl font-bold">Unusual Swims</h2>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {anomalyAnalysis.anomalies.slice(0, 5).map((anomaly, index) => {
                 const isPositive = anomaly.direction === 'positive';
                 const Icon = anomaly.type === 'pace' ? Zap : TrendingUp;
@@ -127,7 +127,7 @@ export const Patterns = () => {
                         : 'bg-yellow-500/10 border-yellow-500/30 hover:border-yellow-500/50'
                     }`}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-4">
                       <div className={`mt-1 ${isPositive ? 'text-green-400' : 'text-yellow-500'}`}>
                         <Icon className="w-5 h-5" />
                       </div>
@@ -171,12 +171,12 @@ export const Patterns = () => {
         {/* Sudden Changes */}
         {suddenChanges.length > 0 && (
           <Card>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               <TrendingDown className="w-6 h-6 text-accent-coral" />
               <h2 className="font-display text-2xl font-bold">Sudden Performance Changes</h2>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {suddenChanges.slice(0, 3).map((change, index) => {
                 const isImprovement = change.direction === 'improvement' || change.direction === 'increase';
 
@@ -212,7 +212,7 @@ export const Patterns = () => {
         {/* Day of Week Analysis */}
         {dayOfWeekAnalysis.hasSufficientData && (
           <Card>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               <Calendar className="w-6 h-6 text-accent-blue" />
               <h2 className="font-display text-2xl font-bold">Day of Week Performance</h2>
             </div>
@@ -250,12 +250,12 @@ export const Patterns = () => {
 
             {/* Insights */}
             {dayOfWeekAnalysis.insights.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <p className="text-sm font-medium text-content-tertiary">Insights:</p>
                 {dayOfWeekAnalysis.insights.map((insight, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-3 bg-dark-bg rounded-lg"
+                    className="flex items-start gap-4 p-4 bg-dark-bg rounded-lg"
                   >
                     <div className="text-xl">
                       {insight.type === 'pace' ? '⚡' :
@@ -272,7 +272,7 @@ export const Patterns = () => {
         {/* Monthly Patterns */}
         {monthlyAnalysis.hasSufficientData && (
           <Card>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               <TrendingUp className="w-6 h-6 text-accent-blue" />
               <h2 className="font-display text-2xl font-bold">Monthly Patterns</h2>
             </div>
@@ -311,9 +311,9 @@ export const Patterns = () => {
 
             {/* Monthly timeline */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-content-tertiary mb-3">Activity Timeline:</p>
+              <p className="text-sm font-medium text-content-tertiary mb-4">Activity Timeline:</p>
               {monthlyAnalysis.monthStats.slice(-6).map((month) => (
-                <div key={month.month} className="flex items-center gap-3">
+                <div key={month.month} className="flex items-center gap-4">
                   <span className="text-xs text-content-tertiary w-24">
                     {new Date(month.month + '-01').toLocaleDateString('en-US', {
                       month: 'short',

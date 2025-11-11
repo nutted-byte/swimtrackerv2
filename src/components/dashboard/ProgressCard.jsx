@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BarChart3, CheckCircle, ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
-import { CircularProgress } from '../ui/CircularProgress';
+import { CardHeader, CircularProgressBar } from '../primitives';
 import { calculateMonthlyProgress } from '../../utils/progressCalculations';
 
 export const ProgressCard = ({ sessions }) => {
@@ -19,19 +19,20 @@ export const ProgressCard = ({ sessions }) => {
       transition={{ duration: 0.5 }}
     >
       <Card className="bg-gradient-to-br from-primary-500/20 to-primary-500/5 border-primary-500/30 h-full">
-        <div className="flex items-center gap-2 mb-4">
-          <BarChart3 className="w-4 h-4 text-primary-400" />
-          <span className="text-sm font-medium text-content-secondary">
-            This Month
-          </span>
-        </div>
+        <CardHeader
+          icon={BarChart3}
+          title="This Month"
+          iconColor="text-primary-400"
+          iconBgColor="bg-primary-500/20"
+          iconSize="w-4 h-4"
+        />
 
         <div className="flex justify-center mb-4">
-          <CircularProgress
+          <CircularProgressBar
             percentage={progress.percentage}
-            size={100}
-            strokeWidth={10}
-            color="#00d4ff"
+            size="md"
+            color="blue"
+            animationDelay={0.2}
           />
         </div>
 

@@ -8,8 +8,34 @@ Complete documentation for the Swimma swim tracking and coaching app.
 
 **New to Swimma development?** Start here:
 
-1. **[Setup Guide](../SETUP.md)** - Complete setup instructions for local development
-2. **[Edge Function Setup](../EDGE_FUNCTION_SETUP.md)** - Set up AI coaching features
+1. **[Setup Guide](setup/SETUP.md)** - Complete setup instructions for local development
+2. **[Edge Function Setup](setup/EDGE_FUNCTION_SETUP.md)** - Set up AI coaching features (optional)
+3. **[Quick Start Guide](quick-start-guide.md)** - Streamlined getting started
+
+**Building components?** See the [Design System](#-design-system) section below.
+
+---
+
+## 🎨 Design System
+
+**Creating or modifying UI components?** Use the design system primitives:
+
+### Quick Start
+1. **[Primitives Guide](../src/components/primitives/README.md)** - Complete reference for all primitives
+2. **[Component Showcase](http://localhost:3000/components)** - Live examples
+3. **[Maintenance Guide](design-system/DESIGN_SYSTEM_MAINTENANCE.md)** - Keep the codebase clean
+
+### Documentation
+- **[Design System Overview](design-system/README.md)** - All design system docs in one place
+- **[Refactor History](design-system/DESIGN_SYSTEM_REFACTOR.md)** - What was done and why
+- **[Remaining Opportunities](design-system/REMAINING_REFACTOR_OPPORTUNITIES.md)** - What's left to do
+- **[Component Audit](design-system/COMPONENT_AUDIT.md)** - Initial component inventory
+
+### Tools
+- **[Design System Checker](../scripts/check-design-system.sh)** - Optional enforcement script
+- **[Scripts Documentation](../scripts/README.md)** - How to use the checker
+
+**Key Rule:** If you're copy-pasting UI markup → use a primitive instead!
 
 ---
 
@@ -73,14 +99,9 @@ git push origin main
 
 ### Feature Specifications
 
-- **[Social Sharing Feature](SOCIAL_SHARING.md)** - Instagram-ready swim cards
+- **[Social Sharing Feature](features/SOCIAL_SHARING.md)** - Instagram-ready swim cards
 - **[Swimming Technique Guide](features/swimming-technique-feature.md)** - Technique library feature spec
-
-### Design & Visual Strategy
-
-- **[Visual Strategy Summary](VISUAL_STRATEGY_SUMMARY.md)** - Overview of visual design approach
-- **[Visual Content Strategy](visual-content-strategy.md)** - Detailed visual enhancement plan
-- **[Quick Start: Visual Implementation](quick-start-guide.md)** - Start building visual enhancements today
+- **[Implementation Roadmap](roadmap/implementation-roadmap.md)** - Detailed implementation plan
 
 ---
 
@@ -92,6 +113,8 @@ Completed specs and historical documents:
 - **[Dashboard Module Spec](archive/dashboard-module-spec.md)** - Original dashboard specification
 - **[Dashboard Redesign](archive/dashboard-redesign-detailed.md)** - Dashboard redesign detailed spec
 - **[Visual Reference (ASCII)](archive/visual-reference-ascii.md)** - ASCII mockups for reference
+- **[Visual Strategy Summary](archive/VISUAL_STRATEGY_SUMMARY.md)** - Overview of visual design approach
+- **[Visual Content Strategy](archive/visual-content-strategy.md)** - Detailed visual enhancement plan
 
 ---
 
@@ -101,7 +124,9 @@ Completed specs and historical documents:
 
 | Scenario | Document |
 |----------|----------|
-| Setting up the app locally | [SETUP.md](../SETUP.md) |
+| Setting up the app locally | [Setup Guide](setup/SETUP.md) |
+| Setting up AI features | [Edge Function Setup](setup/EDGE_FUNCTION_SETUP.md) |
+| Creating UI components | [Design System](design-system/README.md) |
 | Deploying to production | [Deployment Checklist](deployment/DEPLOYMENT_CHECKLIST.md) |
 | Testing on your phone | [Local Mobile Testing](deployment/LOCAL_MOBILE_TESTING.md) |
 | Running tests | [Testing Guide](development/TESTING.md) |
@@ -111,13 +136,23 @@ Completed specs and historical documents:
 
 ### Contributing to Docs
 
+**🚨 CRITICAL:** Before creating any documentation, read the [Documentation Organization Rule](../.claude/rules/documentation.md)!
+
+**Golden Rule:** Only `README.md` belongs in the root directory. All other docs go in `docs/` subdirectories.
+
 When updating documentation:
 
-1. **Keep it current** - Update docs when you change related code
-2. **Link between docs** - Use relative links to connect related info
-3. **Archive old content** - Move completed/outdated specs to `archive/`
-4. **Update this index** - Add new docs to this README
-5. **Test commands** - Verify all command examples work
+1. **Follow the organization rule** - Use decision tree to determine correct location
+2. **Keep it current** - Update docs when you change related code
+3. **Link between docs** - Use relative links to connect related info
+4. **Archive old content** - Move completed/outdated specs to `archive/`
+5. **Update this index** - Add new docs to this README
+6. **Test commands** - Verify all command examples work
+7. **Check for violations** - Run: `find . -maxdepth 1 -name "*.md" ! -name "README.md"`
+
+**See Also:**
+- [Documentation Organization Rule](../.claude/rules/documentation.md) - Comprehensive rules and decision tree
+- [Documentation Structure Guide](./DOCUMENTATION_STRUCTURE.md) - Visual overview
 
 ---
 
@@ -135,8 +170,8 @@ When updating documentation:
 ### Key Files
 
 - **Root README:** [../README.md](../README.md) - Project overview
-- **Setup Guide:** [../SETUP.md](../SETUP.md) - Local development setup
-- **Edge Functions:** [../EDGE_FUNCTION_SETUP.md](../EDGE_FUNCTION_SETUP.md) - AI features setup
+- **Setup Guide:** [setup/SETUP.md](setup/SETUP.md) - Local development setup
+- **Design System:** [design-system/README.md](design-system/README.md) - Component development guide
 - **Netlify Config:** [../netlify.toml](../netlify.toml) - Deployment configuration
 
 ---

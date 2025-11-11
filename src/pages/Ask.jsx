@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
 import { MessageCircle, Send, Sparkles, Loader2, AlertCircle, Upload, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -161,9 +162,10 @@ export const Ask = () => {
           <p className="text-xl text-content-tertiary mb-8">
             Upload some swim data first to start asking questions!
           </p>
-          <Link to="/upload" className="btn-primary inline-flex items-center gap-2">
-            <Upload className="w-5 h-5" />
-            Upload Swim Data
+          <Link to="/upload">
+            <Button leftIcon={<Upload />}>
+              Upload Swim Data
+            </Button>
           </Link>
         </motion.div>
       </div>
@@ -176,7 +178,7 @@ export const Ask = () => {
         title="Swim Coach"
         actions={
           tokenStats.queryCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-dark-card rounded-lg text-sm">
+            <div className="flex items-center gap-2 px-4 py-2 bg-dark-card rounded-lg text-sm">
               <Zap className="w-4 h-4 text-yellow-400" />
               <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
@@ -220,7 +222,7 @@ export const Ask = () => {
 
                   <div className="space-y-2">
                     <p className="text-sm text-content-tertiary font-medium">Try asking:</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {exampleQueries.slice(0, 6).map(example => (
                         <button
                           key={example.id}
@@ -323,7 +325,7 @@ export const Ask = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-4"
           >
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-4">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-red-400 font-medium mb-1">Error</p>
@@ -340,7 +342,7 @@ export const Ask = () => {
 
         {/* Input form */}
         <Card className="bg-dark-card">
-          <form onSubmit={handleSubmit} className="flex gap-3">
+          <form onSubmit={handleSubmit} className="flex gap-4">
             <input
               ref={inputRef}
               type="text"
@@ -348,7 +350,7 @@ export const Ask = () => {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question about your swimming..."
               disabled={loading}
-              className="flex-1 bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-dark-bg rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="submit"

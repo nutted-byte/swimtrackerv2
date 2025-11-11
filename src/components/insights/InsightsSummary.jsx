@@ -1,4 +1,4 @@
-import { InsightStatCard } from '../InsightStatCard';
+import { StatCard } from '../StatCard';
 import { Activity, TrendingUp, Zap, Award } from 'lucide-react';
 import { formatPace } from '../../utils/formatters';
 import { tokens } from '../../design/tokens';
@@ -19,7 +19,7 @@ export const InsightsSummary = ({
 
   return (
     <div className={`grid grid-cols-1 md:grid-cols-4 ${tokens.gap.default} mb-8`}>
-      <InsightStatCard
+      <StatCard
         label="Avg Pace"
         value={formatPace(avgPace)}
         unit="min/100m"
@@ -30,7 +30,7 @@ export const InsightsSummary = ({
         metricName="Pace"
       />
 
-      <InsightStatCard
+      <StatCard
         label="Total Distance"
         value={totalDistance.toFixed(1)}
         unit="km"
@@ -42,7 +42,7 @@ export const InsightsSummary = ({
       />
 
       {!isNaN(avgSwolf) && avgSwolf > 0 && (
-        <InsightStatCard
+        <StatCard
           label="Avg SWOLF"
           value={Math.round(avgSwolf)}
           delta={compareData.deltas?.swolf}
@@ -53,7 +53,7 @@ export const InsightsSummary = ({
         />
       )}
 
-      <InsightStatCard
+      <StatCard
         label="Consistency Score"
         value={consistencyScore}
         unit="/100"

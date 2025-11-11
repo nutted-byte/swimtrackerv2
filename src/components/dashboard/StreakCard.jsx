@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, ChevronDown } from 'lucide-react';
+import { Calendar, ChevronDown } from 'lucide-react';
 import { Card } from '../Card';
+import { CardHeader } from '../primitives';
 import { getLast12MonthsActivity } from '../../utils/streakCalculation';
 
 export const StreakCard = ({ sessions }) => {
@@ -24,34 +24,27 @@ export const StreakCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-blue-500/20">
-              <Calendar className="w-5 h-5 text-blue-400" />
-            </div>
-            <h3 className="font-display text-lg font-bold">Monthly Summary</h3>
-          </div>
-          <Link
-            to="/swims"
-            className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 group transition-colors"
-          >
-            View all
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+      <Card className="bg-gradient-to-br from-primary-500/10 to-blue-500/10 border-primary-500/20">
+        <CardHeader
+          icon={Calendar}
+          title="Monthly Summary"
+          actionText="View all"
+          actionTo="/swims"
+          iconColor="text-blue-400"
+          iconBgColor="bg-blue-500/20"
+        />
 
         {/* Monthly Summary Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-700/50">
-                <th className="text-left py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">Month</th>
-                <th className="text-center py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">Swims</th>
-                <th className="text-center py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">Lengths</th>
-                <th className="text-center py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">Distance</th>
-                <th className="text-center py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">Avg Pace</th>
-                <th className="text-center py-2.5 px-3 text-[10px] font-medium uppercase tracking-wide text-content-tertiary">SWOLF</th>
+                <th className="text-left py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Month</th>
+                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Swims</th>
+                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Lengths</th>
+                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Distance</th>
+                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Avg Pace</th>
+                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">SWOLF</th>
               </tr>
             </thead>
             <tbody>

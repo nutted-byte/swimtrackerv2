@@ -45,7 +45,7 @@ export const VO2MaxUpload = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-start gap-4">
-        <div className="p-3 rounded-xl bg-accent-blue/20">
+        <div className="p-4 rounded-lg bg-accent-blue/20">
           <Activity className="w-6 h-6 text-accent-blue" />
         </div>
         <div className="flex-1">
@@ -93,19 +93,19 @@ export const VO2MaxUpload = () => {
             exit={{ opacity: 0, height: 0 }}
             className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-4"
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               <CheckCircle className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
               <div className="flex-1">
                 <h4 className="font-semibold text-accent-blue mb-1">
                   VO2 Max Data Uploaded Successfully
                 </h4>
-                <div className="text-sm text-content-tertiary space-y-1">
+                <div className="text-sm text-content-tertiary space-y-2">
                   <p>✓ {result.matchedCount} swim session{result.matchedCount !== 1 ? 's' : ''} updated</p>
                 </div>
               </div>
               <button
                 onClick={handleDismiss}
-                className="p-1 hover:bg-accent-blue/20 rounded transition-colors"
+                className="p-3 hover:bg-accent-blue/20 rounded-lg transition-colors"
               >
                 <X className="w-4 h-4 text-content-tertiary" />
               </button>
@@ -120,7 +120,7 @@ export const VO2MaxUpload = () => {
             exit={{ opacity: 0, height: 0 }}
             className="bg-red-500/10 border border-red-500/30 rounded-lg p-4"
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
                 <h4 className="font-semibold text-red-400 mb-1">Upload Failed</h4>
@@ -128,7 +128,7 @@ export const VO2MaxUpload = () => {
               </div>
               <button
                 onClick={handleDismiss}
-                className="p-1 hover:bg-red-500/20 rounded transition-colors"
+                className="p-3 hover:bg-red-500/20 rounded-lg transition-colors"
               >
                 <X className="w-4 h-4 text-content-tertiary" />
               </button>
@@ -137,9 +137,9 @@ export const VO2MaxUpload = () => {
         )}
       </AnimatePresence>
 
-      <div className="text-xs text-content-tertiary space-y-1">
+      <div className="text-xs text-content-tertiary space-y-2">
         <p>Expected CSV format:</p>
-        <ul className="list-disc list-inside ml-2 space-y-1">
+        <ul className="list-disc list-inside ml-2 space-y-2">
           <li>Apple Health: Direct export from Apple Health app</li>
           <li>Simple: Headers "date,vo2max" with data rows</li>
         </ul>

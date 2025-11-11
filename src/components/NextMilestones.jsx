@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card } from './Card';
+import { CardHeader } from './primitives';
 import { Zap, TrendingUp, Target, Award, ChevronRight } from 'lucide-react';
 
 export const NextMilestones = ({ milestones }) => {
@@ -31,15 +32,14 @@ export const NextMilestones = ({ milestones }) => {
 
   return (
     <Card>
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 bg-primary-500/20 rounded-lg">
-          <Target className="w-6 h-6 text-primary-400" />
-        </div>
-        <div>
-          <h2 className="font-display text-2xl font-bold">Next Milestones</h2>
-          <p className="text-sm text-content-tertiary">You're so close to these achievements!</p>
-        </div>
-      </div>
+      <CardHeader
+        icon={Target}
+        title="Next Milestones"
+        subtitle="You're so close to these achievements!"
+        iconColor="text-primary-400"
+        iconBgColor="bg-primary-500/20"
+        iconSize="w-6 h-6"
+      />
 
       <div className="space-y-4">
         {milestones.map((milestone, index) => {
@@ -51,12 +51,12 @@ export const NextMilestones = ({ milestones }) => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`p-4 rounded-lg bg-gradient-to-br ${getGradientColor(milestone.progress)} border border-dark-border hover:border-primary-500/30 transition-colors`}
+              className={`p-4 rounded-lg bg-gradient-to-br ${getGradientColor(milestone.progress)} transition-colors`}
             >
               {/* Header */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-dark-bg/50 rounded-lg">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-dark-bg/50 rounded-lg">
                     <Icon className="w-5 h-5 text-primary-400" />
                   </div>
                   <div>
@@ -70,7 +70,7 @@ export const NextMilestones = ({ milestones }) => {
               </div>
 
               {/* Progress Bar */}
-              <div className="mb-3">
+              <div className="mb-4">
                 <div className="h-2 bg-dark-bg rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}

@@ -313,7 +313,7 @@ export const DeepInsightCard = ({ analysis }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-dark-bg/50 rounded-lg border border-dark-border hover:border-primary-500/30 transition-colors"
+                  className="p-4 bg-dark-bg/50 rounded-lg transition-colors"
                 >
                   <div className="flex items-start gap-3">
                     <Icon className={`w-5 h-5 mt-0.5 ${getPriorityColor(rec.priority)}`} />

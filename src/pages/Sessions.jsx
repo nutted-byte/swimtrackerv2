@@ -5,7 +5,8 @@ import { useSwimData } from '../context/SwimDataContext';
 import { SessionCard } from '../components/SessionCard';
 import { MonthGroup } from '../components/MonthGroup';
 import { PageContainer, PageHeader } from '../components/layout';
-import { Filter, Trash2, List, Calendar } from 'lucide-react';
+import { Button } from '../components/Button';
+import { Filter, Trash2, List, Calendar, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { groupSessionsByMonth } from '../utils/analytics';
 import { tokens } from '../design/tokens';
@@ -13,7 +14,7 @@ import { formatDuration } from '../utils/formatters';
 
 export const Sessions = () => {
   const navigate = useNavigate();
-  const { sessions, removeSession } = useSwimData();
+  const { sessions, removeSession, loading } = useSwimData();
   const [sortBy, setSortBy] = useState('date-desc'); // date-desc, date-asc, distance, pace
   const [viewMode, setViewMode] = useState('grouped'); // grouped or list
   const [allCollapsed, setAllCollapsed] = useState(true);
@@ -55,6 +56,23 @@ export const Sessions = () => {
     count: acc.count + 1
   }), { distance: 0, duration: 0, count: 0 });
 
+  // Show loading state while data is being fetched
+  if (loading && sessions.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-6"
+        >
+          <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-content-tertiary">Loading your swims...</p>
+        </motion.div>
+      </div>
+    );
+  }
+
   if (sessions.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
@@ -71,12 +89,10 @@ export const Sessions = () => {
           <p className="text-xl text-content-secondary mb-8">
             Upload your first swim to get started!
           </p>
-          <Link
-            to="/upload"
-            className="btn-primary inline-flex items-center gap-2"
-          >
-            <Upload className="w-5 h-5" />
-            Upload Swim Data
+          <Link to="/upload">
+            <Button leftIcon={<Upload />}>
+              Upload Swim Data
+            </Button>
           </Link>
         </motion.div>
       </div>
@@ -117,7 +133,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'date-desc'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
+                      : 'bg-dark-card text-content-secondary hover:text-content'
                   }`}
                 >
                   Newest First
@@ -127,7 +143,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'date-asc'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
+                      : 'bg-dark-card text-content-secondary hover:text-content'
                   }`}
                 >
                   Oldest First
@@ -137,7 +153,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'distance'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
+                      : 'bg-dark-card text-content-secondary hover:text-content'
                   }`}
                 >
                   Distance
@@ -147,7 +163,7 @@ export const Sessions = () => {
                   className={`px-3 py-1 rounded-lg text-sm transition-colors ${
                     sortBy === 'pace'
                       ? 'bg-primary-500 text-white'
-                      : 'bg-dark-card text-content-secondary hover:text-content border border-dark-border'
+                      : 'bg-dark-card text-content-secondary hover:text-content'
                   }`}
                 >
                   Fastest Pace
@@ -161,15 +177,15 @@ export const Sessions = () => {
             {viewMode === 'grouped' && (
               <button
                 onClick={() => setAllCollapsed(!allCollapsed)}
-                className="px-3 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg text-sm transition-colors text-content-secondary hover:text-content border border-dark-border"
+                className="px-3 py-2 bg-dark-card hover:bg-dark-card/80 rounded-lg text-sm transition-colors text-content-secondary hover:text-content"
               >
                 {allCollapsed ? 'Expand All' : 'Collapse All'}
               </button>
             )}
-            <div className="flex gap-2 bg-dark-card rounded-lg p-1 border border-dark-border">
+            <div className="flex gap-2 bg-dark-card rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grouped')}
-                className={`px-3 py-1 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                className={`px-3 py-1 rounded-lg text-sm transition-colors flex items-center gap-2 ${
                   viewMode === 'grouped'
                     ? 'bg-primary-500 text-white'
                     : 'text-content-secondary hover:text-content'
@@ -180,7 +196,7 @@ export const Sessions = () => {
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`px-3 py-1 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                className={`px-3 py-1 rounded-lg text-sm transition-colors flex items-center gap-2 ${
                   viewMode === 'list'
                     ? 'bg-primary-500 text-white'
                     : 'text-content-secondary hover:text-content'
@@ -219,7 +235,7 @@ export const Sessions = () => {
                     />
                     <button
                       onClick={(e) => handleDelete(session.id, e)}
-                      className="absolute top-4 right-4 p-2 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
+                      className="absolute top-4 right-4 p-3 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
                       aria-label="Delete session"
                     >
                       <Trash2 className="w-4 h-4 text-accent-coral" />
@@ -231,7 +247,7 @@ export const Sessions = () => {
           </div>
         ) : (
           // List View
-          <div className="space-y-3">
+          <div className="space-y-4">
             {sortedSessions.map((session, index) => (
               <motion.div
                 key={session.id}

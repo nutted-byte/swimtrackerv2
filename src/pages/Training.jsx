@@ -232,7 +232,7 @@ export const Training = () => {
         actions={
           <button
             onClick={() => setShowNewPlanConfirm(true)}
-            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors text-sm font-medium flex items-center gap-3"
           >
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">New Plan</span>
@@ -287,7 +287,7 @@ export const Training = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 gap-4">
             <div className="bg-dark-bg/50 rounded-lg p-4">
-              <div className="flex items-center gap-2 text-content-secondary text-sm mb-1">
+              <div className="flex items-center gap-3 text-content-secondary text-sm mb-1">
                 <CheckCircle2 className="w-4 h-4" />
                 Completed
               </div>
@@ -311,8 +311,8 @@ export const Training = () => {
         {/* AI Coaching Tip */}
         {currentWeek?.coachingTip && (
           <Card className="mb-4 bg-accent-blue/10 border-accent-blue/30">
-            <div className="flex items-start gap-3">
-              <div className="p-2 rounded-lg bg-accent-blue/20 flex-shrink-0">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-lg bg-accent-blue/20 flex-shrink-0">
                 <Target className="w-5 h-5 text-accent-blue" />
               </div>
               <div>
@@ -323,7 +323,7 @@ export const Training = () => {
           </Card>
         )}
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {thisWeekWorkouts.map((workout, index) => (
             <WorkoutCard
               key={workout.id}
@@ -348,7 +348,7 @@ export const Training = () => {
       >
         <h3 className="font-display text-xl font-bold mb-4">Full {weeks.length}-Week Plan</h3>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {weeks.map((week) => (
             <Card key={week.weekNumber} className="overflow-hidden">
               <button
@@ -371,7 +371,7 @@ export const Training = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <span className="text-xs text-content-tertiary">
                     {week.sessions.filter(s => s.completed).length}/{week.sessions.length} complete
                   </span>
@@ -415,7 +415,7 @@ export const Training = () => {
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-display text-xl font-bold">AI Swim Coach</h3>
           {tokenStats.queryCount > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-dark-card rounded-lg text-sm">
+            <div className="flex items-center gap-3 px-3 py-1.5 bg-dark-card rounded-lg text-sm">
               <Zap className="w-4 h-4 text-yellow-400" />
               <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
@@ -452,14 +452,14 @@ export const Training = () => {
 
                   <div className="space-y-2">
                     <p className="text-sm text-content-tertiary font-medium">Try asking:</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {exampleQueries.slice(0, 6).map(example => (
                         <button
                           key={example.id}
                           onClick={() => handleExampleClick(example.question)}
                           className="text-left px-4 py-3 bg-dark-card/50 hover:bg-dark-card rounded-lg text-sm transition-colors group"
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-3">
                             <MessageCircle className="w-4 h-4 text-primary-400 flex-shrink-0" />
                             <span className="text-content-secondary group-hover:text-white transition-colors">
                               "{example.question}"
@@ -499,7 +499,7 @@ export const Training = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-3 mb-2">
                         <span className="font-medium text-sm">
                           {message.role === 'user' ? 'You' : 'AI Coach'}
                         </span>
@@ -511,7 +511,7 @@ export const Training = () => {
                         {message.content}
                       </div>
                       {message.usage && (
-                        <div className="mt-2 flex items-center gap-2 text-xs text-content-tertiary">
+                        <div className="mt-2 flex items-center gap-3 text-xs text-content-tertiary">
                           <span>
                             {message.usage.inputTokens + message.usage.outputTokens} tokens
                           </span>
@@ -555,7 +555,7 @@ export const Training = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-4"
           >
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-4">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-red-400 font-medium mb-1">Error</p>
@@ -573,7 +573,7 @@ export const Training = () => {
         {/* Input form */}
         {sessions.length > 0 && (
           <Card className="bg-dark-card">
-            <form onSubmit={handleCoachSubmit} className="flex gap-3">
+            <form onSubmit={handleCoachSubmit} className="flex gap-4">
               <input
                 ref={inputRef}
                 type="text"
@@ -581,12 +581,12 @@ export const Training = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question about your swimming..."
                 disabled={coachLoading}
-                className="flex-1 bg-dark-bg border border-dark-border rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-dark-bg rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || coachLoading}
-                className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-bg disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-2"
+                className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-bg disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-3"
               >
                 {coachLoading ? (
                   <>
@@ -615,7 +615,7 @@ export const Training = () => {
           >
             <Card>
               <div className="flex items-start gap-4 mb-4">
-                <div className="p-3 rounded-full bg-orange-500/20">
+                <div className="p-4 rounded-full bg-orange-500/20">
                   <AlertCircle className="w-6 h-6 text-orange-400" />
                 </div>
                 <div className="flex-1">
@@ -626,7 +626,7 @@ export const Training = () => {
                 </div>
               </div>
 
-              <div className="bg-dark-bg/50 rounded-lg p-3 mb-6">
+              <div className="bg-dark-bg/50 rounded-lg p-4 mb-6">
                 <div className="text-sm text-content-secondary">
                   <strong className="text-content">Current Plan:</strong>
                   <div className="mt-1">{goal.description}</div>
@@ -636,7 +636,7 @@ export const Training = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <button
                   onClick={() => setShowNewPlanConfirm(false)}
                   className="flex-1 px-4 py-2 bg-dark-bg hover:bg-dark-bg/80 rounded-lg transition-colors"
@@ -695,7 +695,7 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
         onClick={onToggle}
         className="w-full p-4 flex items-center justify-between text-left"
       >
-        <div className="flex items-center gap-3 flex-1">
+        <div className="flex items-center gap-4 flex-1">
           {workout.completed ? (
             <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
           ) : (
@@ -705,7 +705,7 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           <div className="flex-1">
             <div className="font-semibold text-sm mb-1">{workout.title}</div>
             {!compact && (
-              <div className="flex items-center gap-3 text-xs text-content-tertiary">
+              <div className="flex items-center gap-4 text-xs text-content-tertiary">
                 <span className="capitalize">{workout.day}</span>
                 <span>•</span>
                 <span>{formatDistanceWithLengths(workout.totalDistance, poolLength)}</span>
@@ -751,7 +751,7 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
         <div className="border-t border-dark-border p-4 space-y-4">
           {/* Description */}
           {workout.description && (
-            <div className="bg-accent-blue/10 border border-accent-blue/20 rounded-lg p-3">
+            <div className="bg-accent-blue/10 border border-accent-blue/20 rounded-lg p-4">
               <p className="text-sm text-content">
                 {workout.description}
               </p>
@@ -762,9 +762,9 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {workout.warmup && workout.warmup.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold text-accent-blue mb-2">Warm-up</h4>
-              <ul className="space-y-1 text-sm text-content-secondary">
+              <ul className="space-y-2 text-sm text-content-secondary">
                 {workout.warmup.map((item, i) => (
-                  <li key={i} className="flex gap-2">
+                  <li key={i} className="flex gap-3">
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -777,9 +777,9 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {workout.mainSet && workout.mainSet.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold text-primary-400 mb-2">Main Set</h4>
-              <ul className="space-y-1 text-sm text-content-secondary">
+              <ul className="space-y-2 text-sm text-content-secondary">
                 {workout.mainSet.map((item, i) => (
-                  <li key={i} className="flex gap-2">
+                  <li key={i} className="flex gap-3">
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -792,9 +792,9 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {workout.cooldown && workout.cooldown.length > 0 && (
             <div>
               <h4 className="text-sm font-semibold text-green-400 mb-2">Cool-down</h4>
-              <ul className="space-y-1 text-sm text-content-secondary">
+              <ul className="space-y-2 text-sm text-content-secondary">
                 {workout.cooldown.map((item, i) => (
-                  <li key={i} className="flex gap-2">
+                  <li key={i} className="flex gap-3">
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -806,11 +806,11 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {/* Workout Stats */}
           <div className="pt-3 border-t border-dark-border flex items-center justify-between text-xs">
             <div className="flex items-center gap-4 text-content-tertiary">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <TrendingUp className="w-3.5 h-3.5" />
                 <span>{formatDistanceWithLengths(workout.totalDistance, poolLength)} total</span>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <Clock className="w-3.5 h-3.5" />
                 <span>~{workout.estimatedTime} minutes</span>
               </div>

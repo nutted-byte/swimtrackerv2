@@ -58,13 +58,13 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
             }`}
           >
             {/* Menu Items */}
-            <div className="p-6 space-y-3">
+            <div className="p-6 space-y-4">
               {/* Navigation Links */}
               <div className="space-y-2 mb-4">
                 <Link
                   to="/"
                   onClick={closeMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                     location.pathname === '/'
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
@@ -79,7 +79,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <Link
                   to="/swims"
                   onClick={closeMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                     isActive('/swims')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
@@ -94,7 +94,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <Link
                   to="/insight"
                   onClick={closeMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                     isActive('/insight')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
@@ -109,7 +109,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <Link
                   to="/train"
                   onClick={closeMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                     isActive('/train')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
@@ -124,7 +124,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 <Link
                   to="/learn"
                   onClick={closeMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                     isActive('/learn')
                       ? 'bg-primary-500/20 text-primary-400'
                       : isDark
@@ -144,7 +144,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
               <Link
                 to="/upload"
                 onClick={closeMenu}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors bg-primary-500 hover:bg-primary-600 text-white"
+                className="flex items-center gap-4 px-4 py-3 rounded-lg transition-colors bg-primary-500 hover:bg-primary-600 text-white"
               >
                 <Upload className="w-5 h-5" />
                 <span className="font-medium">Upload</span>
@@ -161,7 +161,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
               </div>
 
               {/* Name */}
-              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
+              <div className={`flex items-center gap-4 px-4 py-3 rounded-lg ${
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
                 <User className={`w-5 h-5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`} />
@@ -181,7 +181,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                   closeMenu();
                   onSignOut();
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
                   isDark
                     ? 'bg-dark-bg hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral'
                     : 'bg-slate-50 hover:bg-red-50 text-content-tertiary hover:text-red-600'
@@ -201,7 +201,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
   return (
     <button
       onClick={toggleMenu}
-      className={`md:hidden p-2 rounded-lg transition-colors ${
+      className={`md:hidden p-3 rounded-lg transition-colors ${
         isDark
           ? 'hover:bg-dark-card text-content-tertiary hover:text-content-secondary'
           : 'hover:bg-slate-100 text-content-tertiary hover:text-content'

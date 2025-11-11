@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
+import { Button } from '../components/Button';
 import { LapPaceChart } from '../components/visualizations/LapPaceChart';
 import {
   ArrowLeft,
@@ -32,8 +33,8 @@ export const SessionDetail = () => {
         <h1 className="font-display text-3xl font-bold mb-4">
           Session Not Found
         </h1>
-        <Link to="/swims" className="btn-primary">
-          Back to Sessions
+        <Link to="/swims">
+          <Button>Back to Sessions</Button>
         </Link>
       </div>
     );
@@ -145,7 +146,7 @@ export const SessionDetail = () => {
 
             {/* Length Table */}
             <Card className="mb-8">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-4 mb-6">
                 <Layers className="w-6 h-6 text-primary-400" />
                 <h2 className="font-display text-2xl font-bold">
                   Length-by-Length Details

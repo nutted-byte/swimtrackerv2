@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Upload, File, CheckCircle, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
+import { Button } from './Button';
 
 export const FileUpload = ({ onFilesUploaded }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -108,9 +109,9 @@ export const FileUpload = ({ onFilesUploaded }) => {
                 multiple
                 onChange={handleFileInput}
               />
-              <span className="btn-primary inline-block">
+              <Button as="span">
                 Choose Files
-              </span>
+              </Button>
             </label>
           </motion.div>
         </div>

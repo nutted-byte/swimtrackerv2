@@ -52,8 +52,8 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
           {/* Reason Badge */}
           {reason && (
             <div className={`
-              absolute -top-2 -right-2 px-3 py-1 rounded-full text-xs font-semibold
-              flex items-center gap-1.5 shadow-lg
+              absolute -top-3 -right-2 px-4 py-1 rounded-full text-xs font-semibold
+              flex items-center gap-2 shadow-lg
               ${isDark
                 ? 'bg-primary-500 text-white'
                 : 'bg-primary-600 text-white'
@@ -71,14 +71,14 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
 
           {/* Completion Badge */}
           {completed && (
-            <div className="absolute top-3 left-3 p-2 rounded-lg bg-green-500/20 backdrop-blur-sm">
+            <div className="absolute top-4 left-4 p-3 rounded-lg bg-green-500/20 backdrop-blur-sm">
               <CheckCircle className="w-5 h-5 text-green-400" />
             </div>
           )}
 
           <div className="flex items-start justify-between mb-4">
             <div className="text-4xl">{categoryIcons[article.category]}</div>
-            <span className={`text-[10px] px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
+            <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
               isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
             }`}>
               {article.level}
@@ -86,22 +86,22 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
           </div>
 
           <h3 className="font-display text-xl font-bold mb-3">{article.title}</h3>
-          <p className="text-sm text-content-secondary mb-4 line-clamp-3">
+          <p className="text-sm text-content-secondary mb-4 line-clamp-4">
             {article.summary}
           </p>
 
           <div className="flex items-center gap-4 text-xs text-content-tertiary">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-4">
               <Clock className="w-3 h-3" />
               <span>{article.readTime}</span>
             </div>
             {article.drills && article.drills.length > 0 && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <span>💪 {article.drills.length} drills</span>
               </div>
             )}
             {article.keyTakeaways && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <span>✨ {article.keyTakeaways.length} takeaways</span>
               </div>
             )}

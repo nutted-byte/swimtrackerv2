@@ -34,9 +34,9 @@ export const LapPaceChart = ({ laps }) => {
     const isFaster = diffFromAvg < 0;
 
     return (
-      <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg">
+      <div className="bg-dark-card rounded-lg p-4 shadow-lg">
         <p className="font-bold text-sm mb-2">Lap {data.lapNumber}</p>
-        <div className="space-y-1 text-xs">
+        <div className="space-y-2 text-xs">
           <div className="flex justify-between gap-4">
             <span className="text-content-secondary">Pace:</span>
             <span className="font-semibold">{formatPace(data.paceSeconds)}/100m</span>
@@ -69,10 +69,10 @@ export const LapPaceChart = ({ laps }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-dark-card rounded-xl p-6 border border-dark-border"
+      className="bg-dark-card rounded-lg p-6"
     >
       <div className="mb-4">
-        <h3 className="text-lg font-bold mb-1">Lap-by-Lap Pace</h3>
+        <h3 className="text-lg font-bold mb-2">Lap-by-Lap Pace</h3>
         <p className="text-sm text-content-secondary">
           Average: <span className="font-semibold text-primary-400">{formatPace(avgPace)}/100m</span>
         </p>
@@ -132,8 +132,8 @@ export const LapPaceChart = ({ laps }) => {
 
       {/* Lap insights */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-dark-bg/50 rounded-lg p-3">
-          <div className="text-xs text-content-secondary mb-1">Fastest Lap</div>
+        <div className="bg-dark-bg/50 rounded-lg p-4">
+          <div className="text-xs text-content-secondary mb-2">Fastest Lap</div>
           <div className="font-bold text-green-400">
             Lap {chartData.reduce((fastest, lap, index) =>
               lap.paceSeconds < chartData[fastest].paceSeconds ? index : fastest, 0) + 1}
@@ -143,8 +143,8 @@ export const LapPaceChart = ({ laps }) => {
           </div>
         </div>
 
-        <div className="bg-dark-bg/50 rounded-lg p-3">
-          <div className="text-xs text-content-secondary mb-1">Slowest Lap</div>
+        <div className="bg-dark-bg/50 rounded-lg p-4">
+          <div className="text-xs text-content-secondary mb-2">Slowest Lap</div>
           <div className="font-bold text-orange-400">
             Lap {chartData.reduce((slowest, lap, index) =>
               lap.paceSeconds > chartData[slowest].paceSeconds ? index : slowest, 0) + 1}
@@ -154,8 +154,8 @@ export const LapPaceChart = ({ laps }) => {
           </div>
         </div>
 
-        <div className="bg-dark-bg/50 rounded-lg p-3">
-          <div className="text-xs text-content-secondary mb-1">Pace Variation</div>
+        <div className="bg-dark-bg/50 rounded-lg p-4">
+          <div className="text-xs text-content-secondary mb-2">Pace Variation</div>
           <div className="font-bold text-primary-400">
             {formatPace(Math.max(...chartData.map(l => l.paceSeconds)) - Math.min(...chartData.map(l => l.paceSeconds)))}
             <span className="text-sm text-content-secondary ml-2">range</span>

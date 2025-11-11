@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { NextMilestones } from '../components/NextMilestones';
 import { AchievementBadges } from '../components/AchievementBadges';
@@ -33,8 +34,8 @@ export const Records = () => {
           <p className="text-xl text-content-tertiary mb-8">
             Upload some swims to start tracking your personal bests!
           </p>
-          <Link to="/upload" className="btn-primary">
-            Upload Swim Data
+          <Link to="/upload">
+            <Button>Upload Swim Data</Button>
           </Link>
         </motion.div>
       </div>
@@ -95,7 +96,7 @@ export const Records = () => {
           onClick={() => session && navigate(`/swim/${session.id}`, { state: { from: '/records', label: 'Records' } })}
         >
           <div className="flex items-start justify-between mb-4">
-            <div className="p-3 rounded-xl bg-dark-bg/50">
+            <div className="p-4 rounded-xl bg-dark-bg/50">
               <Icon className="w-8 h-8 text-accent-blue" />
             </div>
             <Trophy className="w-6 h-6 text-yellow-500" />
@@ -111,11 +112,11 @@ export const Records = () => {
           </div>
 
           {subtitle && (
-            <p className="text-sm text-content-tertiary mb-3">{subtitle}</p>
+            <p className="text-sm text-content-tertiary mb-4">{subtitle}</p>
           )}
 
           {session && (
-            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-3 border-t border-dark-border">
+            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-4 border-t border-dark-border">
               <Calendar className="w-3 h-3" />
               {formatDate(session.date)}
             </div>
@@ -153,12 +154,10 @@ export const Records = () => {
               <BarChart3 className={tokens.icons.sm} />
               <span className="hidden sm:inline">View Sessions</span>
             </Link>
-            <Link
-              to="/upload"
-              className="btn-primary flex items-center gap-2 text-sm"
-            >
-              <Upload className={tokens.icons.sm} />
-              Upload
+            <Link to="/upload">
+              <Button size="sm" leftIcon={<Upload />}>
+                Upload
+              </Button>
             </Link>
           </>
         }
@@ -171,17 +170,17 @@ export const Records = () => {
       >
         {/* Summary Stats */}
         <div className={`flex items-center justify-center ${tokens.gap.compact} text-sm text-content-tertiary`}>
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-2">
             <Trophy className={`${tokens.icons.sm} text-yellow-500`} />
             {recordsCount} Records
           </span>
           <span className="text-content-tertiary">•</span>
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-2">
             <Award className={`${tokens.icons.sm} text-yellow-500`} />
             {earnedBadges}/{totalBadges} Badges
           </span>
           <span className="text-content-tertiary">•</span>
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-2">
             <Sparkles className={`${tokens.icons.sm} text-primary-400`} />
             {sessions.length} Swims
           </span>

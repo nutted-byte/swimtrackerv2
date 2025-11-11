@@ -137,15 +137,15 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
           return (
             <div key={metric.metric} className="text-center">
               <div className="text-content-tertiary mb-1">{metric.metric}</div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <div>
-                  <div className="text-[10px] text-content-tertiary uppercase">This swim</div>
+                  <div className="text-xs text-content-tertiary uppercase">This swim</div>
                   <div className="font-semibold text-white text-sm">
                     {metric.current.toFixed(2)}{metric.unit}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-content-tertiary uppercase">Average</div>
+                  <div className="text-xs text-content-tertiary uppercase">Average</div>
                   <div className="text-content-tertiary text-xs">
                     {metric.average.toFixed(2)}{metric.unit}
                   </div>

@@ -68,7 +68,7 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
     const milestoneType = getMilestoneType(data);
 
     return (
-      <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg min-w-[200px]">
+      <div className="bg-dark-card rounded-lg p-3 shadow-lg min-w-[200px]">
         <p className="text-sm text-content-tertiary mb-2">{data.fullDate}</p>
 
         {milestoneType && (
@@ -216,7 +216,7 @@ export const InsightsChart = ({
               if (active && payload && payload.length) {
                 const data = payload[0].payload;
                 return (
-                  <div className="bg-dark-card border border-dark-border rounded-lg p-3 shadow-lg">
+                  <div className="bg-dark-card rounded-lg p-3 shadow-lg">
                     <p className="text-sm text-content-tertiary mb-2">{data.date}</p>
                     <p className="text-sm">
                       <span className="text-content-tertiary">Pace:</span>{' '}

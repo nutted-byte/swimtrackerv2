@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, ArrowRight } from 'lucide-react';
 import { Card } from '../Card';
+import { CardHeader } from '../primitives';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 
 export const PaceTrendCard = ({ sessions }) => {
@@ -78,12 +79,13 @@ export const PaceTrendCard = ({ sessions }) => {
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 h-full">
-        <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className="w-4 h-4 text-accent-blue" />
-          <span className="text-sm font-medium text-content-secondary">
-            Pace Trend
-          </span>
-        </div>
+        <CardHeader
+          icon={TrendingUp}
+          title="Pace Trend"
+          iconColor="text-accent-blue"
+          iconBgColor="bg-accent-blue/20"
+          iconSize="w-4 h-4"
+        />
 
         {analysis.data.length > 0 ? (
           <>

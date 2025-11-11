@@ -4,6 +4,7 @@ import { ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { TrendBadge } from '../components/TrendBadge';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { AchievementBadges } from '../components/AchievementBadges';
@@ -106,7 +107,7 @@ export const Insights = () => {
           onClick={() => session && navigate(`/swim/${session.id}`, { state: { from: '/insight', label: 'Insight' } })}
         >
           <div className="flex items-start justify-between mb-4">
-            <div className="p-3 rounded-xl bg-dark-bg/50">
+            <div className="p-4 rounded-xl bg-dark-bg/50">
               <Icon className="w-8 h-8 text-accent-blue" />
             </div>
             <Trophy className="w-6 h-6 text-yellow-500" />
@@ -122,11 +123,11 @@ export const Insights = () => {
           </div>
 
           {subtitle && (
-            <p className="text-sm text-content-tertiary mb-3">{subtitle}</p>
+            <p className="text-sm text-content-tertiary mb-4">{subtitle}</p>
           )}
 
           {session && (
-            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-3 border-t border-dark-border">
+            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-4 border-t border-dark-border">
               <Calendar className="w-3 h-3" />
               {formatDate(session.date)}
             </div>
@@ -162,8 +163,8 @@ export const Insights = () => {
           <p className="text-xl text-content-tertiary mb-8">
             Upload some swims to see your performance trends!
           </p>
-          <Link to="/upload" className="btn-primary">
-            Upload Swim Data
+          <Link to="/upload">
+            <Button>Upload Swim Data</Button>
           </Link>
         </motion.div>
       </div>
@@ -193,7 +194,7 @@ export const Insights = () => {
         {/* Time Range Controls */}
         <Card className="p-4 mb-6">
           {/* Desktop: Buttons */}
-          <div className="hidden md:flex items-center gap-3 flex-wrap">
+          <div className="hidden md:flex items-center gap-4 flex-wrap">
             <span className="text-sm text-content-tertiary">Time Range:</span>
             {[
               { value: 7, label: '7 days' },
@@ -206,7 +207,7 @@ export const Insights = () => {
               <button
                 key={value}
                 onClick={() => setTimeRange(value)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   timeRange === value
                     ? 'bg-primary-500 text-white'
                     : 'bg-dark-card text-content-tertiary hover:text-content-secondary'
@@ -226,7 +227,7 @@ export const Insights = () => {
               id="timeRange"
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value === 'Infinity' ? Infinity : Number(e.target.value))}
-              className="w-full px-4 py-2 rounded-lg bg-dark-card text-white border border-dark-border focus:border-primary-500 focus:outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-dark-card text-white focus:outline-none"
             >
               <option value="7">7 days</option>
               <option value="30">1 month</option>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '../components/Card';
 import { StatCard } from '../components/StatCard';
 import { PageContainer, PageHeader } from '../components/layout';
+import { Button } from '../components/Button';
 import { Activity, TrendingUp, Zap, Clock, Waves, CheckCircle } from 'lucide-react';
 
 export const DesignTest = () => {
@@ -30,7 +31,7 @@ export const DesignTest = () => {
       />
 
       {/* Theme Controls */}
-      <div className="mb-8 p-6 bg-dark-card rounded-xl border border-dark-border">
+      <div className="mb-8 p-6 bg-dark-card rounded-xl">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div>
             <h2 className="text-xl font-bold mb-2">Theme Controls</h2>
@@ -38,12 +39,12 @@ export const DesignTest = () => {
               Toggle between themes to compare the design changes
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
               onClick={toggleLocalTheme}
               className={`px-6 py-3 rounded-lg font-medium transition-all ${
                 localIsDark
-                  ? 'bg-dark-card border border-dark-border'
+                  ? 'bg-dark-card'
                   : 'bg-white border border-slate-300 text-content-secondary hover:bg-slate-50'
               }`}
             >
@@ -145,10 +146,10 @@ export const DesignTest = () => {
               This is a standard card with default hover effects and shadows.
             </p>
             <div className="flex gap-2">
-              <span className="px-3 py-1 bg-primary-500/10 text-primary-500 rounded-full text-sm">
+              <span className="px-4 py-2 bg-primary-500/10 text-primary-500 rounded-full text-sm">
                 Tag 1
               </span>
-              <span className="px-3 py-1 bg-accent-blue/10 text-accent-blue rounded-full text-sm">
+              <span className="px-4 py-2 bg-accent-blue/10 text-accent-blue rounded-full text-sm">
                 Tag 2
               </span>
             </div>
@@ -172,18 +173,18 @@ export const DesignTest = () => {
         <h2 className="text-2xl font-bold mb-4">Buttons & Actions</h2>
         <Card>
           <div className="flex flex-wrap gap-4">
-            <button className="btn-primary">
+            <Button>
               Primary Button
-            </button>
-            <button className="btn-secondary">
+            </Button>
+            <Button variant="secondary">
               Secondary Button
-            </button>
+            </Button>
             <button className="px-6 py-3 rounded-lg border-2 border-primary-500 text-primary-500 font-medium hover:bg-primary-500/10 transition-all">
               Outline Button
             </button>
-            <button className="px-6 py-3 rounded-lg text-content-secondary hover:bg-dark-card transition-all">
+            <Button variant="ghost" size="lg">
               Ghost Button
-            </button>
+            </Button>
           </div>
         </Card>
       </section>
@@ -199,7 +200,7 @@ export const DesignTest = () => {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold mb-1">Morning Swim Session</h3>
-                <p className="text-content-secondary text-sm mb-3">
+                <p className="text-content-secondary text-sm mb-4">
                   1000m • Freestyle • 25m pool
                 </p>
                 <div className="flex gap-4 text-sm">
@@ -221,7 +222,7 @@ export const DesignTest = () => {
           </Card>
 
           <Card elevated>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-4 mb-4">
               <CheckCircle className="w-6 h-6 text-accent-blue" />
               <h3 className="text-lg font-semibold">Personal Best!</h3>
             </div>
@@ -260,7 +261,7 @@ export const DesignTest = () => {
               <p className="text-xs text-content-tertiary">#ff6b6b</p>
             </div>
             <div>
-              <div className="h-20 rounded-lg bg-dark-bg border border-dark-border mb-2"></div>
+              <div className="h-20 rounded-lg bg-dark-bg mb-2"></div>
               <p className="text-sm font-medium">Background</p>
               <p className="text-xs text-content-tertiary">Theme Aware</p>
             </div>
@@ -278,12 +279,12 @@ export const DesignTest = () => {
               <input
                 type="text"
                 placeholder="Enter distance..."
-                className="w-full px-4 py-3 rounded-lg bg-dark-bg border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-dark-bg focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all"
               />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">Select</label>
-              <select className="w-full px-4 py-3 rounded-lg bg-dark-bg border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all">
+              <select className="w-full px-4 py-3 rounded-lg bg-dark-bg focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all">
                 <option>Freestyle</option>
                 <option>Backstroke</option>
                 <option>Breaststroke</option>
@@ -295,7 +296,7 @@ export const DesignTest = () => {
               <textarea
                 placeholder="Add notes about your swim..."
                 rows="3"
-                className="w-full px-4 py-3 rounded-lg bg-dark-bg border border-dark-border focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-dark-bg focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none"
               ></textarea>
             </div>
           </div>
