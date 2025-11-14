@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
+import { CardVariant } from './primitives';
 import { SwimAnalysisPanel } from './SwimAnalysisPanel';
 import { Activity, TrendingUp, Clock, Target, Calendar, Sparkles, ChevronUp } from 'lucide-react';
 import { tokens } from '../design/tokens';
@@ -70,54 +71,48 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className={`
-        bg-gradient-to-br
-        ${isDark
-          ? 'from-primary-500/15 to-accent-blue/10'
-          : 'from-primary-50 to-blue-50'
-        }
-      `}>
+      <CardVariant variant="primary">
         {/* Header with Date */}
-        <div className="mb-6">
+        <div className={tokens.margin.section}>
           <motion.h2
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-700'} mb-2`}
+            className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-700'} ${tokens.margin.element}`}
           >
             Your latest swim
           </motion.h2>
-          <div className="flex items-center gap-2">
+          <div className={`flex items-center ${tokens.gap.tight}`}>
             <Calendar className={`${tokens.icons.md} ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
-            <span className="text-sm text-content-tertiary">
+            <span className={`${tokens.typography.sizes.sm} text-content-tertiary`}>
               {fullDate} • {swimTime}
             </span>
           </div>
         </div>
 
         {/* Key Metrics Grid */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 ${tokens.gap.default} mb-6`}>
+        <div className={`grid grid-cols-2 md:grid-cols-4 ${tokens.gap.default} ${tokens.margin.section}`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 transition-all cursor-pointer
+              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
               ${isDark
                 ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
                 : 'bg-white hover:bg-slate-50'
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
+            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
               <TrendingUp className={tokens.icons.sm} />
               Distance
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {(swim.distance / 1000).toFixed(2)} km
             </p>
-            <p className="text-xs mt-1 text-content-tertiary">
+            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
               {Math.round(swim.distance / 25)} lengths
             </p>
           </motion.div>
@@ -128,21 +123,21 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.4 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 transition-all cursor-pointer
+              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
               ${isDark
                 ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
                 : 'bg-white hover:bg-slate-50'
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
+            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
               <Clock className={tokens.icons.sm} />
               Duration
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {formatDuration(swim.duration)}
             </p>
-            <p className="text-xs mt-1 text-content-tertiary">
+            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
               min:sec
             </p>
           </motion.div>
@@ -153,21 +148,21 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.5 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 transition-all cursor-pointer
+              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
               ${isDark
                 ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
                 : 'bg-white hover:bg-slate-50'
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
+            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
               <Activity className={tokens.icons.sm} />
               Pace
             </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>
+            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
               {formatPace(swim.pace)}
             </p>
-            <p className="text-xs mt-1 text-content-tertiary">min/100m</p>
+            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>min/100m</p>
           </motion.div>
 
           <motion.div
@@ -176,21 +171,21 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             transition={{ delay: 0.6 }}
             onClick={() => onViewDetails(swim.id)}
             className={`
-              rounded-lg p-4 transition-all cursor-pointer
+              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
               ${isDark
                 ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
                 : 'bg-white hover:bg-slate-50'
               }
             `}
           >
-            <div className={`flex items-center ${tokens.gap.tight} text-sm mb-2 text-content-tertiary`}>
+            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
               <Target className={tokens.icons.sm} />
               {swim.swolf > 0 ? 'SWOLF' : 'Strokes'}
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>
               {swim.swolf > 0 ? swim.swolf : swim.strokes.toLocaleString()}
             </p>
-            <p className="text-xs mt-1 text-content-tertiary">
+            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
               {swim.swolf > 0 ? 'Efficiency score' : 'Total strokes'}
             </p>
           </motion.div>
@@ -202,9 +197,9 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="mb-6"
+            className={tokens.margin.section}
           >
-            <p className="text-base leading-relaxed text-content-secondary">
+            <p className={`${tokens.typography.sizes.base} leading-relaxed text-content-secondary`}>
               {summary}
             </p>
           </motion.div>
@@ -215,21 +210,21 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="flex flex-wrap items-center gap-3"
+          className={`flex flex-wrap items-center ${tokens.gap.compact}`}
         >
           <button
             onClick={togglePanel}
             disabled={analysisState.loading && !analysisState.isOpen}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`inline-flex items-center justify-center ${tokens.gap.tight} ${tokens.padding.default} py-2 bg-primary-500 hover:bg-primary-600 text-white ${tokens.radius.sm} ${tokens.animation.default} transition-all ${tokens.typography.sizes.sm} ${tokens.typography.weights.medium} disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             {analysisState.isOpen ? (
               <>
                 Close Analysis
-                <ChevronUp className="w-4 h-4" />
+                <ChevronUp className={tokens.icons.sm} />
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className={tokens.icons.sm} />
                 Analyse My Swim
               </>
             )}
@@ -237,7 +232,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
           <button
             onClick={() => setShareModalOpen(true)}
             className={`
-              inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium
+              inline-flex items-center ${tokens.gap.tight} ${tokens.padding.default} py-2 ${tokens.radius.sm} ${tokens.animation.default} transition-all ${tokens.typography.sizes.sm} ${tokens.typography.weights.medium}
               ${isDark
                 ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
                 : 'bg-white hover:bg-slate-50'
@@ -260,7 +255,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             />
           )}
         </AnimatePresence>
-      </Card>
+      </CardVariant>
 
       {/* Share Modal */}
       <ShareModal

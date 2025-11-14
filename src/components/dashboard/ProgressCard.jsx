@@ -2,9 +2,10 @@ import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BarChart3, CheckCircle, ArrowRight } from 'lucide-react';
-import { Card } from '../Card';
-import { CardHeader, CircularProgressBar } from '../primitives';
+import { CardVariant, CardHeader, CircularProgressBar } from '../primitives';
 import { calculateMonthlyProgress } from '../../utils/progressCalculations';
+import { tokens } from '../../design/tokens';
+
 
 export const ProgressCard = ({ sessions }) => {
   const progress = useMemo(
@@ -18,13 +19,13 @@ export const ProgressCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="bg-gradient-to-br from-primary-500/20 to-primary-500/5 border-primary-500/30 h-full">
+      <CardVariant variant="primary" className="h-full">
         <CardHeader
           icon={BarChart3}
           title="This Month"
           iconColor="text-primary-400"
           iconBgColor="bg-primary-500/20"
-          iconSize="w-4 h-4"
+          iconSize={tokens.icons.sm}
         />
 
         <div className="flex justify-center mb-4">
@@ -43,7 +44,7 @@ export const ProgressCard = ({ sessions }) => {
 
           {progress.isGoalMet ? (
             <p className="text-sm text-green-400 flex items-center justify-center gap-1">
-              <CheckCircle className="w-4 h-4" />
+              <CheckCircle className={tokens.icons.sm} />
               Goal achieved!
             </p>
           ) : (
@@ -58,9 +59,9 @@ export const ProgressCard = ({ sessions }) => {
           className="text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 group transition-colors"
         >
           View Full Progress
-          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className={`${tokens.icons.xs} group-hover:translate-x-1 transition-transform`} />
         </Link>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
+import { Separator } from './primitives';
 import { ChevronDown, ChevronUp, MessageCircleQuestion, Sparkles } from 'lucide-react';
 import { tokens } from '../design/tokens';
 
@@ -111,7 +112,8 @@ export const SwimInterrogator = ({ questions, answers }) => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-4 pt-4 border-t border-dark-border">
+                        <Separator spacing="sm" />
+                        <div>
                           <div className={`flex items-start ${tokens.gap.tight} mb-3`}>
                             <Sparkles className={`${tokens.icons.sm} text-primary-400 flex-shrink-0 mt-1`} />
                             <span className="text-xs font-semibold text-primary-400 uppercase tracking-wide">

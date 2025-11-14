@@ -424,7 +424,7 @@ export const ComponentShowcase = () => {
                     <motion.div
                       animate={{ x: [0, 100, 0] }}
                       transition={{ duration: parseInt(value.match(/\d+/)[0]) / 1000, repeat: Infinity }}
-                      className="w-8 h-8 bg-primary-500 rounded-lg"
+                      className={`${tokens.icons.xl} bg-primary-500 rounded-lg`}
                     />
                   </div>
                   <span className="text-xs text-content-tertiary">{value.match(/\d+/)[0]}ms</span>
@@ -536,8 +536,8 @@ const iconSize = getToken('icons', 'xl'); // 'w-8 h-8'`}</code>
                 <CardHeader
                   icon={Activity}
                   title="Recent Swims"
-                  iconColor="text-blue-400"
-                  iconBgColor="bg-blue-500/20"
+                  iconColor="text-accent-blue"
+                  iconBgColor="bg-accent-blue/20"
                 />
                 <p className="text-content-secondary">Simple header without action</p>
               </Card>

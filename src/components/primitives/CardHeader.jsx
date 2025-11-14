@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { tokens } from '../../design/tokens';
 
 /**
  * CardHeader - Reusable card header component
@@ -27,37 +28,37 @@ export const CardHeader = ({
   actionTo = null,
   iconColor = 'text-primary-400',
   iconBgColor = 'bg-primary-500/20',
-  iconSize = 'w-5 h-5',
+  iconSize = tokens.icons.md,
   className = ''
 }) => {
   // Auto-generate action if actionText and actionTo are provided
   const defaultAction = (actionText && actionTo) ? (
     <Link
       to={actionTo}
-      className="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 group transition-colors"
+      className={`${tokens.typography.sizes.xs} text-primary-400 hover:text-primary-300 flex items-center gap-1 group transition-colors`}
     >
       {actionText}
-      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+      <ArrowRight className={`${tokens.icons.xs} group-hover:translate-x-1 transition-transform`} />
     </Link>
   ) : null;
 
   const actionElement = action || defaultAction;
 
   return (
-    <div className={`flex items-center justify-between mb-6 ${className}`}>
-      <div className="flex items-center gap-3">
+    <div className={`flex items-center justify-between ${tokens.margin.section} ${className}`}>
+      <div className={`flex items-center ${tokens.gap.tight}`}>
         {Icon && (
-          <div className={`p-2 rounded-lg ${iconBgColor}`}>
+          <div className={`${tokens.padding.tight} ${tokens.radius.sm} ${iconBgColor}`}>
             <Icon className={`${iconSize} ${iconColor}`} />
           </div>
         )}
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="font-display text-lg font-bold">{title}</h3>
+          <div className={`flex items-center ${tokens.gap.tight}`}>
+            <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.bold}`}>{title}</h3>
             {badge}
           </div>
           {subtitle && (
-            <p className="text-xs text-content-tertiary mt-0.5">{subtitle}</p>
+            <p className={`${tokens.typography.sizes.xs} text-content-tertiary mt-0.5`}>{subtitle}</p>
           )}
         </div>
       </div>

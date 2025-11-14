@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { tokens } from '../design/tokens';
 
 export const CollapsibleSection = ({
   title,
@@ -23,30 +24,30 @@ export const CollapsibleSection = ({
         className="w-full group"
       >
         <div className={`
-          flex items-center justify-between p-4 rounded-lg transition-all
+          flex items-center justify-between ${tokens.padding.default} ${tokens.radius.sm} transition-all
           ${isDark
             ? 'bg-dark-card hover:bg-dark-card/80'
             : 'bg-white hover:bg-slate-50'
           }
         `}>
-          <div className="flex items-center gap-3">
+          <div className={`flex items-center ${tokens.gap.tight}`}>
             {Icon && (
               <div className={`
-                w-10 h-10 rounded-full flex items-center justify-center transition-colors
+                ${tokens.components.iconContainer.md} ${tokens.radius.full} flex items-center justify-center transition-colors
                 ${isDark
                   ? 'bg-primary-500/20 group-hover:bg-primary-500/30'
                   : 'bg-primary-50 group-hover:bg-primary-100'
                 }
               `}>
-                <Icon className={`w-5 h-5 ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
+                <Icon className={`${tokens.icons.md} ${isDark ? 'text-primary-400' : 'text-primary-600'}`} />
               </div>
             )}
             <div className="text-left">
-              <div className="flex items-center gap-2">
-                <h3 className="font-display text-xl font-bold">{title}</h3>
+              <div className={`flex items-center ${tokens.gap.tight}`}>
+                <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold}`}>{title}</h3>
                 {badge && (
                   <span className={`
-                    px-2 py-0.5 text-xs font-medium rounded-full
+                    px-2 py-0.5 ${tokens.typography.sizes.xs} ${tokens.typography.weights.medium} ${tokens.radius.full}
                     ${isDark
                       ? 'bg-primary-500/20 text-primary-400'
                       : 'bg-primary-100 text-primary-700'
@@ -57,20 +58,20 @@ export const CollapsibleSection = ({
                 )}
               </div>
               {subtitle && (
-                <p className={`text-sm mt-0.5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
+                <p className={`${tokens.typography.sizes.sm} mt-0.5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
                   {subtitle}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className={`text-sm ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
+          <div className={`flex items-center ${tokens.gap.tight}`}>
+            <span className={`${tokens.typography.sizes.sm} ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
               {isExpanded ? 'Hide' : 'Show'}
             </span>
             {isExpanded ? (
               <ChevronUp className={`
-                w-5 h-5 transition-colors
+                ${tokens.icons.md} transition-colors
                 ${isDark
                   ? 'text-content-tertiary group-hover:text-primary-400'
                   : 'text-content-tertiary group-hover:text-primary-500'
@@ -78,7 +79,7 @@ export const CollapsibleSection = ({
               `} />
             ) : (
               <ChevronDown className={`
-                w-5 h-5 transition-colors
+                ${tokens.icons.md} transition-colors
                 ${isDark
                   ? 'text-content-tertiary group-hover:text-primary-400'
                   : 'text-content-tertiary group-hover:text-primary-500'

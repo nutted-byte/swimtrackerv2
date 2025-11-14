@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Card } from './Card';
+import { CardVariant, IconContainer } from './primitives';
 import { Target, AlertCircle, CheckCircle, Info, ArrowRight } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 export const QuickInsightCard = ({ recommendation }) => {
   if (!recommendation) return null;
@@ -12,36 +13,28 @@ export const QuickInsightCard = ({ recommendation }) => {
           icon: AlertCircle,
           badge: '🎯 High Priority',
           badgeColor: 'bg-red-500/20 text-red-400 border-red-500/30',
-          iconColor: 'text-red-400',
-          bgGradient: 'from-red-500/10 to-red-500/5',
-          borderColor: 'border-red-500/20'
+          iconVariant: 'warning'
         };
       case 'medium':
         return {
           icon: Target,
           badge: '✨ Opportunity',
           badgeColor: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-          iconColor: 'text-yellow-400',
-          bgGradient: 'from-yellow-500/10 to-yellow-500/5',
-          borderColor: 'border-yellow-500/20'
+          iconVariant: 'warning'
         };
       case 'positive':
         return {
           icon: CheckCircle,
           badge: '✅ Keep It Up',
           badgeColor: 'bg-green-500/20 text-green-400 border-green-500/30',
-          iconColor: 'text-green-400',
-          bgGradient: 'from-green-500/10 to-green-500/5',
-          borderColor: 'border-green-500/20'
+          iconVariant: 'success'
         };
       default:
         return {
           icon: Info,
           badge: '💡 Tip',
-          badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-          iconColor: 'text-blue-400',
-          bgGradient: 'from-primary-50 to-blue-50',
-          borderColor: 'border-blue-500/20'
+          badgeColor: 'bg-accent-blue/20 text-accent-blue border-accent-blue/30',
+          iconVariant: 'primary'
         };
     }
   };
@@ -55,13 +48,16 @@ export const QuickInsightCard = ({ recommendation }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className={`bg-gradient-to-br ${config.bgGradient} ${config.borderColor}`}>
+      <CardVariant variant={config.iconVariant}>
         <div className="flex items-start gap-4">
           {/* Icon */}
           <div className="flex-shrink-0">
-            <div className={`w-12 h-12 rounded-full ${config.badgeColor} flex items-center justify-center`}>
-              <Icon className={`w-6 h-6 ${config.iconColor}`} />
-            </div>
+            <IconContainer
+              icon={<Icon />}
+              variant={config.iconVariant}
+              size="lg"
+              rounded
+            />
           </div>
 
           {/* Content */}
@@ -84,14 +80,14 @@ export const QuickInsightCard = ({ recommendation }) => {
             {/* Action */}
             <div className="flex items-center gap-2 text-sm">
               <span className="text-content-tertiary">Next Step:</span>
-              <span className={`font-medium ${config.iconColor} flex items-center gap-1`}>
+              <span className={`font-medium text-primary-400 flex items-center gap-1`}>
                 {recommendation.action}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className={tokens.icons.sm} />
               </span>
             </div>
           </div>
         </div>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

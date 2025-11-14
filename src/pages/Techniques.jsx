@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
+import { CardVariant, Separator } from '../components/primitives';
 import { getAllArticles, getArticle, categories, levels, learningPaths } from '../content/techniques/index.js';
 import { ArrowLeft, Clock, TrendingUp, BookOpen, Search, Filter, Share2, CheckCircle, ChevronRight, Home, Lightbulb, AlertTriangle } from 'lucide-react';
 import Markdown from 'react-markdown';
@@ -147,7 +148,7 @@ export const Techniques = () => {
             {showFilters ? 'Search & Filter' : 'Explore by Category'}
           </h2>
           <div className="flex items-center gap-3 text-sm text-content-tertiary">
-            <Filter className="w-4 h-4" />
+            <Filter className={tokens.icons.sm} />
             <span className="hidden sm:inline">{showFilters ? 'Hide filters' : 'Show search'}</span>
           </div>
         </button>
@@ -156,7 +157,7 @@ export const Techniques = () => {
           <Card className="mb-6">
             {/* Search Bar */}
             <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-content-tertiary" />
+              <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${tokens.icons.sm} text-content-tertiary`} />
               <input
                 type="text"
                 placeholder="Search techniques..."
@@ -246,7 +247,8 @@ export const Techniques = () => {
             </div>
 
             {hasActiveFilters && (
-              <div className="mt-4 pt-4 border-t border-dark-border">
+              <>
+                <Separator spacing="sm" />
                 <button
                   onClick={() => {
                     setSelectedCategory('all');
@@ -257,7 +259,7 @@ export const Techniques = () => {
                 >
                   Clear all filters
                 </button>
-              </div>
+              </>
             )}
           </Card>
         )}
@@ -308,19 +310,13 @@ export const Techniques = () => {
 const ArticleCard = ({ article }) => {
   const { isDark } = useTheme();
 
-  const levelColorsDark = {
-    beginner: 'from-green-500/20 to-green-500/5 border-green-500/30',
-    intermediate: 'from-primary-50 to-blue-50 border-primary-200',
-    advanced: 'from-purple-500/20 to-purple-500/5 border-purple-500/30'
+  // Use centralized difficulty styling from tokens
+  const getDifficultyStyle = (level) => {
+    const difficulty = tokens.components.difficulty[level] || tokens.components.difficulty.intermediate;
+    return isDark
+      ? `${difficulty.gradient} ${difficulty.border}`
+      : `${difficulty.lightGradient} ${difficulty.lightBorder}`;
   };
-
-  const levelColorsLight = {
-    beginner: 'from-green-50 to-emerald-50 border-green-200',
-    intermediate: 'from-primary-50 to-blue-50 border-primary-200',
-    advanced: 'from-purple-50 to-indigo-50 border-purple-200'
-  };
-
-  const levelColors = isDark ? levelColorsDark : levelColorsLight;
 
   const categoryIcons = {
     efficiency: '⚡',
@@ -333,7 +329,7 @@ const ArticleCard = ({ article }) => {
     <Link to={`/learn/${article.id}`}>
       <Card
         hover
-        className={`h-full bg-gradient-to-br ${levelColors[article.level]} border transition-all duration-300`}
+        className={`h-full bg-gradient-to-br ${getDifficultyStyle(article.level)} border transition-all duration-300`}
       >
         <div className="flex items-start justify-between mb-4">
           <div className="text-2xl">{categoryIcons[article.category]}</div>
@@ -351,7 +347,7 @@ const ArticleCard = ({ article }) => {
 
         <div className="flex items-center gap-4 text-xs text-content-tertiary">
           <div className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
+            <Clock className={tokens.icons.xs} />
             <span>{article.readTime}</span>
           </div>
           {article.drills && (
@@ -464,15 +460,15 @@ const ArticleView = ({ articleId }) => {
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-3 text-sm text-content-tertiary mb-6">
         <Link to="/" className="hover:text-content transition-colors">
-          <Home className="w-4 h-4" />
+          <Home className={tokens.icons.sm} />
         </Link>
-        <ChevronRight className="w-3 h-3" />
+        <ChevronRight className={tokens.icons.xs} />
         <Link to="/learn" className="hover:text-content transition-colors">
           Learn
         </Link>
-        <ChevronRight className="w-3 h-3" />
+        <ChevronRight className={tokens.icons.xs} />
         <span className="text-content-secondary">{categoryInfo?.name || article.category}</span>
-        <ChevronRight className="w-3 h-3" />
+        <ChevronRight className={tokens.icons.xs} />
         <span className="text-content">{article.title}</span>
       </div>
 
@@ -510,7 +506,7 @@ const ArticleView = ({ articleId }) => {
                 animate={{ scale: 1 }}
                 className="ml-4 flex items-center gap-3 px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-lg"
               >
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className={`${tokens.icons.md} text-green-400`} />
                 <span className="text-sm font-medium text-green-400">Completed</span>
               </motion.div>
             )}
@@ -518,7 +514,7 @@ const ArticleView = ({ articleId }) => {
 
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-3 text-content-secondary">
-              <Clock className="w-4 h-4" />
+              <Clock className={tokens.icons.sm} />
               <span>{article.readTime} read</span>
             </div>
             <button
@@ -529,7 +525,7 @@ const ArticleView = ({ articleId }) => {
                   : 'bg-white/80 hover:bg-white text-content-tertiary hover:text-slate-900'
               }`}
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className={tokens.icons.sm} />
               <span>{copied ? 'Copied!' : 'Share'}</span>
             </button>
           </div>
@@ -558,12 +554,12 @@ const ArticleView = ({ articleId }) => {
                       return (
                         <div className={`my-6 p-4 rounded-lg border-l-4 ${
                           isDark
-                            ? 'bg-blue-500/10 border-blue-500'
+                            ? 'bg-accent-blue/10 border-blue-500'
                             : 'bg-blue-50 border-blue-500'
                         }`}>
                           <div className="flex gap-4">
-                            <Lightbulb className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
-                              isDark ? 'text-blue-400' : 'text-blue-600'
+                            <Lightbulb className={`${tokens.icons.md} mt-0.5 flex-shrink-0 ${
+                              isDark ? 'text-accent-blue' : 'text-blue-600'
                             }`} />
                             <p className="mb-0 text-content-secondary leading-relaxed" {...props} />
                           </div>
@@ -580,7 +576,7 @@ const ArticleView = ({ articleId }) => {
                             : 'bg-orange-50 border-orange-500'
                         }`}>
                           <div className="flex gap-4">
-                            <AlertTriangle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                            <AlertTriangle className={`${tokens.icons.md} mt-0.5 flex-shrink-0 ${
                               isDark ? 'text-orange-400' : 'text-orange-600'
                             }`} />
                             <p className="mb-0 text-content-secondary leading-relaxed" {...props} />
@@ -631,7 +627,7 @@ const ArticleView = ({ articleId }) => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6"
         >
-          <Card className="bg-gradient-to-br from-primary-500/20 to-primary-500/5 border border-primary-500/30">
+          <CardVariant variant="primary">
             <h3 className="font-display text-lg font-bold mb-4 flex items-center gap-3">
               <span>✨</span> Key Takeaways
             </h3>
@@ -643,7 +639,7 @@ const ArticleView = ({ articleId }) => {
                 </li>
               ))}
             </ul>
-          </Card>
+          </CardVariant>
         </motion.div>
       )}
 
@@ -730,7 +726,7 @@ const ArticleView = ({ articleId }) => {
                         {related.summary}
                       </p>
                       <div className="flex items-center gap-1 text-xs text-content-tertiary">
-                        <Clock className="w-3 h-3" />
+                        <Clock className={tokens.icons.xs} />
                         <span>{related.readTime}</span>
                       </div>
                     </Card>
@@ -759,7 +755,7 @@ const ArticleView = ({ articleId }) => {
         >
           <div className="flex items-center justify-between">
             <span className="font-medium">Browse All Articles</span>
-            <ArrowLeft className="w-4 h-4 rotate-180" />
+            <ArrowLeft className={`${tokens.icons.sm} rotate-180`} />
           </div>
         </Link>
       </motion.div>

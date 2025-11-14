@@ -15,7 +15,7 @@ export const EfficiencyBadge = ({ swolf, avgSwolf }) => {
         level: 'excellent',
         label: 'Excellent',
         colorDark: 'text-green-400',
-        colorLight: 'text-green-700',
+        colorLight: 'text-green-400',
         bgColorDark: 'bg-green-500/20',
         bgColorLight: 'bg-green-50',
         borderColorDark: 'border-green-500/30',
@@ -53,7 +53,7 @@ export const EfficiencyBadge = ({ swolf, avgSwolf }) => {
       level: 'excellent',
       label: 'Excellent Efficiency',
       colorDark: 'text-green-400',
-      colorLight: 'text-green-700',
+      colorLight: 'text-green-400',
       bgColorDark: 'bg-green-500/20',
       bgColorLight: 'bg-green-50',
       borderColorDark: 'border-green-500/30',
@@ -98,7 +98,7 @@ export const EfficiencyBadge = ({ swolf, avgSwolf }) => {
       transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
       className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border ${bgColor} ${borderColor}`}
     >
-      <Icon className={`w-4 h-4 ${color}`} />
+      <Icon className={`${tokens.icons.sm} ${color}`} />
       <div className="flex flex-col">
         <span className={`text-sm font-semibold ${color}`}>
           {rating.label}

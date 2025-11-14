@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { tokens } from '../../design/tokens';
 
 /**
  * CircularProgressBar - Reusable circular progress indicator
@@ -44,9 +45,9 @@ export const CircularProgressBar = ({
 }) => {
   // Size configurations
   const sizeConfig = {
-    sm: { size: 80, stroke: 8, fontSize: 'text-xl' },
-    md: { size: 120, stroke: 12, fontSize: 'text-3xl' },
-    lg: { size: 160, stroke: 14, fontSize: 'text-4xl' }
+    sm: { size: 80, stroke: 8, fontSize: tokens.typography.sizes.xl },
+    md: { size: 120, stroke: 12, fontSize: tokens.typography.sizes['3xl'] },
+    lg: { size: 160, stroke: 14, fontSize: tokens.typography.sizes['4xl'] }
   };
 
   const config = sizeConfig[size] || sizeConfig.md;
@@ -75,7 +76,7 @@ export const CircularProgressBar = ({
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {label && (
-        <p className="text-sm font-medium text-content-secondary mb-3">
+        <p className={`${tokens.typography.sizes.sm} font-medium text-content-secondary mb-3`}>
           {label}
         </p>
       )}

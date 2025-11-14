@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { tokens } from '../design/tokens.js';
 
 /**
  * Button Component
@@ -30,8 +31,8 @@ export const Button = forwardRef(({
   ...props
 }, ref) => {
 
-  // Base styles
-  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-60 disabled:cursor-not-allowed';
+  // Base styles using tokens
+  const baseStyles = `inline-flex items-center justify-center ${tokens.gap.tight} ${tokens.typography.weights.medium} ${tokens.radius.sm} transition-colors ${tokens.animation.default} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-60 disabled:cursor-not-allowed`;
 
   // Variant styles
   const variantStyles = {
@@ -44,18 +45,18 @@ export const Button = forwardRef(({
     link: 'text-primary-400 hover:text-primary-300 underline-offset-4 hover:underline'
   };
 
-  // Size styles
+  // Size styles using tokens
   const sizeStyles = {
-    sm: 'px-3 py-1 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg'
+    sm: `px-3 py-1 ${tokens.typography.sizes.sm}`,
+    md: `px-4 py-2 ${tokens.typography.sizes.base}`,
+    lg: `px-6 py-3 ${tokens.typography.sizes.lg}`
   };
 
-  // Icon sizes
+  // Icon sizes using tokens
   const iconSizes = {
-    sm: 'w-3 h-3',
-    md: 'w-4 h-4',
-    lg: 'w-5 h-5'
+    sm: tokens.icons.xs,
+    md: tokens.icons.sm,
+    lg: tokens.icons.md
   };
 
   // Width style
@@ -115,7 +116,8 @@ export const IconButton = forwardRef(({
   ...props
 }, ref) => {
 
-  const baseStyles = 'inline-flex items-center justify-center rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-60 disabled:cursor-not-allowed';
+  // Base styles using tokens
+  const baseStyles = `inline-flex items-center justify-center ${tokens.radius.sm} transition-colors ${tokens.animation.default} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-60 disabled:cursor-not-allowed`;
 
   const variantStyles = {
     primary: 'bg-primary-500 hover:bg-primary-600 text-white',
@@ -126,16 +128,18 @@ export const IconButton = forwardRef(({
     ghost: 'hover:bg-dark-card text-content-tertiary hover:text-content',
   };
 
+  // Size styles using spacing tokens (p-2 = 8px, p-3 = 12px, p-4 = 16px)
   const sizeStyles = {
     sm: 'p-2',
     md: 'p-3',
     lg: 'p-4'
   };
 
+  // Icon sizes using tokens
   const iconSizes = {
-    sm: 'w-4 h-4',
-    md: 'w-5 h-5',
-    lg: 'w-6 h-6'
+    sm: tokens.icons.sm,
+    md: tokens.icons.md,
+    lg: tokens.icons.lg
   };
 
   const buttonClasses = `

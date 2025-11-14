@@ -90,16 +90,54 @@ export const ANALYSIS_PARAMS = {
   DEFAULT_ANALYSIS_DAYS: 30,
 };
 
-// Chart styling
+// Chart styling - Single source of truth for chart colors
 export const CHART_COLORS = {
-  PRIMARY: '#00d4ff',
-  SECONDARY: '#a78bfa',
-  TREND: '#f97316',
-  COMPARE: '#6b7280',
-  SUCCESS: '#10b981',
-  WARNING: '#f59e0b',
-  DANGER: '#ef4444',
-  MILESTONE: '#fbbf24',
+  // Primary colors
+  PRIMARY: '#00d4ff',      // accent-blue - main chart lines/bars
+  SECONDARY: '#a78bfa',    // purple-400 - secondary lines, rolling avg
+  TREND: '#f97316',        // orange-500 - trend lines
+  COMPARE: '#6b7280',      // gray-500 - comparison data
+  SUCCESS: '#10b981',      // green-500 - positive/improving
+  WARNING: '#f59e0b',      // yellow-500 - warning states
+  DANGER: '#ef4444',       // red-500 - negative/declining
+  MILESTONE: '#fbbf24',    // yellow-400 - milestone markers
+
+  // Chart UI elements
+  GRID: '#1f2937',         // gray-800 - grid lines
+  AXIS: '#6b7280',         // gray-500 - axis lines and text
+  AXIS_LIGHT: '#9ca3af',   // gray-400 - lighter axis text
+  BORDER: '#374151',       // gray-700 - borders and dividers
+};
+
+// Export/Share image colors - Used for html2canvas image generation
+// These must be hex values since they're used in inline styles for image export
+export const EXPORT_COLORS = {
+  // Background colors
+  BG_DARK: '#0a0e27',           // Dark background
+  BG_DARK_ALT: '#1a2332',       // Dark background variation
+  BG_DARK_ALT2: '#0f1728',      // Dark background variation 2
+  BG_LIGHT: '#ffffff',          // White background
+  BG_LIGHT_ALT: '#f3f4f6',      // Light gray background
+
+  // Text colors
+  TEXT_PRIMARY: '#ffffff',      // White text
+  TEXT_SECONDARY: '#d1d5db',    // gray-300
+  TEXT_TERTIARY: '#9ca3af',     // gray-400
+  TEXT_MUTED: '#6b7280',        // gray-500
+  TEXT_DARK: '#1f2937',         // gray-800 (for light backgrounds)
+
+  // Brand colors
+  BRAND_PRIMARY: '#007d9b',     // primary-500 (teal)
+  BRAND_SECONDARY: '#3397af',   // primary-400
+  BRAND_ACCENT: '#00d4ff',      // accent-blue
+  BRAND_TEAL: '#66b1c3',        // Teal accent
+
+  // Gradient colors
+  GRADIENT_PURPLE: '#667eea',
+  GRADIENT_PURPLE_DARK: '#764ba2',
+  GRADIENT_PINK: '#f093fb',
+  GRADIENT_BLUE: '#4facfe',
+  GRADIENT_CYAN: '#00f2fe',
 };
 
 // Animation durations (ms)

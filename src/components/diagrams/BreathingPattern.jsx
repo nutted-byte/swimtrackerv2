@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { CHART_COLORS } from '../../utils/constants';
 
 export const BreathingPattern = ({ pattern = 'bilateral' }) => {
   const patterns = {
@@ -50,8 +51,8 @@ export const BreathingPattern = ({ pattern = 'bilateral' }) => {
             <svg width="80" height="80" viewBox="0 0 80 80">
               <defs>
                 <radialGradient id={`headGrad${index}`}>
-                  <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.4" />
+                  <stop offset="0%" stopColor={CHART_COLORS.SECONDARY} stopOpacity="0.8" />
+                  <stop offset="100%" stopColor={CHART_COLORS.SECONDARY} stopOpacity="0.4" />
                 </radialGradient>
               </defs>
 
@@ -63,7 +64,7 @@ export const BreathingPattern = ({ pattern = 'bilateral' }) => {
                     cy="40"
                     r="30"
                     fill="none"
-                    stroke="#00d4ff"
+                    stroke={CHART_COLORS.PRIMARY}
                     strokeWidth="1"
                     opacity="0.3"
                     initial={{ r: 20, opacity: 0.6 }}
@@ -75,7 +76,7 @@ export const BreathingPattern = ({ pattern = 'bilateral' }) => {
                     cy="40"
                     r="25"
                     fill="none"
-                    stroke="#00d4ff"
+                    stroke={CHART_COLORS.PRIMARY}
                     strokeWidth="1"
                     opacity="0.3"
                     initial={{ r: 20, opacity: 0.6 }}
@@ -123,8 +124,8 @@ export const BreathingPattern = ({ pattern = 'bilateral' }) => {
                   animate={{ opacity: [0, 1, 1, 0], scale: [0.5, 1, 1.2, 1.3], y: [0, -5, -10, -15] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
-                  <circle cx={stroke.side === 'left' ? 15 : 65} cy="40" r="3" fill="#00d4ff" opacity="0.6" />
-                  <circle cx={stroke.side === 'left' ? 15 : 65} cy="40" r="5" fill="none" stroke="#00d4ff" strokeWidth="1" opacity="0.4" />
+                  <circle cx={stroke.side === 'left' ? 15 : 65} cy="40" r="3" fill={CHART_COLORS.PRIMARY} opacity="0.6" />
+                  <circle cx={stroke.side === 'left' ? 15 : 65} cy="40" r="5" fill="none" stroke={CHART_COLORS.PRIMARY} strokeWidth="1" opacity="0.4" />
                 </motion.g>
               )}
             </svg>

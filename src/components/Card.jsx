@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { tokens } from '../design/tokens';
 
 export const Card = memo(({
   children,
@@ -27,7 +28,7 @@ export const Card = memo(({
     <motion.div
       className={`card ${glowClass} ${elevatedClass} ${className}`}
       whileHover={hover ? { y: -4 } : {}}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: parseFloat(tokens.animation.default.replace('duration-', '')) / 1000 }}
       {...props}
     >
       {children}

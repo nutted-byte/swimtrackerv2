@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileUpload } from '../components/FileUpload';
 import { VO2MaxUpload } from '../components/VO2MaxUpload';
+import { Separator } from '../components/primitives';
 import { useSwimData } from '../context/SwimDataContext';
 import { CheckCircle, Loader, Trash2, AlertTriangle } from 'lucide-react';
+import { tokens } from '../design/tokens';
+
 
 export const Upload = () => {
   const navigate = useNavigate();
@@ -67,7 +70,7 @@ export const Upload = () => {
             animate={{ opacity: 1 }}
             className="mt-6 flex items-center justify-center gap-3 text-primary-400"
           >
-            <Loader className="w-5 h-5 animate-spin" />
+            <Loader className={`${tokens.icons.md} animate-spin`} />
             <span>Processing your swim data...</span>
           </motion.div>
         )}
@@ -94,8 +97,9 @@ export const Upload = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-12 pt-8 border-t border-dark-border"
+            className="mt-12"
           >
+            <Separator spacing="lg" />
             <VO2MaxUpload />
           </motion.div>
         )}
@@ -106,8 +110,9 @@ export const Upload = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-12 pt-8 border-t border-dark-border"
+            className="mt-12"
           >
+            <Separator spacing="lg" />
             <h2 className="font-display text-2xl font-semibold mb-2 text-content-secondary">
               Data Management
             </h2>
@@ -120,13 +125,13 @@ export const Upload = () => {
                 onClick={() => setShowClearConfirm(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-dark-card hover:bg-accent-coral/20 text-content-tertiary hover:text-accent-coral rounded-lg transition-colors"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className={tokens.icons.sm} />
                 Clear All Data
               </button>
             ) : (
               <div className="bg-accent-coral/10 border border-accent-coral/30 rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-4">
-                  <AlertTriangle className="w-6 h-6 text-accent-coral flex-shrink-0 mt-1" />
+                  <AlertTriangle className={`${tokens.icons.lg} text-accent-coral flex-shrink-0 mt-1`} />
                   <div>
                     <h3 className="font-semibold text-accent-coral mb-1">
                       Are you absolutely sure?

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { tokens } from '../../design/tokens';
 
 /**
  * ProgressBar - Reusable progress bar component
@@ -63,12 +64,12 @@ export const ProgressBar = ({
       {(label || displayValue) && (
         <div className="flex items-center justify-between mb-1">
           {label && (
-            <span className="text-xs font-medium text-content-secondary">
+            <span className={`${tokens.typography.sizes.xs} font-medium text-content-secondary`}>
               {label}
             </span>
           )}
           {displayValue && (
-            <span className="text-xs font-bold text-primary-400">
+            <span className={`${tokens.typography.sizes.xs} font-bold text-primary-400`}>
               {displayValue}
             </span>
           )}
@@ -76,17 +77,17 @@ export const ProgressBar = ({
       )}
 
       {/* Progress bar container */}
-      <div className={`w-full bg-dark-border rounded-full ${barHeight} overflow-hidden`}>
+      <div className={`w-full bg-dark-border ${tokens.radius.full} ${barHeight} overflow-hidden`}>
         {animate ? (
           <motion.div
-            className={`${barColor} h-full rounded-full`}
+            className={`${barColor} h-full ${tokens.radius.full}`}
             initial={{ width: 0 }}
             animate={{ width: `${clampedValue}%` }}
             transition={{ duration: 0.6, delay: animationDelay }}
           />
         ) : (
           <div
-            className={`${barColor} h-full rounded-full`}
+            className={`${barColor} h-full ${tokens.radius.full}`}
             style={{ width: `${clampedValue}%` }}
           />
         )}

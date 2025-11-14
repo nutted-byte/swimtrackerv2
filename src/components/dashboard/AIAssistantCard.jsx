@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
-import { Card } from '../Card';
-import { CardHeader } from '../primitives';
+import { CardVariant, CardHeader } from '../primitives';
+import { tokens } from '../../design/tokens';
+
 
 export const AIAssistantCard = () => {
   const sampleQuestions = [
@@ -17,7 +18,7 @@ export const AIAssistantCard = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
     >
-      <Card className="bg-gradient-to-br from-purple-500/20 via-primary-500/10 to-accent-blue/10 border-purple-500/30 relative overflow-hidden h-full">
+      <CardVariant variant="purple" className="relative overflow-hidden h-full">
         {/* Animated gradient background */}
         <motion.div
           className="absolute inset-0 opacity-30"
@@ -41,11 +42,11 @@ export const AIAssistantCard = () => {
             title="Ask About Swimming"
             iconColor="text-purple-400"
             iconBgColor="bg-purple-500/20"
-            iconSize="w-4 h-4"
+            iconSize={tokens.icons.sm}
           />
 
           <div className="mb-4 p-4 bg-dark-bg/50 rounded-lg">
-            <MessageCircle className="w-6 h-6 text-purple-400 mb-2" />
+            <MessageCircle className={`${tokens.icons.lg} text-purple-400 mb-2`} />
             <p className="text-xs text-content-secondary">
               Get personalized insights about your swimming
             </p>
@@ -73,10 +74,10 @@ export const AIAssistantCard = () => {
             className="text-xs text-purple-400 hover:text-purple-300 flex items-center justify-center gap-2 group transition-colors"
           >
             Ask Question
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className={`${tokens.icons.xs} group-hover:translate-x-1 transition-transform`} />
           </Link>
         </div>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

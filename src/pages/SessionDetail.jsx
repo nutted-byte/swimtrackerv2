@@ -2,6 +2,7 @@ import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Separator } from '../components/primitives';
 import { StatCard } from '../components/StatCard';
 import { Button } from '../components/Button';
 import { LapPaceChart } from '../components/visualizations/LapPaceChart';
@@ -15,6 +16,8 @@ import {
   Layers
 } from 'lucide-react';
 import { formatDuration } from '../utils/formatters';
+import { tokens } from '../design/tokens';
+
 
 export const SessionDetail = () => {
   const { id } = useParams();
@@ -88,14 +91,14 @@ export const SessionDetail = () => {
           onClick={() => navigate(backPath)}
           className="flex items-center gap-2 text-content-tertiary hover:text-content transition-colors mb-6"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className={tokens.icons.sm} />
           Back to {backLabel}
         </button>
 
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 text-content-tertiary mb-2">
-            <Calendar className="w-4 h-4" />
+            <Calendar className={tokens.icons.sm} />
             <span>{formatDate(session.date)}</span>
           </div>
           <h1 className="font-display text-5xl font-bold mb-2">
@@ -147,7 +150,7 @@ export const SessionDetail = () => {
             {/* Length Table */}
             <Card className="mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <Layers className="w-6 h-6 text-primary-400" />
+                <Layers className={`${tokens.icons.lg} text-primary-400`} />
                 <h2 className="font-display text-2xl font-bold">
                   Length-by-Length Details
                 </h2>
@@ -179,13 +182,14 @@ export const SessionDetail = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-dark-border">
+                  <tr>
                     <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Length</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Distance</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Duration</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Pace</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-content-tertiary">Strokes</th>
                   </tr>
+                  <tr><td colSpan="5" className="p-0"><Separator spacing="none" /></td></tr>
                 </thead>
                 <tbody>
                   {session.laps.map((lap) => (
@@ -194,7 +198,7 @@ export const SessionDetail = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: lap.number * 0.02 }}
-                      className={`border-b border-dark-border/50 hover:bg-dark-bg/50 transition-colors ${
+                      className={`hover:bg-dark-bg/50 transition-colors ${
                         lapStats && lap.number === lapStats.fastest.number ? 'bg-accent-blue/5' :
                         lapStats && lap.number === lapStats.slowest.number ? 'bg-accent-coral/5' : ''
                       }`}
@@ -213,6 +217,9 @@ export const SessionDetail = () => {
                       <td className="py-3 px-4">{lap.strokes || '-'}</td>
                     </motion.tr>
                   ))}
+                  {session.laps.length > 0 && (
+                    <tr><td colSpan="5" className="p-0"><Separator spacing="none" /></td></tr>
+                  )}
                 </tbody>
               </table>
             </div>

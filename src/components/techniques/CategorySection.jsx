@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronDown, CheckCircle, Clock } from 'lucide-react';
 import { Card } from '../Card';
+import { Separator } from '../primitives';
 import { useTheme } from '../../context/ThemeContext';
 import { tokens } from '../../design/tokens';
 import { isArticleCompleted } from '../../utils/techniqueProgress';
+import { CHART_COLORS } from '../../utils/constants';
 
 export const CategorySection = ({ category, articles, index, defaultOpen = false }) => {
   const { isDark } = useTheme();
@@ -30,16 +32,12 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
     drills: 'Practical workouts and drills to improve specific skills.'
   };
 
-  const levelColorsDark = {
-    beginner: 'from-green-500/20 to-green-500/5 border-green-500/30',
-    intermediate: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
-    advanced: 'from-purple-500/20 to-purple-500/5 border-purple-500/30'
-  };
-
-  const levelColorsLight = {
-    beginner: 'from-green-50 to-emerald-50 border-green-200',
-    intermediate: 'from-blue-50 to-cyan-50 border-blue-200',
-    advanced: 'from-purple-50 to-indigo-50 border-purple-200'
+  // Use centralized difficulty styling from tokens
+  const getDifficultyStyle = (level) => {
+    const difficulty = tokens.components.difficulty[level] || tokens.components.difficulty.intermediate;
+    return isDark
+      ? `${difficulty.gradient} ${difficulty.border}`
+      : `${difficulty.lightGradient} ${difficulty.lightBorder}`;
   };
 
   return (
@@ -79,7 +77,7 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
                     cx="24"
                     cy="24"
                     r="20"
-                    stroke={isDark ? '#374151' : '#E5E7EB'}
+                    stroke={isDark ? CHART_COLORS.BORDER : '#E5E7EB'}
                     strokeWidth="4"
                     fill="none"
                   />
@@ -124,7 +122,8 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-dark-border">
+              <Separator spacing="lg" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {articles.map((article, articleIndex) => {
                   const completed = isArticleCompleted(article.id);
                   const levelColors = isDark ? levelColorsDark : levelColorsLight;
@@ -145,7 +144,7 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
                         >
                           {completed && (
                             <div className="absolute top-3 right-3">
-                              <CheckCircle className="w-4 h-4 text-green-400" />
+                              <CheckCircle className={`${tokens.icons.sm} text-green-400`} />
                             </div>
                           )}
 
@@ -165,7 +164,7 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
 
                           <div className="flex items-center gap-4 text-xs text-content-tertiary">
                             <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                              <Clock className={tokens.icons.xs} />
                               <span>{article.readTime}</span>
                             </div>
                             {article.drills && article.drills.length > 0 && (

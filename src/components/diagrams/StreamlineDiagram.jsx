@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { CHART_COLORS } from '../../utils/constants';
 
 export const StreamlineDiagram = () => {
   return (
@@ -12,8 +13,8 @@ export const StreamlineDiagram = () => {
           <svg width="100%" height="200" viewBox="0 0 400 200" className="max-w-md mx-auto">
             <defs>
               <linearGradient id="waterGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.1" />
+                <stop offset="0%" stopColor={CHART_COLORS.PRIMARY} stopOpacity="0.3" />
+                <stop offset="100%" stopColor={CHART_COLORS.PRIMARY} stopOpacity="0.1" />
               </linearGradient>
             </defs>
 
@@ -21,7 +22,7 @@ export const StreamlineDiagram = () => {
             <rect x="0" y="100" width="400" height="100" fill="url(#waterGradient2)" />
             <motion.path
               d="M 0 100 Q 100 95 200 100 T 400 100"
-              stroke="#00d4ff"
+              stroke={CHART_COLORS.PRIMARY}
               strokeWidth="2"
               fill="none"
               opacity="0.5"
@@ -44,20 +45,20 @@ export const StreamlineDiagram = () => {
                 width="80"
                 height="8"
                 rx="4"
-                fill="#a78bfa"
+                fill={CHART_COLORS.SECONDARY}
                 initial={{ x: 60 }}
                 animate={{ x: 80 }}
                 transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
               />
 
               {/* Head */}
-              <ellipse cx="165" cy="97" rx="12" ry="10" fill="#a78bfa" />
+              <ellipse cx="165" cy="97" rx="12" ry="10" fill={CHART_COLORS.SECONDARY} />
 
               {/* Body */}
-              <rect x="165" y="93" width="80" height="8" rx="4" fill="#a78bfa" />
+              <rect x="165" y="93" width="80" height="8" rx="4" fill={CHART_COLORS.SECONDARY} />
 
               {/* Legs */}
-              <rect x="245" y="95" width="50" height="6" rx="3" fill="#a78bfa" />
+              <rect x="245" y="95" width="50" height="6" rx="3" fill={CHART_COLORS.SECONDARY} />
 
               {/* Direction arrow */}
               <motion.g
@@ -65,7 +66,7 @@ export const StreamlineDiagram = () => {
                 animate={{ opacity: [0.5, 1, 0.5], x: [0, 20, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <path d="M 320 97 L 360 97 L 350 87 M 360 97 L 350 107" stroke="#00d4ff" strokeWidth="3" strokeLinecap="round" fill="none" />
+                <path d="M 320 97 L 360 97 L 350 87 M 360 97 L 350 107" stroke={CHART_COLORS.PRIMARY} strokeWidth="3" strokeLinecap="round" fill="none" />
               </motion.g>
             </g>
 
@@ -102,23 +103,23 @@ export const StreamlineDiagram = () => {
                 width="30"
                 height="60"
                 rx="15"
-                fill="#a78bfa"
+                fill={CHART_COLORS.SECONDARY}
                 initial={{ scale: 1 }}
                 animate={{ scale: [1, 1.02, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
 
               {/* Hands stacked */}
-              <ellipse cx="100" cy="45" rx="18" ry="10" fill="#a78bfa" opacity="0.9" />
+              <ellipse cx="100" cy="45" rx="18" ry="10" fill={CHART_COLORS.SECONDARY} opacity="0.9" />
 
               {/* Head */}
-              <ellipse cx="100" cy="100" rx="20" ry="22" fill="#a78bfa" />
+              <ellipse cx="100" cy="100" rx="20" ry="22" fill={CHART_COLORS.SECONDARY} />
 
               {/* Body narrow */}
-              <rect x="88" y="120" width="24" height="50" rx="12" fill="#a78bfa" />
+              <rect x="88" y="120" width="24" height="50" rx="12" fill={CHART_COLORS.SECONDARY} />
 
               {/* Legs together */}
-              <rect x="92" y="170" width="16" height="28" rx="8" fill="#a78bfa" />
+              <rect x="92" y="170" width="16" height="28" rx="8" fill={CHART_COLORS.SECONDARY} />
 
               {/* Checkmarks */}
               <motion.g
@@ -126,8 +127,8 @@ export const StreamlineDiagram = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                <circle cx="40" cy="60" r="12" fill="#4ade80" opacity="0.2" />
-                <path d="M 35 60 L 38 63 L 45 56" stroke="#4ade80" strokeWidth="2" fill="none" strokeLinecap="round" />
+                <circle cx="40" cy="60" r="12" fill={CHART_COLORS.SUCCESS} opacity="0.2" />
+                <path d="M 35 60 L 38 63 L 45 56" stroke={CHART_COLORS.SUCCESS} strokeWidth="2" fill="none" strokeLinecap="round" />
               </motion.g>
 
               <motion.g
@@ -135,8 +136,8 @@ export const StreamlineDiagram = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.7 }}
               >
-                <circle cx="40" cy="130" r="12" fill="#4ade80" opacity="0.2" />
-                <path d="M 35 130 L 38 133 L 45 126" stroke="#4ade80" strokeWidth="2" fill="none" strokeLinecap="round" />
+                <circle cx="40" cy="130" r="12" fill={CHART_COLORS.SUCCESS} opacity="0.2" />
+                <path d="M 35 130 L 38 133 L 45 126" stroke={CHART_COLORS.SUCCESS} strokeWidth="2" fill="none" strokeLinecap="round" />
               </motion.g>
             </g>
 

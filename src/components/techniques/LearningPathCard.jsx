@@ -46,7 +46,7 @@ export const LearningPathCard = ({ path, index }) => {
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs text-content-tertiary">
-            <Clock className="w-3 h-3" />
+            <Clock className={tokens.icons.xs} />
             <span>{path.estimatedTime}</span>
           </div>
         </div>
@@ -87,9 +87,9 @@ export const LearningPathCard = ({ path, index }) => {
                   `}
                 >
                   {completed ? (
-                    <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckCircle className={`${tokens.icons.sm} text-green-400 flex-shrink-0`} />
                   ) : (
-                    <Circle className="w-4 h-4 text-content-tertiary flex-shrink-0" />
+                    <Circle className={`${tokens.icons.sm} text-content-tertiary flex-shrink-0`} />
                   )}
                   <span className={`text-xs flex-1 ${
                     completed ? 'text-content-secondary line-through' : 'text-content'
@@ -119,7 +119,7 @@ export const LearningPathCard = ({ path, index }) => {
         ) : (
           <div className={`
             w-full py-2 px-4 rounded-lg text-sm font-medium text-center
-            ${isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-50 text-green-700'}
+            ${isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-50 text-green-400'}
           `}>
             ✓ Path Completed!
           </div>

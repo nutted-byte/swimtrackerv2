@@ -10,19 +10,13 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
   const { isDark } = useTheme();
   const completed = isArticleCompleted(article.id);
 
-  const levelColorsDark = {
-    beginner: 'from-green-500/20 to-green-500/5 border-green-500/30',
-    intermediate: 'from-blue-500/20 to-blue-500/5 border-blue-500/30',
-    advanced: 'from-purple-500/20 to-purple-500/5 border-purple-500/30'
+  // Use centralized difficulty styling from tokens
+  const getDifficultyStyle = (level) => {
+    const difficulty = tokens.components.difficulty[level] || tokens.components.difficulty.intermediate;
+    return isDark
+      ? `${difficulty.gradient} ${difficulty.border}`
+      : `${difficulty.lightGradient} ${difficulty.lightBorder}`;
   };
-
-  const levelColorsLight = {
-    beginner: 'from-green-50 to-emerald-50 border-green-200',
-    intermediate: 'from-blue-50 to-cyan-50 border-blue-200',
-    advanced: 'from-purple-50 to-indigo-50 border-purple-200'
-  };
-
-  const levelColors = isDark ? levelColorsDark : levelColorsLight;
 
   const categoryIcons = {
     efficiency: '⚡',
@@ -47,19 +41,19 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
       <Link to={`/learn/${article.id}`}>
         <Card
           hover
-          className={`relative h-full bg-gradient-to-br ${levelColors[article.level]} border transition-all duration-300`}
+          className={`relative h-full bg-gradient-to-br ${getDifficultyStyle(article.level)} border transition-all duration-300`}
         >
           {/* Reason Badge */}
           {reason && (
             <div className={`
               absolute -top-3 -right-2 px-4 py-1 rounded-full text-xs font-semibold
-              flex items-center gap-2 shadow-lg
+              flex items-center gap-2
               ${isDark
                 ? 'bg-primary-500 text-white'
                 : 'bg-primary-600 text-white'
               }
             `}>
-              {reasonIcons[reason] || <Sparkles className="w-3 h-3" />}
+              {reasonIcons[reason] || <Sparkles className={tokens.icons.xs} />}
               <span>
                 {reason === 'continue-learning' && 'Continue'}
                 {reason === 'recommended' && 'For You'}
@@ -72,7 +66,7 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
           {/* Completion Badge */}
           {completed && (
             <div className="absolute top-4 left-4 p-3 rounded-lg bg-green-500/20 backdrop-blur-sm">
-              <CheckCircle className="w-5 h-5 text-green-400" />
+              <CheckCircle className={`${tokens.icons.md} text-green-400`} />
             </div>
           )}
 
@@ -92,7 +86,7 @@ export const FeaturedArticleCard = ({ article, reason, index = 0 }) => {
 
           <div className="flex items-center gap-4 text-xs text-content-tertiary">
             <div className="flex items-center gap-4">
-              <Clock className="w-3 h-3" />
+              <Clock className={tokens.icons.xs} />
               <span>{article.readTime}</span>
             </div>
             {article.drills && article.drills.length > 0 && (

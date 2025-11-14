@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
-import { CardHeader } from './primitives';
+import { CardHeader, Separator } from './primitives';
+import { tokens } from '../design/tokens';
 import {
   Target,
   User,
@@ -121,9 +122,9 @@ export const PlanCreationWizard = ({ onComplete }) => {
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
         >
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-accent-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <h3 className="font-display text-xl font-bold mb-2">Generating Your Plan...</h3>
-            <p className="text-content-secondary text-sm max-w-md">
+            <div className={`${tokens.components.iconContainer.xl} border-4 border-accent-blue border-t-transparent ${tokens.radius.full} animate-spin mx-auto ${tokens.margin.group}`}></div>
+            <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold} ${tokens.margin.element}`}>Generating Your Plan...</h3>
+            <p className={`text-content-secondary ${tokens.typography.sizes.sm} max-w-md`}>
               AI is creating personalized weekly focuses and coaching tips tailored to your goals and experience level.
             </p>
           </div>
@@ -139,24 +140,24 @@ export const PlanCreationWizard = ({ onComplete }) => {
         <Card className="relative">
 
           {/* Header */}
-          <div className="mb-8">
+          <div className={tokens.margin.hero}>
             <CardHeader
               icon={Target}
               title="Create Training Plan"
               subtitle={`Step ${currentStep} of ${totalSteps}`}
               iconColor="text-accent-blue"
               iconBgColor="bg-accent-blue/20"
-              iconSize="w-6 h-6"
-              className="mb-4"
+              iconSize={tokens.icons.lg}
+              className={tokens.margin.group}
             />
 
             {/* Progress Bar */}
-            <div className="w-full h-2 bg-dark-bg rounded-full overflow-hidden">
+            <div className={`w-full h-2 bg-dark-bg ${tokens.radius.full} overflow-hidden`}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
                 transition={{ duration: 0.3 }}
-                className="h-full bg-gradient-to-r from-accent-blue to-primary-500 rounded-full"
+                className={`h-full bg-gradient-to-r from-accent-blue to-primary-500 ${tokens.radius.full}`}
               />
             </div>
           </div>
@@ -192,36 +193,37 @@ export const PlanCreationWizard = ({ onComplete }) => {
 
           {/* Error message */}
           {errors.submit && (
-            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+            <div className={`${tokens.margin.group} ${tokens.padding.default} bg-red-500/10 border border-red-500/30 ${tokens.radius.md} text-red-400 ${tokens.typography.sizes.sm}`}>
               {errors.submit}
             </div>
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-dark-border">
+          <Separator spacing="lg" />
+          <div className={`flex items-center justify-between ${tokens.margin.hero}`}>
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
-              className="px-4 py-2 rounded-lg hover:bg-dark-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className={`px-4 py-2 ${tokens.radius.md} hover:bg-dark-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center ${tokens.gap.element}`}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className={tokens.icons.sm} />
               Back
             </button>
 
             {currentStep < totalSteps ? (
               <button
                 onClick={nextStep}
-                className="px-6 py-2 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors font-medium flex items-center gap-2"
+                className={`px-6 py-2 bg-accent-blue hover:bg-accent-blue/90 ${tokens.radius.md} transition-colors font-medium flex items-center ${tokens.gap.element}`}
               >
                 Next
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className={tokens.icons.sm} />
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2 bg-gradient-to-r from-accent-blue to-primary-500 hover:opacity-90 rounded-lg transition-opacity font-medium flex items-center gap-2"
+                className={`px-6 py-2 bg-gradient-to-r from-accent-blue to-primary-500 hover:opacity-90 ${tokens.radius.md} transition-opacity font-medium flex items-center ${tokens.gap.element}`}
               >
-                <CheckCircle2 className="w-4 h-4" />
+                <CheckCircle2 className={tokens.icons.sm} />
                 Create Plan
               </button>
             )}
@@ -293,7 +295,7 @@ const StepOne = ({ formData, updateFormData, errors }) => {
                 <div className={`p-3 rounded-lg ${
                   formData.goalType === option.type ? 'bg-accent-blue/20' : 'bg-dark-bg'
                 }`}>
-                  <Icon className={`w-5 h-5 ${
+                  <Icon className={`${tokens.icons.md} ${
                     formData.goalType === option.type ? 'text-accent-blue' : 'text-content-tertiary'
                   }`} />
                 </div>
@@ -310,7 +312,9 @@ const StepOne = ({ formData, updateFormData, errors }) => {
 
       {/* Current & Target Inputs */}
       {(formData.goalType === GOAL_TYPES.DISTANCE || formData.goalType === GOAL_TYPES.PACE) && (
-        <div className="space-y-4 pt-4 border-t border-dark-border">
+        <>
+          <Separator spacing="sm" />
+          <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">
               Current {formData.goalType === GOAL_TYPES.DISTANCE ? 'Distance' : 'Pace'}
@@ -371,7 +375,8 @@ const StepOne = ({ formData, updateFormData, errors }) => {
               <option value={12}>12 weeks</option>
             </select>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </motion.div>
   );
@@ -431,7 +436,7 @@ const StepTwo = ({ formData, updateFormData }) => {
                 <div className="text-sm text-content-secondary">{option.description}</div>
               </div>
               {formData.userLevel === option.level && (
-                <CheckCircle2 className="w-5 h-5 text-accent-blue flex-shrink-0" />
+                <CheckCircle2 className={`${tokens.icons.md} text-accent-blue flex-shrink-0`} />
               )}
             </div>
             <div className="flex flex-wrap gap-2 mt-4">
@@ -533,7 +538,7 @@ const StepThree = ({ formData, updateFormData }) => {
 
       <div className="bg-dark-bg/50 rounded-lg p-4">
         <div className="flex items-start gap-4">
-          <Clock className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
+          <Clock className={`${tokens.icons.md} text-accent-blue flex-shrink-0 mt-0.5`} />
           <div>
             <div className="font-medium mb-1">Recommended: {formData.frequency}x per week, {formData.sessionLength} min</div>
             <div className="text-sm text-content-secondary">
@@ -589,19 +594,19 @@ const StepFour = ({ formData, getGoalDescription }) => {
         <h5 className="font-semibold mb-2">What happens next?</h5>
         <ul className="space-y-2 text-sm text-content-secondary">
           <li className="flex gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent-blue flex-shrink-0 mt-0.5" />
+            <CheckCircle2 className={`${tokens.icons.sm} text-accent-blue flex-shrink-0 mt-0.5`} />
             <span>AI will generate your {formData.timeline}-week training plan</span>
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent-blue flex-shrink-0 mt-0.5" />
+            <CheckCircle2 className={`${tokens.icons.sm} text-accent-blue flex-shrink-0 mt-0.5`} />
             <span>Progressive workouts tailored to your level</span>
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent-blue flex-shrink-0 mt-0.5" />
+            <CheckCircle2 className={`${tokens.icons.sm} text-accent-blue flex-shrink-0 mt-0.5`} />
             <span>Track progress and mark workouts complete</span>
           </li>
           <li className="flex gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent-blue flex-shrink-0 mt-0.5" />
+            <CheckCircle2 className={`${tokens.icons.sm} text-accent-blue flex-shrink-0 mt-0.5`} />
             <span>Adjust plan if you fall behind or race ahead</span>
           </li>
         </ul>

@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { tokens } from '../../design/tokens';
 
 /**
  * Display DPS comparison to average with visual indicator
@@ -19,14 +20,14 @@ export const DPSComparison = ({ currentDPS, averageDPS }) => {
     <div className="flex items-center gap-1">
       {isImprovement ? (
         <>
-          <TrendingUp className="w-3 h-3 text-green-500" />
-          <span className={`text-xs ${isDark ? 'text-green-400' : 'text-green-600'}`}>
+          <TrendingUp className={`${tokens.icons.xs} text-green-400`} />
+          <span className={`text-xs ${isDark ? 'text-green-400' : 'text-green-400'}`}>
             +{percentDiff.toFixed(1)}% vs avg
           </span>
         </>
       ) : (
         <>
-          <TrendingDown className="w-3 h-3 text-orange-500" />
+          <TrendingDown className={`${tokens.icons.xs} text-orange-500`} />
           <span className={`text-xs ${isDark ? 'text-orange-400' : 'text-orange-600'}`}>
             {percentDiff.toFixed(1)}% vs avg
           </span>

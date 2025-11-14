@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Separator } from '../components/primitives';
 import { Button } from '../components/Button';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { NextMilestones } from '../components/NextMilestones';
@@ -97,9 +98,9 @@ export const Records = () => {
         >
           <div className="flex items-start justify-between mb-4">
             <div className="p-4 rounded-xl bg-dark-bg/50">
-              <Icon className="w-8 h-8 text-accent-blue" />
+              <Icon className={`${tokens.icons.xl} text-accent-blue`} />
             </div>
-            <Trophy className="w-6 h-6 text-yellow-500" />
+            <Trophy className={`${tokens.icons.lg} text-yellow-500`} />
           </div>
 
           <h3 className="text-sm text-content-tertiary uppercase tracking-wide mb-2">
@@ -116,10 +117,13 @@ export const Records = () => {
           )}
 
           {session && (
-            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-4 border-t border-dark-border">
-              <Calendar className="w-3 h-3" />
-              {formatDate(session.date)}
-            </div>
+            <>
+              <Separator spacing="sm" />
+              <div className="flex items-center gap-2 text-xs text-content-tertiary">
+                <Calendar className={tokens.icons.xs} />
+                {formatDate(session.date)}
+              </div>
+            </>
           )}
         </Card>
       </motion.div>

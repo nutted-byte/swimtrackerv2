@@ -69,14 +69,14 @@ export const ComparisonBadge = ({
     },
     average: {
       icon: Minus,
-      bg: 'bg-blue-500/20',
-      text: 'text-blue-400',
+      bg: 'bg-accent-blue/20',
+      text: 'text-accent-blue',
       defaultLabel: 'Average'
     },
     stable: {
       icon: Minus,
-      bg: 'bg-blue-500/20',
-      text: 'text-blue-400',
+      bg: 'bg-accent-blue/20',
+      text: 'text-accent-blue',
       defaultLabel: 'Stable'
     }
   };

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { loadTestData, clearTestData, hasData } from '../utils/testData';
 import { Database, Trash2, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 /**
  * Development tools panel for managing test data
@@ -37,27 +38,27 @@ export const DevTools = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg transition-all"
+          className="p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-all"
           title="Developer Tools"
         >
-          <Database className="w-5 h-5" />
+          <Database className={tokens.icons.md} />
         </button>
       )}
 
       {/* Panel */}
       {isOpen && (
-        <div className="bg-dark-card border border-purple-500/30 rounded-lg shadow-2xl p-4 min-w-[280px]">
+        <div className="bg-dark-card border border-purple-500/30 rounded-lg p-4 min-w-[280px]">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Database className="w-5 h-5 text-purple-400" />
+              <Database className={`${tokens.icons.md} text-purple-400`} />
               <h3 className="font-semibold text-purple-400">Dev Tools</h3>
             </div>
             <button
               onClick={() => setIsOpen(false)}
               className="p-3 hover:bg-dark-bg rounded-lg transition-colors"
             >
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className={tokens.icons.sm} />
             </button>
           </div>
 
@@ -75,7 +76,7 @@ export const DevTools = () => {
               onClick={handleLoadTestData}
               className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className={tokens.icons.sm} />
               Load Test Data (27 swims)
             </button>
 
@@ -83,7 +84,7 @@ export const DevTools = () => {
               onClick={handleClearData}
               className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className={tokens.icons.sm} />
               Clear All Data
             </button>
 
@@ -91,7 +92,7 @@ export const DevTools = () => {
               onClick={handleRefresh}
               className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-bg hover:bg-gray-700 text-content-secondary rounded-lg transition-colors text-sm font-medium"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className={tokens.icons.sm} />
               Refresh Page
             </button>
           </div>

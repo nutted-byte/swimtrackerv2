@@ -1,5 +1,7 @@
 import { memo, useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
+import { Separator } from './primitives';
+import { CHART_COLORS } from '../utils/constants';
 
 /**
  * Mini comparison chart showing current swim vs recent average
@@ -66,8 +68,8 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
     const diff = metric.current - metric.average;
     const isBetter = metric.inverse ? diff < 0 : diff > 0;
 
-    if (Math.abs(diff) < metric.average * 0.02) return '#6b7280'; // Gray - roughly same
-    return isBetter ? '#10b981' : '#ef4444'; // Green or Red
+    if (Math.abs(diff) < metric.average * 0.02) return CHART_COLORS.COMPARE; // Gray - roughly same
+    return isBetter ? CHART_COLORS.SUCCESS : CHART_COLORS.DANGER; // Green or Red
   };
 
   // Format date range for comparison context
@@ -105,21 +107,21 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
           layout="vertical"
           margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" horizontal={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.GRID} horizontal={false} />
           <XAxis
             type="number"
-            stroke="#6b7280"
+            stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '11px' }}
             tickFormatter={(value) => value.toFixed(1)}
           />
           <YAxis
             type="category"
             dataKey="metric"
-            stroke="#6b7280"
+            stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '12px' }}
             width={70}
           />
-          <Bar dataKey="current" fill="#00d4ff" radius={[0, 4, 4, 0]} maxBarSize={20}>
+          <Bar dataKey="current" fill={CHART_COLORS.PRIMARY} radius={[0, 4, 4, 0]} maxBarSize={20}>
             {chartData.data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={getColor(entry)} />
             ))}
@@ -127,7 +129,8 @@ export const SwimComparisonChart = memo(({ currentSwim, recentSwims }) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <div className="grid grid-cols-3 gap-4 mt-4 text-xs border-t border-dark-border/30 pt-3">
+      <Separator spacing="sm" className="opacity-30" />
+      <div className="grid grid-cols-3 gap-4 text-xs">
         {chartData.data.map((metric) => {
           const diff = metric.current - metric.average;
           const percentDiff = ((diff / metric.average) * 100).toFixed(1);

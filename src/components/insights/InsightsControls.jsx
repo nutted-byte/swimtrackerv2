@@ -1,5 +1,6 @@
 import { Activity, TrendingUp, Zap } from 'lucide-react';
 import { TIME_RANGE_OPTIONS } from '../../utils/constants';
+import { tokens } from '../../design/tokens';
 
 /**
  * Controls for filtering and configuring the insights view
@@ -24,7 +25,7 @@ export const InsightsControls = ({
                 : 'bg-dark-card text-content-tertiary hover:text-content-secondary'
             }`}
           >
-            <Activity className="w-4 h-4" />
+            <Activity className={tokens.icons.sm} />
             Pace
           </button>
           <button
@@ -35,7 +36,7 @@ export const InsightsControls = ({
                 : 'bg-dark-card text-content-tertiary hover:text-content-secondary'
             }`}
           >
-            <TrendingUp className="w-4 h-4" />
+            <TrendingUp className={tokens.icons.sm} />
             Distance
           </button>
           <button
@@ -46,7 +47,7 @@ export const InsightsControls = ({
                 : 'bg-dark-card text-content-tertiary hover:text-content-secondary'
             }`}
           >
-            <Zap className="w-4 h-4" />
+            <Zap className={tokens.icons.sm} />
             SWOLF
           </button>
         </div>

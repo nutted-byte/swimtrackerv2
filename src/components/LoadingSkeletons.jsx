@@ -1,11 +1,12 @@
 import { Card } from './Card';
+import { CardVariant } from './primitives';
 
 export const SkeletonPulse = ({ className = '' }) => (
-  <div className={`animate-pulse bg-gray-700/50 rounded ${className}`} />
+  <div className={`animate-pulse bg-dark-bg/50 rounded ${className}`} />
 );
 
 export const HeroSkeleton = () => (
-  <Card className="bg-gradient-to-br from-primary-500/15 to-accent-blue/10 border-primary-500/30">
+  <CardVariant variant="primary">
     <div className="animate-pulse">
       {/* Header */}
       <div className="mb-6">
@@ -42,7 +43,7 @@ export const HeroSkeleton = () => (
         <SkeletonPulse className="h-10 w-32" />
       </div>
     </div>
-  </Card>
+  </CardVariant>
 );
 
 export const SessionCardSkeleton = () => (

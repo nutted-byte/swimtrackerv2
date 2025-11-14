@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Activity, TrendingUp, Zap, Calendar } from 'lucide-react';
 import { Card } from './Card';
+import { tokens } from '../design/tokens';
 
 export const MonthGroup = ({ monthData, children, previousMonthStats = null, allCollapsed = false }) => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -40,26 +41,26 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
     : null;
 
   return (
-    <div className="bg-dark-card rounded-lg overflow-hidden">
+    <div className={`bg-dark-card ${tokens.radius.sm} overflow-hidden`}>
       {/* Month Header */}
       <div
-        className="sticky top-0 z-10 bg-dark-card backdrop-blur-sm px-4 py-4 cursor-pointer"
+        className={`sticky top-0 ${tokens.zIndex.sticky} bg-dark-card backdrop-blur-sm ${tokens.padding.default} cursor-pointer`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button className="p-3 hover:bg-dark-bg rounded-lg transition-colors">
+          <div className={`flex items-center ${tokens.gap.compact}`}>
+            <button className={`p-3 hover:bg-dark-bg ${tokens.radius.sm} transition-colors`}>
               {isExpanded ? (
-                <ChevronDown className="w-5 h-5 text-content-tertiary" />
+                <ChevronDown className={`${tokens.icons.md} text-content-tertiary`} />
               ) : (
-                <ChevronUp className="w-5 h-5 text-content-tertiary" />
+                <ChevronUp className={`${tokens.icons.md} text-content-tertiary`} />
               )}
             </button>
             <div>
-              <h2 className="font-display text-2xl font-bold flex items-center gap-4">
+              <h2 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} flex items-center ${tokens.gap.compact}`}>
                 {monthName}
               </h2>
-              <p className="text-sm text-content-tertiary mt-1">
+              <p className={`${tokens.typography.sizes.sm} text-content-tertiary mt-1`}>
                 {stats.totalSwims} swim{stats.totalSwims !== 1 ? 's' : ''} •{' '}
                 {(stats.totalDistance / 1000).toFixed(1)} km •{' '}
                 {Math.round(stats.totalDuration)} minutes
@@ -68,19 +69,19 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
           </div>
 
           {/* Month Stats Summary */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className={`hidden md:flex items-center ${tokens.gap.default}`}>
             <div className="text-right">
-              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-2">
-                <TrendingUp className="w-3 h-3" />
+              <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
+                <TrendingUp className={tokens.icons.xs} />
                 <span>Total Distance</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-lg font-semibold">
+              <div className={`flex items-center ${tokens.gap.tight}`}>
+                <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold}`}>
                   {(stats.totalDistance / 1000).toFixed(1)} km
                 </span>
                 {distanceTrend && (
                   <span
-                    className={`text-xs ${
+                    className={`${tokens.typography.sizes.xs} ${
                       distanceTrend.isImproving ? 'text-green-400' : 'text-red-400'
                     }`}
                   >
@@ -96,17 +97,17 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
         {isExpanded && (
           <div className="md:hidden mt-4">
             <div>
-              <div className="flex items-center gap-2 text-xs text-content-tertiary mb-2">
-                <TrendingUp className="w-3 h-3" />
+              <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
+                <TrendingUp className={tokens.icons.xs} />
                 <span>Total Distance</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-base font-semibold">
+              <div className={`flex items-center ${tokens.gap.tight}`}>
+                <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.base} ${tokens.typography.weights.semibold}`}>
                   {(stats.totalDistance / 1000).toFixed(1)} km
                 </span>
                 {distanceTrend && (
                   <span
-                    className={`text-xs ${
+                    className={`${tokens.typography.sizes.xs} ${
                       distanceTrend.isImproving ? 'text-green-400' : 'text-red-400'
                     }`}
                   >
@@ -121,11 +122,11 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
         {/* Best Performance Highlights */}
         {isExpanded && (stats.bestPace || stats.longestSwim) && (
           <div className="mt-4 pt-4">
-            <div className="flex flex-wrap gap-4">
+            <div className={`flex flex-wrap ${tokens.gap.compact}`}>
               {stats.bestPace && (
-                <div className="px-4 py-3 bg-accent-blue/10 border border-accent-blue/20 rounded-lg">
-                  <p className="text-xs text-content-tertiary mb-1">Best Pace</p>
-                  <p className="text-sm font-semibold text-accent-blue">
+                <div className={`px-4 py-3 bg-accent-blue/10 border border-accent-blue/20 ${tokens.radius.sm}`}>
+                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary mb-1`}>Best Pace</p>
+                  <p className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-accent-blue`}>
                     {formatPace(stats.bestPace.pace)} on{' '}
                     {new Date(stats.bestPace.date).toLocaleDateString('en-US', {
                       month: 'short',
@@ -135,9 +136,9 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
                 </div>
               )}
               {stats.longestSwim && (
-                <div className="px-4 py-3 bg-primary-500/10 border border-primary-500/20 rounded-lg">
-                  <p className="text-xs text-content-tertiary mb-1">Longest Swim</p>
-                  <p className="text-sm font-semibold text-primary-400">
+                <div className={`px-4 py-3 bg-primary-500/10 border border-primary-500/20 ${tokens.radius.sm}`}>
+                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary mb-1`}>Longest Swim</p>
+                  <p className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-primary-400`}>
                     {(stats.longestSwim.distance / 1000).toFixed(2)} km on{' '}
                     {new Date(stats.longestSwim.date).toLocaleDateString('en-US', {
                       month: 'short',
@@ -161,7 +162,7 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
             transition={{ duration: 0.3 }}
             className="overflow-hidden bg-dark-bg"
           >
-            <div className="space-y-4 p-4">
+            <div className={`space-y-4 ${tokens.padding.default}`}>
               {children}
             </div>
           </motion.div>

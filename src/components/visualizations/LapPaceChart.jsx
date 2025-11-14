@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { CHART_COLORS } from '../../utils/constants';
 
 export const LapPaceChart = ({ laps }) => {
   const chartData = useMemo(() => {
@@ -83,25 +84,25 @@ export const LapPaceChart = ({ laps }) => {
           <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
             <defs>
               <linearGradient id="paceGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#00d4ff" stopOpacity={0.3}/>
+                <stop offset="5%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.8}/>
+                <stop offset="95%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.3}/>
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.BORDER} opacity={0.3} />
 
             <XAxis
               dataKey="lapNumber"
-              stroke="#9ca3af"
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
-              label={{ value: 'Lap Number', position: 'insideBottom', offset: -10, fill: '#9ca3af' }}
+              stroke={CHART_COLORS.AXIS_LIGHT}
+              tick={{ fill: CHART_COLORS.AXIS_LIGHT, fontSize: 12 }}
+              label={{ value: 'Lap Number', position: 'insideBottom', offset: -10, fill: CHART_COLORS.AXIS_LIGHT }}
             />
 
             <YAxis
-              stroke="#9ca3af"
-              tick={{ fill: '#9ca3af', fontSize: 12 }}
+              stroke={CHART_COLORS.AXIS_LIGHT}
+              tick={{ fill: CHART_COLORS.AXIS_LIGHT, fontSize: 12 }}
               tickFormatter={(value) => formatPace(value)}
-              label={{ value: 'Pace (min/100m)', angle: -90, position: 'insideLeft', fill: '#9ca3af' }}
+              label={{ value: 'Pace (min/100m)', angle: -90, position: 'insideLeft', fill: CHART_COLORS.AXIS_LIGHT }}
               reversed
             />
 
@@ -109,13 +110,13 @@ export const LapPaceChart = ({ laps }) => {
 
             <ReferenceLine
               y={avgPace}
-              stroke="#00d4ff"
+              stroke={CHART_COLORS.PRIMARY}
               strokeDasharray="5 5"
               strokeWidth={2}
               label={{
                 value: 'Average',
                 position: 'right',
-                fill: '#00d4ff',
+                fill: CHART_COLORS.PRIMARY,
                 fontSize: 12
               }}
             />

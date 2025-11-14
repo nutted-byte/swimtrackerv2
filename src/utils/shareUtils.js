@@ -1,4 +1,5 @@
 import html2canvas from 'html2canvas';
+import { EXPORT_COLORS } from './constants';
 
 /**
  * Detect current platform and device type
@@ -30,7 +31,7 @@ export const detectPlatform = () => {
 export const generateShareImage = async (element, options = {}) => {
   const {
     scale = 2, // Higher scale for better quality (retina)
-    backgroundColor = '#0a0e27',
+    backgroundColor = EXPORT_COLORS.BG_DARK,
     width = 1080,
     height = null // Auto-height if not specified
   } = options;

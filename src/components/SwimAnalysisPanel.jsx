@@ -2,6 +2,8 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Loader2, AlertCircle, Zap, MessageCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Separator } from './primitives';
+import { tokens } from '../design/tokens';
 
 /**
  * Expandable analysis panel for a specific swim
@@ -23,12 +25,13 @@ export const SwimAnalysisPanel = memo(({
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="overflow-hidden"
     >
-      <div className="mt-4 pt-4 border-t border-dark-border/50">
+      <Separator spacing="sm" className="opacity-50" />
+      <div>
         {/* Analysis Section */}
         {analysis && (
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-5 h-5 text-primary-400" />
+              <Sparkles className={`${tokens.icons.md} text-primary-400`} />
               <h3 className="font-display text-lg font-semibold">AI Analysis</h3>
             </div>
 
@@ -41,7 +44,7 @@ export const SwimAnalysisPanel = memo(({
 
               {analysis.usage && (
                 <div className="mt-3 flex items-center gap-2 text-xs text-content-tertiary">
-                  <Zap className="w-3 h-3" />
+                  <Zap className={tokens.icons.xs} />
                   <span>{analysis.usage.inputTokens + analysis.usage.outputTokens} tokens</span>
                   {analysis.cached && (
                     <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded">
@@ -58,9 +61,9 @@ export const SwimAnalysisPanel = memo(({
               state={{ initialContext: analysis.content, swimId: swim.id }}
               className="inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 transition-colors group"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className={tokens.icons.sm} />
               <span>Ask follow-up questions about this swim</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className={`${tokens.icons.sm} group-hover:translate-x-1 transition-transform`} />
             </Link>
           </div>
         )}
@@ -69,11 +72,11 @@ export const SwimAnalysisPanel = memo(({
         {!analysis && loading && (
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-5 h-5 text-primary-400 animate-pulse" />
+              <Sparkles className={`${tokens.icons.md} text-primary-400 animate-pulse`} />
               <h3 className="font-display text-lg font-semibold">Analysing Swim...</h3>
             </div>
             <div className="bg-dark-bg/30 rounded-lg p-8 flex flex-col items-center justify-center">
-              <Loader2 className="w-8 h-8 text-primary-400 animate-spin mb-3" />
+              <Loader2 className={`${tokens.icons.xl} text-primary-400 animate-spin mb-3`} />
               <p className="text-content-tertiary text-sm">Generating insights...</p>
             </div>
           </div>
@@ -83,7 +86,7 @@ export const SwimAnalysisPanel = memo(({
         {error && (
           <div className="mb-6">
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+              <AlertCircle className={`${tokens.icons.md} text-red-400 flex-shrink-0 mt-0.5`} />
               <div>
                 <p className="text-red-400 font-medium mb-1">Analysis Failed</p>
                 <p className="text-sm text-content-tertiary">{error}</p>

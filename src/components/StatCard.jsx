@@ -5,6 +5,8 @@ import { useTheme } from '../context/ThemeContext';
 import { motion } from 'framer-motion';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { ArrowUp, ArrowDown } from 'lucide-react';
+import { CHART_COLORS } from '../utils/constants';
+import { tokens } from '../design/tokens';
 
 export const StatCard = memo(({
   label,
@@ -61,7 +63,7 @@ export const StatCard = memo(({
         <div className="space-y-3">
           {/* Header with label and trend badge */}
           <div className="flex items-start justify-between">
-            <p className="text-sm text-content-tertiary">{label}</p>
+            <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>{label}</p>
             {typeof trend === 'string' && <TrendBadge trend={trend} metric={metricName} size="sm" />}
           </div>
 
@@ -72,14 +74,14 @@ export const StatCard = memo(({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-3xl font-bold">{value}</span>
-                {unit && <span className="text-lg text-content-tertiary">{unit}</span>}
+              <div className={`flex items-baseline ${tokens.gap.tight}`}>
+                <span className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold}`}>{value}</span>
+                {unit && <span className={`${tokens.typography.sizes.lg} text-content-tertiary`}>{unit}</span>}
               </div>
               {delta !== null && delta !== undefined && (
-                <div className={`flex items-center gap-1 text-sm mt-1 ${getDeltaColor()}`}>
+                <div className={`flex items-center gap-1 ${tokens.typography.sizes.sm} mt-1 ${getDeltaColor()}`}>
                   {DeltaIcon && <DeltaIcon size={14} />}
-                  <span className="font-medium">
+                  <span className={tokens.typography.weights.medium}>
                     {delta > 0 ? '+' : ''}{delta}% vs prev
                   </span>
                 </div>
@@ -100,7 +102,7 @@ export const StatCard = memo(({
                   <Line
                     type="monotone"
                     dataKey="value"
-                    stroke="#00d4ff"
+                    stroke={CHART_COLORS.PRIMARY}
                     strokeWidth={2}
                     dot={false}
                     isAnimationActive={true}
@@ -120,16 +122,16 @@ export const StatCard = memo(({
       <div className="flex items-start justify-between">
         <div>
           <p className="stat-label">{label}</p>
-          <div className="flex items-baseline gap-2 mt-2">
+          <div className={`flex items-baseline ${tokens.gap.tight} ${tokens.margin.element}`}>
             <span className="stat-value">{value}</span>
             {unit && (
-              <span className={`text-xl ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
+              <span className={`${tokens.typography.sizes.xl} ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`}>
                 {unit}
               </span>
             )}
           </div>
           {typeof trend === 'number' && trend !== null && (
-            <p className={`text-sm mt-2 font-medium ${getTrendColor()}`}>
+            <p className={`${tokens.typography.sizes.sm} ${tokens.margin.element} ${tokens.typography.weights.medium} ${getTrendColor()}`}>
               {getTrendSymbol()} {Math.abs(trend)}%
             </p>
           )}

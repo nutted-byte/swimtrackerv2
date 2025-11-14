@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, Upload, CheckCircle, AlertCircle, Loader2, X } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
+import { CardVariant, IconContainer } from './primitives';
+import { tokens } from '../design/tokens';
 
 export const VO2MaxUpload = () => {
   const { uploadVO2MaxData } = useSwimData();
@@ -46,7 +48,7 @@ export const VO2MaxUpload = () => {
     <div className="space-y-4">
       <div className="flex items-start gap-4">
         <div className="p-4 rounded-lg bg-accent-blue/20">
-          <Activity className="w-6 h-6 text-accent-blue" />
+          <Activity className={`${tokens.icons.lg} text-accent-blue`} />
         </div>
         <div className="flex-1">
           <h3 className="font-display text-lg font-semibold mb-2">
@@ -72,12 +74,12 @@ export const VO2MaxUpload = () => {
           >
             {uploading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className={`${tokens.icons.sm} animate-spin`} />
                 Processing...
               </>
             ) : (
               <>
-                <Upload className="w-4 h-4" />
+                <Upload className={tokens.icons.sm} />
                 Upload VO2 Max CSV
               </>
             )}
@@ -94,7 +96,7 @@ export const VO2MaxUpload = () => {
             className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-4"
           >
             <div className="flex items-start gap-4">
-              <CheckCircle className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
+              <CheckCircle className={`${tokens.icons.md} text-accent-blue flex-shrink-0 mt-0.5`} />
               <div className="flex-1">
                 <h4 className="font-semibold text-accent-blue mb-1">
                   VO2 Max Data Uploaded Successfully
@@ -107,7 +109,7 @@ export const VO2MaxUpload = () => {
                 onClick={handleDismiss}
                 className="p-3 hover:bg-accent-blue/20 rounded-lg transition-colors"
               >
-                <X className="w-4 h-4 text-content-tertiary" />
+                <X className={`${tokens.icons.sm} text-content-tertiary`} />
               </button>
             </div>
           </motion.div>
@@ -118,21 +120,20 @@ export const VO2MaxUpload = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-red-500/10 border border-red-500/30 rounded-lg p-4"
           >
-            <div className="flex items-start gap-4">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <CardVariant variant="danger" className={`flex items-start ${tokens.gap.default}`}>
+              <IconContainer icon={<AlertCircle />} variant="danger" size="md" className="mt-0.5" />
               <div className="flex-1">
-                <h4 className="font-semibold text-red-400 mb-1">Upload Failed</h4>
-                <p className="text-sm text-content-tertiary">{error}</p>
+                <h4 className={`font-semibold text-red-400 ${tokens.margin.element}`}>Upload Failed</h4>
+                <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>{error}</p>
               </div>
               <button
                 onClick={handleDismiss}
-                className="p-3 hover:bg-red-500/20 rounded-lg transition-colors"
+                className={`${tokens.padding.tight} hover:bg-red-500/20 ${tokens.radius.lg} transition-colors`}
               >
-                <X className="w-4 h-4 text-content-tertiary" />
+                <X className={`${tokens.icons.sm} text-content-tertiary`} />
               </button>
-            </div>
+            </CardVariant>
           </motion.div>
         )}
       </AnimatePresence>

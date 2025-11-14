@@ -124,7 +124,7 @@ export const Sessions = () => {
           {viewMode === 'list' && (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 text-sm text-content-tertiary">
-                <Filter className="w-4 h-4" />
+                <Filter className={tokens.icons.sm} />
                 <span>Sort by:</span>
               </div>
               <div className="flex gap-2">
@@ -191,7 +191,7 @@ export const Sessions = () => {
                     : 'text-content-secondary hover:text-content'
                 }`}
               >
-                <Calendar className="w-4 h-4" />
+                <Calendar className={tokens.icons.sm} />
                 <span className="hidden sm:inline">Grouped</span>
               </button>
               <button
@@ -202,7 +202,7 @@ export const Sessions = () => {
                     : 'text-content-secondary hover:text-content'
                 }`}
               >
-                <List className="w-4 h-4" />
+                <List className={tokens.icons.sm} />
                 <span className="hidden sm:inline">List</span>
               </button>
             </div>
@@ -238,7 +238,7 @@ export const Sessions = () => {
                       className="absolute top-4 right-4 p-3 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
                       aria-label="Delete session"
                     >
-                      <Trash2 className="w-4 h-4 text-accent-coral" />
+                      <Trash2 className={`${tokens.icons.sm} text-accent-coral`} />
                     </button>
                   </motion.div>
                 ))}
@@ -266,7 +266,7 @@ export const Sessions = () => {
                   className="absolute top-4 right-4 p-2 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
                   aria-label="Delete session"
                 >
-                  <Trash2 className="w-4 h-4 text-accent-coral" />
+                  <Trash2 className={`${tokens.icons.sm} text-accent-coral`} />
                 </button>
               </motion.div>
             ))}

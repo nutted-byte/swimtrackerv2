@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
+import { CHART_COLORS } from '../../utils/constants';
 
 export const CircularProgress = ({
   percentage,
   size = 120,
   strokeWidth = 12,
-  color = '#00d4ff'
+  color = CHART_COLORS.PRIMARY
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;

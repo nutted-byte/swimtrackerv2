@@ -3,6 +3,7 @@ import { Upload, File, CheckCircle, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
 import { Button } from './Button';
+import { tokens } from '../design/tokens';
 
 export const FileUpload = ({ onFilesUploaded }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -130,7 +131,7 @@ export const FileUpload = ({ onFilesUploaded }) => {
             exit={{ opacity: 0, y: -10 }}
             className="bg-accent-coral/10 border border-accent-coral/30 rounded-lg p-4 flex items-start gap-3"
           >
-            <XCircle className="w-5 h-5 text-accent-coral flex-shrink-0 mt-0.5" />
+            <XCircle className={`${tokens.icons.md} text-accent-coral flex-shrink-0 mt-0.5`} />
             <p className="text-accent-coral text-sm">{error}</p>
           </motion.div>
         )}
@@ -153,7 +154,7 @@ export const FileUpload = ({ onFilesUploaded }) => {
                   className="flex items-center justify-between p-3 bg-dark-bg rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <File className="w-5 h-5 text-primary-400" />
+                    <File className={`${tokens.icons.md} text-primary-400`} />
                     <div>
                       <p className="text-sm font-medium">{file.name}</p>
                       <p className="text-xs text-content-tertiary">
@@ -162,12 +163,12 @@ export const FileUpload = ({ onFilesUploaded }) => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-accent-blue" />
+                    <CheckCircle className={`${tokens.icons.md} text-accent-blue`} />
                     <button
                       onClick={() => removeFile(index)}
                       className="text-content-tertiary hover:text-accent-coral transition-colors"
                     >
-                      <XCircle className="w-5 h-5" />
+                      <XCircle className={tokens.icons.md} />
                     </button>
                   </div>
                 </motion.div>

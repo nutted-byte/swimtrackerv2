@@ -4,9 +4,12 @@ import { useSwimData } from '../context/SwimDataContext';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
+import { CardVariant, IconContainer } from '../components/primitives';
 import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
 import { MessageCircle, Send, Sparkles, Loader2, AlertCircle, Upload, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { tokens } from '../design/tokens';
+
 
 export const Ask = () => {
   const { sessions } = useSwimData();
@@ -179,7 +182,7 @@ export const Ask = () => {
         actions={
           tokenStats.queryCount > 0 && (
             <div className="flex items-center gap-2 px-4 py-2 bg-dark-card rounded-lg text-sm">
-              <Zap className="w-4 h-4 text-yellow-400" />
+              <Zap className={`${tokens.icons.sm} text-yellow-400`} />
               <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
               </span>
@@ -207,11 +210,14 @@ export const Ask = () => {
             transition={{ delay: 0.2 }}
             className="mb-6"
           >
-            <Card className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
+            <CardVariant variant="primary">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-6 h-6 text-primary-400" />
-                </div>
+                <IconContainer
+                  icon={<Sparkles />}
+                  variant="primary"
+                  size="lg"
+                  rounded
+                />
                 <div className="flex-1">
                   <h3 className="font-display text-xl font-semibold mb-2">
                     Ask me anything about your swimming!
@@ -224,24 +230,24 @@ export const Ask = () => {
                     <p className="text-sm text-content-tertiary font-medium">Try asking:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {exampleQueries.slice(0, 6).map(example => (
-                        <button
+                        <Button
                           key={example.id}
+                          variant="secondary"
+                          size="md"
                           onClick={() => handleExampleClick(example.question)}
-                          className="text-left px-4 py-3 bg-dark-card/50 hover:bg-dark-card rounded-lg text-sm transition-colors group"
+                          className="text-left justify-start group"
                         >
-                          <div className="flex items-center gap-2">
-                            <MessageCircle className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                            <span className="text-content-secondary group-hover:text-white transition-colors">
-                              "{example.question}"
-                            </span>
-                          </div>
-                        </button>
+                          <MessageCircle className={`${tokens.icons.sm} text-primary-400 flex-shrink-0`} />
+                          <span className="text-content-secondary group-hover:text-white transition-colors">
+                            "{example.question}"
+                          </span>
+                        </Button>
                       ))}
                     </div>
                   </div>
                 </div>
               </div>
-            </Card>
+            </CardVariant>
           </motion.div>
         )}
 
@@ -257,17 +263,12 @@ export const Ask = () => {
               >
                 <Card className={message.role === 'user' ? 'bg-primary-500/10 border-primary-500/20' : ''}>
                   <div className="flex items-start gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      message.role === 'user'
-                        ? 'bg-primary-500/20'
-                        : 'bg-accent-blue/20'
-                    }`}>
-                      {message.role === 'user' ? (
-                        <MessageCircle className="w-5 h-5 text-primary-400" />
-                      ) : (
-                        <Sparkles className="w-5 h-5 text-accent-blue" />
-                      )}
-                    </div>
+                    <IconContainer
+                      icon={message.role === 'user' ? <MessageCircle /> : <Sparkles />}
+                      variant={message.role === 'user' ? 'primary' : 'accent'}
+                      size="md"
+                      rounded
+                    />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="font-medium text-sm">
@@ -306,9 +307,12 @@ export const Ask = () => {
             >
               <Card>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center">
-                    <Loader2 className="w-5 h-5 text-accent-blue animate-spin" />
-                  </div>
+                  <IconContainer
+                    icon={<Loader2 className="animate-spin" />}
+                    variant="accent"
+                    size="md"
+                    rounded
+                  />
                   <div className="text-content-tertiary">Analyzing your swim data...</div>
                 </div>
               </Card>
@@ -323,20 +327,20 @@ export const Ask = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4"
+            className={tokens.margin.group}
           >
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-4">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <CardVariant variant="danger" className={`flex items-start ${tokens.gap.default}`}>
+              <IconContainer icon={<AlertCircle />} variant="danger" size="md" className="mt-0.5" />
               <div>
-                <p className="text-red-400 font-medium mb-1">Error</p>
-                <p className="text-sm text-content-tertiary">{error}</p>
+                <p className={`text-red-400 font-medium ${tokens.margin.element}`}>Error</p>
+                <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>{error}</p>
                 {error.includes('API key') && (
-                  <p className="text-xs text-content-tertiary mt-2">
+                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.section}`}>
                     Add your Anthropic API key to .env file: VITE_ANTHROPIC_API_KEY=your-key-here
                   </p>
                 )}
               </div>
-            </div>
+            </CardVariant>
           </motion.div>
         )}
 
@@ -352,23 +356,15 @@ export const Ask = () => {
               disabled={loading}
               className="flex-1 bg-dark-bg rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
             />
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              size="lg"
               disabled={!input.trim() || loading}
-              className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-bg disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-2"
+              leftIcon={loading ? <Loader2 className="animate-spin" /> : <Send />}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span className="hidden sm:inline">Thinking...</span>
-                </>
-              ) : (
-                <>
-                  <Send className="w-5 h-5" />
-                  <span className="hidden sm:inline">Send</span>
-                </>
-              )}
-            </button>
+              <span className="hidden sm:inline">{loading ? 'Thinking...' : 'Send'}</span>
+            </Button>
           </form>
         </Card>
       </motion.div>

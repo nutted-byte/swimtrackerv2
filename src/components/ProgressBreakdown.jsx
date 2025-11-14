@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Card } from './Card';
+import { CardVariant } from './primitives';
 import { TrendingUp, TrendingDown, Minus, Activity, Zap, Target } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 export const ProgressBreakdown = ({ analysis }) => {
   const { status, improving, metrics } = analysis;
@@ -60,9 +61,9 @@ export const ProgressBreakdown = ({ analysis }) => {
   const comparisonText = `Last ${halfPoint} swims vs previous ${halfPoint} swims`;
 
   return (
-    <Card
+    <CardVariant
+      variant="primary"
       glow={improving}
-      className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20"
     >
       <div className="space-y-6">
         {/* Header */}
@@ -107,10 +108,10 @@ export const ProgressBreakdown = ({ analysis }) => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-content-tertiary" />
+                    <Icon className={`${tokens.icons.sm} text-content-tertiary`} />
                     <span className="text-sm font-medium text-content-secondary">{metric.name}</span>
                   </div>
-                  <TrendIcon className={`w-4 h-4 ${trendColor}`} />
+                  <TrendIcon className={`${tokens.icons.sm} ${trendColor}`} />
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className={`text-2xl font-display font-bold ${trendColor}`}>
@@ -136,6 +137,6 @@ export const ProgressBreakdown = ({ analysis }) => {
           <p className="text-xs text-content-tertiary mt-1">Based on pace (40%), efficiency (40%), distance (20%)</p>
         </div>
       </div>
-    </Card>
+    </CardVariant>
   );
 };

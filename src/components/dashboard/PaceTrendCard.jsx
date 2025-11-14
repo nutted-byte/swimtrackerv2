@@ -2,9 +2,11 @@ import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, ArrowRight } from 'lucide-react';
-import { Card } from '../Card';
-import { CardHeader } from '../primitives';
+import { CardVariant, CardHeader } from '../primitives';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import { CHART_COLORS } from '../../utils/constants';
+import { tokens } from '../../design/tokens';
+
 
 export const PaceTrendCard = ({ sessions }) => {
   const analysis = useMemo(() => {
@@ -78,13 +80,13 @@ export const PaceTrendCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 h-full">
+      <CardVariant variant="primary" className="h-full">
         <CardHeader
           icon={TrendingUp}
           title="Pace Trend"
           iconColor="text-accent-blue"
           iconBgColor="bg-accent-blue/20"
-          iconSize="w-4 h-4"
+          iconSize={tokens.icons.sm}
         />
 
         {analysis.data.length > 0 ? (
@@ -94,14 +96,14 @@ export const PaceTrendCard = ({ sessions }) => {
                 <AreaChart data={analysis.data}>
                   <defs>
                     <linearGradient id="paceTrendGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#00d4ff" stopOpacity={0}/>
+                      <stop offset="5%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <Area
                     type="monotone"
                     dataKey="paceSeconds"
-                    stroke="#00d4ff"
+                    stroke={CHART_COLORS.PRIMARY}
                     strokeWidth={2}
                     fill="url(#paceTrendGradient)"
                     dot={false}
@@ -121,8 +123,8 @@ export const PaceTrendCard = ({ sessions }) => {
                   analysis.trend === 'improving' ? 'text-green-400' : 'text-orange-400'
                 }`}>
                   {analysis.trend === 'improving' ?
-                    <TrendingUp className="w-3 h-3" /> :
-                    <TrendingDown className="w-3 h-3" />
+                    <TrendingUp className={tokens.icons.xs} /> :
+                    <TrendingDown className={tokens.icons.xs} />
                   }
                   {analysis.percentChange.toFixed(1)}% {analysis.trend === 'improving' ? 'faster' : 'slower'}
                 </p>
@@ -142,9 +144,9 @@ export const PaceTrendCard = ({ sessions }) => {
           className="text-xs text-accent-blue hover:text-accent-blue/80 flex items-center justify-center gap-1 group transition-colors"
         >
           Analyze Trend
-          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className={`${tokens.icons.xs} group-hover:translate-x-1 transition-transform`} />
         </Link>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

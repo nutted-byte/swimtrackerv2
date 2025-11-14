@@ -1,6 +1,7 @@
 import { Activity, Clock, Zap, TrendingUp, Award, Waves, Droplets, Timer } from 'lucide-react';
 import { ShareableCard } from './ShareableCard';
 import { forwardRef } from 'react';
+import { EXPORT_COLORS } from '../../utils/constants';
 
 /**
  * Beautiful swim share card for social media
@@ -65,7 +66,7 @@ export const SwimShareCard = forwardRef(({
       <ShareableCard ref={ref} format={format} showWatermark={showWatermark}>
         {/* Gradient Background */}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f1728 100%)'
+          background: `linear-gradient(135deg, ${EXPORT_COLORS.BG_DARK} 0%, ${EXPORT_COLORS.BG_DARK_ALT} 50%, ${EXPORT_COLORS.BG_DARK_ALT2} 100%)`
         }} />
 
         {/* Animated wave effects */}
@@ -77,7 +78,7 @@ export const SwimShareCard = forwardRef(({
             width: '500px',
             height: '500px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%)',
+            background: `radial-gradient(circle, ${EXPORT_COLORS.BRAND_ACCENT}4D 0%, transparent 70%)`,
             filter: 'blur(60px)'
           }} />
           <div style={{
@@ -87,7 +88,7 @@ export const SwimShareCard = forwardRef(({
             width: '400px',
             height: '400px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(0, 125, 155, 0.4) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(0, 125, 155, 0.4) 0%, transparent 70%)', // Darker teal
             filter: 'blur(60px)'
           }} />
         </div>
@@ -113,7 +114,7 @@ export const SwimShareCard = forwardRef(({
             </h1>
             <p style={{
               fontSize: '24px',
-              color: '#9ca3af'
+              color: EXPORT_COLORS.TEXT_TERTIARY
             }}>
               Swim Tracker
             </p>
@@ -130,7 +131,7 @@ export const SwimShareCard = forwardRef(({
             margin: '60px 0'
           }}>
             <div style={{
-              color: '#66b1c3',
+              color: EXPORT_COLORS.BRAND_TEAL,
               fontSize: '24px',
               textTransform: 'uppercase',
               letterSpacing: '4px',
@@ -139,17 +140,17 @@ export const SwimShareCard = forwardRef(({
               DISTANCE
             </div>
             <div className="font-display" style={{
-              color: 'white',
+              color: EXPORT_COLORS.TEXT_PRIMARY,
               fontSize: '140px',
               lineHeight: '1',
               fontWeight: '900',
               letterSpacing: '-0.02em',
-              textShadow: '0 0 60px rgba(0, 212, 255, 0.8)'
+              textShadow: `0 0 60px ${EXPORT_COLORS.BRAND_ACCENT}CC`
             }}>
               {swim.distance}
             </div>
             <div style={{
-              color: '#d1d5db',
+              color: EXPORT_COLORS.TEXT_SECONDARY,
               fontSize: '32px',
               fontWeight: '700'
             }}>
@@ -179,7 +180,7 @@ export const SwimShareCard = forwardRef(({
               gap: '12px'
             }}>
               <div style={{
-                color: '#9ca3af',
+                color: EXPORT_COLORS.TEXT_TERTIARY,
                 fontSize: '16px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
@@ -188,7 +189,7 @@ export const SwimShareCard = forwardRef(({
                 TIME
               </div>
               <div className="font-display" style={{
-                color: 'white',
+                color: EXPORT_COLORS.TEXT_PRIMARY,
                 fontSize: '48px',
                 fontWeight: '900',
                 lineHeight: '1'
@@ -213,7 +214,7 @@ export const SwimShareCard = forwardRef(({
                 gap: '12px'
               }}>
                 <div style={{
-                  color: '#9ca3af',
+                  color: EXPORT_COLORS.TEXT_TERTIARY,
                   fontSize: '16px',
                   textTransform: 'uppercase',
                   letterSpacing: '2px',
@@ -228,14 +229,14 @@ export const SwimShareCard = forwardRef(({
                   gap: '4px'
                 }}>
                   <div className="font-display" style={{
-                    color: 'white',
+                    color: EXPORT_COLORS.TEXT_PRIMARY,
                     fontSize: '48px',
                     fontWeight: '900',
                     lineHeight: '1'
                   }}>
                     {formatPace(swim.pace)}
                   </div>
-                  <span style={{ fontSize: '20px', color: '#6b7280', fontWeight: '600' }}>/100m</span>
+                  <span style={{ fontSize: '20px', color: EXPORT_COLORS.TEXT_MUTED, fontWeight: '600' }}>/100m</span>
                 </div>
               </div>
             )}
@@ -243,7 +244,7 @@ export const SwimShareCard = forwardRef(({
 
           {/* Date */}
           <div className="text-center" style={{
-            color: '#9ca3af',
+            color: EXPORT_COLORS.TEXT_TERTIARY,
             fontSize: '22px',
             fontWeight: '600'
           }}>
@@ -260,7 +261,7 @@ export const SwimShareCard = forwardRef(({
       <ShareableCard ref={ref} format={format} showWatermark={showWatermark}>
         {/* Simple gradient background */}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%)'
+          background: `linear-gradient(135deg, ${EXPORT_COLORS.BG_LIGHT} 0%, ${EXPORT_COLORS.BG_LIGHT_ALT} 100%)`
         }} />
 
         {/* Content */}
@@ -271,14 +272,14 @@ export const SwimShareCard = forwardRef(({
             <h1 className="font-display" style={{
               fontSize: '42px',
               fontWeight: '900',
-              color: '#1f2937',
+              color: EXPORT_COLORS.TEXT_DARK,
               letterSpacing: '-0.02em'
             }}>
               {swim.distance}m swim
             </h1>
             <p style={{
               fontSize: '22px',
-              color: '#6b7280',
+              color: EXPORT_COLORS.TEXT_MUTED,
               marginTop: '8px'
             }}>
               {formatDate(swim.date)}
@@ -294,7 +295,7 @@ export const SwimShareCard = forwardRef(({
             {/* Duration */}
             <div className="text-center">
               <div style={{
-                color: '#6b7280',
+                color: EXPORT_COLORS.TEXT_MUTED,
                 fontSize: '18px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
@@ -304,7 +305,7 @@ export const SwimShareCard = forwardRef(({
                 Duration
               </div>
               <div className="font-display" style={{
-                color: '#1f2937',
+                color: EXPORT_COLORS.TEXT_DARK,
                 fontSize: '56px',
                 fontWeight: '900',
                 lineHeight: '1'
@@ -317,7 +318,7 @@ export const SwimShareCard = forwardRef(({
             {swim.pace && (
               <div className="text-center">
                 <div style={{
-                  color: '#6b7280',
+                  color: EXPORT_COLORS.TEXT_MUTED,
                   fontSize: '18px',
                   textTransform: 'uppercase',
                   letterSpacing: '2px',
@@ -327,13 +328,13 @@ export const SwimShareCard = forwardRef(({
                   Pace
                 </div>
                 <div className="font-display" style={{
-                  color: '#1f2937',
+                  color: EXPORT_COLORS.TEXT_DARK,
                   fontSize: '56px',
                   fontWeight: '900',
                   lineHeight: '1'
                 }}>
                   {formatPace(swim.pace)}
-                  <div style={{ fontSize: '20px', color: '#9ca3af', marginTop: '8px' }}>/100m</div>
+                  <div style={{ fontSize: '20px', color: EXPORT_COLORS.TEXT_TERTIARY, marginTop: '8px' }}>/100m</div>
                 </div>
               </div>
             )}
@@ -344,7 +345,7 @@ export const SwimShareCard = forwardRef(({
             <p className="font-display" style={{
               fontSize: '24px',
               fontWeight: '700',
-              color: '#007d9b'
+              color: EXPORT_COLORS.BRAND_PRIMARY
             }}>
               Tracked with Swimma
             </p>
@@ -360,7 +361,7 @@ export const SwimShareCard = forwardRef(({
       <ShareableCard ref={ref} format={format} showWatermark={showWatermark}>
         {/* Vibrant gradient background */}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%)'
+          background: `linear-gradient(135deg, ${EXPORT_COLORS.GRADIENT_PURPLE} 0%, ${EXPORT_COLORS.GRADIENT_PURPLE_DARK} 25%, ${EXPORT_COLORS.GRADIENT_PINK} 50%, ${EXPORT_COLORS.GRADIENT_BLUE} 75%, ${EXPORT_COLORS.GRADIENT_CYAN} 100%)`
         }} />
 
         {/* Overlay for readability */}
@@ -597,7 +598,7 @@ export const SwimShareCard = forwardRef(({
               width: '90px',
               height: '90px',
               borderRadius: '28px',
-              background: 'linear-gradient(135deg, #007d9b 0%, #3397af 50%, #00d4ff 100%)',
+              background: `linear-gradient(135deg, ${EXPORT_COLORS.BRAND_PRIMARY} 0%, ${EXPORT_COLORS.BRAND_SECONDARY} 50%, ${EXPORT_COLORS.BRAND_ACCENT} 100%)`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -626,7 +627,7 @@ export const SwimShareCard = forwardRef(({
             gap: '12px'
           }}>
             <span className="font-display" style={{
-              color: '#d1d5db',
+              color: EXPORT_COLORS.TEXT_SECONDARY,
               fontSize: '28px',
               fontWeight: '600'
             }}>
@@ -648,10 +649,10 @@ export const SwimShareCard = forwardRef(({
             position: 'relative',
             width: '420px',
             height: '340px',
-            background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 125, 155, 0.1))',
+            background: `linear-gradient(135deg, ${EXPORT_COLORS.BRAND_ACCENT}26, rgba(0, 125, 155, 0.1))`,
             borderRadius: '32px',
             backdropFilter: 'blur(20px)',
-            border: '3px solid rgba(0, 212, 255, 0.3)',
+            border: `3px solid ${EXPORT_COLORS.BRAND_ACCENT}4D`,
             boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)'
           }}>
             {/* Label - top */}
@@ -661,7 +662,7 @@ export const SwimShareCard = forwardRef(({
               left: '0',
               right: '0',
               textAlign: 'center',
-              color: '#66b1c3',
+              color: EXPORT_COLORS.BRAND_TEAL,
               fontSize: '20px',
               textTransform: 'uppercase',
               letterSpacing: '3px',
@@ -681,7 +682,7 @@ export const SwimShareCard = forwardRef(({
               lineHeight: '0.85',
               fontWeight: '900',
               letterSpacing: '-0.02em',
-              textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
+              textShadow: `0 0 40px ${EXPORT_COLORS.BRAND_ACCENT}CC`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -696,7 +697,7 @@ export const SwimShareCard = forwardRef(({
               left: '0',
               right: '0',
               textAlign: 'center',
-              color: '#d1d5db',
+              color: EXPORT_COLORS.TEXT_SECONDARY,
               fontSize: '28px',
               fontWeight: '700'
             }}>
@@ -709,10 +710,10 @@ export const SwimShareCard = forwardRef(({
             position: 'relative',
             width: '420px',
             height: '340px',
-            background: 'linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 125, 155, 0.1))',
+            background: `linear-gradient(135deg, ${EXPORT_COLORS.BRAND_ACCENT}26, rgba(0, 125, 155, 0.1))`,
             borderRadius: '32px',
             backdropFilter: 'blur(20px)',
-            border: '3px solid rgba(0, 212, 255, 0.3)',
+            border: `3px solid ${EXPORT_COLORS.BRAND_ACCENT}4D`,
             boxShadow: 'inset 0 0 60px rgba(0, 212, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3)'
           }}>
             {/* Label - top */}
@@ -722,7 +723,7 @@ export const SwimShareCard = forwardRef(({
               left: '0',
               right: '0',
               textAlign: 'center',
-              color: '#66b1c3',
+              color: EXPORT_COLORS.BRAND_TEAL,
               fontSize: '20px',
               textTransform: 'uppercase',
               letterSpacing: '3px',
@@ -742,7 +743,7 @@ export const SwimShareCard = forwardRef(({
               fontWeight: '900',
               lineHeight: '0.85',
               letterSpacing: '-0.02em',
-              textShadow: '0 0 40px rgba(0, 212, 255, 0.8)',
+              textShadow: `0 0 40px ${EXPORT_COLORS.BRAND_ACCENT}CC`,
               fontFeatureSettings: '"tnum"',
               display: 'flex',
               alignItems: 'center',
@@ -771,7 +772,7 @@ export const SwimShareCard = forwardRef(({
                 left: '0',
                 right: '0',
                 textAlign: 'center',
-                color: '#9ca3af',
+                color: EXPORT_COLORS.TEXT_TERTIARY,
                 fontSize: '18px',
                 textTransform: 'uppercase',
                 letterSpacing: '3px',
@@ -805,7 +806,7 @@ export const SwimShareCard = forwardRef(({
                 left: '0',
                 right: '0',
                 textAlign: 'center',
-                color: '#6b7280',
+                color: EXPORT_COLORS.TEXT_MUTED,
                 fontSize: '20px',
                 fontWeight: '600'
               }}>
@@ -833,7 +834,7 @@ export const SwimShareCard = forwardRef(({
                 left: '0',
                 right: '0',
                 textAlign: 'center',
-                color: '#9ca3af',
+                color: EXPORT_COLORS.TEXT_TERTIARY,
                 fontSize: '18px',
                 textTransform: 'uppercase',
                 letterSpacing: '3px',

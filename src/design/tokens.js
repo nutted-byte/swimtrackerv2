@@ -120,6 +120,65 @@ export const tokens = {
       hero: 'bg-gradient-to-br',
     },
 
+    // Card variants with consistent gradients & borders
+    cardVariants: {
+      primary: {
+        gradient: 'from-primary-500/20 to-primary-500/5',
+        border: 'border-primary-500/30',
+        lightGradient: 'from-primary-50 to-blue-50',
+        lightBorder: 'border-primary-200',
+      },
+      accent: {
+        gradient: 'from-accent-blue/20 to-accent-blue/5',
+        border: 'border-accent-blue/30',
+        lightGradient: 'from-blue-50 to-cyan-50',
+        lightBorder: 'border-accent-blue/20',
+      },
+      success: {
+        gradient: 'from-green-500/20 to-emerald-500/5',
+        border: 'border-green-500/30',
+        lightGradient: 'from-green-50 to-emerald-50',
+        lightBorder: 'border-green-200',
+      },
+      warning: {
+        gradient: 'from-orange-500/20 to-yellow-500/5',
+        border: 'border-orange-500/30',
+        lightGradient: 'from-orange-50 to-yellow-50',
+        lightBorder: 'border-orange-200',
+      },
+      purple: {
+        gradient: 'from-purple-500/20 to-purple-500/5',
+        border: 'border-purple-500/30',
+        lightGradient: 'from-purple-50 to-pink-50',
+        lightBorder: 'border-purple-200',
+      },
+      danger: {
+        gradient: 'from-red-500/10 to-red-500/5',
+        border: 'border-red-500/20',
+        lightGradient: 'from-red-50 to-pink-50',
+        lightBorder: 'border-red-200',
+      },
+    },
+
+    // Standard opacity levels for backgrounds
+    opacities: {
+      subtle: '10',    // bg-dark-bg/10
+      light: '20',     // bg-dark-bg/20
+      medium: '40',    // bg-dark-bg/40
+      strong: '60',    // bg-dark-bg/60
+    },
+
+    // Icon container styles
+    iconContainer: {
+      sm: 'w-8 h-8',
+      md: 'w-10 h-10',
+      lg: 'w-12 h-12',
+      xl: 'w-16 h-16',
+    },
+
+    // Standard separator border
+    separator: 'border-dark-border/20',
+
     // Accent borders for visual emphasis (when you MUST use a border)
     accentBorder: {
       primary: 'border border-primary-500/30',
@@ -143,16 +202,22 @@ export const tokens = {
         gradient: 'from-green-500/20 to-green-500/5',
         border: 'border-green-500/30',
         text: 'text-green-400',
+        lightGradient: 'from-green-50 to-emerald-50',
+        lightBorder: 'border-green-200',
       },
       intermediate: {
         gradient: 'from-blue-500/20 to-blue-500/5',
         border: 'border-blue-500/30',
         text: 'text-blue-400',
+        lightGradient: 'from-blue-50 to-cyan-50',
+        lightBorder: 'border-blue-200',
       },
       advanced: {
         gradient: 'from-purple-500/20 to-purple-500/5',
         border: 'border-purple-500/30',
         text: 'text-purple-400',
+        lightGradient: 'from-purple-50 to-indigo-50',
+        lightBorder: 'border-purple-200',
       },
     },
 

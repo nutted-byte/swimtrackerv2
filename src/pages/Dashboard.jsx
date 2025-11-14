@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
+import { Separator } from '../components/primitives';
 import { StatCard } from '../components/StatCard';
 import { DeepInsightCard } from '../components/DeepInsightCard';
 import { ProgressBreakdown } from '../components/ProgressBreakdown';
@@ -224,7 +225,7 @@ export const Dashboard = () => {
                 className="inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 transition-colors group"
               >
                 <span>View all swims</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className={`${tokens.icons.sm} group-hover:translate-x-1 transition-transform`} />
               </Link>
             </div>
 
@@ -256,14 +257,17 @@ export const Dashboard = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="mt-12 pt-6 border-t border-dark-border text-center"
+        className="mt-12"
       >
+        <Separator spacing="lg" />
+        <div className="text-center">
         <Link
           to="/components"
           className="text-sm text-content-tertiary hover:text-primary-400 transition-colors"
         >
           Component Showcase
         </Link>
+        </div>
       </motion.div>
     </PageContainer>
   );

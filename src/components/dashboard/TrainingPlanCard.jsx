@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Card } from '../Card';
-import { CardHeader, ProgressBar } from '../primitives';
+import { CardVariant, CardHeader, ProgressBar, Separator, IconContainer } from '../primitives';
 import { Calendar, CheckCircle2, Target, TrendingUp, Clock, ArrowRight, Flame } from 'lucide-react';
 import { useTrainingPlan } from '../../context/TrainingPlanContext';
+import { tokens } from '../../design/tokens';
 
 export const TrainingPlanCard = () => {
   const { trainingPlan, nextWorkout, loading } = useTrainingPlan();
@@ -15,11 +15,11 @@ export const TrainingPlanCard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
+        <CardVariant variant="primary">
           <div className="flex items-center justify-center py-8">
-            <div className="w-8 h-8 border-4 border-accent-blue border-t-transparent rounded-full animate-spin"></div>
+            <div className={`${tokens.icons.xl} border-4 border-accent-blue border-t-transparent rounded-full animate-spin`}></div>
           </div>
-        </Card>
+        </CardVariant>
       </motion.div>
     );
   }
@@ -32,16 +32,19 @@ export const TrainingPlanCard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
+        <CardVariant variant="primary">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.4 }}
-                className="p-3 rounded-xl bg-accent-blue/20"
               >
-                <Target className="w-8 h-8 text-accent-blue" />
+                <IconContainer
+                  icon={<Target />}
+                  variant="accent"
+                  size="xl"
+                />
               </motion.div>
               <div>
                 <h3 className="font-display text-lg font-bold">Training Plan</h3>
@@ -56,15 +59,15 @@ export const TrainingPlanCard = () => {
             </p>
             <div className="flex items-center justify-center gap-4 text-xs text-content-tertiary mb-4">
               <div className="flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4 text-accent-blue" />
+                <CheckCircle2 className={`${tokens.icons.sm} text-accent-blue`} />
                 <span>AI-generated</span>
               </div>
               <div className="flex items-center gap-1">
-                <TrendingUp className="w-4 h-4 text-accent-blue" />
+                <TrendingUp className={`${tokens.icons.sm} text-accent-blue`} />
                 <span>Progressive</span>
               </div>
               <div className="flex items-center gap-1">
-                <Target className="w-4 h-4 text-accent-blue" />
+                <Target className={`${tokens.icons.sm} text-accent-blue`} />
                 <span>Goal-focused</span>
               </div>
             </div>
@@ -75,9 +78,9 @@ export const TrainingPlanCard = () => {
             className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors font-medium"
           >
             Create Training Plan
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className={tokens.icons.sm} />
           </Link>
-        </Card>
+        </CardVariant>
       </motion.div>
     );
   }
@@ -92,7 +95,7 @@ export const TrainingPlanCard = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
     >
-      <Card className="bg-gradient-to-br from-accent-blue/20 to-accent-blue/5 border-accent-blue/30">
+      <CardVariant variant="accent">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -100,9 +103,12 @@ export const TrainingPlanCard = () => {
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.4 }}
-              className="p-3 rounded-xl bg-accent-blue/20"
             >
-              <Target className="w-8 h-8 text-accent-blue" />
+              <IconContainer
+                icon={<Target />}
+                variant="accent"
+                size="xl"
+              />
             </motion.div>
             <div>
               <h3 className="font-display text-lg font-bold">Your Training Plan</h3>
@@ -136,7 +142,8 @@ export const TrainingPlanCard = () => {
           )}
 
           {/* Stats Row */}
-          <div className="flex items-center justify-between text-xs text-content-tertiary pt-3 border-t border-dark-border/30">
+          <Separator spacing="none" className="mt-3 mb-0" />
+          <div className="flex items-center justify-between text-xs text-content-tertiary pt-3">
             <div className="flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5 text-accent-blue" />
               <span>{progress.completedWorkouts} / {progress.totalWorkouts} workouts</span>
@@ -152,7 +159,7 @@ export const TrainingPlanCard = () => {
         {nextWorkout && (
           <div className="bg-dark-bg/30 rounded-lg p-4 mb-4 border border-accent-blue/20">
             <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-4 h-4 text-accent-blue" />
+              <Calendar className={`${tokens.icons.sm} text-accent-blue`} />
               <span className="text-xs font-semibold text-accent-blue uppercase">Next Workout</span>
             </div>
             <h4 className="font-semibold text-sm mb-2">{nextWorkout.title}</h4>
@@ -179,9 +186,9 @@ export const TrainingPlanCard = () => {
           className="flex items-center justify-between w-full px-4 py-2.5 bg-accent-blue/10 hover:bg-accent-blue/20 border border-accent-blue/30 rounded-lg transition-colors group"
         >
           <span className="font-semibold text-sm text-accent-blue">View Full Plan</span>
-          <ArrowRight className="w-4 h-4 text-accent-blue group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className={`${tokens.icons.sm} text-accent-blue group-hover:translate-x-1 transition-transform`} />
         </Link>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

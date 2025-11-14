@@ -12,7 +12,7 @@ export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
       case 'improving':
         return {
           colorDark: 'bg-green-500/20 text-green-400 border-green-500/30',
-          colorLight: 'bg-green-50 text-green-700 border-green-200',
+          colorLight: 'bg-green-50 text-green-400 border-green-200',
           icon: TrendingUp,
           label: 'Improving'
         };

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { CardVariant, IconContainer } from '../components/primitives';
 import { Button } from '../components/Button';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Calendar, TrendingUp, Flame, BarChart3, Upload, AlertTriangle, Zap, TrendingDown } from 'lucide-react';
@@ -83,11 +84,14 @@ export const Patterns = () => {
       >
         {/* Current Streak */}
         {streakAnalysis.hasStreak && (
-          <Card className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
+          <CardVariant variant="primary">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                <Flame className="w-6 h-6 text-primary-400" />
-              </div>
+              <IconContainer
+                icon={<Flame />}
+                variant="primary"
+                size="lg"
+                rounded
+              />
               <div className="flex-1">
                 <h3 className="font-display text-xl font-semibold mb-2 capitalize">
                   {streakAnalysis.streakType} Streak!
@@ -96,19 +100,19 @@ export const Patterns = () => {
                   {streakAnalysis.message}
                 </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-500/20 rounded-full text-sm text-primary-400">
-                  <Flame className="w-4 h-4" />
+                  <Flame className={tokens.icons.sm} />
                   {streakAnalysis.streakLength} swims
                 </div>
               </div>
             </div>
-          </Card>
+          </CardVariant>
         )}
 
         {/* Anomalies & Unusual Swims */}
         {anomalyAnalysis.hasSufficientData && anomalyAnalysis.anomalies.length > 0 && (
           <Card>
             <div className="flex items-center gap-4 mb-6">
-              <AlertTriangle className="w-6 h-6 text-yellow-500" />
+              <AlertTriangle className={`${tokens.icons.lg} text-yellow-500`} />
               <h2 className="font-display text-2xl font-bold">Unusual Swims</h2>
             </div>
 
@@ -129,7 +133,7 @@ export const Patterns = () => {
                   >
                     <div className="flex items-start gap-4">
                       <div className={`mt-1 ${isPositive ? 'text-green-400' : 'text-yellow-500'}`}>
-                        <Icon className="w-5 h-5" />
+                        <Icon className={tokens.icons.md} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-2">
@@ -172,7 +176,7 @@ export const Patterns = () => {
         {suddenChanges.length > 0 && (
           <Card>
             <div className="flex items-center gap-4 mb-6">
-              <TrendingDown className="w-6 h-6 text-accent-coral" />
+              <TrendingDown className={`${tokens.icons.lg} text-accent-coral`} />
               <h2 className="font-display text-2xl font-bold">Sudden Performance Changes</h2>
             </div>
 
@@ -213,7 +217,7 @@ export const Patterns = () => {
         {dayOfWeekAnalysis.hasSufficientData && (
           <Card>
             <div className="flex items-center gap-4 mb-6">
-              <Calendar className="w-6 h-6 text-accent-blue" />
+              <Calendar className={`${tokens.icons.lg} text-accent-blue`} />
               <h2 className="font-display text-2xl font-bold">Day of Week Performance</h2>
             </div>
 
@@ -273,7 +277,7 @@ export const Patterns = () => {
         {monthlyAnalysis.hasSufficientData && (
           <Card>
             <div className="flex items-center gap-4 mb-6">
-              <TrendingUp className="w-6 h-6 text-accent-blue" />
+              <TrendingUp className={`${tokens.icons.lg} text-accent-blue`} />
               <h2 className="font-display text-2xl font-bold">Monthly Patterns</h2>
             </div>
 

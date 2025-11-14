@@ -11,6 +11,8 @@ import { MobileMenu, MobileMenuProvider } from './components/MobileMenu';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User, BookOpen, Target } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
+import { tokens } from './design/tokens';
+
 
 // Lazy load pages for code splitting - improves initial load time
 const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
@@ -73,42 +75,42 @@ function AppContent() {
                       to="/"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                     >
-                      <Home className="w-4 h-4" />
+                      <Home className={tokens.icons.sm} />
                       Home
                     </Link>
                     <Link
                       to="/swims"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                     >
-                      <List className="w-4 h-4" />
+                      <List className={tokens.icons.sm} />
                       Swims
                     </Link>
                     <Link
                       to="/insight"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                     >
-                      <BarChart3 className="w-4 h-4" />
+                      <BarChart3 className={tokens.icons.sm} />
                       Insight
                     </Link>
                     <Link
                       to="/train"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                     >
-                      <Target className="w-4 h-4" />
+                      <Target className={tokens.icons.sm} />
                       Train
                     </Link>
                     <Link
                       to="/learn"
                       className="px-4 py-2 rounded-lg hover:bg-dark-card transition-colors flex items-center gap-2 text-sm"
                     >
-                      <BookOpen className="w-4 h-4" />
+                      <BookOpen className={tokens.icons.sm} />
                       Learn
                     </Link>
                     <Link
                       to="/upload"
                       className="px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 text-white transition-colors flex items-center gap-2 text-sm font-medium"
                     >
-                      <UploadIcon className="w-4 h-4" />
+                      <UploadIcon className={tokens.icons.sm} />
                       Upload
                     </Link>
                   </nav>
@@ -116,7 +118,7 @@ function AppContent() {
                   {/* Desktop User Menu */}
                   <div className="hidden md:flex items-center gap-4 pl-4 border-l border-dark-border">
                     <div className="flex items-center gap-2 text-sm">
-                      <User className="w-4 h-4 text-content-tertiary" />
+                      <User className={`${tokens.icons.sm} text-content-tertiary`} />
                       <span className="text-content-secondary">
                         {user?.user_metadata?.full_name?.split(' ')[0] ||
                          user?.user_metadata?.name?.split(' ')[0] ||
@@ -129,7 +131,7 @@ function AppContent() {
                       className="p-3 rounded-lg hover:bg-dark-card transition-colors text-content-tertiary hover:text-red-400"
                       title="Sign out"
                     >
-                      <LogOut className="w-4 h-4" />
+                      <LogOut className={tokens.icons.sm} />
                     </button>
                   </div>
 

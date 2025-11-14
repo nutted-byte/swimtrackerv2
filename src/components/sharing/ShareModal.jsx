@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Copy, Check, Loader2, Image as ImageIcon, MessageCircle, Instagram, Share2 } from 'lucide-react';
+import { Separator } from '../primitives';
 import { SwimShareCard } from './SwimShareCard';
 import {
   generateShareImage,
@@ -13,6 +14,8 @@ import {
   shareToInstagram,
   detectPlatform
 } from '../../utils/shareUtils';
+import { EXPORT_COLORS } from '../../utils/constants';
+import { tokens } from '../../design/tokens';
 
 /**
  * Modal for sharing swim sessions
@@ -62,7 +65,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
 
       const dataUrl = await generateShareImage(cardRef.current, {
         scale: 2,
-        backgroundColor: '#0a0e27',
+        backgroundColor: EXPORT_COLORS.BG_DARK,
         width: format === 'square' ? 1080 : format === 'story' ? 1080 : 1200,
         height: format === 'square' ? 1080 : format === 'story' ? 1920 : 675
       });
@@ -232,7 +235,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                 onClick={onClose}
                 className="p-2 rounded-lg hover:bg-dark-border transition-colors text-content-tertiary hover:text-white"
               >
-                <X className="w-5 h-5" />
+                <X className={tokens.icons.md} />
               </button>
             </div>
 
@@ -384,7 +387,8 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
             </div>
 
             {/* Actions */}
-            <div className="p-4 sm:p-6 border-t border-dark-border bg-dark-bg/50">
+            <Separator spacing="none" />
+            <div className="p-4 sm:p-6 bg-dark-bg/50">
               {/* Platform-specific share buttons */}
               <div className="mb-3 sm:mb-4">
                 <label className="text-xs text-content-tertiary mb-2 block uppercase tracking-wide">Share to</label>
@@ -397,12 +401,12 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                   >
                     {sharingTo === 'whatsapp' ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className={`${tokens.icons.sm} animate-spin`} />
                         <span className="hidden sm:inline">Sharing...</span>
                       </>
                     ) : (
                       <>
-                        <MessageCircle className="w-4 h-4" />
+                        <MessageCircle className={tokens.icons.sm} />
                         WhatsApp
                       </>
                     )}
@@ -416,12 +420,12 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                   >
                     {sharingTo === 'instagram' ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className={`${tokens.icons.sm} animate-spin`} />
                         <span className="hidden sm:inline">Saving...</span>
                       </>
                     ) : (
                       <>
-                        <Instagram className="w-4 h-4" />
+                        <Instagram className={tokens.icons.sm} />
                         Instagram
                       </>
                     )}
@@ -438,7 +442,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                     disabled={!imageDataUrl || isGenerating}
                     className="flex items-center justify-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm sm:text-base font-medium transition-colors"
                   >
-                    <Download className="w-4 h-4" />
+                    <Download className={tokens.icons.sm} />
                     Download
                   </button>
 
@@ -449,12 +453,12 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4" />
+                        <Check className={tokens.icons.sm} />
                         Copied!
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
+                        <Copy className={tokens.icons.sm} />
                         Copy
                       </>
                     )}
@@ -469,7 +473,7 @@ export const ShareModal = ({ isOpen, onClose, swim, type = 'swim' }) => {
                   disabled={!imageDataUrl || isGenerating}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-card hover:bg-dark-border disabled:bg-dark-border disabled:cursor-not-allowed rounded-lg text-white text-sm transition-colors"
                 >
-                  <Share2 className="w-4 h-4" />
+                  <Share2 className={tokens.icons.sm} />
                   More share options
                 </button>
               )}

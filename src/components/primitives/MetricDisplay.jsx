@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { tokens } from '../../design/tokens';
 
 /**
  * MetricDisplay - Reusable metric display component
@@ -75,32 +76,32 @@ export const MetricDisplay = ({
   const colors = variantStyles[variant] || variantStyles.blue;
 
   const content = (
-    <div className={`relative bg-gradient-to-br ${colors.container} rounded-lg p-4 border group overflow-hidden ${className}`}>
+    <div className={`relative bg-gradient-to-br ${colors.container} ${tokens.radius.sm} ${tokens.padding.default} border group overflow-hidden ${className}`}>
       {/* Hover gradient overlay */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${colors.hover} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+      <div className={`absolute inset-0 bg-gradient-to-br ${colors.hover} opacity-0 group-hover:opacity-100 transition-opacity ${tokens.animation.slow}`} />
 
       <div className="relative">
         {/* Icon and Label Row */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className={`flex items-center ${tokens.gap.tight} ${tokens.margin.element}`}>
           {Icon && (
-            <div className={`p-3 ${colors.iconBg} rounded-lg`}>
-              <Icon className={`w-4 h-4 ${colors.iconColor}`} />
+            <div className={`${tokens.padding.tight} ${colors.iconBg} ${tokens.radius.sm}`}>
+              <Icon className={`${tokens.icons.sm} ${colors.iconColor}`} />
             </div>
           )}
-          <span className="text-content-secondary text-xs font-medium uppercase tracking-wide">
+          <span className={`text-content-secondary ${tokens.typography.sizes.xs} font-medium uppercase tracking-wide`}>
             {label}
           </span>
           {badge}
         </div>
 
         {/* Value */}
-        <p className="font-display text-xl font-bold text-content tabular-nums">
+        <p className={`font-display ${tokens.typography.sizes.xl} font-bold text-content tabular-nums`}>
           {value}
         </p>
 
         {/* Unit */}
         {unit && (
-          <p className="text-xs text-content-tertiary mt-0.5">
+          <p className={`${tokens.typography.sizes.xs} text-content-tertiary mt-0.5`}>
             {unit}
           </p>
         )}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 export const Tooltip = ({ content, children, icon = true, className = '' }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -47,7 +48,7 @@ export const Tooltip = ({ content, children, icon = true, className = '' }) => {
       >
         {children}
         {icon && (
-          <HelpCircle className="w-3 h-3 ml-1 text-content-tertiary hover:text-content-secondary transition-colors cursor-help" />
+          <HelpCircle className={`${tokens.icons.xs} ml-1 text-content-tertiary hover:text-content-secondary transition-colors cursor-help`} />
         )}
       </div>
 
@@ -59,7 +60,7 @@ export const Tooltip = ({ content, children, icon = true, className = '' }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 5, scale: 0.95 }}
               transition={{ duration: 0.15 }}
-              className="fixed px-3 py-2 bg-dark-card rounded-lg max-w-xs pointer-events-none"
+              className={`fixed px-3 py-2 bg-dark-card ${tokens.radius.md} max-w-xs pointer-events-none`}
               style={{
                 zIndex: 99999,
                 left: `${position.x}px`,
@@ -67,7 +68,7 @@ export const Tooltip = ({ content, children, icon = true, className = '' }) => {
                 transform: 'translate(-50%, -100%)'
               }}
             >
-              <div className="text-xs text-content-secondary leading-relaxed">
+              <div className={`${tokens.typography.sizes.xs} text-content-secondary leading-relaxed`}>
                 {content}
               </div>
               {/* Arrow pointing down */}

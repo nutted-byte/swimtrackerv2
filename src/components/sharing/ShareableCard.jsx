@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { EXPORT_COLORS } from '../../utils/constants';
 
 /**
  * Generic wrapper for shareable content
@@ -28,7 +29,7 @@ export const ShareableCard = forwardRef(({
       style={{
         width: `${width}px`,
         height: `${height}px`,
-        backgroundColor: '#0a0e27' // Dark background for export
+        backgroundColor: EXPORT_COLORS.BG_DARK
       }}
     >
       {/* Main content */}

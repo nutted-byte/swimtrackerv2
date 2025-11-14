@@ -4,6 +4,7 @@ import { Menu, X, Upload, LogOut, User, BookOpen, Home, List, BarChart3, Target 
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import { tokens } from '../design/tokens';
 
 // Create a context to share menu state
 const MobileMenuContext = createContext();
@@ -72,7 +73,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                         : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
-                  <Home className="w-5 h-5" />
+                  <Home className={tokens.icons.md} />
                   <span className="font-medium">Home</span>
                 </Link>
 
@@ -87,7 +88,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                         : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
-                  <List className="w-5 h-5" />
+                  <List className={tokens.icons.md} />
                   <span className="font-medium">Swims</span>
                 </Link>
 
@@ -102,7 +103,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                         : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
-                  <BarChart3 className="w-5 h-5" />
+                  <BarChart3 className={tokens.icons.md} />
                   <span className="font-medium">Insight</span>
                 </Link>
 
@@ -117,7 +118,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                         : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
-                  <Target className="w-5 h-5" />
+                  <Target className={tokens.icons.md} />
                   <span className="font-medium">Train</span>
                 </Link>
 
@@ -132,7 +133,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                         : 'text-content-secondary hover:bg-slate-50'
                   }`}
                 >
-                  <BookOpen className="w-5 h-5" />
+                  <BookOpen className={tokens.icons.md} />
                   <span className="font-medium">Learn</span>
                 </Link>
               </div>
@@ -146,7 +147,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                 onClick={closeMenu}
                 className="flex items-center gap-4 px-4 py-3 rounded-lg transition-colors bg-primary-500 hover:bg-primary-600 text-white"
               >
-                <Upload className="w-5 h-5" />
+                <Upload className={tokens.icons.md} />
                 <span className="font-medium">Upload</span>
               </Link>
 
@@ -164,7 +165,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
               <div className={`flex items-center gap-4 px-4 py-3 rounded-lg ${
                 isDark ? 'bg-dark-bg/50' : 'bg-slate-50'
               }`}>
-                <User className={`w-5 h-5 ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`} />
+                <User className={`${tokens.icons.md} ${isDark ? 'text-content-tertiary' : 'text-content-tertiary'}`} />
                 <span className={`font-medium ${
                   isDark ? 'text-content-secondary' : 'text-content-secondary'
                 }`}>
@@ -187,7 +188,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
                     : 'bg-slate-50 hover:bg-red-50 text-content-tertiary hover:text-red-600'
                 }`}
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className={tokens.icons.md} />
                 <span className="font-medium">Logout</span>
               </button>
             </div>
@@ -208,7 +209,7 @@ export const MobileMenu = ({ user, onSignOut, menuOnly = false }) => {
       }`}
       aria-label="Menu"
     >
-      {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      {isOpen ? <X className={tokens.icons.lg} /> : <Menu className={tokens.icons.lg} />}
     </button>
   );
 };

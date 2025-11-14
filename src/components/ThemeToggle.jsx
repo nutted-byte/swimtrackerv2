@@ -1,6 +1,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { tokens } from '../design/tokens';
 
 export const ThemeToggle = () => {
   const { isDark, toggleTheme } = useTheme();
@@ -9,7 +10,7 @@ export const ThemeToggle = () => {
     <motion.button
       onClick={toggleTheme}
       className={`
-        relative p-2.5 rounded-xl transition-all duration-200
+        relative p-2.5 ${tokens.radius.md} transition-all ${tokens.animation.default}
         ${isDark
           ? 'bg-dark-card hover:bg-gray-700'
           : 'bg-white hover:bg-slate-50'
@@ -28,7 +29,7 @@ export const ThemeToggle = () => {
             exit={{ rotate: 90, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Sun className="w-5 h-5 text-yellow-400" />
+            <Sun className={`${tokens.icons.md} text-yellow-400`} />
           </motion.div>
         ) : (
           <motion.div
@@ -38,7 +39,7 @@ export const ThemeToggle = () => {
             exit={{ rotate: -90, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Moon className="w-5 h-5 text-primary-500" />
+            <Moon className={`${tokens.icons.md} text-primary-500`} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Card } from './Card';
+import { CardVariant, IconContainer } from './primitives';
+import { tokens } from '../design/tokens';
 import {
   TrendingUp,
   Activity,
@@ -17,11 +18,11 @@ import {
 export const DeepInsightCard = ({ analysis }) => {
   if (!analysis || analysis.error) {
     return (
-      <Card>
+      <CardVariant variant="primary">
         <div className="text-center py-8">
           <p className="text-content-tertiary">No detailed analysis available</p>
         </div>
-      </Card>
+      </CardVariant>
     );
   }
 
@@ -54,71 +55,76 @@ export const DeepInsightCard = ({ analysis }) => {
   return (
     <div className="space-y-6">
       {/* Main Insights Header */}
-      <Card className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center">
-            <Zap className="w-6 h-6 text-primary-400" />
-          </div>
+      <CardVariant variant="primary" className="bg-gradient-to-br from-primary-500/10 to-accent-blue/5 border-primary-500/20">
+        <div className={`flex items-center ${tokens.gap.tight} ${tokens.margin.group}`}>
+          <IconContainer
+            icon={<Zap />}
+            variant="primary"
+            size="lg"
+            rounded
+          />
           <div>
-            <h3 className="font-display text-2xl font-bold">Deep Dive Analysis</h3>
-            <p className="text-sm text-content-tertiary">AI-powered insights from your latest swim</p>
+            <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>Deep Dive Analysis</h3>
+            <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>AI-powered insights from your latest swim</p>
           </div>
         </div>
 
         {/* Quick Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+        <div className={`grid grid-cols-2 md:grid-cols-4 ${tokens.gap.default} ${tokens.margin.section}`}>
           {comparative && (
-            <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-content-tertiary mb-1">Top Percentile</p>
-              <p className="font-display text-2xl font-bold text-accent-blue">
+            <div className={`text-center ${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+              <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>Top Percentile</p>
+              <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>
                 {comparative.percentile}%
               </p>
             </div>
           )}
           {streaks?.currentStreak > 0 && (
-            <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Flame className="w-3 h-3 text-orange-400" />
-                <p className="text-xs text-content-tertiary">Streak</p>
+            <div className={`text-center ${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+              <div className={`flex items-center justify-center ${tokens.gap.element} ${tokens.margin.element}`}>
+                <Flame className={`${tokens.icons.xs} text-orange-400`} />
+                <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>Streak</p>
               </div>
-              <p className="font-display text-2xl font-bold text-orange-400">
+              <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-orange-400`}>
                 {streaks.currentStreak}
               </p>
-              <p className="text-xs text-content-tertiary">weeks</p>
+              <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>weeks</p>
             </div>
           )}
           {daysSinceLastSwim !== undefined && (
-            <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-content-tertiary mb-1">Days Rest</p>
-              <p className="font-display text-2xl font-bold text-primary-400">
+            <div className={`text-center ${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+              <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>Days Rest</p>
+              <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-primary-400`}>
                 {daysSinceLastSwim}
               </p>
             </div>
           )}
           {pacing?.consistency && (
-            <div className="text-center p-3 bg-dark-bg/50 rounded-lg">
-              <p className="text-xs text-content-tertiary mb-1">Consistency</p>
-              <p className="font-display text-2xl font-bold text-accent-blue">
+            <div className={`text-center ${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+              <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>Consistency</p>
+              <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>
                 {pacing.consistency}%
               </p>
             </div>
           )}
         </div>
-      </Card>
+      </CardVariant>
 
       {/* Pacing Analysis */}
       {pacing && pacing.strategy !== 'unknown' && (
-        <Card>
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-accent-blue/20 rounded-lg">
-              <Activity className="w-6 h-6 text-accent-blue" />
-            </div>
+        <CardVariant variant="primary">
+          <div className={`flex items-start ${tokens.gap.default}`}>
+            <IconContainer
+              icon={<Activity />}
+              variant="accent"
+              size="lg"
+            />
             <div className="flex-1">
-              <h4 className="font-display text-xl font-semibold mb-2">Pacing Strategy</h4>
+              <h4 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold} ${tokens.margin.element}`}>Pacing Strategy</h4>
               <div className="space-y-2">
-                <div className="flex items-center gap-3">
+                <div className={`flex items-center ${tokens.gap.tight}`}>
                   <span className="text-content-tertiary">Strategy:</span>
-                  <span className={`font-semibold capitalize ${
+                  <span className={`${tokens.typography.weights.semibold} capitalize ${
                     pacing.strategy === 'negative' ? 'text-green-400' :
                     pacing.strategy === 'even' ? 'text-accent-blue' :
                     pacing.strategy === 'positive' ? 'text-yellow-400' :
@@ -127,13 +133,13 @@ export const DeepInsightCard = ({ analysis }) => {
                     {pacing.strategy} Split
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className={`flex items-center ${tokens.gap.tight}`}>
                   <span className="text-content-tertiary">Pace Change:</span>
-                  <span className="font-semibold">
+                  <span className={tokens.typography.weights.semibold}>
                     {pacing.paceChange > 0 ? '+' : ''}{pacing.paceChange}%
                   </span>
                 </div>
-                <p className="text-sm text-content-tertiary mt-2">
+                <p className={`${tokens.typography.sizes.sm} text-content-tertiary ${tokens.margin.element}`}>
                   {pacing.strategy === 'negative' && 'Excellent! You got faster as you swam - ideal race pacing.'}
                   {pacing.strategy === 'even' && 'Nice consistent pace throughout your swim.'}
                   {pacing.strategy === 'positive' && 'You started fast and slowed down - watch your starting pace.'}
@@ -142,30 +148,28 @@ export const DeepInsightCard = ({ analysis }) => {
               </div>
             </div>
           </div>
-        </Card>
+        </CardVariant>
       )}
 
       {/* Fatigue Analysis */}
       {fatigue && fatigue.fatigueIndex > 0 && (
-        <Card>
-          <div className="flex items-start gap-4">
-            <div className={`p-3 rounded-lg ${
-              fatigue.fatigueIndex < 5 ? 'bg-green-400/20' :
-              fatigue.fatigueIndex < 10 ? 'bg-yellow-400/20' :
-              'bg-red-400/20'
-            }`}>
-              <BarChart3 className={`w-6 h-6 ${
-                fatigue.fatigueIndex < 5 ? 'text-green-400' :
-                fatigue.fatigueIndex < 10 ? 'text-yellow-400' :
-                'text-red-400'
-              }`} />
-            </div>
+        <CardVariant variant="primary">
+          <div className={`flex items-start ${tokens.gap.default}`}>
+            <IconContainer
+              icon={<BarChart3 />}
+              variant={
+                fatigue.fatigueIndex < 5 ? 'success' :
+                fatigue.fatigueIndex < 10 ? 'warning' :
+                'warning'
+              }
+              size="lg"
+            />
             <div className="flex-1">
-              <h4 className="font-display text-xl font-semibold mb-2">Endurance & Fatigue</h4>
+              <h4 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold} ${tokens.margin.element}`}>Endurance & Fatigue</h4>
               <div className="space-y-2">
-                <div className="flex items-center gap-3">
+                <div className={`flex items-center ${tokens.gap.tight}`}>
                   <span className="text-content-tertiary">Fatigue Index:</span>
-                  <span className={`font-semibold ${
+                  <span className={`${tokens.typography.weights.semibold} ${
                     fatigue.fatigueIndex < 5 ? 'text-green-400' :
                     fatigue.fatigueIndex < 10 ? 'text-yellow-400' :
                     'text-red-400'
@@ -173,34 +177,36 @@ export const DeepInsightCard = ({ analysis }) => {
                     {fatigue.fatigueIndex}%
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className={`flex items-center ${tokens.gap.tight}`}>
                   <span className="text-content-tertiary">Final vs Baseline:</span>
-                  <span className="font-semibold">
+                  <span className={tokens.typography.weights.semibold}>
                     {formatPace(fatigue.finalPace)} vs {formatPace(fatigue.baselinePace)}
                   </span>
                 </div>
-                <p className="text-sm text-content-tertiary mt-2">{fatigue.description}</p>
+                <p className={`${tokens.typography.sizes.sm} text-content-tertiary ${tokens.margin.element}`}>{fatigue.description}</p>
               </div>
             </div>
           </div>
-        </Card>
+        </CardVariant>
       )}
 
       {/* Comparative Performance */}
       {comparative && (
-        <Card>
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-primary-500/20 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-primary-400" />
-            </div>
+        <CardVariant variant="primary">
+          <div className={`flex items-start ${tokens.gap.default}`}>
+            <IconContainer
+              icon={<TrendingUp />}
+              variant="primary"
+              size="lg"
+            />
             <div className="flex-1">
-              <h4 className="font-display text-xl font-semibold mb-3">Performance Comparison</h4>
+              <h4 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold} ${tokens.margin.tight}`}>Performance Comparison</h4>
               <div className="space-y-4">
                 {comparative.vsRecent && (
-                  <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-content-tertiary">vs Recent Average (10 swims)</span>
-                      <span className={`text-sm font-semibold ${
+                  <div className={`${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+                    <div className={`flex items-center justify-between ${tokens.margin.element}`}>
+                      <span className={`${tokens.typography.sizes.sm} text-content-tertiary`}>vs Recent Average (10 swims)</span>
+                      <span className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} ${
                         comparative.vsRecent.isBetter ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {comparative.vsRecent.isBetter ? '🚀 Faster' : '🐢 Slower'}
@@ -208,16 +214,16 @@ export const DeepInsightCard = ({ analysis }) => {
                         {Math.abs(comparative.vsRecent.paceDiff).toFixed(1)}%
                       </span>
                     </div>
-                    <p className="text-xs text-content-tertiary">
+                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                       Avg: {formatPace(comparative.vsRecent.avgPace)}
                     </p>
                   </div>
                 )}
                 {comparative.vsPB && (
-                  <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-content-tertiary">vs Personal Best</span>
-                      <span className={`text-sm font-semibold ${
+                  <div className={`${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+                    <div className={`flex items-center justify-between ${tokens.margin.element}`}>
+                      <span className={`${tokens.typography.sizes.sm} text-content-tertiary`}>vs Personal Best</span>
+                      <span className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} ${
                         comparative.vsPB.isPB ? 'text-yellow-400' :
                         Math.abs(comparative.vsPB.paceDiff) < 3 ? 'text-green-400' :
                         'text-content-tertiary'
@@ -226,23 +232,23 @@ export const DeepInsightCard = ({ analysis }) => {
                          `${comparative.vsPB.paceDiff > 0 ? '+' : ''}${comparative.vsPB.paceDiff.toFixed(1)}%`}
                       </span>
                     </div>
-                    <p className="text-xs text-content-tertiary">
+                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                       PB: {formatPace(comparative.vsPB.pbPace)}
                     </p>
                   </div>
                 )}
                 {comparative.vsSameDistance && (
-                  <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-content-tertiary">Best at This Distance</span>
-                      <span className={`text-sm font-semibold ${
+                  <div className={`${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+                    <div className={`flex items-center justify-between ${tokens.margin.element}`}>
+                      <span className={`${tokens.typography.sizes.sm} text-content-tertiary`}>Best at This Distance</span>
+                      <span className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} ${
                         comparative.vsSameDistance.isBest ? 'text-yellow-400' : 'text-content-tertiary'
                       }`}>
                         {comparative.vsSameDistance.isBest ? '⭐ Best!' :
                          `${comparative.vsSameDistance.paceDiff > 0 ? '+' : ''}${comparative.vsSameDistance.paceDiff.toFixed(1)}%`}
                       </span>
                     </div>
-                    <p className="text-xs text-content-tertiary">
+                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                       Best: {formatPace(comparative.vsSameDistance.bestPace)}
                     </p>
                   </div>
@@ -250,37 +256,39 @@ export const DeepInsightCard = ({ analysis }) => {
               </div>
             </div>
           </div>
-        </Card>
+        </CardVariant>
       )}
 
       {/* Performance Patterns */}
       {patterns?.hasPatterns && (patterns.bestDay || patterns.bestTime) && (
-        <Card>
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-accent-coral/20 rounded-lg">
-              <Calendar className="w-6 h-6 text-accent-coral" />
-            </div>
+        <CardVariant variant="primary">
+          <div className={`flex items-start ${tokens.gap.default}`}>
+            <IconContainer
+              icon={<Calendar />}
+              variant="warning"
+              size="lg"
+            />
             <div className="flex-1">
-              <h4 className="font-display text-xl font-semibold mb-3">Your Peak Performance Times</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h4 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold} ${tokens.margin.tight}`}>Your Peak Performance Times</h4>
+              <div className={`grid grid-cols-1 md:grid-cols-2 ${tokens.gap.default}`}>
                 {patterns.bestDay && (
-                  <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <p className="text-sm text-content-tertiary mb-1">Best Day</p>
-                    <p className="font-display text-lg font-semibold text-accent-blue">
+                  <div className={`${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+                    <p className={`${tokens.typography.sizes.sm} text-content-tertiary ${tokens.margin.element}`}>Best Day</p>
+                    <p className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-accent-blue`}>
                       {patterns.bestDay.dayName}
                     </p>
-                    <p className="text-xs text-content-tertiary mt-1">
+                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
                       Avg: {formatPace(patterns.bestDay.avgPace)} ({patterns.bestDay.count} swims)
                     </p>
                   </div>
                 )}
                 {patterns.bestTime && (
-                  <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <p className="text-sm text-content-tertiary mb-1">Best Time of Day</p>
-                    <p className="font-display text-lg font-semibold text-accent-blue capitalize">
+                  <div className={`${tokens.padding.tight} bg-dark-bg/50 ${tokens.radius.md}`}>
+                    <p className={`${tokens.typography.sizes.sm} text-content-tertiary ${tokens.margin.element}`}>Best Time of Day</p>
+                    <p className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-accent-blue capitalize`}>
                       {patterns.bestTime.time}
                     </p>
-                    <p className="text-xs text-content-tertiary mt-1">
+                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
                       Avg: {formatPace(patterns.bestTime.avgPace)} ({patterns.bestTime.count} swims)
                     </p>
                   </div>
@@ -288,23 +296,25 @@ export const DeepInsightCard = ({ analysis }) => {
               </div>
             </div>
           </div>
-        </Card>
+        </CardVariant>
       )}
 
       {/* Recommendations */}
       {recommendations && recommendations.length > 0 && (
-        <Card>
-          <div className="flex items-start gap-4 mb-4">
-            <div className="p-3 bg-green-400/20 rounded-lg">
-              <Award className="w-6 h-6 text-green-400" />
-            </div>
+        <CardVariant variant="primary">
+          <div className={`flex items-start ${tokens.gap.default} ${tokens.margin.group}`}>
+            <IconContainer
+              icon={<Award />}
+              variant="success"
+              size="lg"
+            />
             <div>
-              <h4 className="font-display text-xl font-semibold">Coach's Recommendations</h4>
-              <p className="text-sm text-content-tertiary">Personalized tips to improve your swimming</p>
+              <h4 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold}`}>Coach's Recommendations</h4>
+              <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>Personalized tips to improve your swimming</p>
             </div>
           </div>
 
-          <div className="space-y-3 mt-4">
+          <div className={`space-y-3 ${tokens.margin.group}`}>
             {recommendations.map((rec, index) => {
               const Icon = getPriorityIcon(rec.priority);
               return (
@@ -313,16 +323,16 @@ export const DeepInsightCard = ({ analysis }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-dark-bg/50 rounded-lg transition-colors"
+                  className={`${tokens.padding.default} bg-dark-bg/50 ${tokens.radius.md} transition-colors`}
                 >
-                  <div className="flex items-start gap-3">
-                    <Icon className={`w-5 h-5 mt-0.5 ${getPriorityColor(rec.priority)}`} />
+                  <div className={`flex items-start ${tokens.gap.tight}`}>
+                    <Icon className={`${tokens.icons.md} mt-0.5 ${getPriorityColor(rec.priority)}`} />
                     <div className="flex-1">
-                      <h5 className="font-semibold mb-1">{rec.title}</h5>
-                      <p className="text-sm text-content-tertiary mb-2">{rec.message}</p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-content-tertiary">Next Step:</span>
-                        <span className="text-xs text-primary-400 font-medium">{rec.action}</span>
+                      <h5 className={`${tokens.typography.weights.semibold} ${tokens.margin.element}`}>{rec.title}</h5>
+                      <p className={`${tokens.typography.sizes.sm} text-content-tertiary ${tokens.margin.element}`}>{rec.message}</p>
+                      <div className={`flex items-center ${tokens.gap.element}`}>
+                        <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>Next Step:</span>
+                        <span className={`${tokens.typography.sizes.xs} text-primary-400 font-medium`}>{rec.action}</span>
                       </div>
                     </div>
                   </div>
@@ -330,7 +340,7 @@ export const DeepInsightCard = ({ analysis }) => {
               );
             })}
           </div>
-        </Card>
+        </CardVariant>
       )}
     </div>
   );

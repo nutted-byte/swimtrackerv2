@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, List, BarChart3, Target, BookOpen } from 'lucide-react';
+import { Separator } from './primitives';
+import { tokens } from '../design/tokens';
 
 export const MobileBottomNav = () => {
   const location = useLocation();
@@ -20,7 +22,8 @@ export const MobileBottomNav = () => {
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-dark-card/95 backdrop-blur-sm border-t border-dark-border">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-dark-card/95 backdrop-blur-sm">
+      <Separator spacing="none" />
       <div className="flex items-center justify-around px-2 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -36,7 +39,7 @@ export const MobileBottomNav = () => {
                   : 'text-content-tertiary hover:text-content-secondary'
               }`}
             >
-              <Icon className="w-6 h-6" />
+              <Icon className={tokens.icons.lg} />
               <span className="text-xs font-medium">{item.label}</span>
             </Link>
           );

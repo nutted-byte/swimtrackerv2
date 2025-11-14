@@ -4,6 +4,8 @@ import { StatCard } from '../components/StatCard';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Button } from '../components/Button';
 import { Activity, TrendingUp, Zap, Clock, Waves, CheckCircle } from 'lucide-react';
+import { tokens } from '../design/tokens';
+
 
 export const DesignTest = () => {
   const [localIsDark, setLocalIsDark] = useState(false);
@@ -161,7 +163,7 @@ export const DesignTest = () => {
               This card has elevated styling with enhanced shadows for emphasis.
             </p>
             <div className="flex items-center gap-2 text-content-secondary">
-              <Clock className="w-4 h-4" />
+              <Clock className={tokens.icons.sm} />
               <span className="text-sm">2 hours ago</span>
             </div>
           </Card>
@@ -196,7 +198,7 @@ export const DesignTest = () => {
           <Card>
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center">
-                <Waves className="w-6 h-6 text-white" />
+                <Waves className={`${tokens.icons.lg} text-white`} />
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold mb-1">Morning Swim Session</h3>
@@ -223,7 +225,7 @@ export const DesignTest = () => {
 
           <Card elevated>
             <div className="flex items-center gap-4 mb-4">
-              <CheckCircle className="w-6 h-6 text-accent-blue" />
+              <CheckCircle className={`${tokens.icons.lg} text-accent-blue`} />
               <h3 className="text-lg font-semibold">Personal Best!</h3>
             </div>
             <p className="text-content-secondary mb-4">

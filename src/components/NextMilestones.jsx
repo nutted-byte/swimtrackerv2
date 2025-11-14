@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { CardHeader } from './primitives';
 import { Zap, TrendingUp, Target, Award, ChevronRight } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 export const NextMilestones = ({ milestones }) => {
   if (!milestones || milestones.length === 0) {
@@ -38,7 +39,7 @@ export const NextMilestones = ({ milestones }) => {
         subtitle="You're so close to these achievements!"
         iconColor="text-primary-400"
         iconBgColor="bg-primary-500/20"
-        iconSize="w-6 h-6"
+        iconSize={tokens.icons.lg}
       />
 
       <div className="space-y-4">
@@ -57,7 +58,7 @@ export const NextMilestones = ({ milestones }) => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-dark-bg/50 rounded-lg">
-                    <Icon className="w-5 h-5 text-primary-400" />
+                    <Icon className={`${tokens.icons.md} text-primary-400`} />
                   </div>
                   <div>
                     <h3 className="font-semibold">{milestone.title}</h3>
@@ -87,7 +88,7 @@ export const NextMilestones = ({ milestones }) => {
                   <p className="text-xs text-content-tertiary">Current</p>
                   <p className="font-display text-lg font-bold">{milestone.displayCurrent}</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-content-tertiary" />
+                <ChevronRight className={`${tokens.icons.md} text-content-tertiary`} />
                 <div className="text-right">
                   <p className="text-xs text-content-tertiary">Target</p>
                   <p className="font-display text-lg font-bold text-primary-400">{milestone.displayTarget}</p>

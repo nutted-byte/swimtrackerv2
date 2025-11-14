@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronDown } from 'lucide-react';
 import { Card } from '../Card';
-import { CardHeader } from '../primitives';
+import { CardHeader, Separator } from '../primitives';
 import { getLast12MonthsActivity } from '../../utils/streakCalculation';
+import { tokens } from '../../design/tokens';
 
 export const StreakCard = ({ sessions }) => {
   const [monthsToShow, setMonthsToShow] = useState(3);
@@ -30,15 +31,15 @@ export const StreakCard = ({ sessions }) => {
           title="Monthly Summary"
           actionText="View all"
           actionTo="/swims"
-          iconColor="text-blue-400"
-          iconBgColor="bg-blue-500/20"
+          iconColor="text-accent-blue"
+          iconBgColor="bg-accent-blue/20"
         />
 
         {/* Monthly Summary Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-700/50">
+              <tr>
                 <th className="text-left py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Month</th>
                 <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Swims</th>
                 <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Lengths</th>
@@ -46,6 +47,7 @@ export const StreakCard = ({ sessions }) => {
                 <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Avg Pace</th>
                 <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">SWOLF</th>
               </tr>
+              <tr><td colSpan="6" className="p-0"><Separator spacing="none" /></td></tr>
             </thead>
             <tbody>
               {visibleMonths.slice().reverse().map((month, index) => (
@@ -54,13 +56,13 @@ export const StreakCard = ({ sessions }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.03 }}
-                  className={`border-b border-gray-800/30 ${
-                    month.isCurrentMonth ? 'bg-blue-500/10' : 'hover:bg-gray-800/20'
+                  className={`${
+                    month.isCurrentMonth ? 'bg-accent-blue/10' : 'hover:bg-gray-800/20'
                   } transition-colors`}
                 >
                   <td className="py-3 px-3">
                     <span className={`text-base font-medium ${
-                      month.isCurrentMonth ? 'text-blue-400' : 'text-content-primary'
+                      month.isCurrentMonth ? 'text-accent-blue' : 'text-content-primary'
                     }`}>
                       {month.monthName}
                     </span>
@@ -92,6 +94,9 @@ export const StreakCard = ({ sessions }) => {
                   </td>
                 </motion.tr>
               ))}
+              {visibleMonths.length > 0 && (
+                <tr><td colSpan="6" className="p-0"><Separator spacing="none" /></td></tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -101,10 +106,10 @@ export const StreakCard = ({ sessions }) => {
           <div className="mt-4 flex justify-center">
             <button
               onClick={() => setMonthsToShow(prev => Math.min(prev + 3, 12))}
-              className="flex items-center gap-2 px-4 py-2 text-xs text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-xs text-accent-blue hover:text-primary-300 hover:bg-accent-blue/10 rounded-lg transition-colors"
             >
               Show more
-              <ChevronDown className="w-3 h-3" />
+              <ChevronDown className={tokens.icons.xs} />
             </button>
           </div>
         )}

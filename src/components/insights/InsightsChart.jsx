@@ -1,5 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, BarChart, Bar, ScatterChart, Scatter, ZAxis, ReferenceLine } from 'recharts';
 import { formatPace } from '../../utils/formatters';
+import { Separator } from '../primitives';
+import { CHART_COLORS } from '../../utils/constants';
 
 /**
  * Calculate dynamic Y-axis domain with padding
@@ -86,12 +88,15 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
               <p className="text-xs text-content-tertiary">min/100m</p>
             </div>
             {data.swolf > 0 && (
-              <div className="pt-2 border-t border-dark-border">
-                <p className="font-display font-semibold text-purple-400">
-                  SWOLF: {data.swolf}
-                </p>
-                <p className="text-xs text-content-tertiary">efficiency score</p>
-              </div>
+              <>
+                <Separator spacing="sm" />
+                <div>
+                  <p className="font-display font-semibold text-purple-400">
+                    SWOLF: {data.swolf}
+                  </p>
+                  <p className="text-xs text-content-tertiary">efficiency score</p>
+                </div>
+              </>
             )}
           </div>
         )}
@@ -164,21 +169,21 @@ export const InsightsChart = ({
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={enrichedChartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-          <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.GRID} />
+          <XAxis dataKey="date" stroke={CHART_COLORS.AXIS} style={{ fontSize: '12px' }} />
           <YAxis
-            stroke="#6b7280"
+            stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '12px' }}
             domain={barChartDomain}
             tickFormatter={(value) => `${value.toFixed(1)}km`}
           />
           <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
-          <Bar dataKey="distance" fill="#00d4ff" radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
+          <Bar dataKey="distance" fill={CHART_COLORS.PRIMARY} radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
           <ReferenceLine
             y={stats.totalDistance / enrichedChartData.length}
-            stroke="#a78bfa"
+            stroke={CHART_COLORS.SECONDARY}
             strokeDasharray="5 5"
-            label={{ value: 'Avg', position: 'right', fill: '#a78bfa' }}
+            label={{ value: 'Avg', position: 'right', fill: CHART_COLORS.SECONDARY }}
           />
         </BarChart>
       </ResponsiveContainer>
@@ -189,25 +194,25 @@ export const InsightsChart = ({
     return (
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.GRID} />
           <XAxis
             type="number"
             dataKey="pace"
             name="Pace"
-            stroke="#6b7280"
+            stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '12px' }}
             domain={scatterPaceDomain}
             tickFormatter={(value) => formatPace(value)}
-            label={{ value: 'Pace (min/100m)', position: 'bottom', fill: '#6b7280' }}
+            label={{ value: 'Pace (min/100m)', position: 'bottom', fill: CHART_COLORS.AXIS }}
           />
           <YAxis
             type="number"
             dataKey="swolf"
             name="SWOLF"
-            stroke="#6b7280"
+            stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '12px' }}
             domain={scatterSwolfDomain}
-            label={{ value: 'SWOLF', angle: -90, position: 'left', fill: '#6b7280' }}
+            label={{ value: 'SWOLF', angle: -90, position: 'left', fill: CHART_COLORS.AXIS }}
           />
           <ZAxis type="number" dataKey="distance" range={[50, 400]} name="Distance" />
           <Tooltip
@@ -236,20 +241,20 @@ export const InsightsChart = ({
               return null;
             }}
           />
-          <Scatter data={scatterData} fill="#00d4ff" isAnimationActive animationDuration={800} />
+          <Scatter data={scatterData} fill={CHART_COLORS.PRIMARY} isAnimationActive animationDuration={800} />
           {scatterData.length > 0 && (
             <>
               <ReferenceLine
                 x={scatterData.reduce((sum, d) => sum + d.pace, 0) / scatterData.length}
-                stroke="#a78bfa"
+                stroke={CHART_COLORS.SECONDARY}
                 strokeDasharray="5 5"
-                label={{ value: 'Avg Pace', position: 'top', fill: '#a78bfa' }}
+                label={{ value: 'Avg Pace', position: 'top', fill: CHART_COLORS.SECONDARY }}
               />
               <ReferenceLine
                 y={scatterData.reduce((sum, d) => sum + d.swolf, 0) / scatterData.length}
-                stroke="#a78bfa"
+                stroke={CHART_COLORS.SECONDARY}
                 strokeDasharray="5 5"
-                label={{ value: 'Avg SWOLF', position: 'right', fill: '#a78bfa' }}
+                label={{ value: 'Avg SWOLF', position: 'right', fill: CHART_COLORS.SECONDARY }}
               />
             </>
           )}
@@ -267,19 +272,19 @@ export const InsightsChart = ({
       <AreaChart data={enrichedChartData}>
         <defs>
           <linearGradient id="colorMetric" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#00d4ff" stopOpacity={0.3}/>
-            <stop offset="95%" stopColor="#00d4ff" stopOpacity={0}/>
+            <stop offset="5%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.3}/>
+            <stop offset="95%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0}/>
           </linearGradient>
           <linearGradient id="colorSwolf" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#a78bfa" stopOpacity={0.2}/>
-            <stop offset="95%" stopColor="#a78bfa" stopOpacity={0}/>
+            <stop offset="5%" stopColor={CHART_COLORS.SECONDARY} stopOpacity={0.2}/>
+            <stop offset="95%" stopColor={CHART_COLORS.SECONDARY} stopOpacity={0}/>
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-        <XAxis dataKey="date" stroke="#6b7280" style={{ fontSize: '12px' }} />
+        <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.GRID} />
+        <XAxis dataKey="date" stroke={CHART_COLORS.AXIS} style={{ fontSize: '12px' }} />
         <YAxis
           yAxisId="left"
-          stroke="#6b7280"
+          stroke={CHART_COLORS.AXIS}
           style={{ fontSize: '12px' }}
           domain={lineChartDomain}
           reversed={metric === 'pace'}
@@ -294,11 +299,11 @@ export const InsightsChart = ({
           <YAxis
             yAxisId="right"
             orientation="right"
-            stroke="#a78bfa"
+            stroke={CHART_COLORS.SECONDARY}
             style={{ fontSize: '11px', opacity: 0.6 }}
             domain={swolfDomain}
             tickFormatter={(value) => value.toFixed(0)}
-            label={{ value: 'SWOLF', angle: 90, position: 'insideRight', fill: '#a78bfa', opacity: 0.6 }}
+            label={{ value: 'SWOLF', angle: 90, position: 'insideRight', fill: CHART_COLORS.SECONDARY, opacity: 0.6 }}
           />
         )}
         <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
@@ -306,7 +311,7 @@ export const InsightsChart = ({
           yAxisId="left"
           type="monotone"
           dataKey={metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric}
-          stroke="#00d4ff"
+          stroke={CHART_COLORS.PRIMARY}
           strokeWidth={3}
           fill="url(#colorMetric)"
           dot={(props) => {
@@ -314,14 +319,14 @@ export const InsightsChart = ({
             if (milestoneType) {
               return (
                 <g>
-                  <circle cx={props.cx} cy={props.cy} r={8} fill="#fbbf24" stroke="#fbbf24" strokeWidth={2} />
-                  <text x={props.cx} y={props.cy - 15} fill="#fbbf24" fontSize="20" textAnchor="middle">⭐</text>
+                  <circle cx={props.cx} cy={props.cy} r={8} fill={CHART_COLORS.MILESTONE} stroke={CHART_COLORS.MILESTONE} strokeWidth={2} />
+                  <text x={props.cx} y={props.cy - 15} fill={CHART_COLORS.MILESTONE} fontSize="20" textAnchor="middle">⭐</text>
                 </g>
               );
             }
-            return <circle cx={props.cx} cy={props.cy} r={5} fill="#00d4ff" />;
+            return <circle cx={props.cx} cy={props.cy} r={5} fill={CHART_COLORS.PRIMARY} />;
           }}
-          activeDot={{ r: 7, fill: '#00d4ff' }}
+          activeDot={{ r: 7, fill: CHART_COLORS.PRIMARY }}
           isAnimationActive
           animationDuration={800}
         />
@@ -330,12 +335,12 @@ export const InsightsChart = ({
             yAxisId="right"
             type="monotone"
             dataKey="swolf"
-            stroke="#a78bfa"
+            stroke={CHART_COLORS.SECONDARY}
             strokeWidth={1.5}
             strokeDasharray="3 3"
             opacity={0.5}
             dot={false}
-            activeDot={{ r: 5, fill: '#a78bfa', opacity: 1 }}
+            activeDot={{ r: 5, fill: CHART_COLORS.SECONDARY, opacity: 1 }}
             isAnimationActive
             animationDuration={800}
           />
@@ -344,7 +349,7 @@ export const InsightsChart = ({
           <Line
             type="monotone"
             dataKey="rollingAvg"
-            stroke="#a78bfa"
+            stroke={CHART_COLORS.SECONDARY}
             strokeWidth={2}
             strokeDasharray="5 5"
             dot={false}
@@ -356,7 +361,7 @@ export const InsightsChart = ({
           <Line
             type="monotone"
             dataKey="trendValue"
-            stroke="#f97316"
+            stroke={CHART_COLORS.TREND}
             strokeWidth={2}
             strokeDasharray="8 4"
             dot={false}
@@ -369,7 +374,7 @@ export const InsightsChart = ({
             type="monotone"
             data={previousWindowData}
             dataKey={metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric}
-            stroke="#6b7280"
+            stroke={CHART_COLORS.COMPARE}
             strokeWidth={2}
             strokeDasharray="3 3"
             dot={false}

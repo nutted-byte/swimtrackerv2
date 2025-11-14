@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, TrendingUp, TrendingDown, Minus, BarChart2, ArrowRight } from 'lucide-react';
-import { Card } from '../Card';
+import { CardVariant } from '../primitives';
 import { getCurrentWeekStats, getLastWeekStats, getWeeklyTrend, getWeeklyDayBreakdown } from '../../utils/weeklyStats';
 import { formatDuration } from '../../utils/formatters';
 
@@ -44,9 +44,9 @@ export const WeeklySummaryCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 }}
     >
-      <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 h-full">
+      <CardVariant variant="primary" className="h-full">
         <div className="flex items-center gap-2 mb-4">
-          <Calendar className="w-4 h-4 text-blue-400" />
+          <Calendar className={`${tokens.icons.sm} text-accent-blue`} />
           <span className="text-sm font-medium text-content-secondary">
             This Week
           </span>
@@ -58,7 +58,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
           <div className="bg-dark-bg/30 rounded-lg p-3">
             <div className="text-xs text-content-tertiary mb-1">Sessions</div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-blue-400">{currentWeek.count}</span>
+              <span className={`${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>{currentWeek.count}</span>
               {trend.count.trend !== 'steady' && (
                 <div className={`flex items-center gap-1 text-xs ${trend.count.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
                   {trend.count.change > 0 ? '+' : ''}{trend.count.change}%
@@ -71,7 +71,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
           <div className="bg-dark-bg/30 rounded-lg p-3">
             <div className="text-xs text-content-tertiary mb-1">Days Active</div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-blue-400">{currentWeek.daysActive}/7</span>
+              <span className={`${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>{currentWeek.daysActive}/7</span>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
                 {(currentWeek.totalDistance / 1000).toFixed(1)}km
               </span>
               {trend.distance.trend !== 'steady' && (
-                <DistanceTrendIcon className={`w-4 h-4 ${distanceTrendColor}`} />
+                <DistanceTrendIcon className={`${tokens.icons.sm} ${distanceTrendColor}`} />
               )}
             </div>
             {trend.distance.change !== 0 && (
@@ -101,7 +101,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
                 {currentWeek.avgPace > 0 ? formatPace(currentWeek.avgPace) : '--'}
               </span>
               {trend.pace.trend !== 'steady' && currentWeek.avgPace > 0 && (
-                <PaceTrendIcon className={`w-4 h-4 ${paceTrendColor}`} />
+                <PaceTrendIcon className={`${tokens.icons.sm} ${paceTrendColor}`} />
               )}
             </div>
             {trend.pace.change !== 0 && currentWeek.avgPace > 0 && (
@@ -115,7 +115,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
         {/* Weekly Activity Chart */}
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <BarChart2 className="w-3 h-3 text-blue-400" />
+            <BarChart2 className={`${tokens.icons.xs} text-accent-blue`} />
             <span className="text-xs text-content-tertiary">Daily Activity</span>
           </div>
           <div className="flex items-end justify-between gap-1 h-16">
@@ -139,7 +139,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
                     } ${isToday ? 'ring-2 ring-blue-400 ring-offset-1 ring-offset-dark-card' : ''}`}
                     style={{ minHeight: '4px' }}
                   />
-                  <span className={`text-xs ${isToday ? 'text-blue-400 font-semibold' : 'text-content-tertiary'}`}>
+                  <span className={`${tokens.typography.sizes.xs} ${isToday ? 'text-accent-blue font-semibold' : 'text-content-tertiary'}`}>
                     {day.day}
                   </span>
                 </div>
@@ -167,12 +167,12 @@ export const WeeklySummaryCard = ({ sessions }) => {
 
         <Link
           to="/swims"
-          className="text-xs text-blue-400 hover:text-blue-300 flex items-center justify-center gap-1 group transition-colors"
+          className={`${tokens.typography.sizes.xs} text-accent-blue hover:text-primary-300 flex items-center justify-center gap-1 group transition-colors`}
         >
           View all sessions
-          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className={`${tokens.icons.xs} group-hover:translate-x-1 transition-transform`} />
         </Link>
-      </Card>
+      </CardVariant>
     </motion.div>
   );
 };

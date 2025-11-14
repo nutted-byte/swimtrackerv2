@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import { CHART_COLORS } from '../../utils/constants';
+import { tokens } from '../../design/tokens';
 
 export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
   const swolf = strokeCount + timeSeconds;
@@ -21,22 +23,22 @@ export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
             <svg width="120" height="80" viewBox="0 0 120 80" className="mb-3">
               <defs>
                 <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#00d4ff" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#00d4ff" stopOpacity="0.1" />
+                  <stop offset="0%" stopColor={CHART_COLORS.PRIMARY} stopOpacity="0.3" />
+                  <stop offset="100%" stopColor={CHART_COLORS.PRIMARY} stopOpacity="0.1" />
                 </linearGradient>
               </defs>
 
               {/* Water surface */}
               <rect x="0" y="40" width="120" height="40" fill="url(#waterGradient)" />
-              <path d="M 0 40 Q 30 35 60 40 T 120 40" stroke="#00d4ff" strokeWidth="2" fill="none" opacity="0.5" />
+              <path d="M 0 40 Q 30 35 60 40 T 120 40" stroke={CHART_COLORS.PRIMARY} strokeWidth="2" fill="none" opacity="0.5" />
 
               {/* Swimmer body - simplified */}
-              <ellipse cx="60" cy="40" rx="8" ry="6" fill="#a78bfa" opacity="0.8" />
+              <ellipse cx="60" cy="40" rx="8" ry="6" fill={CHART_COLORS.SECONDARY} opacity="0.8" />
 
               {/* Arms - stroke motion */}
               <motion.path
                 d="M 60 40 L 45 35"
-                stroke="#a78bfa"
+                stroke={CHART_COLORS.SECONDARY}
                 strokeWidth="3"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
@@ -45,7 +47,7 @@ export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
               />
               <motion.path
                 d="M 60 40 L 75 45"
-                stroke="#a78bfa"
+                stroke={CHART_COLORS.SECONDARY}
                 strokeWidth="3"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
@@ -60,7 +62,7 @@ export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
                   cx={20 + i * 20}
                   cy={65}
                   r="2"
-                  fill="#00d4ff"
+                  fill={CHART_COLORS.PRIMARY}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: i * 0.1 + 0.5 }}
@@ -82,7 +84,7 @@ export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
           transition={{ delay: 0.4 }}
           className="text-primary-400"
         >
-          <Plus className="w-8 h-8" />
+          <Plus className={tokens.icons.xl} />
         </motion.div>
 
         {/* Time */}
@@ -138,7 +140,7 @@ export const SwolfExplainer = ({ strokeCount = 20, timeSeconds = 30 }) => {
                 y1="40"
                 x2="75"
                 y2="40"
-                stroke="#00d4ff"
+                stroke={CHART_COLORS.PRIMARY}
                 strokeWidth="2"
                 strokeLinecap="round"
                 animate={{ rotate: 360 }}

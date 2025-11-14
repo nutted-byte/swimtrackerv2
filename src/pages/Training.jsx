@@ -2,12 +2,15 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card } from '../components/Card';
+import { CardVariant, IconContainer, Separator } from '../components/primitives';
+import { Button } from '../components/Button';
 import { PageContainer, PageHeader } from '../components/layout';
 import { PlanCreationWizard } from '../components/PlanCreationWizard';
 import { useTrainingPlan } from '../context/TrainingPlanContext';
 import { useSwimData } from '../context/SwimDataContext';
 import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
 import { formatDuration } from '../utils/formatters';
+import { tokens } from '../design/tokens';
 import {
   Target,
   Calendar,
@@ -199,8 +202,8 @@ export const Training = () => {
     return (
       <PageContainer>
         <PageHeader title="Training Plan" />
-        <div className="flex items-center justify-center py-16">
-          <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className={`flex items-center justify-center ${tokens.padding.hero}`}>
+          <div className={`${tokens.components.iconContainer.lg} border-4 border-primary-500 border-t-transparent ${tokens.radius.full} animate-spin`}></div>
         </div>
       </PageContainer>
     );
@@ -230,13 +233,14 @@ export const Training = () => {
       <PageHeader
         title="Training Plan"
         actions={
-          <button
+          <Button
+            variant="primary"
+            size="sm"
             onClick={() => setShowNewPlanConfirm(true)}
-            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 rounded-lg transition-colors text-sm font-medium flex items-center gap-3"
+            leftIcon={<Plus />}
           >
-            <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">New Plan</span>
-          </button>
+          </Button>
         }
       />
 
@@ -246,14 +250,14 @@ export const Training = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 mb-6">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="p-4 rounded-xl bg-accent-blue/20">
-                <Target className="w-8 h-8 text-accent-blue" />
+        <Card className={`bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200 ${tokens.margin.section}`}>
+          <div className={`flex items-start justify-between ${tokens.margin.section}`}>
+            <div className={`flex items-center ${tokens.gap.default}`}>
+              <div className={`${tokens.padding.default} ${tokens.radius.md} bg-accent-blue/20`}>
+                <Target className={`${tokens.icons.lg} text-accent-blue`} />
               </div>
               <div>
-                <h2 className="font-display text-2xl font-bold mb-1">{goal.description}</h2>
+                <h2 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${tokens.margin.element}`}>{goal.description}</h2>
                 <p className="text-content-secondary">
                   {goal.type === 'distance' && `${goal.current}m → ${goal.target}m`}
                   {goal.type === 'pace' && `${goal.current} → ${goal.target} min/100m`}
@@ -262,36 +266,36 @@ export const Training = () => {
             </div>
 
             {status === 'active' && (
-              <span className="px-3 py-1 rounded-full text-sm font-semibold bg-accent-blue/20 text-accent-blue">
+              <span className={`px-3 py-1 ${tokens.radius.full} ${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} bg-accent-blue/20 text-accent-blue`}>
                 Active
               </span>
             )}
           </div>
 
           {/* Progress Bar */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Week {progress.current_week} of {weeks.length}</span>
-              <span className="text-sm font-bold text-accent-blue">{progress.percent_complete}%</span>
+          <div className={tokens.margin.section}>
+            <div className={`flex items-center justify-between ${tokens.margin.element}`}>
+              <span className={`${tokens.typography.sizes.sm} font-medium`}>Week {progress.current_week} of {weeks.length}</span>
+              <span className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.bold} text-accent-blue`}>{progress.percent_complete}%</span>
             </div>
-            <div className="w-full h-3 bg-dark-bg rounded-full overflow-hidden">
+            <div className={`w-full h-3 bg-dark-bg ${tokens.radius.full} overflow-hidden`}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress.percent_complete}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="h-full bg-gradient-to-r from-accent-blue to-primary-500 rounded-full"
+                className={`h-full bg-gradient-to-r from-accent-blue to-primary-500 ${tokens.radius.full}`}
               />
             </div>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 gap-4">
-            <div className="bg-dark-bg/50 rounded-lg p-4">
-              <div className="flex items-center gap-3 text-content-secondary text-sm mb-1">
-                <CheckCircle2 className="w-4 h-4" />
+          <div className={`grid grid-cols-1 ${tokens.gap.default}`}>
+            <div className={`bg-dark-bg/50 ${tokens.radius.md} ${tokens.padding.default}`}>
+              <div className={`flex items-center ${tokens.gap.tight} text-content-secondary ${tokens.typography.sizes.sm} ${tokens.margin.element}`}>
+                <CheckCircle2 className={tokens.icons.sm} />
                 Completed
               </div>
-              <div className="font-display text-2xl font-bold">
+              <div className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
                 {progress.completed_workouts}/{progress.total_workouts}
               </div>
             </div>
@@ -304,26 +308,26 @@ export const Training = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="mb-6"
+        className={tokens.margin.section}
       >
-        <h3 className="font-display text-xl font-bold mb-4">This Week's Workouts</h3>
+        <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold} ${tokens.margin.group}`}>This Week's Workouts</h3>
 
         {/* AI Coaching Tip */}
         {currentWeek?.coachingTip && (
-          <Card className="mb-4 bg-accent-blue/10 border-accent-blue/30">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-lg bg-accent-blue/20 flex-shrink-0">
-                <Target className="w-5 h-5 text-accent-blue" />
+          <Card className={`${tokens.margin.group} bg-accent-blue/10 border-accent-blue/30`}>
+            <div className={`flex items-start ${tokens.gap.default}`}>
+              <div className={`${tokens.padding.tight} ${tokens.radius.md} bg-accent-blue/20 flex-shrink-0`}>
+                <Target className={`${tokens.icons.md} text-accent-blue`} />
               </div>
               <div>
-                <div className="font-semibold text-sm text-accent-blue mb-1">This Week's Focus</div>
-                <p className="text-sm text-content-secondary">{currentWeek.coachingTip}</p>
+                <div className={`${tokens.typography.weights.semibold} ${tokens.typography.sizes.sm} text-accent-blue ${tokens.margin.element}`}>This Week's Focus</div>
+                <p className={`${tokens.typography.sizes.sm} text-content-secondary`}>{currentWeek.coachingTip}</p>
               </div>
             </div>
           </Card>
         )}
 
-        <div className="space-y-4">
+        <div className={tokens.gap.default}>
           {thisWeekWorkouts.map((workout, index) => (
             <WorkoutCard
               key={workout.id}
@@ -346,17 +350,17 @@ export const Training = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <h3 className="font-display text-xl font-bold mb-4">Full {weeks.length}-Week Plan</h3>
+        <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold} ${tokens.margin.group}`}>Full {weeks.length}-Week Plan</h3>
 
-        <div className="space-y-4">
+        <div className={tokens.gap.default}>
           {weeks.map((week) => (
             <Card key={week.weekNumber} className="overflow-hidden">
               <button
                 onClick={() => toggleWeek(week.weekNumber)}
-                className="w-full flex items-center justify-between p-4 hover:bg-dark-bg/30 transition-colors"
+                className={`w-full flex items-center justify-between ${tokens.padding.default} hover:bg-dark-bg/30 transition-colors`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center font-bold ${
+                <div className={`flex items-center ${tokens.gap.default}`}>
+                  <div className={`${tokens.components.iconContainer.lg} ${tokens.radius.md} flex items-center justify-center ${tokens.typography.weights.bold} ${
                     week.weekNumber === progress.current_week
                       ? 'bg-accent-blue text-white'
                       : 'bg-dark-bg text-content-tertiary'
@@ -364,28 +368,30 @@ export const Training = () => {
                     W{week.weekNumber}
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold">{week.focus}</div>
-                    <div className="text-sm text-content-secondary">
+                    <div className={tokens.typography.weights.semibold}>{week.focus}</div>
+                    <div className={`${tokens.typography.sizes.sm} text-content-secondary`}>
                       {week.sessions.length} workouts • {(week.totalDistance / 1000).toFixed(1)}km total
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <span className="text-xs text-content-tertiary">
+                <div className={`flex items-center ${tokens.gap.default}`}>
+                  <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                     {week.sessions.filter(s => s.completed).length}/{week.sessions.length} complete
                   </span>
                   {expandedWeeks[week.weekNumber] ? (
-                    <ChevronUp className="w-5 h-5 text-content-tertiary" />
+                    <ChevronUp className={`${tokens.icons.md} text-content-tertiary`} />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-content-tertiary" />
+                    <ChevronDown className={`${tokens.icons.md} text-content-tertiary`} />
                   )}
                 </div>
               </button>
 
               {expandedWeeks[week.weekNumber] && (
-                <div className="border-t border-dark-border p-4 space-y-2">
-                  {week.sessions.map((workout) => (
+                <>
+                  <Separator spacing="none" />
+                  <div className={`${tokens.padding.default} space-y-2`}>
+                    {week.sessions.map((workout) => (
                     <WorkoutCard
                       key={workout.id}
                       workout={workout}
@@ -398,7 +404,8 @@ export const Training = () => {
                       compact
                     />
                   ))}
-                </div>
+                  </div>
+                </>
               )}
             </Card>
           ))}
@@ -410,18 +417,18 @@ export const Training = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-8"
+        className={tokens.margin.hero}
       >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-display text-xl font-bold">AI Swim Coach</h3>
+        <div className={`flex items-center justify-between ${tokens.margin.group}`}>
+          <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold}`}>AI Swim Coach</h3>
           {tokenStats.queryCount > 0 && (
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-dark-card rounded-lg text-sm">
-              <Zap className="w-4 h-4 text-yellow-400" />
+            <div className={`flex items-center ${tokens.gap.tight} px-3 py-1.5 bg-dark-card ${tokens.radius.md} ${tokens.typography.sizes.sm}`}>
+              <Zap className={`${tokens.icons.sm} text-yellow-400`} />
               <span className="text-content-tertiary">
                 {tokenStats.total.toLocaleString()} tokens
               </span>
               {tokenStats.cachedCount > 0 && (
-                <span className="text-green-400 text-xs">
+                <span className={`text-green-400 ${tokens.typography.sizes.xs}`}>
                   ({tokenStats.cachedCount} cached)
                 </span>
               )}
@@ -435,37 +442,37 @@ export const Training = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-6"
+            className={tokens.margin.section}
           >
             <Card className="bg-gradient-to-br from-primary-50 to-blue-50 border-primary-200">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-6 h-6 text-primary-400" />
+              <div className={`flex items-start ${tokens.gap.default}`}>
+                <div className={`${tokens.components.iconContainer.lg} ${tokens.radius.full} bg-primary-500/20 flex items-center justify-center flex-shrink-0`}>
+                  <Sparkles className={`${tokens.icons.lg} text-primary-400`} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-display text-xl font-semibold mb-2">
+                  <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.semibold} ${tokens.margin.element}`}>
                     Ask me anything about your swimming!
                   </h3>
-                  <p className="text-content-tertiary mb-4">
+                  <p className={`text-content-tertiary ${tokens.margin.group}`}>
                     I can analyze your {sessions.length} swim sessions and help you understand your progress, find patterns, and identify your best performances.
                   </p>
 
                   <div className="space-y-2">
-                    <p className="text-sm text-content-tertiary font-medium">Try asking:</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <p className={`${tokens.typography.sizes.sm} text-content-tertiary font-medium`}>Try asking:</p>
+                    <div className={`grid grid-cols-1 md:grid-cols-2 ${tokens.gap.tight}`}>
                       {exampleQueries.slice(0, 6).map(example => (
-                        <button
+                        <Button
                           key={example.id}
+                          variant="secondary"
+                          size="md"
                           onClick={() => handleExampleClick(example.question)}
-                          className="text-left px-4 py-3 bg-dark-card/50 hover:bg-dark-card rounded-lg text-sm transition-colors group"
+                          className="text-left justify-start group"
                         >
-                          <div className="flex items-center gap-3">
-                            <MessageCircle className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                            <span className="text-content-secondary group-hover:text-white transition-colors">
-                              "{example.question}"
-                            </span>
-                          </div>
-                        </button>
+                          <MessageCircle className={`${tokens.icons.sm} text-primary-400 flex-shrink-0`} />
+                          <span className="text-content-secondary group-hover:text-white transition-colors">
+                            "{example.question}"
+                          </span>
+                        </Button>
                       ))}
                     </div>
                   </div>
@@ -476,7 +483,7 @@ export const Training = () => {
         )}
 
         {/* Messages */}
-        <div className="space-y-4 mb-4">
+        <div className={`space-y-4 ${tokens.margin.group}`}>
           <AnimatePresence>
             {messages.map((message) => (
               <motion.div
@@ -486,24 +493,24 @@ export const Training = () => {
                 transition={{ duration: 0.3 }}
               >
                 <Card className={message.role === 'user' ? 'bg-primary-500/10 border-primary-500/20' : ''}>
-                  <div className="flex items-start gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className={`flex items-start ${tokens.gap.default}`}>
+                    <div className={`${tokens.components.iconContainer.md} ${tokens.radius.full} flex items-center justify-center flex-shrink-0 ${
                       message.role === 'user'
                         ? 'bg-primary-500/20'
                         : 'bg-accent-blue/20'
                     }`}>
                       {message.role === 'user' ? (
-                        <MessageCircle className="w-5 h-5 text-primary-400" />
+                        <MessageCircle className={`${tokens.icons.md} text-primary-400`} />
                       ) : (
-                        <Sparkles className="w-5 h-5 text-accent-blue" />
+                        <Sparkles className={`${tokens.icons.md} text-accent-blue`} />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="font-medium text-sm">
+                      <div className={`flex items-center ${tokens.gap.tight} ${tokens.margin.element}`}>
+                        <span className={`font-medium ${tokens.typography.sizes.sm}`}>
                           {message.role === 'user' ? 'You' : 'AI Coach'}
                         </span>
-                        <span className="text-xs text-content-tertiary">
+                        <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                           {message.timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </span>
                       </div>
@@ -511,12 +518,12 @@ export const Training = () => {
                         {message.content}
                       </div>
                       {message.usage && (
-                        <div className="mt-2 flex items-center gap-3 text-xs text-content-tertiary">
+                        <div className={`${tokens.margin.element} flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary`}>
                           <span>
                             {message.usage.inputTokens + message.usage.outputTokens} tokens
                           </span>
                           {message.cached && (
-                            <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded">
+                            <span className={`px-2 py-0.5 bg-green-500/20 text-green-400 ${tokens.radius.sm}`}>
                               Cached
                             </span>
                           )}
@@ -535,9 +542,9 @@ export const Training = () => {
               animate={{ opacity: 1 }}
             >
               <Card>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center">
-                    <Loader2 className="w-5 h-5 text-accent-blue animate-spin" />
+                <div className={`flex items-center ${tokens.gap.default}`}>
+                  <div className={`${tokens.components.iconContainer.md} ${tokens.radius.full} bg-accent-blue/20 flex items-center justify-center`}>
+                    <Loader2 className={`${tokens.icons.md} text-accent-blue animate-spin`} />
                   </div>
                   <div className="text-content-tertiary">Analyzing your swim data...</div>
                 </div>
@@ -553,27 +560,27 @@ export const Training = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4"
+            className={tokens.margin.group}
           >
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-4">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <CardVariant variant="danger" className={`flex items-start ${tokens.gap.default}`}>
+              <IconContainer icon={<AlertCircle />} variant="danger" size="md" className="mt-0.5" />
               <div>
-                <p className="text-red-400 font-medium mb-1">Error</p>
-                <p className="text-sm text-content-tertiary">{error}</p>
+                <p className={`text-red-400 font-medium ${tokens.margin.element}`}>Error</p>
+                <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>{error}</p>
                 {error.includes('API key') && (
-                  <p className="text-xs text-content-tertiary mt-2">
+                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
                     Add your Anthropic API key to .env file: VITE_ANTHROPIC_API_KEY=your-key-here
                   </p>
                 )}
               </div>
-            </div>
+            </CardVariant>
           </motion.div>
         )}
 
         {/* Input form */}
         {sessions.length > 0 && (
           <Card className="bg-dark-card">
-            <form onSubmit={handleCoachSubmit} className="flex gap-4">
+            <form onSubmit={handleCoachSubmit} className={`flex ${tokens.gap.default}`}>
               <input
                 ref={inputRef}
                 type="text"
@@ -581,25 +588,17 @@ export const Training = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question about your swimming..."
                 disabled={coachLoading}
-                className="flex-1 bg-dark-bg rounded-lg px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex-1 bg-dark-bg ${tokens.radius.md} px-4 py-3 text-content placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed`}
               />
-              <button
+              <Button
                 type="submit"
+                variant="primary"
+                size="lg"
                 disabled={!input.trim() || coachLoading}
-                className="px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-dark-bg disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center gap-3"
+                leftIcon={coachLoading ? <Loader2 className="animate-spin" /> : <Send />}
               >
-                {coachLoading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span className="hidden sm:inline">Thinking...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    <span className="hidden sm:inline">Send</span>
-                  </>
-                )}
-              </button>
+                <span className="hidden sm:inline">{coachLoading ? 'Thinking...' : 'Send'}</span>
+              </Button>
             </form>
           </Card>
         )}
@@ -607,48 +606,50 @@ export const Training = () => {
 
       {/* Confirmation Modal for New Plan */}
       {showNewPlanConfirm && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center ${tokens.padding.default}`}>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-md"
           >
             <Card>
-              <div className="flex items-start gap-4 mb-4">
-                <div className="p-4 rounded-full bg-orange-500/20">
-                  <AlertCircle className="w-6 h-6 text-orange-400" />
+              <div className={`flex items-start ${tokens.gap.default} ${tokens.margin.group}`}>
+                <div className={`${tokens.padding.default} ${tokens.radius.full} bg-orange-500/20`}>
+                  <AlertCircle className={`${tokens.icons.lg} text-orange-400`} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-display text-xl font-bold mb-2">Start New Plan?</h3>
-                  <p className="text-sm text-content-secondary">
+                  <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold} ${tokens.margin.element}`}>Start New Plan?</h3>
+                  <p className={`${tokens.typography.sizes.sm} text-content-secondary`}>
                     This will archive your current training plan and all progress. You'll be able to create a completely new plan from scratch.
                   </p>
                 </div>
               </div>
 
-              <div className="bg-dark-bg/50 rounded-lg p-4 mb-6">
-                <div className="text-sm text-content-secondary">
+              <div className={`bg-dark-bg/50 ${tokens.radius.md} ${tokens.padding.default} ${tokens.margin.section}`}>
+                <div className={`${tokens.typography.sizes.sm} text-content-secondary`}>
                   <strong className="text-content">Current Plan:</strong>
-                  <div className="mt-1">{goal.description}</div>
-                  <div className="mt-1 text-xs">
+                  <div className={tokens.margin.element}>{goal.description}</div>
+                  <div className={`${tokens.margin.element} ${tokens.typography.sizes.xs}`}>
                     {progress.completed_workouts}/{progress.total_workouts} workouts completed
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <button
+              <div className={`flex items-center ${tokens.gap.default}`}>
+                <Button
+                  variant="secondary"
                   onClick={() => setShowNewPlanConfirm(false)}
-                  className="flex-1 px-4 py-2 bg-dark-bg hover:bg-dark-bg/80 rounded-lg transition-colors"
+                  fullWidth
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="warning"
                   onClick={handleStartNewPlan}
-                  className="flex-1 px-4 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg transition-colors font-medium"
+                  fullWidth
                 >
                   Start New Plan
-                </button>
+                </Button>
               </div>
             </Card>
           </motion.div>
@@ -685,7 +686,7 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay }}
-      className={`bg-dark-card rounded-lg border ${
+      className={`bg-dark-card ${tokens.radius.md} border ${
         workout.completed
           ? 'border-green-500/30 bg-green-500/5'
           : 'border-dark-border hover:border-primary-500/30'
@@ -693,19 +694,19 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
     >
       <button
         onClick={onToggle}
-        className="w-full p-4 flex items-center justify-between text-left"
+        className={`w-full ${tokens.padding.default} flex items-center justify-between text-left`}
       >
-        <div className="flex items-center gap-4 flex-1">
+        <div className={`flex items-center ${tokens.gap.default} flex-1`}>
           {workout.completed ? (
-            <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+            <CheckCircle2 className={`${tokens.icons.md} text-green-400 flex-shrink-0`} />
           ) : (
-            <Circle className="w-5 h-5 text-content-tertiary flex-shrink-0" />
+            <Circle className={`${tokens.icons.md} text-content-tertiary flex-shrink-0`} />
           )}
 
           <div className="flex-1">
-            <div className="font-semibold text-sm mb-1">{workout.title}</div>
+            <div className={`${tokens.typography.weights.semibold} ${tokens.typography.sizes.sm} ${tokens.margin.element}`}>{workout.title}</div>
             {!compact && (
-              <div className="flex items-center gap-4 text-xs text-content-tertiary">
+              <div className={`flex items-center ${tokens.gap.default} ${tokens.typography.sizes.xs} text-content-tertiary`}>
                 <span className="capitalize">{workout.day}</span>
                 <span>•</span>
                 <span>{formatDistanceWithLengths(workout.totalDistance, poolLength)}</span>
@@ -718,41 +719,47 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
 
         {!workout.completed ? (
           !compact && (
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={(e) => {
                 e.stopPropagation();
                 handleComplete();
               }}
-              className="px-3 py-1.5 bg-accent-blue/20 hover:bg-accent-blue/30 text-accent-blue rounded text-xs font-medium transition-colors mr-2"
+              className="bg-accent-blue/20 hover:bg-accent-blue/30 text-accent-blue mr-2"
             >
               Mark complete
-            </button>
+            </Button>
           )
         ) : (
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={(e) => {
               e.stopPropagation();
               handleUncomplete();
             }}
-            className="px-3 py-1.5 bg-dark-bg hover:bg-dark-bg/80 text-content-secondary rounded text-xs font-medium transition-colors mr-2"
+            className="mr-2"
           >
             Mark uncomplete
-          </button>
+          </Button>
         )}
 
         {isExpanded ? (
-          <ChevronUp className="w-4 h-4 text-content-tertiary flex-shrink-0" />
+          <ChevronUp className={`${tokens.icons.sm} text-content-tertiary flex-shrink-0`} />
         ) : (
-          <ChevronDown className="w-4 h-4 text-content-tertiary flex-shrink-0" />
+          <ChevronDown className={`${tokens.icons.sm} text-content-tertiary flex-shrink-0`} />
         )}
       </button>
 
       {isExpanded && (
-        <div className="border-t border-dark-border p-4 space-y-4">
-          {/* Description */}
+        <>
+          <Separator spacing="none" />
+          <div className={`${tokens.padding.default} space-y-4`}>
+            {/* Description */}
           {workout.description && (
-            <div className="bg-accent-blue/10 border border-accent-blue/20 rounded-lg p-4">
-              <p className="text-sm text-content">
+            <div className={`bg-accent-blue/10 border border-accent-blue/20 ${tokens.radius.md} ${tokens.padding.default}`}>
+              <p className={`${tokens.typography.sizes.sm} text-content`}>
                 {workout.description}
               </p>
             </div>
@@ -761,10 +768,10 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {/* Warmup */}
           {workout.warmup && workout.warmup.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-accent-blue mb-2">Warm-up</h4>
-              <ul className="space-y-2 text-sm text-content-secondary">
+              <h4 className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-accent-blue ${tokens.margin.element}`}>Warm-up</h4>
+              <ul className={`space-y-2 ${tokens.typography.sizes.sm} text-content-secondary`}>
                 {workout.warmup.map((item, i) => (
-                  <li key={i} className="flex gap-3">
+                  <li key={i} className={`flex ${tokens.gap.tight}`}>
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -776,10 +783,10 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {/* Main Set */}
           {workout.mainSet && workout.mainSet.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-primary-400 mb-2">Main Set</h4>
-              <ul className="space-y-2 text-sm text-content-secondary">
+              <h4 className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-primary-400 ${tokens.margin.element}`}>Main Set</h4>
+              <ul className={`space-y-2 ${tokens.typography.sizes.sm} text-content-secondary`}>
                 {workout.mainSet.map((item, i) => (
-                  <li key={i} className="flex gap-3">
+                  <li key={i} className={`flex ${tokens.gap.tight}`}>
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -791,10 +798,10 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           {/* Cooldown */}
           {workout.cooldown && workout.cooldown.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-green-400 mb-2">Cool-down</h4>
-              <ul className="space-y-2 text-sm text-content-secondary">
+              <h4 className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-green-400 ${tokens.margin.element}`}>Cool-down</h4>
+              <ul className={`space-y-2 ${tokens.typography.sizes.sm} text-content-secondary`}>
                 {workout.cooldown.map((item, i) => (
-                  <li key={i} className="flex gap-3">
+                  <li key={i} className={`flex ${tokens.gap.tight}`}>
                     <span className="text-content-tertiary">•</span>
                     <span>{item}</span>
                   </li>
@@ -804,34 +811,38 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
           )}
 
           {/* Workout Stats */}
-          <div className="pt-3 border-t border-dark-border flex items-center justify-between text-xs">
-            <div className="flex items-center gap-4 text-content-tertiary">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-3.5 h-3.5" />
+          <Separator spacing="sm" />
+          <div className={`flex items-center justify-between ${tokens.typography.sizes.xs}`}>
+            <div className={`flex items-center ${tokens.gap.default} text-content-tertiary`}>
+              <div className={`flex items-center ${tokens.gap.element}`}>
+                <TrendingUp className={tokens.icons.xs} />
                 <span>{formatDistanceWithLengths(workout.totalDistance, poolLength)} total</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5" />
+              <div className={`flex items-center ${tokens.gap.element}`}>
+                <Clock className={tokens.icons.xs} />
                 <span>~{workout.estimatedTime} minutes</span>
               </div>
             </div>
 
             {!workout.completed && (
-              <button
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={handleComplete}
-                className="px-3 py-1.5 bg-accent-blue hover:bg-accent-blue/90 text-white rounded text-xs font-medium transition-colors"
+                leftIcon={<CheckCircle2 className={tokens.icons.xs} />}
               >
-                <CheckCircle2 className="w-3.5 h-3.5 inline mr-1" />
                 Complete
-              </button>
+              </Button>
             )}
           </div>
 
           {/* Actual Performance (if completed) */}
           {workout.completed && workout.actualPerformance && (
-            <div className="pt-3 border-t border-dark-border">
-              <h4 className="text-xs font-semibold text-green-400 mb-2">Your Performance</h4>
-              <div className="flex items-center gap-4 text-xs text-content-secondary">
+            <>
+              <Separator spacing="sm" />
+              <div>
+              <h4 className={`${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} text-green-400 ${tokens.margin.element}`}>Your Performance</h4>
+              <div className={`flex items-center ${tokens.gap.default} ${tokens.typography.sizes.xs} text-content-secondary`}>
                 <span>{(workout.actualPerformance.distance / 1000).toFixed(1)}km</span>
                 <span>•</span>
                 <span>{formatDuration(workout.actualPerformance.duration)}</span>
@@ -839,8 +850,10 @@ const WorkoutCard = ({ workout, weekNumber, isExpanded, onToggle, onComplete, on
                 <span>{workout.actualPerformance.pace.toFixed(2)} min/100m pace</span>
               </div>
             </div>
+            </>
           )}
-        </div>
+          </div>
+        </>
       )}
     </motion.div>
   );

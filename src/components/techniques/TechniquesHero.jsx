@@ -81,7 +81,6 @@ export const TechniquesHero = ({ totalArticles, completedArticles, categoryCount
                     bg-primary-500 hover:bg-primary-600
                     text-white transition-colors
                     flex items-center gap-3
-                    shadow-lg shadow-primary-500/20
                   `}
                 >
                   <div className="flex items-center gap-2">

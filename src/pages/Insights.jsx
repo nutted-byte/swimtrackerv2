@@ -4,6 +4,7 @@ import { ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { Card } from '../components/Card';
+import { Separator } from '../components/primitives';
 import { Button } from '../components/Button';
 import { TrendBadge } from '../components/TrendBadge';
 import { CollapsibleSection } from '../components/CollapsibleSection';
@@ -108,9 +109,9 @@ export const Insights = () => {
         >
           <div className="flex items-start justify-between mb-4">
             <div className="p-4 rounded-xl bg-dark-bg/50">
-              <Icon className="w-8 h-8 text-accent-blue" />
+              <Icon className={`${tokens.icons.xl} text-accent-blue`} />
             </div>
-            <Trophy className="w-6 h-6 text-yellow-500" />
+            <Trophy className={`${tokens.icons.lg} text-yellow-500`} />
           </div>
 
           <h3 className="text-sm text-content-tertiary uppercase tracking-wide mb-2">
@@ -127,10 +128,13 @@ export const Insights = () => {
           )}
 
           {session && (
-            <div className="flex items-center gap-2 text-xs text-content-tertiary pt-4 border-t border-dark-border">
-              <Calendar className="w-3 h-3" />
-              {formatDate(session.date)}
-            </div>
+            <>
+              <Separator spacing="sm" />
+              <div className="flex items-center gap-2 text-xs text-content-tertiary">
+                <Calendar className={tokens.icons.xs} />
+                {formatDate(session.date)}
+              </div>
+            </>
           )}
         </Card>
       </motion.div>
@@ -301,11 +305,11 @@ export const Insights = () => {
 
             <div className="flex items-center justify-center gap-6 mt-4 text-sm text-content-tertiary">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-accent-blue"></div>
+                <div className={`${tokens.icons.xs} rounded-full bg-accent-blue`}></div>
                 <span>Pace (min/100m) - Higher is faster</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-purple-400"></div>
+                <div className={`${tokens.icons.xs} rounded-full bg-purple-400`}></div>
                 <span>SWOLF - Lower is better</span>
               </div>
             </div>

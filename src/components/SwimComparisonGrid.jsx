@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card } from './Card';
+import { Separator } from './primitives';
 import { TrendingUp, TrendingDown, Trophy, Users, Target } from 'lucide-react';
 import { tokens } from '../design/tokens';
 
@@ -70,13 +71,16 @@ export const SwimComparisonGrid = ({ lastSwim, comparative, formatPace }) => {
 
             {/* Reference pace */}
             {(data.avgPace || data.pbPace || data.bestPace) && (
-              <div className="pt-3 border-t border-dark-border">
+              <>
+                <Separator spacing="sm" />
+                <div>
                 <p className="text-xs text-content-tertiary mb-1">Reference Pace</p>
                 <p className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} text-content-secondary`}>
                   {formatPace(data.avgPace || data.pbPace || data.bestPace)}
                 </p>
                 <p className="text-xs text-content-tertiary mt-1">min/100m</p>
               </div>
+              </>
             )}
 
             {/* Special badges */}

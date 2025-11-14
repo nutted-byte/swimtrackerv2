@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { CardHeader } from './primitives';
 import { Trophy, Activity, TrendingUp, Zap } from 'lucide-react';
+import { tokens } from '../design/tokens';
 
 export const SwimRankingCard = ({ ranking }) => {
   if (!ranking) return null;
@@ -69,16 +70,16 @@ export const SwimRankingCard = ({ ranking }) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className={`relative overflow-hidden rounded-lg p-4 ${colorClass}`}
+      className={`relative overflow-hidden ${tokens.radius.sm} ${tokens.padding.default} ${colorClass}`}
     >
-      <div className="flex items-start gap-4">
-        <div className="text-3xl">{emoji}</div>
+      <div className={`flex items-start ${tokens.gap.compact}`}>
+        <div className={tokens.typography.sizes['3xl']}>{emoji}</div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <Icon className="w-4 h-4 text-content-tertiary" />
-            <h4 className="font-semibold text-white">{label}</h4>
+          <div className={`flex items-center ${tokens.gap.tight} ${tokens.margin.element}`}>
+            <Icon className={`${tokens.icons.sm} text-content-tertiary`} />
+            <h4 className={`${tokens.typography.weights.semibold} text-white`}>{label}</h4>
           </div>
-          <p className="text-sm text-content-secondary">{description}</p>
+          <p className={`${tokens.typography.sizes.sm} text-content-secondary`}>{description}</p>
         </div>
       </div>
     </motion.div>
@@ -112,17 +113,17 @@ export const SwimRankingCard = ({ ranking }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: comparisons.length * 0.1 + 0.1 }}
-            className="mt-4 p-4 bg-primary-500/10 rounded-lg border border-primary-500/20"
+            className={`mt-4 ${tokens.padding.default} bg-primary-500/10 ${tokens.radius.sm} border border-primary-500/20`}
           >
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">
+            <div className={`flex items-center ${tokens.gap.tight}`}>
+              <span className={tokens.typography.sizes['2xl']}>
                 {ranking.monthRank === 1 ? '🥇' : ranking.monthRank === 2 ? '🥈' : '🥉'}
               </span>
               <div>
-                <p className="text-sm font-semibold text-primary-400">
+                <p className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-primary-400`}>
                   #{ranking.monthRank} This Month
                 </p>
-                <p className="text-xs text-content-tertiary">
+                <p className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
                   Out of {ranking.monthTotal} swims in the last 30 days
                 </p>
               </div>
