@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { tokens } from '../design/tokens';
 
 export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
   const { isDark } = useTheme();
@@ -11,14 +12,14 @@ export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
     switch (trend) {
       case 'improving':
         return {
-          colorDark: 'bg-green-500/20 text-green-400 border-green-500/30',
-          colorLight: 'bg-green-50 text-green-400 border-green-200',
+          colorDark: `bg-green-500/20 ${tokens.typography.semantic.success} border-green-500/30`,
+          colorLight: `bg-green-50 ${tokens.typography.semantic.success} border-green-200`,
           icon: TrendingUp,
           label: 'Improving'
         };
       case 'declining':
         return {
-          colorDark: 'bg-red-500/20 text-red-400 border-red-500/30',
+          colorDark: `bg-red-500/20 ${tokens.typography.semantic.danger} border-red-500/30`,
           colorLight: 'bg-red-50 text-red-700 border-red-200',
           icon: TrendingDown,
           label: 'Declining'
@@ -26,7 +27,7 @@ export const TrendBadge = memo(({ trend, metric = '', size = 'md' }) => {
       case 'stable':
       default:
         return {
-          colorDark: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+          colorDark: `bg-yellow-500/20 ${tokens.typography.semantic.warning} border-yellow-500/30`,
           colorLight: 'bg-yellow-50 text-yellow-700 border-yellow-200',
           icon: Minus,
           label: 'Stable'

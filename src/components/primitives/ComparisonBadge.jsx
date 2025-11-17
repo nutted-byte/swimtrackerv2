@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Tooltip } from '../Tooltip';
+import { tokens } from '../../design/tokens';
 
 /**
  * ComparisonBadge - Reusable comparison/performance indicator badge
@@ -28,37 +29,37 @@ export const ComparisonBadge = ({
     better: {
       icon: TrendingUp,
       bg: 'bg-green-500/20',
-      text: 'text-green-400',
+      text: tokens.typography.semantic.success,
       defaultLabel: 'Better'
     },
     fast: {
       icon: TrendingUp,
       bg: 'bg-green-500/20',
-      text: 'text-green-400',
+      text: tokens.typography.semantic.success,
       defaultLabel: 'Fast'
     },
     improved: {
       icon: TrendingUp,
       bg: 'bg-green-500/20',
-      text: 'text-green-400',
+      text: tokens.typography.semantic.success,
       defaultLabel: 'Improved'
     },
     worse: {
       icon: TrendingDown,
       bg: 'bg-red-500/20',
-      text: 'text-red-400',
+      text: tokens.typography.semantic.danger,
       defaultLabel: 'Worse'
     },
     slow: {
       icon: TrendingDown,
       bg: 'bg-orange-500/20',
-      text: 'text-orange-400',
+      text: tokens.typography.semantic.warningAlt,
       defaultLabel: 'Easy'
     },
     declined: {
       icon: TrendingDown,
       bg: 'bg-red-500/20',
-      text: 'text-red-400',
+      text: tokens.typography.semantic.danger,
       defaultLabel: 'Declined'
     },
     same: {

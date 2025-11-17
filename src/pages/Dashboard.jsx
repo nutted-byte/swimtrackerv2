@@ -141,10 +141,10 @@ export const Dashboard = () => {
           className="space-y-6"
         >
           <div className="text-8xl mb-6">🌊</div>
-          <h1 className="font-display text-4xl font-bold mb-4">
+          <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold} mb-4`}>
             Welcome to Swimma!
           </h1>
-          <p className="text-xl text-content-tertiary mb-8">
+          <p className={`${tokens.typography.sizes.xl} text-content-tertiary mb-8`}>
             {message}
           </p>
           <Link to="/upload">

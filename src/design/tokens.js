@@ -28,6 +28,8 @@ export const tokens = {
       '2xl': 'text-2xl',   // 24px - Sticky bar titles, card metrics, records
       '3xl': 'text-3xl',   // 30px - InsightStatCard values
       '4xl': 'text-4xl',   // 36px - Page heroes, primary dashboard stats
+      '5xl': 'text-5xl',   // 48px - Large page heroes, session detail
+      '6xl': 'text-6xl',   // 60px - Extra large heroes, featured content
     },
     weights: {
       normal: 'font-normal',
@@ -38,7 +40,20 @@ export const tokens = {
     families: {
       sans: 'font-sans',      // Inter - body text
       display: 'font-display', // Space Grotesk - headings, numbers
-    }
+    },
+    // Semantic colors for state-based text
+    semantic: {
+      success: 'text-green-400',   // Positive states, improvements, achievements
+      danger: 'text-red-400',      // Negative states, declines, errors
+      warning: 'text-yellow-400',  // Caution, moderate changes, attention needed
+      warningAlt: 'text-orange-400', // Alternative warning for emphasis
+      info: 'text-purple-400',     // Information, special features, AI-related
+    },
+    // Primary color usage guidelines
+    // - text-primary-400: Default for dark mode (icons, accents, interactive elements)
+    // - text-primary-500: Standard for light mode, main brand color
+    // - text-primary-600: Darker shade for light mode hover states
+    // - text-primary-700: Very dark, high contrast text on light backgrounds
   },
 
   // Icon Sizes (width/height pairs)

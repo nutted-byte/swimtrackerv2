@@ -101,10 +101,10 @@ export const SessionDetail = () => {
             <Calendar className={tokens.icons.sm} />
             <span>{formatDate(session.date)}</span>
           </div>
-          <h1 className="font-display text-5xl font-bold mb-2">
+          <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['5xl']} ${tokens.typography.weights.bold} mb-2`}>
             {formatDistance(session.distance)}
           </h1>
-          <p className="text-xl text-content-tertiary">
+          <p className={`${tokens.typography.sizes.xl} text-content-tertiary`}>
             {session.sport || 'Swimming'} Session
           </p>
         </div>

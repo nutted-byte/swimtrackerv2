@@ -40,7 +40,7 @@ export const PageHero = ({
             <Icon className={`${tokens.icons['2xl']} text-primary-400`} />
           </motion.div>
         )}
-        <h2 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
+        <h2 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold}`}>
           {title}
         </h2>
       </div>

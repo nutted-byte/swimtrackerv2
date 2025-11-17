@@ -30,23 +30,23 @@ export const Login = () => {
           className="text-center lg:text-left"
         >
           <div className="flex items-center gap-3 justify-center lg:justify-start mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-4xl">
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center ${tokens.typography.sizes['4xl']}`}>
               🌊
             </div>
             <div>
-              <h1 className="font-display text-4xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+              <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold} bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent`}>
                 Swimma
               </h1>
               <p className="text-content-tertiary text-sm">Your swimming analytics</p>
             </div>
           </div>
 
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">
+          <h2 className={`${tokens.typography.sizes['3xl']} lg:${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold} mb-4 text-white`}>
             Track Every Stroke.<br />
             See Every Improvement.
           </h2>
 
-          <p className="text-content-tertiary text-lg mb-8">
+          <p className={`text-content-tertiary ${tokens.typography.sizes.lg} mb-8`}>
             Upload your swim data, analyze your performance, and watch yourself get faster.
           </p>
 

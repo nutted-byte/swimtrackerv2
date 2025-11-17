@@ -24,9 +24,9 @@ export const WeeklySummaryCard = ({ sessions }) => {
   const getTrendDisplay = (trendData) => {
     switch (trendData.trend) {
       case 'up':
-        return { Icon: TrendingUp, color: 'text-green-400' };
+        return { Icon: TrendingUp, color: tokens.typography.semantic.success };
       case 'down':
-        return { Icon: TrendingDown, color: 'text-red-400' };
+        return { Icon: TrendingDown, color: tokens.typography.semantic.danger };
       default:
         return { Icon: Minus, color: 'text-content-tertiary' };
     }
@@ -60,7 +60,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
             <div className="flex items-baseline gap-2">
               <span className={`${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} text-accent-blue`}>{currentWeek.count}</span>
               {trend.count.trend !== 'steady' && (
-                <div className={`flex items-center gap-1 text-xs ${trend.count.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <div className={`flex items-center gap-1 ${tokens.typography.sizes.xs} ${trend.count.change > 0 ? tokens.typography.semantic.success : tokens.typography.semantic.danger}`}>
                   {trend.count.change > 0 ? '+' : ''}{trend.count.change}%
                 </div>
               )}
@@ -79,7 +79,7 @@ export const WeeklySummaryCard = ({ sessions }) => {
           <div className="bg-dark-bg/30 rounded-lg p-3">
             <div className="text-xs text-content-tertiary mb-1">Distance</div>
             <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold">
+              <span className={`${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold}`}>
                 {(currentWeek.totalDistance / 1000).toFixed(1)}km
               </span>
               {trend.distance.trend !== 'steady' && (

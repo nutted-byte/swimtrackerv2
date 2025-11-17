@@ -46,11 +46,19 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
     return filteredSessions;
   }, [filteredSessions, granularity]);
 
+  // Format date as DD/MM
+  const formatShortDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    return `${day}/${month}`;
+  };
+
   // Transform to chart data format
   const chartData = useMemo(() => processedData.map((item, index) => {
     if (granularity === 'session') {
       return {
-        date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: formatShortDate(item.date),
         fullDate: new Date(item.date).toLocaleDateString(),
         pace: item.pace,
         paceSeconds: item.pace * 60,
@@ -62,7 +70,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
       };
     } else if (granularity === 'daily') {
       return {
-        date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: formatShortDate(item.date),
         fullDate: new Date(item.date).toLocaleDateString(),
         pace: item.avgPace,
         paceSeconds: item.avgPace * 60,
@@ -75,7 +83,7 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
     } else {
       // weekly
       return {
-        date: new Date(item.weekStart).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: formatShortDate(item.weekStart),
         fullDate: `Week of ${new Date(item.weekStart).toLocaleDateString()}`,
         pace: item.avgPace,
         paceSeconds: item.avgPace * 60,

@@ -487,7 +487,7 @@ const ArticleView = ({ articleId }) => {
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-4xl">{categoryInfo?.icon || '📚'}</span>
+                <span className={tokens.typography.sizes['4xl']}>{categoryInfo?.icon || '📚'}</span>
                 <div>
                   <span className={`text-xs px-2 py-1 rounded-full font-semibold uppercase tracking-wide ${
                     isDark ? 'bg-dark-bg/50 text-content-secondary' : 'bg-white/80 text-content-secondary'
@@ -496,8 +496,8 @@ const ArticleView = ({ articleId }) => {
                   </span>
                 </div>
               </div>
-              <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">{article.title}</h1>
-              <p className="text-lg text-content-secondary max-w-3xl">{article.summary}</p>
+              <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} md:${tokens.typography.sizes['5xl']} ${tokens.typography.weights.bold} mb-4`}>{article.title}</h1>
+              <p className={`${tokens.typography.sizes.lg} text-content-secondary max-w-3xl`}>{article.summary}</p>
             </div>
 
             {isCompleted && (

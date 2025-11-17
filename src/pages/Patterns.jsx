@@ -29,10 +29,10 @@ export const Patterns = () => {
           className="space-y-6"
         >
           <div className="text-8xl mb-6">📊</div>
-          <h1 className="font-display text-4xl font-bold mb-4">
+          <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold} mb-4`}>
             Pattern Analysis
           </h1>
-          <p className="text-xl text-content-tertiary mb-8">
+          <p className={`${tokens.typography.sizes.xl} text-content-tertiary mb-8`}>
             Upload swim data to discover your performance patterns!
           </p>
           <Link to="/upload">

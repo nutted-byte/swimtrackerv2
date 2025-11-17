@@ -106,7 +106,6 @@ export const LapPaceChart = ({ laps }) => {
               reversed
             />
 
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 212, 255, 0.1)' }} />
 
             <ReferenceLine
               y={avgPace}

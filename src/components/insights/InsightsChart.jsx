@@ -175,9 +175,15 @@ export const InsightsChart = ({
             stroke={CHART_COLORS.AXIS}
             style={{ fontSize: '12px' }}
             domain={barChartDomain}
-            tickFormatter={(value) => `${value.toFixed(1)}km`}
+            tickFormatter={(value) => {
+              // Round to 2 decimals to avoid duplicate labels
+              const rounded = Math.round(value * 100) / 100;
+              return rounded.toFixed(rounded % 1 === 0 ? 0 : 1);
+            }}
+            label={{ value: 'Distance (km)', angle: -90, position: 'insideLeft', fill: CHART_COLORS.AXIS }}
+            allowDecimals={true}
+            tickCount={5}
           />
-          <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
           <Bar dataKey="distance" fill={CHART_COLORS.PRIMARY} radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
           <ReferenceLine
             y={stats.totalDistance / enrichedChartData.length}
@@ -215,32 +221,6 @@ export const InsightsChart = ({
             label={{ value: 'SWOLF', angle: -90, position: 'left', fill: CHART_COLORS.AXIS }}
           />
           <ZAxis type="number" dataKey="distance" range={[50, 400]} name="Distance" />
-          <Tooltip
-            cursor={{ strokeDasharray: '3 3' }}
-            content={({ active, payload }) => {
-              if (active && payload && payload.length) {
-                const data = payload[0].payload;
-                return (
-                  <div className="bg-dark-card rounded-lg p-3 shadow-lg">
-                    <p className="text-sm text-content-tertiary mb-2">{data.date}</p>
-                    <p className="text-sm">
-                      <span className="text-content-tertiary">Pace:</span>{' '}
-                      <span className="font-semibold text-accent-blue">{formatPace(data.pace)}</span>
-                    </p>
-                    <p className="text-sm">
-                      <span className="text-content-tertiary">SWOLF:</span>{' '}
-                      <span className="font-semibold text-accent-blue">{data.swolf}</span>
-                    </p>
-                    <p className="text-sm">
-                      <span className="text-content-tertiary">Distance:</span>{' '}
-                      <span className="font-semibold text-accent-blue">{data.distance.toFixed(2)} km</span>
-                    </p>
-                  </div>
-                );
-              }
-              return null;
-            }}
-          />
           <Scatter data={scatterData} fill={CHART_COLORS.PRIMARY} isAnimationActive animationDuration={800} />
           {scatterData.length > 0 && (
             <>
@@ -306,7 +286,6 @@ export const InsightsChart = ({
             label={{ value: 'SWOLF', angle: 90, position: 'insideRight', fill: CHART_COLORS.SECONDARY, opacity: 0.6 }}
           />
         )}
-        <Tooltip content={<CustomTooltip metric={metric} enrichedChartData={enrichedChartData} getMilestoneType={getMilestoneType} granularity={granularity} />} />
         <Area
           yAxisId="left"
           type="monotone"
@@ -326,7 +305,6 @@ export const InsightsChart = ({
             }
             return <circle cx={props.cx} cy={props.cy} r={5} fill={CHART_COLORS.PRIMARY} />;
           }}
-          activeDot={{ r: 7, fill: CHART_COLORS.PRIMARY }}
           isAnimationActive
           animationDuration={800}
         />
@@ -340,7 +318,6 @@ export const InsightsChart = ({
             strokeDasharray="3 3"
             opacity={0.5}
             dot={false}
-            activeDot={{ r: 5, fill: CHART_COLORS.SECONDARY, opacity: 1 }}
             isAnimationActive
             animationDuration={800}
           />

@@ -81,7 +81,7 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
               <span>{formatTime(session.date)}</span>
             </div>
             <div className={`flex items-baseline ${tokens.gap.tight}`}>
-              <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes['3xl']} ${tokens.typography.weights.bold} ${
+              <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${
                 isDark
                   ? 'bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent'
                   : 'text-primary-600'

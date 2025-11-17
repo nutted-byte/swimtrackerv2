@@ -18,6 +18,7 @@ import { tokens } from '../design/tokens.js';
  * @param {function} onClick - Click handler
  */
 export const Button = forwardRef(({
+  as: Component = 'button',
   variant = 'primary',
   size = 'md',
   disabled = false,
@@ -71,13 +72,16 @@ export const Button = forwardRef(({
     ${className}
   `.trim().replace(/\s+/g, ' ');
 
+  // Only pass type prop if rendering a button element
+  const elementProps = Component === 'button' ? { type } : {};
+
   return (
-    <button
+    <Component
       ref={ref}
-      type={type}
       className={buttonClasses}
       disabled={disabled}
       onClick={onClick}
+      {...elementProps}
       {...props}
     >
       {leftIcon && (
@@ -91,7 +95,7 @@ export const Button = forwardRef(({
           {rightIcon}
         </span>
       )}
-    </button>
+    </Component>
   );
 });
 

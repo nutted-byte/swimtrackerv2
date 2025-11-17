@@ -55,7 +55,7 @@ export const Upload = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="font-display text-4xl font-bold mb-2">
+        <h1 className={`${tokens.typography.families.display} ${tokens.typography.sizes['4xl']} ${tokens.typography.weights.bold} mb-2`}>
           Upload Swim Data
         </h1>
         <p className="text-content-tertiary mb-8">
