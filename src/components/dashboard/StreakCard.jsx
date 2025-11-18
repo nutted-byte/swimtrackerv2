@@ -25,7 +25,7 @@ export const StreakCard = ({ sessions }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <Card className="bg-gradient-to-br from-primary-500/10 to-blue-500/10 border-primary-500/20">
+      <Card className="bg-gradient-to-br from-primary-500/15 to-blue-500/15 border-primary-500/30">
         <CardHeader
           icon={Calendar}
           title="Monthly Summary"
@@ -36,16 +36,16 @@ export const StreakCard = ({ sessions }) => {
         />
 
         {/* Monthly Summary Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-white rounded-lg">
           <table className="w-full">
             <thead>
               <tr>
-                <th className="text-left py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Month</th>
-                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Swims</th>
-                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Lengths</th>
-                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Distance</th>
-                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">Avg Pace</th>
-                <th className="text-center py-2.5 px-3 text-xs font-medium uppercase tracking-wide text-content-tertiary">SWOLF</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>Month</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>Swims</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>Lengths</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>Distance</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>Avg Pace</th>
+                <th className={`text-left align-middle py-3 px-3 ${tokens.typography.sizes.xs} ${tokens.typography.weights.semibold} uppercase tracking-wide text-content-secondary`}>SWOLF</th>
               </tr>
               <tr><td colSpan="6" className="p-0"><Separator spacing="none" /></td></tr>
             </thead>
@@ -56,39 +56,35 @@ export const StreakCard = ({ sessions }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.03 }}
-                  className={`${
-                    month.isCurrentMonth ? 'bg-accent-blue/10' : 'hover:bg-gray-800/20'
-                  } transition-colors`}
+                  className="hover:bg-slate-50 transition-colors"
                 >
-                  <td className="py-3 px-3">
-                    <span className={`text-base font-medium ${
-                      month.isCurrentMonth ? 'text-accent-blue' : 'text-content-primary'
-                    }`}>
+                  <td className="align-middle py-3 px-3">
+                    <span className={`${tokens.typography.sizes.base} ${tokens.typography.weights.semibold} text-content-primary`}>
                       {month.monthName}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-3">
-                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                  <td className="text-left align-middle py-3 px-3">
+                    <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? month.sessionCount : '—'}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-3">
-                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                  <td className="text-left align-middle py-3 px-3">
+                    <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? month.totalLengths : '—'}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-3">
-                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                  <td className="text-left align-middle py-3 px-3">
+                    <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? `${(month.totalDistance / 1000).toFixed(1)}km` : '—'}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-3">
-                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                  <td className="text-left align-middle py-3 px-3">
+                    <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity ? formatPace(month.avgPace) : '—'}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-3">
-                    <span className={`text-base ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
+                  <td className="text-left align-middle py-3 px-3">
+                    <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} ${month.hasActivity ? 'text-content-primary' : 'text-content-tertiary'}`}>
                       {month.hasActivity && month.avgSwolf > 0 ? Math.round(month.avgSwolf) : '—'}
                     </span>
                   </td>

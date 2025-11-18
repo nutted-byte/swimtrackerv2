@@ -4,7 +4,7 @@
  */
 
 const CACHE_KEY = 'swimma_query_cache';
-const CACHE_VERSION = 4; // Increment to invalidate all old caches
+const CACHE_VERSION = 5; // Increment to invalidate all old caches (v5: fixed pace formatting)
 const CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
 /**

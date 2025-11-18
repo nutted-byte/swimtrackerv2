@@ -107,6 +107,13 @@ const CustomTooltip = ({ active, payload, metric, enrichedChartData, getMileston
             </p>
           </div>
         )}
+        {metric === 'duration' && (
+          <div>
+            <p className="font-display font-semibold text-accent-blue text-lg">
+              {data.duration.toFixed(0)} mins
+            </p>
+          </div>
+        )}
         {metric === 'swolf' && data.swolf > 0 && (
           <div>
             <p className="font-display font-semibold text-accent-blue text-lg">
@@ -161,11 +168,14 @@ export const InsightsChart = ({
     metric === 'pace' ? 'paceSeconds' : metric === 'dps' ? 'dps' : metric
   );
 
-  const barChartDomain = calculateDomain(enrichedChartData, 'distance');
+  const barChartDomain = calculateDomain(enrichedChartData, metric === 'duration' ? 'duration' : 'distance');
   const scatterPaceDomain = calculateDomain(scatterData, 'pace');
   const scatterSwolfDomain = calculateDomain(scatterData, 'swolf');
 
   if (chartType === 'bar') {
+    const yAxisLabel = metric === 'duration' ? 'Duration (mins)' : 'Distance (km)';
+    const barDataKey = metric === 'duration' ? 'duration' : 'distance';
+
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={enrichedChartData}>
@@ -180,11 +190,11 @@ export const InsightsChart = ({
               const rounded = Math.round(value * 100) / 100;
               return rounded.toFixed(rounded % 1 === 0 ? 0 : 1);
             }}
-            label={{ value: 'Distance (km)', angle: -90, position: 'insideLeft', fill: CHART_COLORS.AXIS }}
+            label={{ value: yAxisLabel, angle: -90, position: 'insideLeft', fill: CHART_COLORS.AXIS }}
             allowDecimals={true}
             tickCount={5}
           />
-          <Bar dataKey="distance" fill={CHART_COLORS.PRIMARY} radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
+          <Bar dataKey={barDataKey} fill={CHART_COLORS.PRIMARY} radius={[8, 8, 0, 0]} isAnimationActive animationDuration={800} />
           <ReferenceLine
             y={stats.totalDistance / enrichedChartData.length}
             stroke={CHART_COLORS.SECONDARY}
@@ -192,6 +202,86 @@ export const InsightsChart = ({
             label={{ value: 'Avg', position: 'right', fill: CHART_COLORS.SECONDARY }}
           />
         </BarChart>
+      </ResponsiveContainer>
+    );
+  }
+
+  // Dual-axis line chart for duration + calories
+  if (chartType === 'dual-bar') {
+    const durations = enrichedChartData.map(d => d.duration || 0).filter(d => d > 0);
+    const calories = enrichedChartData.map(d => d.calories || 0).filter(c => c > 0);
+
+    const minDuration = Math.min(...durations);
+    const maxDuration = Math.max(...durations);
+    const minCalories = Math.min(...calories);
+    const maxCalories = Math.max(...calories);
+
+    // Calculate adaptive ranges with padding
+    const durationRange = maxDuration - minDuration;
+    const durationPadding = Math.max(5, durationRange * 0.2);
+    const durationMin = Math.floor((minDuration - durationPadding) / 5) * 5;
+    const durationMax = Math.ceil((maxDuration + durationPadding) / 5) * 5;
+
+    const caloriesRange = maxCalories - minCalories;
+    const caloriesPadding = Math.max(50, caloriesRange * 0.2);
+    const caloriesMin = Math.floor((minCalories - caloriesPadding) / 50) * 50;
+    const caloriesMax = Math.ceil((maxCalories + caloriesPadding) / 50) * 50;
+
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={enrichedChartData}>
+          <defs>
+            <linearGradient id="colorDuration" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.3}/>
+              <stop offset="95%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0}/>
+            </linearGradient>
+            <linearGradient id="colorCalories" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={CHART_COLORS.SECONDARY} stopOpacity={0.2}/>
+              <stop offset="95%" stopColor={CHART_COLORS.SECONDARY} stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.GRID} />
+          <XAxis dataKey="date" stroke={CHART_COLORS.AXIS} style={{ fontSize: '12px' }} />
+          <YAxis
+            yAxisId="left"
+            stroke={CHART_COLORS.PRIMARY}
+            style={{ fontSize: '12px' }}
+            domain={[durationMin, durationMax]}
+            label={{ value: 'Duration (mins)', angle: -90, position: 'insideLeft', fill: CHART_COLORS.PRIMARY }}
+            allowDecimals={false}
+          />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            stroke={CHART_COLORS.SECONDARY}
+            style={{ fontSize: '12px' }}
+            domain={[caloriesMin, caloriesMax]}
+            tickFormatter={(value) => Math.round(value)}
+            label={{ value: 'Calories', angle: 90, position: 'insideRight', fill: CHART_COLORS.SECONDARY }}
+            allowDecimals={false}
+          />
+          <Line
+            yAxisId="left"
+            type="monotone"
+            dataKey="duration"
+            stroke={CHART_COLORS.PRIMARY}
+            strokeWidth={3}
+            dot={{ r: 5, fill: CHART_COLORS.PRIMARY }}
+            isAnimationActive
+            animationDuration={800}
+          />
+          <Line
+            yAxisId="right"
+            type="monotone"
+            dataKey="calories"
+            stroke={CHART_COLORS.SECONDARY}
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={{ r: 4, fill: CHART_COLORS.SECONDARY }}
+            isAnimationActive
+            animationDuration={800}
+          />
+        </LineChart>
       </ResponsiveContainer>
     );
   }

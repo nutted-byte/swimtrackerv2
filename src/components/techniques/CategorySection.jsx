@@ -126,7 +126,6 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {articles.map((article, articleIndex) => {
                   const completed = isArticleCompleted(article.id);
-                  const levelColors = isDark ? levelColorsDark : levelColorsLight;
 
                   return (
                     <Link
@@ -140,7 +139,7 @@ export const CategorySection = ({ category, articles, index, defaultOpen = false
                       >
                         <Card
                           hover
-                          className={`h-full bg-gradient-to-br ${levelColors[article.level]} border`}
+                          className={`h-full bg-gradient-to-br ${getDifficultyStyle(article.level)}`}
                         >
                           {completed && (
                             <div className="absolute top-3 right-3">

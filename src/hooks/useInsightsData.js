@@ -63,6 +63,8 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         pace: item.pace,
         paceSeconds: item.pace * 60,
         distance: item.distance / 1000,
+        duration: item.duration, // Duration already in minutes from DB
+        calories: item.calories || 0,
         swolf: item.swolf,
         dps: calculateDPS(item),
         id: item.id,
@@ -75,6 +77,8 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         pace: item.avgPace,
         paceSeconds: item.avgPace * 60,
         distance: item.totalDistance / 1000,
+        duration: item.totalDuration, // Duration already in minutes
+        calories: item.totalCalories || 0,
         swolf: item.avgSwolf,
         dps: item.avgDPS || 0,
         count: item.count,
@@ -88,6 +92,8 @@ export const useInsightsData = (sessions, timeRange, granularity, metric) => {
         pace: item.avgPace,
         paceSeconds: item.avgPace * 60,
         distance: item.totalDistance / 1000,
+        duration: item.totalDuration, // Duration already in minutes
+        calories: item.totalCalories || 0,
         swolf: item.avgSwolf,
         dps: item.avgDPS || 0,
         count: item.count,

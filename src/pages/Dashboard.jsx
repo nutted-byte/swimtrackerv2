@@ -199,15 +199,7 @@ export const Dashboard = () => {
         <StreakCard sessions={sessions} />
       )}
 
-      {/* 3. Training Plan */}
-      <TrainingPlanCard />
-
-      {/* 4. Technique Recommendation */}
-      {techniqueRecommendation && (
-        <TechniqueCard recommendation={techniqueRecommendation} />
-      )}
-
-      {/* 5. Recent Swims */}
+      {/* 3. Recent Swims */}
       {recentSessions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -250,6 +242,14 @@ export const Dashboard = () => {
             </div>
           </Card>
         </motion.div>
+      )}
+
+      {/* 4. Training Plan */}
+      <TrainingPlanCard />
+
+      {/* 5. Technique Recommendation */}
+      {techniqueRecommendation && (
+        <TechniqueCard recommendation={techniqueRecommendation} />
       )}
 
       {/* Footer */}

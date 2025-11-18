@@ -48,7 +48,7 @@ export const querySwimData = async (question, sessions, options = {}) => {
 
   // Build optimized prompts - concise to minimize token usage
   const systemPrompt = `Swim coach analyzing performance data. Key metrics:
-- Pace (min/100m): lower = faster
+- Pace (min/100m): lower = faster. IMPORTANT: Pace is provided as decimal minutes (e.g., 2.52). Always convert to min:sec format in responses (e.g., 2.52 = 2:31, calculated as: minutes = floor(2.52), seconds = round((2.52 - 2) * 60) = round(31.2) = 31).
 - SWOLF: lower = more efficient
 - Distance in meters
 Data format: JSON with summary, recent swims, grouped stats. Be concise and data-driven.`;
@@ -582,6 +582,91 @@ Return ONLY valid JSON matching the required structure. Do not include any text 
       success: false,
       error: error.message,
       planStructure: null
+    };
+  }
+};
+
+/**
+ * Analyze performance trends over time using AI
+ * Generates 4-6 key insights about swimming performance
+ * @param {Array} sessions - Filtered swim sessions for the time range
+ * @param {Object} stats - Aggregated statistics
+ * @param {Object} trends - Trend data (pace, distance, swolf, dps)
+ * @param {Object} milestones - Milestone achievements
+ * @param {number} consistencyScore - Consistency score (0-100)
+ * @param {number} timeRange - Time range in days (or null for all-time)
+ * @returns {Promise<Object>} AI-generated insights
+ */
+export const analyzePerformanceTrends = async (sessions, stats, trends, milestones, consistencyScore, timeRange) => {
+  // Format pace helper
+  const formatPace = (pace) => {
+    const minutes = Math.floor(pace);
+    const seconds = Math.round((pace - minutes) * 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Build compressed context for AI
+  const context = {
+    timeRange: timeRange === null ? 'all-time' : `${timeRange} days`,
+    sessionCount: sessions.length,
+    stats: {
+      avgPace: formatPace(stats.avgPace),
+      totalDistance: `${stats.totalDistance.toFixed(1)}km`,
+      avgSwolf: stats.avgSwolf > 0 ? Math.round(stats.avgSwolf) : null,
+      avgDPS: stats.avgDPS > 0 ? stats.avgDPS.toFixed(2) : null,
+    },
+    trends: {
+      pace: trends.paceTrend.trend,
+      distance: trends.distanceTrend.trend,
+      swolf: trends.swolfTrend.trend,
+      dps: trends.dpsTrend.trend,
+    },
+    consistency: Math.round(consistencyScore),
+    milestones: {
+      bestPace: milestones?.bestPace ? formatPace(milestones.bestPace.pace) : null,
+      longestSwim: milestones?.longestSwim ? `${milestones.longestSwim.distance}m` : null,
+      bestSwolf: milestones?.bestSwolf?.swolf || null,
+    },
+    recent: sessions.slice(-3).map(s => ({
+      date: new Date(s.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      distance: `${s.distance}m`,
+      pace: formatPace(s.pace),
+      swolf: s.swolf || null,
+    })),
+  };
+
+  const timeLabel = timeRange === null ? 'all-time' : timeRange === 7 ? 'this week' : timeRange === 30 ? 'this month' : `the last ${timeRange} days`;
+
+  const systemPrompt = `You are a swim coach analyzing performance data over ${timeLabel}. Provide 4-6 concise bullet point insights (max 150 words total).
+
+IMPORTANT GUIDELINES:
+- Trend values: "improving", "declining", "stable"
+- SWOLF and Pace: LOWER is better (e.g., "Your SWOLF decreased from 45 to 40 - great improvement!")
+- Distance and DPS: HIGHER is better
+- Be specific with numbers when available
+- Focus on actionable insights
+- Celebrate improvements, gently note areas to work on
+
+FORMAT: Return as bullet points with specific metrics.`;
+
+  const userPrompt = `Performance data:
+${JSON.stringify(context, null, 2)}
+
+Provide 4-6 key insights about this swimmer's performance over ${timeLabel}.`;
+
+  try {
+    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    return {
+      success: true,
+      insights: response.content,
+      usage: response.usage,
+    };
+  } catch (error) {
+    console.error('Performance Analysis Error:', error);
+    return {
+      success: false,
+      error: error.message,
+      insights: null,
     };
   }
 };

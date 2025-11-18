@@ -110,8 +110,16 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
   summary += '. ';
 
   // Add efficiency and DPS information
-  const avgSwolf = sessions.filter(s => s.swolf > 0).length > 1
-    ? sessions.filter(s => s.swolf > 0).reduce((sum, s) => sum + s.swolf, 0) / sessions.filter(s => s.swolf > 0).length
+  // Calculate average SWOLF from last 90 days
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
+  const recentSwolfs = sessions.filter(s =>
+    s.swolf > 0 && new Date(s.date) >= ninetyDaysAgo
+  );
+
+  const avgSwolf = recentSwolfs.length > 1
+    ? recentSwolfs.reduce((sum, s) => sum + s.swolf, 0) / recentSwolfs.length
     : 0;
 
   if (lastSwim.swolf && lastSwim.swolf > 0) {
@@ -129,9 +137,16 @@ export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) =
     };
 
     const efficiencyDesc = getEfficiencyDescription(lastSwim.swolf, avgSwolf);
-    summary += `${efficiencyDesc} with a SWOLF score of ${lastSwim.swolf}`;
+
+    // Determine if SWOLF is low (good) or high (bad) relative to average
+    let swolfDescriptor = '';
     if (avgSwolf > 0) {
-      summary += ` compared to your average of ${avgSwolf.toFixed(0)}`;
+      swolfDescriptor = lastSwim.swolf < avgSwolf ? 'low' : 'high';
+    }
+
+    summary += `${efficiencyDesc} with a ${swolfDescriptor ? swolfDescriptor + ' ' : ''}SWOLF score of ${lastSwim.swolf}`;
+    if (avgSwolf > 0) {
+      summary += ` compared to your 90-day average of ${avgSwolf.toFixed(0)}`;
     }
     summary += '. ';
   }
