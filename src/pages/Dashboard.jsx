@@ -260,13 +260,20 @@ export const Dashboard = () => {
         className="mt-12"
       >
         <Separator spacing="lg" />
-        <div className="text-center">
-        <Link
-          to="/components"
-          className="text-sm text-content-tertiary hover:text-primary-400 transition-colors"
-        >
-          Component Showcase
-        </Link>
+        <div className="text-center flex items-center justify-center gap-4">
+          <Link
+            to="/how-it-works"
+            className="text-sm text-content-tertiary hover:text-primary-400 transition-colors"
+          >
+            How It Works
+          </Link>
+          <span className="text-content-tertiary">•</span>
+          <Link
+            to="/components"
+            className="text-sm text-content-tertiary hover:text-primary-400 transition-colors"
+          >
+            Component Showcase
+          </Link>
         </div>
       </motion.div>
     </PageContainer>

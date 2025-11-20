@@ -28,6 +28,7 @@ const Techniques = lazy(() => import('./pages/Techniques').then(m => ({ default:
 const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
 const DesignTest = lazy(() => import('./pages/DesignTest').then(m => ({ default: m.DesignTest })));
 const ComponentShowcase = lazy(() => import('./pages/ComponentShowcase').then(m => ({ default: m.ComponentShowcase })));
+const HowItWorks = lazy(() => import('./pages/HowItWorks').then(m => ({ default: m.HowItWorks })));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -262,6 +263,15 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <ComponentShowcase />
+                </ProtectedRoute>
+              }
+            />
+            {/* How It Works Page (hidden from navigation) */}
+            <Route
+              path="/how-it-works"
+              element={
+                <ProtectedRoute>
+                  <HowItWorks />
                 </ProtectedRoute>
               }
             />

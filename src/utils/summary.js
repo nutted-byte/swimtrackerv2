@@ -95,104 +95,82 @@ export const groupSessionsByMonth = (sessions) => {
 export const generateSwimSummary = (lastSwim, deepAnalysis, ranking, sessions) => {
   if (!lastSwim) return null;
 
-  // Calculate lengths (assuming 25m pool)
+  // === 1. WHAT YOU DID ===
   const lengths = Math.round(lastSwim.distance / 25);
-
-  // First sentence: Basic stats
   const mins = Math.floor(lastSwim.duration);
   const secs = Math.round((lastSwim.duration - mins) * 60);
-  let summary = `You swam ${lengths} lengths in ${mins} minutes and ${secs} seconds`;
+  const distanceKm = (lastSwim.distance / 1000).toFixed(lastSwim.distance >= 1000 ? 2 : 1);
+
+  let summary = `You swam ${lengths} lengths (${distanceKm}km) in ${mins} minutes and ${secs} seconds`;
 
   if (lastSwim.calories && lastSwim.calories > 0) {
     summary += `, burning ${lastSwim.calories} calories`;
   }
-
   summary += '. ';
 
-  // Add efficiency and DPS information
-  // Calculate average SWOLF from last 90 days
-  const ninetyDaysAgo = new Date();
-  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
-
-  const recentSwolfs = sessions.filter(s =>
-    s.swolf > 0 && new Date(s.date) >= ninetyDaysAgo
-  );
-
-  const avgSwolf = recentSwolfs.length > 1
-    ? recentSwolfs.reduce((sum, s) => sum + s.swolf, 0) / recentSwolfs.length
-    : 0;
-
-  if (lastSwim.swolf && lastSwim.swolf > 0) {
-    // Get efficiency rating with more conversational labels
-    const getEfficiencyDescription = (currentSwolf, averageSwolf) => {
-      if (!averageSwolf || averageSwolf === 0) {
-        if (currentSwolf < 40) return 'Your efficiency was excellent';
-        if (currentSwolf < 50) return 'Your efficiency was good';
-        return 'There\'s room to improve your efficiency';
-      }
-      const improvement = ((averageSwolf - currentSwolf) / averageSwolf) * 100;
-      if (improvement > 5) return 'Your efficiency was excellent';
-      if (improvement > -5) return 'Your efficiency was good';
-      return 'There\'s room to improve your efficiency';
-    };
-
-    const efficiencyDesc = getEfficiencyDescription(lastSwim.swolf, avgSwolf);
-
-    // Determine if SWOLF is low (good) or high (bad) relative to average
-    let swolfDescriptor = '';
-    if (avgSwolf > 0) {
-      swolfDescriptor = lastSwim.swolf < avgSwolf ? 'low' : 'high';
-    }
-
-    summary += `${efficiencyDesc} with a ${swolfDescriptor ? swolfDescriptor + ' ' : ''}SWOLF score of ${lastSwim.swolf}`;
-    if (avgSwolf > 0) {
-      summary += ` compared to your 90-day average of ${avgSwolf.toFixed(0)}`;
-    }
-    summary += '. ';
-  }
-
-  // Add DPS information in plain English
-  const currentDPS = calculateDPS(lastSwim);
-  if (currentDPS > 0) {
-    const { grade } = getDPSGrade(currentDPS);
-    const gradeMap = {
-      'Excellent': 'excellent',
-      'Good': 'good',
-      'Fair': 'fair',
-      'Needs Work': 'could be improved'
-    };
-    const plainGrade = gradeMap[grade] || grade.toLowerCase();
-    summary += `Your stroke length was ${plainGrade} at ${currentDPS.toFixed(2)} meters per stroke. `;
-  }
-
-  // Second sentence: Comparison to same distance swims
+  // === 2. HOW IT COMPARES ===
   const vsSameDistance = deepAnalysis?.comparative?.vsSameDistance;
 
   if (vsSameDistance) {
     const { bestPace, isBest } = vsSameDistance;
-    const distanceKm = (lastSwim.distance / 1000).toFixed(lastSwim.distance >= 1000 ? 2 : 1);
-
-    // Convert pace difference to seconds per 25m
     const currentSecondsPer25m = (lastSwim.pace * 60) / 4;
     const bestSecondsPer25m = (bestPace * 60) / 4;
     const secDiff = currentSecondsPer25m - bestSecondsPer25m;
     const absSecDiff = Math.abs(secDiff);
 
     if (isBest) {
-      summary += `This is your fastest ${distanceKm}km swim ever!`;
-    } else if (secDiff < 0) {
-      // Faster than best
-      summary += `You swam ${Math.round(absSecDiff)} seconds faster per length than your previous best at this distance.`;
+      summary += `This is your fastest ${distanceKm}km swim ever! `;
     } else if (absSecDiff < 1.0) {
-      // Very close to best
-      summary += `You were just ${Math.round(absSecDiff)} seconds per length off your best ${distanceKm}km time.`;
+      summary += `You were just ${Math.round(absSecDiff)} second per length off your best time. `;
     } else if (absSecDiff < 3.0) {
-      // Decent performance
-      summary += `You swam ${Math.round(absSecDiff)} seconds per length slower than your best ${distanceKm}km time.`;
+      summary += `You were ${Math.round(absSecDiff)} seconds per length slower than your best time. `;
     } else {
-      // Room for improvement
-      summary += `You've swum this distance faster before - keep at it!`;
+      summary += `You were ${Math.round(absSecDiff)} seconds per length slower than your best time. `;
     }
+  }
+
+  // Calculate average SWOLF for recommendations
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+  const recentSwolfs = sessions.filter(s =>
+    s.swolf > 0 && new Date(s.date) >= ninetyDaysAgo
+  );
+  const avgSwolf = recentSwolfs.length > 1
+    ? recentSwolfs.reduce((sum, s) => sum + s.swolf, 0) / recentSwolfs.length
+    : 0;
+
+  // === 3. WHAT TO DO NEXT TIME ===
+
+  // Simple logic: faster or longer, or focus on something if slower
+  if (vsSameDistance) {
+    const { isBest, bestPace } = vsSameDistance;
+
+    if (isBest) {
+      // If this was their best, suggest going longer
+      const nextDistance = Math.round((lastSwim.distance + 100) / 100) * 100; // Round to nearest 100m
+      summary += `For your next swim, try increasing to ${nextDistance}m to build endurance.`;
+    } else {
+      // If slower, suggest what to focus on
+      const currentSecondsPer25m = (lastSwim.pace * 60) / 4;
+      const bestSecondsPer25m = (bestPace * 60) / 4;
+      const secDiff = currentSecondsPer25m - bestSecondsPer25m;
+
+      if (secDiff > 3) {
+        // Significantly slower - suggest focusing on something specific
+        if (lastSwim.swolf && avgSwolf > 0 && lastSwim.swolf > avgSwolf) {
+          summary += `For your next swim, focus on efficiency - aim for a lower SWOLF score by taking fewer strokes per length.`;
+        } else {
+          summary += `For your next swim, focus on pace - try to match your best time of ${Math.floor(bestPace)}:${Math.round((bestPace - Math.floor(bestPace)) * 60).toString().padStart(2, '0')} per 100m.`;
+        }
+      } else {
+        // Close to best - suggest pushing for PB
+        summary += `For your next swim, try beating your best pace - you're close!`;
+      }
+    }
+  } else {
+    // No comparison available - suggest increasing distance
+    const nextDistance = Math.round((lastSwim.distance + 100) / 100) * 100;
+    summary += `For your next swim, try increasing to ${nextDistance}m.`;
   }
 
   return summary;
