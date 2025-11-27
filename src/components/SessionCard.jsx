@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from './Card';
 import { StatGrid, ComparisonBadge, Separator } from './primitives';
-import { Calendar, Activity, Zap, TrendingUp, Clock, Heart, Flame, Award } from 'lucide-react';
+import { Calendar, Activity, Clock, Award } from 'lucide-react';
 import { formatDuration } from '../utils/formatters';
 import { useTheme } from '../context/ThemeContext';
 import { ShareButton } from './sharing/ShareButton';
@@ -64,45 +64,25 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
     >
       <Card
         hover={true}
-        className={`cursor-pointer overflow-hidden hover:!transform-none border border-dark-border/30 ${
+        className={`cursor-pointer overflow-hidden hover:!transform-none border border-dark-border/30 p-3 md:p-6 ${
           session.rating === true ? 'ring-2 ring-accent-blue/30' :
           session.rating === false ? 'ring-2 ring-accent-coral/30' : ''
         }`}
         onClick={() => onClick && onClick(session)}
       >
-        {/* Header with Date and Rating */}
-        <div className={`flex items-start justify-between ${tokens.margin.group}`}>
-          <div className="flex-1">
-            <div className={`flex items-center ${tokens.gap.tight} text-content-secondary ${tokens.typography.sizes.xs} ${tokens.margin.element}`}>
-              <Calendar className={tokens.icons.xs} />
-              <span className={tokens.typography.weights.medium}>{formatDate(session.date)}</span>
-              <span className="text-content-tertiary">•</span>
-              <Clock className={tokens.icons.xs} />
-              <span>{formatTime(session.date)}</span>
-            </div>
-            <div className={`flex items-baseline ${tokens.gap.tight}`}>
-              <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${
-                isDark
-                  ? 'bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent'
-                  : 'text-primary-600'
-              }`}>
-                {formatDistance(session.distance)}
-              </h3>
-              <span className={`text-content-tertiary ${tokens.typography.sizes.sm}`}>
-                ({Math.round(session.distance / 25)} lengths)
-              </span>
-              {isPR && (
-                <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 12 }}
-                  className={`flex items-center ${tokens.gap.tight} px-2 py-1 bg-gradient-to-r from-yellow-500/30 to-amber-500/30 ${tokens.radius.full} ring-2 ring-yellow-400/50 shadow-lg shadow-yellow-500/20`}
-                >
-                  <Award className={tokens.icons.sm} />
-                  <span className={`${tokens.typography.sizes.xs} ${tokens.typography.weights.bold} text-yellow-400`}>PR</span>
-                </motion.div>
-              )}
-            </div>
+        {/* Compact Header */}
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <div className="flex items-center gap-2 text-content-secondary text-xs">
+            <Calendar className="w-3 h-3" />
+            <span className="font-medium">{formatDate(session.date)}</span>
+            <span className="text-content-tertiary">•</span>
+            <span>{formatTime(session.date)}</span>
+            {isPR && (
+              <div className="flex items-center gap-1 px-1.5 py-0.5 bg-gradient-to-r from-yellow-500/30 to-amber-500/30 rounded-full ring-1 ring-yellow-400/50">
+                <Award className="w-3 h-3" />
+                <span className="text-[10px] font-bold text-yellow-400">PR</span>
+              </div>
+            )}
           </div>
           <ShareButton
             onClick={(e) => {
@@ -111,78 +91,41 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
             }}
             variant="minimal"
             size="sm"
+            className="hidden md:flex"
           />
         </div>
 
-        {/* Metrics Grid - Using StatGrid primitive */}
-        <StatGrid
-          stats={[
-            {
-              icon: Activity,
-              label: 'Pace',
-              value: formatPace(session.pace),
-              unit: 'min/100m',
-              variant: 'blue',
-              badge: paceComparison && (
-                <ComparisonBadge
-                  comparison={paceComparison}
-                  tooltip={
-                    paceComparison === 'fast'
-                      ? "This pace is faster than your recent average - great work! Your average time to swim 100m. Lower is faster. Most recreational swimmers range from 2:00-3:30 per 100m."
-                      : "This pace is slower than your recent average. Could be a recovery swim or just an off day! Your average time to swim 100m. Most recreational swimmers range from 2:00-3:30 per 100m."
-                  }
-                />
-              )
-            },
-            {
-              icon: Clock,
-              label: 'Duration',
-              value: formatDuration(session.duration),
-              unit: 'min:sec',
-              variant: 'blue'
-            },
-            ...(session.calories > 0 ? [{
-              icon: Flame,
-              label: 'Calories',
-              value: session.calories,
-              unit: 'burned',
-              variant: 'blue'
-            }] : []),
-            ...(session.vo2max ? [{
-              icon: Heart,
-              label: 'VO2 Max',
-              value: session.vo2max,
-              unit: 'ml/kg/min',
-              variant: 'blue'
-            }] : []),
-            ...(session.swolf > 0 && !session.vo2max ? [{
-              icon: Zap,
-              label: 'SWOLF',
-              value: session.swolf,
-              unit: 'efficiency',
-              variant: 'blue'
-            }] : []),
-            ...(session.swolf === 0 && session.strokes > 0 && !session.vo2max ? [{
-              icon: TrendingUp,
-              label: 'Strokes',
-              value: session.strokes,
-              unit: 'total',
-              variant: 'blue'
-            }] : [])
-          ]}
-          columns={4}
-        />
+        {/* Compact Metrics Row */}
+        <div className="flex items-start gap-6">
+          {/* Distance */}
+          <div className="flex-shrink-0">
+            <h3 className={`${tokens.typography.families.display} text-xl md:text-2xl font-bold leading-none ${
+              isDark
+                ? 'bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent'
+                : 'text-primary-600'
+            }`}>
+              {formatDistance(session.distance)}
+            </h3>
+          </div>
 
-        {/* Lap count footer */}
-        {session.laps && session.laps.length > 0 && (
-          <>
-            <Separator spacing="sm" />
-            <p className={`${tokens.typography.sizes.xs} text-content-secondary flex items-center ${tokens.gap.tight}`}>
-              <div className={`w-1 h-1 ${tokens.radius.full} bg-primary-400 animate-pulse`} />
-              {session.laps.length} length{session.laps.length !== 1 ? 's' : ''} recorded
-            </p>
-          </>
-        )}
+          {/* Pace */}
+          <div className="flex items-start gap-2">
+            <Activity className="w-4 h-4 text-content-tertiary mt-1" />
+            <div>
+              <span className="text-xl md:text-2xl font-bold leading-none">{formatPace(session.pace)}</span>
+              <div className="text-[10px] text-content-tertiary mt-0.5">min/100m</div>
+            </div>
+          </div>
+
+          {/* Duration */}
+          <div className="flex items-start gap-2">
+            <Clock className="w-4 h-4 text-content-tertiary mt-1" />
+            <div>
+              <span className="text-xl md:text-2xl font-bold leading-none">{formatDuration(session.duration)}</span>
+              <div className="text-[10px] text-content-tertiary mt-0.5">duration</div>
+            </div>
+          </div>
+        </div>
       </Card>
 
       {/* Share Modal */}
