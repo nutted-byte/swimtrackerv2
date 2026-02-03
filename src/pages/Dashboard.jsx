@@ -34,6 +34,7 @@ import { TrainingPlanCard } from '../components/dashboard/TrainingPlanCard';
 import { StreakCard } from '../components/dashboard/StreakCard';
 import { PaceTrendCard } from '../components/dashboard/PaceTrendCard';
 import { AIAssistantCard } from '../components/dashboard/AIAssistantCard';
+import { RecentSwimsTrend } from '../components/dashboard/RecentSwimsTrend';
 import { HeroSkeleton, CardGridSkeleton, StatCardSkeleton } from '../components/LoadingSkeletons';
 
 export const Dashboard = () => {
@@ -207,11 +208,8 @@ export const Dashboard = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Card>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="font-display text-2xl font-bold mb-1">Recent Swims</h2>
-                <p className="text-content-tertiary text-sm">Last 3 months of activity</p>
-              </div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-display text-2xl font-bold">Recent Swims</h2>
               <Link
                 to="/swims"
                 className="inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 transition-colors group"
@@ -220,6 +218,9 @@ export const Dashboard = () => {
                 <ArrowRight className={`${tokens.icons.sm} group-hover:translate-x-1 transition-transform`} />
               </Link>
             </div>
+
+            {/* Trend Sparkline */}
+            <RecentSwimsTrend sessions={recentSessions} />
 
             <div className="space-y-2">
               {recentSessions.map((session, index) => (

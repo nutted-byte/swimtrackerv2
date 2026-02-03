@@ -106,6 +106,9 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
             }`}>
               {formatDistance(session.distance)}
             </h3>
+            <div className="text-[10px] text-content-tertiary mt-0.5">
+              {Math.round(session.distance / 25)} lengths
+            </div>
           </div>
 
           {/* Pace */}

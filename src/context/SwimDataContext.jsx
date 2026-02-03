@@ -124,6 +124,7 @@ export const SwimDataProvider = ({ children }) => {
     loading,
     error,
     migrationStatus,
+    loadSessions,
     ...sessionOps,
     ...vo2MaxOps,
     ...sessionQueries,

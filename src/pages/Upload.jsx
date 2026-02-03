@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FileUpload } from '../components/FileUpload';
 import { VO2MaxUpload } from '../components/VO2MaxUpload';
+import { AppleHealthLapUpload } from '../components/AppleHealthLapUpload';
 import { Separator } from '../components/primitives';
 import { useSwimData } from '../context/SwimDataContext';
 import { CheckCircle, Loader, Trash2, AlertTriangle } from 'lucide-react';
@@ -101,6 +102,19 @@ export const Upload = () => {
           >
             <Separator spacing="lg" />
             <VO2MaxUpload />
+          </motion.div>
+        )}
+
+        {/* Apple Health Lap Data Upload Section */}
+        {sessions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="mt-12"
+          >
+            <Separator spacing="lg" />
+            <AppleHealthLapUpload />
           </motion.div>
         )}
 
