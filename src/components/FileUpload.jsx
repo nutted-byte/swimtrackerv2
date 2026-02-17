@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { Upload, File, CheckCircle, XCircle } from 'lucide-react';
+import { Upload, File as FileIcon, CheckCircle, XCircle } from 'lucide-react';
+import { unzip } from 'fflate';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
 import { Button } from './Button';
@@ -11,6 +12,28 @@ export const FileUpload = ({ onFilesUploaded }) => {
   const [error, setError] = useState(null);
 
   const acceptedTypes = ['.fit', '.tcx', '.csv'];
+  const acceptedTypesWithZip = ['.fit', '.tcx', '.csv', '.zip'];
+
+  const extractZip = (zipFile) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const uint8 = new Uint8Array(e.target.result);
+      unzip(uint8, (err, extracted) => {
+        if (err) { reject(err); return; }
+        const files = [];
+        for (const [name, data] of Object.entries(extracted)) {
+          const filename = name.split('/').pop();
+          if (!filename) continue;
+          const ext = '.' + filename.split('.').pop().toLowerCase();
+          if (!acceptedTypes.includes(ext)) continue;
+          files.push(new File([data], filename));
+        }
+        resolve(files);
+      });
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(zipFile);
+  });
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
@@ -24,16 +47,16 @@ export const FileUpload = ({ onFilesUploaded }) => {
 
   const validateFile = (file) => {
     const extension = '.' + file.name.split('.').pop().toLowerCase();
-    if (!acceptedTypes.includes(extension)) {
-      return `Invalid file type. Please upload ${acceptedTypes.join(', ')} files.`;
+    if (!acceptedTypesWithZip.includes(extension)) {
+      return `Invalid file type. Please upload ${acceptedTypesWithZip.join(', ')} files.`;
     }
-    if (file.size > 10 * 1024 * 1024) { // 10MB limit
-      return 'File is too large. Maximum size is 10MB.';
+    if (file.size > 50 * 1024 * 1024) { // 50MB limit for zips
+      return 'File is too large. Maximum size is 50MB.';
     }
     return null;
   };
 
-  const processFiles = (files) => {
+  const processFiles = async (files) => {
     setError(null);
     const fileArray = Array.from(files);
 
@@ -45,10 +68,31 @@ export const FileUpload = ({ onFilesUploaded }) => {
       }
     }
 
-    setUploadedFiles(prev => [...prev, ...fileArray]);
+    // Expand any zip files
+    let allFiles = [];
+    for (const file of fileArray) {
+      const ext = '.' + file.name.split('.').pop().toLowerCase();
+      if (ext === '.zip') {
+        try {
+          const extracted = await extractZip(file);
+          if (extracted.length === 0) {
+            setError('No supported files found in zip. Include .fit, .tcx, or .csv files.');
+            return;
+          }
+          allFiles = allFiles.concat(extracted);
+        } catch (err) {
+          setError('Failed to read zip file. Make sure it is a valid zip archive.');
+          return;
+        }
+      } else {
+        allFiles.push(file);
+      }
+    }
+
+    setUploadedFiles(prev => [...prev, ...allFiles]);
 
     if (onFilesUploaded) {
-      onFilesUploaded(fileArray);
+      onFilesUploaded(allFiles);
     }
   };
 
@@ -99,14 +143,14 @@ export const FileUpload = ({ onFilesUploaded }) => {
               Drag and drop your swim files here, or click to browse
             </p>
             <p className="text-sm text-content-tertiary mb-6">
-              Supports .FIT, .TCX, and .CSV files (max 10MB)
+              Supports .FIT, .TCX, .CSV, or a .ZIP of any of these (max 50MB)
             </p>
 
             <label className="cursor-pointer">
               <input
                 type="file"
                 className="hidden"
-                accept=".fit,.tcx,.csv"
+                accept=".fit,.tcx,.csv,.zip"
                 multiple
                 onChange={handleFileInput}
               />
@@ -154,7 +198,7 @@ export const FileUpload = ({ onFilesUploaded }) => {
                   className="flex items-center justify-between p-3 bg-dark-bg rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <File className={`${tokens.icons.md} text-primary-400`} />
+                    <FileIcon className={`${tokens.icons.md} text-primary-400`} />
                     <div>
                       <p className="text-sm font-medium">{file.name}</p>
                       <p className="text-xs text-content-tertiary">

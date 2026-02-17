@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useRef } from 'react';
+import { unzip } from 'fflate';
+import { BrowserRouter, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { SwimDataProvider } from './context/SwimDataContext';
@@ -11,6 +12,7 @@ import { MobileMenu, MobileMenuProvider } from './components/MobileMenu';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCircle, LogOut, User, BookOpen, Target } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
+import { useSwimData } from './context/SwimDataContext';
 import { tokens } from './design/tokens';
 
 
@@ -42,12 +44,62 @@ const PageLoader = () => (
 
 function AppContent() {
   const { user, signOut, isAuthenticated } = useAuth();
+  const { uploadFiles } = useSwimData();
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const handleSignOut = async () => {
     try {
       await signOut();
     } catch (err) {
       console.error('Failed to sign out:', err);
+    }
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    fileInputRef.current?.click();
+  };
+
+  const handleLogoFileChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    e.target.value = '';
+    try {
+      const acceptedTypes = ['.fit', '.tcx', '.csv'];
+      let allFiles = [];
+      for (const file of files) {
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (ext === '.zip') {
+          const extracted = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const uint8 = new Uint8Array(e.target.result);
+              unzip(uint8, (err, result) => {
+                if (err) { reject(err); return; }
+                resolve(result);
+              });
+            };
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+          });
+          for (const [name, data] of Object.entries(extracted)) {
+            const filename = name.split('/').pop();
+            if (!filename) continue;
+            const entryExt = '.' + filename.split('.').pop().toLowerCase();
+            if (!acceptedTypes.includes(entryExt)) continue;
+            allFiles.push(new File([data], filename));
+          }
+        } else {
+          allFiles.push(file);
+        }
+      }
+      if (allFiles.length) {
+        await uploadFiles(allFiles);
+        navigate('/');
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
     }
   };
 
@@ -60,14 +112,24 @@ function AppContent() {
           <>
             <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
               <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl">
+                <div className="flex items-center gap-4">
+                  <button onClick={handleLogoClick} className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl hover:opacity-80 transition-opacity cursor-pointer">
                     🌊
-                  </div>
-                  <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
-                    Swimma
-                  </h1>
-                </Link>
+                  </button>
+                  <Link to="/" className="hover:opacity-80 transition-opacity">
+                    <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
+                      Swimma
+                    </h1>
+                  </Link>
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="hidden"
+                  accept=".fit,.tcx,.csv,.zip"
+                  multiple
+                  onChange={handleLogoFileChange}
+                />
 
                 <div className="flex items-center gap-4">
                   {/* Desktop Navigation */}
