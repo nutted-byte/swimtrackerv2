@@ -64,20 +64,23 @@ export const RatingButtons = ({ currentRating, onRate, size = 'md', className = 
       <span className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.medium} text-content-tertiary mr-2`}>
         Rate your swim
       </span>
-      {ratings.map((rating, index) => (
-        <motion.button
-          key={rating.value}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: index * 0.1 }}
-          onClick={() => handleClick(rating.value)}
-          className={getButtonStyles(rating)}
-          title={rating.label}
-          aria-label={`Rate swim as ${rating.label}`}
-        >
-          <div className={`${sizeClasses[size].circle} ${rating.bg} ${tokens.radius.full}`} />
-        </motion.button>
-      ))}
+      {ratings
+        .filter(rating => !currentRating || rating.value === currentRating)
+        .map((rating, index) => (
+          <motion.button
+            key={rating.value}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ delay: currentRating ? 0 : index * 0.1 }}
+            onClick={() => handleClick(rating.value)}
+            className={getButtonStyles(rating)}
+            title={rating.label}
+            aria-label={`Rate swim as ${rating.label}`}
+          >
+            <div className={`${sizeClasses[size].circle} ${rating.bg} ${tokens.radius.full}`} />
+          </motion.button>
+        ))}
       {currentRating && (
         <motion.button
           initial={{ opacity: 0, x: -10 }}
