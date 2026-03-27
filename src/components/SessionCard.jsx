@@ -65,9 +65,9 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
       <Card
         hover={true}
         className={`cursor-pointer overflow-hidden hover:!transform-none border p-3 md:p-6 ${
-          session.rating === 'good' ? 'border-green-500/50 ring-2 ring-green-500/30 bg-green-500/5' :
-          session.rating === 'average' ? 'border-yellow-500/50 ring-2 ring-yellow-500/30 bg-yellow-500/5' :
-          session.rating === 'bad' ? 'border-red-500/50 ring-2 ring-red-500/30 bg-red-500/5' :
+          session.rating === 'good' ? 'border-green-500/30 bg-green-500/5' :
+          session.rating === 'average' ? 'border-yellow-500/30 bg-yellow-500/5' :
+          session.rating === 'bad' ? 'border-red-500/30 bg-red-500/5' :
           'border-dark-border/30'
         }`}
         onClick={() => onClick && onClick(session)}
@@ -86,9 +86,11 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
               </div>
             )}
             {session.rating && (
-              <div className="flex items-center px-1.5 py-0.5 rounded-full text-sm">
-                {session.rating === 'good' ? '🟢' : session.rating === 'average' ? '🟡' : '🔴'}
-              </div>
+              <div className={`w-3 h-3 rounded-full ${
+                session.rating === 'good' ? 'bg-green-500' :
+                session.rating === 'average' ? 'bg-yellow-500' :
+                'bg-red-500'
+              }`} />
             )}
           </div>
           <ShareButton

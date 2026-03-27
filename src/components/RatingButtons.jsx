@@ -7,15 +7,15 @@ import { tokens } from '../design/tokens';
  */
 export const RatingButtons = ({ currentRating, onRate, size = 'md', className = '' }) => {
   const ratings = [
-    { value: 'good', emoji: '🟢', label: 'Good', color: 'green' },
-    { value: 'average', emoji: '🟡', label: 'Average', color: 'yellow' },
-    { value: 'bad', emoji: '🔴', label: 'Bad', color: 'red' }
+    { value: 'good', label: 'Good', color: 'green', bg: 'bg-green-500' },
+    { value: 'average', label: 'Average', color: 'yellow', bg: 'bg-yellow-500' },
+    { value: 'bad', label: 'Bad', color: 'red', bg: 'bg-red-500' }
   ];
 
   const sizeClasses = {
-    sm: 'text-lg p-1.5',      // 18px emoji, aligns with button icon sizing
-    md: 'text-xl p-2',        // 20px emoji, standard UI element size
-    lg: 'text-2xl p-2.5'      // 24px emoji, card header sizing
+    sm: { button: 'p-1.5', circle: 'w-4 h-4' },
+    md: { button: 'p-2', circle: 'w-5 h-5' },
+    lg: { button: 'p-2.5', circle: 'w-6 h-6' }
   };
 
   const handleClick = (value) => {
@@ -49,7 +49,7 @@ export const RatingButtons = ({ currentRating, onRate, size = 'md', className = 
 
     return `
       ${tokens.radius.full}
-      ${sizeClasses[size]}
+      ${sizeClasses[size].button}
       ${isSelected ? colors.selected : colors.bg}
       transition-all
       ${tokens.animation.default}
@@ -75,7 +75,7 @@ export const RatingButtons = ({ currentRating, onRate, size = 'md', className = 
           title={rating.label}
           aria-label={`Rate swim as ${rating.label}`}
         >
-          {rating.emoji}
+          <div className={`${sizeClasses[size].circle} ${rating.bg} ${tokens.radius.full}`} />
         </motion.button>
       ))}
       {currentRating && (
