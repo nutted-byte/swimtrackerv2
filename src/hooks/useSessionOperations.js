@@ -130,7 +130,7 @@ export const useSessionOperations = (user, setSessions, setLoading, setError, lo
   }, [user, setSessions, setError]);
 
   /**
-   * Rate a session (thumbs up = true, thumbs down = false, null = no rating)
+   * Rate a session ('good', 'average', 'bad', or null for no rating)
    */
   const rateSession = useCallback(async (sessionId, rating) => {
     if (!user) {

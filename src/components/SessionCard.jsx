@@ -64,9 +64,11 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
     >
       <Card
         hover={true}
-        className={`cursor-pointer overflow-hidden hover:!transform-none border border-dark-border/30 p-3 md:p-6 ${
-          session.rating === true ? 'ring-2 ring-accent-blue/30' :
-          session.rating === false ? 'ring-2 ring-accent-coral/30' : ''
+        className={`cursor-pointer overflow-hidden hover:!transform-none border p-3 md:p-6 ${
+          session.rating === 'good' ? 'border-green-500/50 ring-2 ring-green-500/30 bg-green-500/5' :
+          session.rating === 'average' ? 'border-yellow-500/50 ring-2 ring-yellow-500/30 bg-yellow-500/5' :
+          session.rating === 'bad' ? 'border-red-500/50 ring-2 ring-red-500/30 bg-red-500/5' :
+          'border-dark-border/30'
         }`}
         onClick={() => onClick && onClick(session)}
       >
@@ -81,6 +83,11 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
               <div className="flex items-center gap-1 px-1.5 py-0.5 bg-gradient-to-r from-yellow-500/30 to-amber-500/30 rounded-full ring-1 ring-yellow-400/50">
                 <Award className="w-3 h-3" />
                 <span className="text-[10px] font-bold text-yellow-400">PR</span>
+              </div>
+            )}
+            {session.rating && (
+              <div className="flex items-center px-1.5 py-0.5 rounded-full text-sm">
+                {session.rating === 'good' ? '🟢' : session.rating === 'average' ? '🟡' : '🔴'}
               </div>
             )}
           </div>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './Card';
 import { CardVariant } from './primitives';
 import { SwimAnalysisPanel } from './SwimAnalysisPanel';
+import { RatingButtons } from './RatingButtons';
 import { Activity, TrendingUp, Clock, Target, Calendar, Sparkles, ChevronUp } from 'lucide-react';
 import { tokens } from '../design/tokens';
 import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
@@ -204,6 +205,20 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             </p>
           </motion.div>
         )}
+
+        {/* Rating Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75 }}
+          className={tokens.margin.section}
+        >
+          <RatingButtons
+            currentRating={swim.rating}
+            onRate={(rating) => onRate(swim.id, rating)}
+            size="md"
+          />
+        </motion.div>
 
         {/* Action Buttons */}
         <motion.div
