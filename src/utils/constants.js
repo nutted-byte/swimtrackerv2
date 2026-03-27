@@ -170,8 +170,8 @@ export const CACHE_DURATION = {
 
 // API configuration
 export const API_CONFIG = {
-  CLAUDE_MODEL: 'claude-3-5-haiku-20241022', // Fast and cheap
-  // Alternative if overloaded: 'claude-3-5-sonnet-20241022' (slower but more capacity)
+  CLAUDE_MODEL: 'claude-3-haiku-20240307', // Claude 3 Haiku (fast and affordable)
+  // Alternative: 'claude-3-5-sonnet-20240620' (smarter but slower/expensive)
   MAX_TOKENS: 4000,
   TEMPERATURE: 0.3,
 };
