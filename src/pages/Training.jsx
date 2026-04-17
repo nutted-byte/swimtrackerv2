@@ -327,7 +327,7 @@ export const Training = () => {
           </Card>
         )}
 
-        <div className={tokens.gap.default}>
+        <div className="space-y-6">
           {thisWeekWorkouts.map((workout, index) => (
             <WorkoutCard
               key={workout.id}
@@ -349,10 +349,11 @@ export const Training = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
+        className={tokens.margin.section}
       >
         <h3 className={`${tokens.typography.families.display} ${tokens.typography.sizes.xl} ${tokens.typography.weights.bold} ${tokens.margin.group}`}>Full {weeks.length}-Week Plan</h3>
 
-        <div className={tokens.gap.default}>
+        <div className="space-y-6">
           {weeks.map((week) => (
             <Card key={week.weekNumber} className="overflow-hidden">
               <button

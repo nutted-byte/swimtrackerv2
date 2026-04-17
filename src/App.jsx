@@ -14,6 +14,9 @@ import { Waves, Upload as UploadIcon, Home, List, BarChart3, Trophy, MessageCirc
 import { useAuth } from './context/AuthContext';
 import { useSwimData } from './context/SwimDataContext';
 import { tokens } from './design/tokens';
+import { AtmosphereBackground } from './components/atmosphere/AtmosphereBackground';
+import { Wordmark } from './components/brand/Wordmark';
+import { Glyph } from './components/brand/Glyph';
 
 
 // Lazy load pages for code splitting - improves initial load time
@@ -34,7 +37,7 @@ const HowItWorks = lazy(() => import('./pages/HowItWorks').then(m => ({ default:
 
 // Loading fallback component
 const PageLoader = () => (
-  <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+  <div className="min-h-screen flex items-center justify-center">
     <div className="text-center">
       <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
       <p className="text-content-tertiary">Loading...</p>
@@ -106,20 +109,23 @@ function AppContent() {
   return (
     <MobileMenuProvider>
       <ScrollToTop />
-      <div className="min-h-screen bg-dark-bg">
+      <AtmosphereBackground intensity="default" />
+      <div className="relative z-10 min-h-screen bg-transparent">
         {/* Header */}
         {isAuthenticated && (
           <>
             <header className="border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-50">
               <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <button onClick={handleLogoClick} className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-blue flex items-center justify-center text-2xl hover:opacity-80 transition-opacity cursor-pointer">
-                    🌊
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleLogoClick}
+                    className="flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer"
+                    aria-label="Upload swim files"
+                  >
+                    <Glyph size={40} />
                   </button>
                   <Link to="/" className="hover:opacity-80 transition-opacity">
-                    <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-blue bg-clip-text text-transparent">
-                      Swimma
-                    </h1>
+                    <Wordmark size="md" />
                   </Link>
                 </div>
                 <input

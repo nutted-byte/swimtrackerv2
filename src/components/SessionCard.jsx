@@ -124,7 +124,7 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
           <div className="flex items-start gap-2">
             <Activity className="w-4 h-4 text-content-tertiary mt-1" />
             <div>
-              <span className="text-xl md:text-2xl font-bold leading-none">{formatPace(session.pace)}</span>
+              <span className="font-display text-xl md:text-2xl font-bold leading-none tabular-nums">{formatPace(session.pace)}</span>
               <div className="text-[10px] text-content-tertiary mt-0.5">min/100m</div>
             </div>
           </div>
@@ -133,7 +133,7 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
           <div className="flex items-start gap-2">
             <Clock className="w-4 h-4 text-content-tertiary mt-1" />
             <div>
-              <span className="text-xl md:text-2xl font-bold leading-none">{formatDuration(session.duration)}</span>
+              <span className="font-display text-xl md:text-2xl font-bold leading-none tabular-nums">{formatDuration(session.duration)}</span>
               <div className="text-[10px] text-content-tertiary mt-0.5">duration</div>
             </div>
           </div>

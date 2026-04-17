@@ -2,3 +2,4 @@
 export { PageContainer } from './PageContainer';
 export { PageHeader } from './PageHeader';
 export { PageHero } from './PageHero';
+export { BleedHero } from './BleedHero';

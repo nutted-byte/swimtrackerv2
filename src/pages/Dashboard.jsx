@@ -15,6 +15,7 @@ import { SwimInterrogator } from '../components/SwimInterrogator';
 import { SessionCard } from '../components/SessionCard';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Button } from '../components/Button';
+import { StaggerGroup } from '../components/motion';
 import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle, ArrowRight } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import {
@@ -169,38 +170,83 @@ export const Dashboard = () => {
   return (
     <PageContainer>
 
-      {/* 1. Last Swim Hero - MOST PROMINENT */}
-      {lastSwim && (
-        <LastSwimHero
-          swim={lastSwim}
-          sessions={sessions}
-          onRate={rateSession}
-          onViewDetails={(id) => navigate(`/swim/${id}`, { state: { from: '/', label: 'Home' } })}
-          formatPace={formatPace}
-          deepAnalysis={deepAnalysis}
-          summary={swimSummary}
-        />
-      )}
+      {/* Staggered entrance for the stack of cards. LastSwimHero is the first section. */}
+      <StaggerGroup gap={100} className="space-y-6">
 
-      {/* 2. Longest Continuous Swim — the core "am I getting better?" answer */}
-      {sessions.length > 0 && (
-        <LongestSwimHeroCard sessions={sessions} />
-      )}
+        {/* 1. Last Swim Hero — detailed card treatment */}
+        {lastSwim && (
+          <div
+            className="opacity-0"
+            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
+          >
+            <LastSwimHero
+              swim={lastSwim}
+              sessions={sessions}
+              onRate={rateSession}
+              onViewDetails={(id) => navigate(`/swim/${id}`, { state: { from: '/', label: 'Home' } })}
+              formatPace={formatPace}
+              deepAnalysis={deepAnalysis}
+              summary={swimSummary}
+            />
+          </div>
+        )}
 
-      {/* 3. Personal Records — fastest unbroken time at each distance */}
-      {sessions.length > 0 && (
-        <BestTimesCard sessions={sessions} />
-      )}
+        {/* 2. Longest Continuous Swim — the core "am I getting better?" answer */}
+        {sessions.length > 0 && (
+          <div
+            className="opacity-0"
+            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
+          >
+            <LongestSwimHeroCard sessions={sessions} />
+          </div>
+        )}
 
-      {/* 4. Fatigue Curve — how you paced, lap by lap */}
-      {sessions.length > 0 && (
-        <FatigueCurveCard sessions={sessions} />
-      )}
+        {/* 3-4. Records + Fatigue — 2-up asymmetric editorial grid */}
+        {sessions.length > 0 && (
+          <div
+            className="opacity-0 grid grid-cols-1 lg:grid-cols-12 gap-6"
+            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
+          >
+            <div className="lg:col-span-7 relative">
+              <span
+                aria-hidden="true"
+                className="hidden lg:block absolute -top-3 right-0 font-display uppercase tracking-[0.35em] text-[0.65rem] font-semibold pointer-events-none"
+                style={{
+                  color: 'transparent',
+                  WebkitTextStroke: '1px rgb(var(--color-content-tertiary))',
+                  opacity: 0.5,
+                }}
+              >
+                Personal Records
+              </span>
+              <BestTimesCard sessions={sessions} />
+            </div>
+            <div className="lg:col-span-5">
+              <FatigueCurveCard sessions={sessions} />
+            </div>
+          </div>
+        )}
 
-      {/* 5. Monthly Streak */}
-      {sessions.length > 0 && (
-        <StreakCard sessions={sessions} />
-      )}
+        {/* 5. Monthly Streak */}
+        {sessions.length > 0 && (
+          <div
+            className="opacity-0"
+            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
+          >
+            <StreakCard sessions={sessions} />
+          </div>
+        )}
+      </StaggerGroup>
+
+      <style>{`
+        @keyframes dashEnter {
+          0%   { opacity: 0; transform: translateY(14px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="dashEnter"] { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+      `}</style>
 
       {/* 6. Recent Swims */}
       {recentSessions.length > 0 && (

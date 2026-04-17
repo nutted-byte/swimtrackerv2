@@ -38,16 +38,18 @@ export const tokens = {
       bold: 'font-bold',
     },
     families: {
-      sans: 'font-sans',      // Inter - body text
-      display: 'font-display', // Space Grotesk - headings, numbers
+      sans: 'font-sans',           // Geist - body text
+      display: 'font-display',     // Instrument Sans - UI headings, numbers, stats
+      editorial: 'font-editorial', // Fraunces - hero moments only (Wordmark, BleedHero numeral)
     },
-    // Semantic colors for state-based text
+    // Semantic colors for state-based text — ocean palette
+    // kelp (success), coral (danger), amber-tide (warning), deep-violet (info)
     semantic: {
-      success: 'text-green-400',   // Positive states, improvements, achievements
-      danger: 'text-red-400',      // Negative states, declines, errors
-      warning: 'text-yellow-400',  // Caution, moderate changes, attention needed
-      warningAlt: 'text-orange-400', // Alternative warning for emphasis
-      info: 'text-purple-400',     // Information, special features, AI-related
+      success: 'text-kelp-400',
+      danger: 'text-coral-400',
+      warning: 'text-amber-tide-400',
+      warningAlt: 'text-amber-tide-300',
+      info: 'text-deep-violet-400',
     },
     // Primary color usage guidelines
     // - text-primary-400: Default for dark mode (icons, accents, interactive elements)

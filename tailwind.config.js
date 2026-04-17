@@ -23,7 +23,57 @@ export default {
         },
         accent: {
           blue: '#00d4ff',    // Electric blue
-          coral: '#ff6b6b',   // Coral
+          coral: '#ff6b6b',   // Coral (legacy)
+        },
+        // Ocean semantic palette — replaces stock Tailwind state colors.
+        // Named for Swimma's world so positive/negative/warning/info feel authored.
+        kelp: {
+          50: '#ecfbf5',
+          100: '#d1f4e4',
+          200: '#9fe8c5',
+          300: '#66d6a0',
+          400: '#3ec089',   // primary success in dark mode
+          500: '#1ba06a',
+          600: '#118354',
+          700: '#0c6642',
+          800: '#084a31',
+          900: '#042f20',
+        },
+        coral: {
+          50: '#fff0ee',
+          100: '#ffdcd6',
+          200: '#ffb4a7',
+          300: '#ff8876',
+          400: '#ff6b6b',   // primary danger in dark mode
+          500: '#e04646',
+          600: '#b82f2f',
+          700: '#8a2222',
+          800: '#5e1717',
+          900: '#360c0c',
+        },
+        'amber-tide': {
+          50: '#fff7e8',
+          100: '#ffebc2',
+          200: '#ffd984',
+          300: '#ffc149',
+          400: '#f2ae2c',   // primary warning in dark mode
+          500: '#d08d15',
+          600: '#a26c10',
+          700: '#754e0c',
+          800: '#4a3207',
+          900: '#241803',
+        },
+        'deep-violet': {
+          50: '#f1ecff',
+          100: '#ded3ff',
+          200: '#baa5ff',
+          300: '#9374ff',
+          400: '#7a55ff',   // primary info in dark mode
+          500: '#5e35e6',
+          600: '#4623b8',
+          700: '#34188a',
+          800: '#21105c',
+          900: '#10082e',
         },
         dark: {
           bg: 'rgb(var(--color-bg))',
@@ -44,8 +94,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        display: ['"Instrument Sans"', 'Geist', 'system-ui', 'sans-serif'],
+        editorial: ['Fraunces', 'Georgia', 'serif'],
       },
       boxShadow: {
         // Dark mode shadows (deeper, more dramatic)
