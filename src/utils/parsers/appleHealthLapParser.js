@@ -175,13 +175,15 @@ const finalizeSession = (session) => {
   const totalDuration = (endDate - startDate) / 1000; // seconds
   const avgPace = totalDistance > 0 ? (totalDuration / 60) / (totalDistance / 100) : 0;
 
-  // Number laps
+  // Number laps — preserve timestamps so analytics can compute inter-lap rest gaps
   const numberedLaps = laps.map((lap, index) => ({
     number: index + 1,
     distance: lap.distance,
     duration: lap.duration,
     avgPace: lap.avgPace,
     strokes: 0, // Apple Health doesn't provide stroke data
+    startDate: lap.startDate.toISOString(),
+    endDate: lap.endDate.toISOString(),
   }));
 
   return {

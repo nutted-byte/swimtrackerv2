@@ -27,13 +27,10 @@ import {
   generateSwimSummary
 } from '../utils/analytics';
 import { tokens } from '../design/tokens';
-import { getTechniqueRecommendation, shouldShowTechniqueTips } from '../utils/techniqueRecommendations';
-import { TechniqueCard } from '../components/TechniqueCard';
-import { ProgressCard } from '../components/dashboard/ProgressCard';
-import { TrainingPlanCard } from '../components/dashboard/TrainingPlanCard';
 import { StreakCard } from '../components/dashboard/StreakCard';
-import { PaceTrendCard } from '../components/dashboard/PaceTrendCard';
-import { AIAssistantCard } from '../components/dashboard/AIAssistantCard';
+import { LongestSwimHeroCard } from '../components/dashboard/LongestSwimHeroCard';
+import { BestTimesCard } from '../components/dashboard/BestTimesCard';
+import { FatigueCurveCard } from '../components/dashboard/FatigueCurveCard';
 import { RecentSwimsTrend } from '../components/dashboard/RecentSwimsTrend';
 import { HeroSkeleton, CardGridSkeleton, StatCardSkeleton } from '../components/LoadingSkeletons';
 
@@ -98,16 +95,6 @@ export const Dashboard = () => {
       new Date(session.date) >= threeMonthsAgo
     ).slice(0, 10); // Show max 10 sessions
   }, [sessions]);
-
-  // Get technique recommendation
-  const techniqueRecommendation = useMemo(() => {
-    // TODO: Get user preferences from context (wellness mode)
-    const userPreferences = {}; // Placeholder
-    if (!shouldShowTechniqueTips(userPreferences)) {
-      return null;
-    }
-    return getTechniqueRecommendation(lastSwim, sessions);
-  }, [lastSwim, sessions]);
 
   // Emoji based on status
   const statusEmoji = {
@@ -195,12 +182,27 @@ export const Dashboard = () => {
         />
       )}
 
-      {/* 2. Monthly Streak */}
+      {/* 2. Longest Continuous Swim — the core "am I getting better?" answer */}
+      {sessions.length > 0 && (
+        <LongestSwimHeroCard sessions={sessions} />
+      )}
+
+      {/* 3. Personal Records — fastest unbroken time at each distance */}
+      {sessions.length > 0 && (
+        <BestTimesCard sessions={sessions} />
+      )}
+
+      {/* 4. Fatigue Curve — how you paced, lap by lap */}
+      {sessions.length > 0 && (
+        <FatigueCurveCard sessions={sessions} />
+      )}
+
+      {/* 5. Monthly Streak */}
       {sessions.length > 0 && (
         <StreakCard sessions={sessions} />
       )}
 
-      {/* 3. Recent Swims */}
+      {/* 6. Recent Swims */}
       {recentSessions.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -243,14 +245,6 @@ export const Dashboard = () => {
             </div>
           </Card>
         </motion.div>
-      )}
-
-      {/* 4. Training Plan */}
-      <TrainingPlanCard />
-
-      {/* 5. Technique Recommendation */}
-      {techniqueRecommendation && (
-        <TechniqueCard recommendation={techniqueRecommendation} />
       )}
 
       {/* Footer */}
