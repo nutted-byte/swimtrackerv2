@@ -10,6 +10,19 @@
 
 const SESSION_GAP_THRESHOLD = 5 * 60 * 1000; // 5 minutes in milliseconds
 
+// Apple Health exports dates like "2026-04-18 08:28:24 +0000".
+// Desktop V8 parses that, iOS Safari doesn't — it wants strict ISO 8601.
+// Normalise to "2026-04-18T08:28:24+00:00" before `new Date()`.
+const parseAppleHealthDate = (raw) => {
+  if (!raw) return new Date(NaN);
+  const trimmed = String(raw).trim();
+  const m = trimmed.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})(?:\s*([+-])(\d{2}):?(\d{2}))?$/);
+  if (!m) return new Date(trimmed);
+  const [, date, time, sign, hh, mm] = m;
+  const tz = sign ? `${sign}${hh}:${mm}` : 'Z';
+  return new Date(`${date}T${time}${tz}`);
+};
+
 /**
  * Parse Apple Health lap CSV file
  * @param {File} file - The CSV file to parse
@@ -69,8 +82,8 @@ const parseCSVText = (text) => {
 
     const cols = parseCSVLine(line);
 
-    const startDate = new Date(cols[startDateIdx]);
-    const endDate = new Date(cols[endDateIdx]);
+    const startDate = parseAppleHealthDate(cols[startDateIdx]);
+    const endDate = parseAppleHealthDate(cols[endDateIdx]);
     const distance = parseFloat(cols[valueIdx]);
 
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) || isNaN(distance)) {
