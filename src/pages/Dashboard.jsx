@@ -29,9 +29,7 @@ import {
 } from '../utils/analytics';
 import { tokens } from '../design/tokens';
 import { StreakCard } from '../components/dashboard/StreakCard';
-import { LongestSwimHeroCard } from '../components/dashboard/LongestSwimHeroCard';
 import { BestTimesCard } from '../components/dashboard/BestTimesCard';
-import { FatigueCurveCard } from '../components/dashboard/FatigueCurveCard';
 import { RecentSwimsTrend } from '../components/dashboard/RecentSwimsTrend';
 import { HeroSkeleton, CardGridSkeleton, StatCardSkeleton } from '../components/LoadingSkeletons';
 
@@ -191,42 +189,6 @@ export const Dashboard = () => {
           </div>
         )}
 
-        {/* 2. Longest Continuous Swim — the core "am I getting better?" answer */}
-        {sessions.length > 0 && (
-          <div
-            className="opacity-0"
-            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
-          >
-            <LongestSwimHeroCard sessions={sessions} />
-          </div>
-        )}
-
-        {/* 3-4. Records + Fatigue — 2-up asymmetric editorial grid */}
-        {sessions.length > 0 && (
-          <div
-            className="opacity-0 grid grid-cols-1 lg:grid-cols-12 gap-6"
-            style={{ animation: 'dashEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
-          >
-            <div className="lg:col-span-7 relative">
-              <span
-                aria-hidden="true"
-                className="hidden lg:block absolute -top-3 right-0 font-display uppercase tracking-[0.35em] text-[0.65rem] font-semibold pointer-events-none"
-                style={{
-                  color: 'transparent',
-                  WebkitTextStroke: '1px rgb(var(--color-content-tertiary))',
-                  opacity: 0.5,
-                }}
-              >
-                Personal Records
-              </span>
-              <BestTimesCard sessions={sessions} />
-            </div>
-            <div className="lg:col-span-5">
-              <FatigueCurveCard sessions={sessions} />
-            </div>
-          </div>
-        )}
-
         {/* 5. Monthly Streak */}
         {sessions.length > 0 && (
           <div
@@ -290,6 +252,18 @@ export const Dashboard = () => {
               ))}
             </div>
           </Card>
+        </motion.div>
+      )}
+
+      {/* Personal Records — moved to bottom */}
+      {sessions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-6"
+        >
+          <BestTimesCard sessions={sessions} />
         </motion.div>
       )}
 

@@ -4,10 +4,11 @@ import { Card } from './Card';
 import { CardVariant } from './primitives';
 import { SwimAnalysisPanel } from './SwimAnalysisPanel';
 import { RatingButtons } from './RatingButtons';
-import { Activity, TrendingUp, Clock, Target, Calendar, Sparkles, ChevronUp } from 'lucide-react';
+import { Activity, TrendingUp, TrendingDown, Clock, Calendar, Sparkles, ChevronUp } from 'lucide-react';
 import { tokens } from '../design/tokens';
 import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
 import { formatDuration } from '../utils/formatters';
+import { fatigueMetricsForSession } from '../utils/analytics/fatigueCurve';
 import { useTheme } from '../context/ThemeContext';
 import { ShareModal } from './sharing/ShareModal';
 
@@ -23,6 +24,15 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
   } = useSwimAnalysis(swim, sessions);
 
   if (!swim) return null;
+
+  const pacing = fatigueMetricsForSession(swim);
+  const pacingDisplay = (() => {
+    if (!pacing) return { value: '—', sublabel: 'Need lap data' };
+    const { fadeSec, verdict } = pacing;
+    if (verdict === 'faded') return { value: `+${Math.round(fadeSec)}s`, sublabel: 'Slower in 2nd half' };
+    if (verdict === 'negative-split') return { value: `−${Math.round(Math.abs(fadeSec))}s`, sublabel: 'Faster in 2nd half' };
+    return { value: 'Even', sublabel: 'Held pace evenly' };
+  })();
 
   // Calculate relative time
   const getRelativeTime = (dateString) => {
@@ -180,14 +190,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
             `}
           >
             <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
-              <Target className={tokens.icons.sm} />
-              {swim.swolf > 0 ? 'SWOLF' : 'Strokes'}
+              <TrendingDown className={tokens.icons.sm} />
+              Pacing
             </div>
             <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>
-              {swim.swolf > 0 ? swim.swolf : swim.strokes.toLocaleString()}
+              {pacingDisplay.value}
             </p>
             <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
-              {swim.swolf > 0 ? 'Efficiency score' : 'Total strokes'}
+              {pacingDisplay.sublabel}
             </p>
           </motion.div>
         </div>
