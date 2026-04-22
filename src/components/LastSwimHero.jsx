@@ -28,10 +28,14 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
   const pacing = fatigueMetricsForSession(swim);
   const pacingDisplay = (() => {
     if (!pacing) return { value: '—', sublabel: 'Need lap data' };
-    const { fadeSec, verdict } = pacing;
-    if (verdict === 'faded') return { value: `+${Math.round(fadeSec)}s`, sublabel: 'Slower in 2nd half' };
-    if (verdict === 'negative-split') return { value: `−${Math.round(Math.abs(fadeSec))}s`, sublabel: 'Faster in 2nd half' };
-    return { value: 'Even', sublabel: 'Held pace evenly' };
+    const { firstHalfPaceSec, secondHalfPaceSec, verdict } = pacing;
+    const first = formatPace(firstHalfPaceSec / 60);
+    const second = formatPace(secondHalfPaceSec / 60);
+    const sublabel =
+      verdict === 'faded' ? 'Faded in second half · per 100m'
+      : verdict === 'negative-split' ? 'Faster in second half · per 100m'
+      : 'Steady pace throughout · per 100m';
+    return { value: `${first} → ${second}`, sublabel };
   })();
 
   // Calculate relative time
@@ -193,7 +197,7 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
               <TrendingDown className={tokens.icons.sm} />
               Pacing
             </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} ${isDark ? 'text-primary-400' : 'text-primary-600'}`}>
+            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} whitespace-nowrap text-content-primary`}>
               {pacingDisplay.value}
             </p>
             <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>

@@ -67,21 +67,35 @@ export const medianFatigueCurveAcrossSessions = (
 };
 
 /**
- * Split-based fade metric: mean pace of the second half minus mean pace of the first half.
- * Positive = faded (slower later). Negative = negative split (faster later).
+ * Split-based fade metric. Each half's pace is clock-time-inclusive
+ * (distance over elapsed time within the half, rests included) so the
+ * numbers stay comparable to the session's overall pace. Per-lap moving
+ * pace is only used for the curve visualisation.
  * Returns { firstHalfPaceSec, secondHalfPaceSec, fadeSec, verdict } or null.
  */
 export const fatigueMetricsForSession = (session) => {
-  const curve = fatigueCurveForSession(session);
-  if (!curve || curve.length < 4) return null;
+  if (!session || !hasLapTimestamps(session.laps)) return null;
+  const laps = session.laps.filter((l) => l?.distance && l?.startDate && l?.endDate);
+  if (laps.length < 4) return null;
 
-  const mid = Math.floor(curve.length / 2);
-  const firstHalf = curve.slice(0, mid);
-  const secondHalf = curve.slice(mid);
+  const mid = Math.floor(laps.length / 2);
+  const firstHalfLaps = laps.slice(0, mid);
+  const secondHalfLaps = laps.slice(mid);
 
-  const mean = (arr) => arr.reduce((s, p) => s + p.paceSec, 0) / arr.length;
-  const firstHalfPaceSec = mean(firstHalf);
-  const secondHalfPaceSec = mean(secondHalf);
+  const halfPaceSec = (halfLaps) => {
+    const distance = halfLaps.reduce((s, l) => s + l.distance, 0);
+    if (distance <= 0) return null;
+    const start = new Date(halfLaps[0].startDate).getTime();
+    const end = new Date(halfLaps[halfLaps.length - 1].endDate).getTime();
+    const durationSec = (end - start) / 1000;
+    if (!Number.isFinite(durationSec) || durationSec <= 0) return null;
+    return (durationSec / distance) * 100;
+  };
+
+  const firstHalfPaceSec = halfPaceSec(firstHalfLaps);
+  const secondHalfPaceSec = halfPaceSec(secondHalfLaps);
+  if (firstHalfPaceSec == null || secondHalfPaceSec == null) return null;
+
   const fadeSec = secondHalfPaceSec - firstHalfPaceSec;
 
   let verdict;
