@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { unzip } from 'fflate';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Watch, Upload, CheckCircle, AlertCircle, Loader2, X, Check, AlertTriangle } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
@@ -21,6 +22,28 @@ export const AppleHealthLapUpload = () => {
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
 
+  // Pull the first .csv out of a zip (skips macOS __MACOSX / ._ junk entries).
+  const extractCsvFromZip = (zipFile) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const uint8 = new Uint8Array(e.target.result);
+      unzip(uint8, (err, extracted) => {
+        if (err) { reject(new Error('Failed to read zip. Make sure it is a valid zip archive.')); return; }
+        for (const [name, data] of Object.entries(extracted)) {
+          if (name.includes('__MACOSX')) continue;
+          const filename = name.split('/').pop();
+          if (!filename || filename.startsWith('._')) continue;
+          if (!filename.toLowerCase().endsWith('.csv')) continue;
+          resolve(new File([data], filename));
+          return;
+        }
+        reject(new Error('No .csv file found inside the zip.'));
+      });
+    };
+    reader.onerror = () => reject(new Error('Failed to read zip file.'));
+    reader.readAsArrayBuffer(zipFile);
+  });
+
   const handleFileSelect = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -31,8 +54,10 @@ export const AppleHealthLapUpload = () => {
     setMatches([]);
 
     try {
-      // Parse CSV
-      const parsed = await parseAppleHealthLapCSV(file);
+      // Accept a raw .csv or a .zip containing one (mirrors the main swim upload)
+      const ext = '.' + file.name.split('.').pop().toLowerCase();
+      const csvFile = ext === '.zip' ? await extractCsvFromZip(file) : file;
+      const parsed = await parseAppleHealthLapCSV(csvFile);
       console.log('Parsed sessions:', parsed);
 
       if (parsed.length === 0) {
@@ -199,13 +224,13 @@ export const AppleHealthLapUpload = () => {
             Add lap-by-lap pace analysis to your existing swims
           </p>
           <p className="text-sm text-content-tertiary mb-6">
-            Upload an Apple Health lap data .CSV (Distance Swimming export)
+            Upload an Apple Health lap data .CSV — or a .ZIP containing one (Distance Swimming export)
           </p>
 
           <input
             ref={fileInputRef}
             type="file"
-            accept=".csv"
+            accept=".csv,.zip"
             onChange={handleFileSelect}
             className="hidden"
           />
