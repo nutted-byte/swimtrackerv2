@@ -110,7 +110,8 @@ const callClaudeAPI = async (systemPrompt, userPrompt) => {
     body: JSON.stringify({
       systemPrompt,
       userPrompt,
-      model: API_CONFIG.CLAUDE_MODEL,
+      models: API_CONFIG.CLAUDE_MODELS, // ordered preference list; edge function falls through on a retired model
+      model: API_CONFIG.CLAUDE_MODELS[0], // back-compat for an un-redeployed edge function
       maxTokens: API_CONFIG.MAX_TOKENS,
       temperature: API_CONFIG.TEMPERATURE,
     }),

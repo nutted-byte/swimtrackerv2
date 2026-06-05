@@ -5,6 +5,7 @@ import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { CardVariant, IconContainer } from '../components/primitives';
+import { AIMarkdown } from '../components/AIMarkdown';
 import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
 import { MessageCircle, Send, Sparkles, Loader2, AlertCircle, Upload, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -278,9 +279,7 @@ export const Ask = () => {
                           {message.timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </span>
                       </div>
-                      <div className="text-content-secondary whitespace-pre-wrap leading-relaxed">
-                        {message.content}
-                      </div>
+                      <AIMarkdown content={message.content} />
                       {message.usage && (
                         <div className="mt-2 flex items-center gap-2 text-xs text-content-tertiary">
                           <span>

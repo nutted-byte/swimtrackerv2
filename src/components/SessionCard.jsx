@@ -65,9 +65,9 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
       <Card
         hover={true}
         className={`cursor-pointer overflow-hidden hover:!transform-none border p-3 md:p-6 ${
-          session.rating === 'good' ? 'border-green-500/30 bg-green-500/5' :
-          session.rating === 'average' ? 'border-yellow-500/30 bg-yellow-500/5' :
-          session.rating === 'bad' ? 'border-red-500/30 bg-red-500/5' :
+          session.rating === 'good' ? 'border-green-500/30' :
+          session.rating === 'average' ? 'border-yellow-500/30' :
+          session.rating === 'bad' ? 'border-red-500/30' :
           'border-dark-border/30'
         }`}
         onClick={() => onClick && onClick(session)}

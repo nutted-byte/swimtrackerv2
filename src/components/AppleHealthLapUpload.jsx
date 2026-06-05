@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Watch, Upload, CheckCircle, AlertCircle, Loader2, X, Check, AlertTriangle } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
+import { Card } from './Card';
+import { Button } from './Button';
 import { CardVariant, IconContainer } from './primitives';
 import { tokens } from '../design/tokens';
 import { parseAppleHealthLapCSV } from '../utils/parsers/appleHealthLapParser';
@@ -187,16 +189,17 @@ export const AppleHealthLapUpload = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start gap-4">
-        <div className="p-4 rounded-lg bg-purple-500/20">
-          <Watch className={`${tokens.icons.lg} text-purple-400`} />
-        </div>
-        <div className="flex-1">
-          <h3 className="font-display text-lg font-semibold mb-2">
-            Add Lap Data from Apple Health
+      <Card>
+        <div className="text-center py-12">
+          <Watch className="w-16 h-16 mx-auto text-primary-400 mb-4" />
+          <h3 className="font-display text-xl font-semibold mb-2">
+            Add Lap Data : "DistanceSwimming"
           </h3>
-          <p className="text-content-tertiary text-sm mb-4">
-            Upload Apple Health lap data CSV to add detailed lap-by-lap pace analysis to your existing swims.
+          <p className="text-content-tertiary mb-4">
+            Add lap-by-lap pace analysis to your existing swims
+          </p>
+          <p className="text-sm text-content-tertiary mb-6">
+            Upload an Apple Health lap data .CSV (Distance Swimming export)
           </p>
 
           <input
@@ -207,25 +210,15 @@ export const AppleHealthLapUpload = () => {
             className="hidden"
           />
 
-          <button
+          <Button
             onClick={handleButtonClick}
             disabled={uploading || matches.length > 0}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            leftIcon={uploading ? <Loader2 className="animate-spin" /> : <Upload />}
           >
-            {uploading ? (
-              <>
-                <Loader2 className={`${tokens.icons.sm} animate-spin`} />
-                Parsing...
-              </>
-            ) : (
-              <>
-                <Upload className={tokens.icons.sm} />
-                Upload Lap Data CSV
-              </>
-            )}
-          </button>
+            {uploading ? 'Parsing...' : 'Upload Lap Data CSV'}
+          </Button>
         </div>
-      </div>
+      </Card>
 
       {/* Matching UI */}
       <AnimatePresence>

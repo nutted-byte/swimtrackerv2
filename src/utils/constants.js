@@ -170,8 +170,14 @@ export const CACHE_DURATION = {
 
 // API configuration
 export const API_CONFIG = {
-  CLAUDE_MODEL: 'claude-3-haiku-20240307', // Claude 3 Haiku (fast and affordable)
-  // Alternative: 'claude-3-5-sonnet-20240620' (smarter but slower/expensive)
+  // Ordered model preference list. The `ask-ai` edge function tries these in
+  // order and falls through to the next ONLY when a model is retired/unknown
+  // (404 / not_found_error) — so a future retirement self-heals with no redeploy.
+  // IMPORTANT: use rolling aliases (e.g. 'claude-haiku-4-5'), never dated
+  // snapshots (e.g. 'claude-3-haiku-20240307' — retired 2026-04-19): snapshots
+  // get retired and are what broke "Analyse My Swim".
+  CLAUDE_MODELS: ['claude-haiku-4-5', 'claude-sonnet-4-6'],
+  CLAUDE_MODEL: 'claude-haiku-4-5', // legacy single-model field (= CLAUDE_MODELS[0])
   MAX_TOKENS: 4000,
   TEMPERATURE: 0.3,
 };

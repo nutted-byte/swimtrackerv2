@@ -6,6 +6,7 @@ import { CardVariant, IconContainer, Separator } from '../components/primitives'
 import { Button } from '../components/Button';
 import { PageContainer, PageHeader } from '../components/layout';
 import { PlanCreationWizard } from '../components/PlanCreationWizard';
+import { AIMarkdown } from '../components/AIMarkdown';
 import { useTrainingPlan } from '../context/TrainingPlanContext';
 import { useSwimData } from '../context/SwimDataContext';
 import { querySwimData, getExampleQueries, suggestDateRangeForQuery } from '../utils/ai/llmQuery';
@@ -515,9 +516,7 @@ export const Training = () => {
                           {message.timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                         </span>
                       </div>
-                      <div className="text-content-secondary whitespace-pre-wrap leading-relaxed">
-                        {message.content}
-                      </div>
+                      <AIMarkdown content={message.content} />
                       {message.usage && (
                         <div className={`${tokens.margin.element} flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary`}>
                           <span>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card } from '../Card';
 import { Button } from '../Button';
+import { AIMarkdown } from '../AIMarkdown';
 import { tokens } from '../../design/tokens';
 import { analyzePerformanceTrends } from '../../utils/ai/llmQuery';
 
@@ -188,11 +189,8 @@ export const PerformanceAnalysis = ({
 
             {/* Analysis content */}
             {analysis && !loading && (
-              <div className="prose prose-invert max-w-none">
-                <div
-                  className={`${tokens.typography.sizes.sm} leading-relaxed whitespace-pre-wrap`}
-                  dangerouslySetInnerHTML={{ __html: analysis.insights.replace(/\n/g, '<br/>') }}
-                />
+              <div className="max-w-none">
+                <AIMarkdown content={analysis.insights} />
 
                 <p className={`${tokens.typography.sizes.xs} text-content-tertiary mt-4`}>
                   Generated {new Date(analysis.generatedAt).toLocaleString('en-US', {

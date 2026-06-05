@@ -92,6 +92,18 @@ export const Upload = () => {
           </motion.div>
         )}
 
+        {/* Apple Health Lap Data — styled like the main swim upload box, surfaced near the top */}
+        {sessions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mt-6"
+          >
+            <AppleHealthLapUpload />
+          </motion.div>
+        )}
+
         {/* VO2 Max Upload Section */}
         {sessions.length > 0 && (
           <motion.div
@@ -102,19 +114,6 @@ export const Upload = () => {
           >
             <Separator spacing="lg" />
             <VO2MaxUpload />
-          </motion.div>
-        )}
-
-        {/* Apple Health Lap Data Upload Section */}
-        {sessions.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="mt-12"
-          >
-            <Separator spacing="lg" />
-            <AppleHealthLapUpload />
           </motion.div>
         )}
 

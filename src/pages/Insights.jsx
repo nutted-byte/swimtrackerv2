@@ -8,6 +8,7 @@ import { CardVariant, IconContainer, Separator } from '../components/primitives'
 import { Button } from '../components/Button';
 import { TrendBadge } from '../components/TrendBadge';
 import { CollapsibleSection } from '../components/CollapsibleSection';
+import { AIMarkdown } from '../components/AIMarkdown';
 import { AchievementBadges } from '../components/AchievementBadges';
 import { FunComparisons } from '../components/FunComparisons';
 import { InsightsControls, InsightsSummary, InsightsChart, PerformanceAnalysis } from '../components/insights';
@@ -641,9 +642,7 @@ export const Insights = () => {
                     transition={{ duration: 0.3 }}
                   >
                     <Card>
-                      <div className="text-content-secondary whitespace-pre-wrap leading-relaxed">
-                        {message.content}
-                      </div>
+                      <AIMarkdown content={message.content} />
                       {message.usage && (
                         <div className={`mt-4 pt-4 flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary border-t border-gray-800`}>
                           <Sparkles className={tokens.icons.xs} />

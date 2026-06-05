@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
+import { AIMarkdown } from './AIMarkdown';
 import { Sparkles, Loader2, AlertCircle, Zap, MessageCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Separator } from './primitives';
@@ -36,11 +37,7 @@ export const SwimAnalysisPanel = memo(({
             </div>
 
             <div className="bg-dark-bg/30 rounded-lg p-4 mb-4">
-              <div className="prose prose-invert prose-sm max-w-none">
-                <p className="text-content-secondary leading-relaxed whitespace-pre-wrap">
-                  {analysis.content}
-                </p>
-              </div>
+              <AIMarkdown content={analysis.content} />
 
               {analysis.usage && (
                 <div className="mt-3 flex items-center gap-2 text-xs text-content-tertiary">
