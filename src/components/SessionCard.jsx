@@ -74,9 +74,9 @@ export const SessionCard = memo(({ session, onClick, allSessions = [] }) => {
       >
         {/* Compact Header */}
         <div className="flex items-center justify-between gap-3 mb-2">
-          <div className="flex items-center gap-2 text-content-secondary text-xs">
-            <Calendar className="w-3 h-3" />
-            <span className="font-medium">{formatDate(session.date)}</span>
+          <div className={`flex items-center ${tokens.gap.tight} text-content-secondary ${tokens.typography.sizes.sm}`}>
+            <Calendar className={tokens.icons.sm} />
+            <span className={tokens.typography.weights.medium}>{formatDate(session.date)}</span>
             <span className="text-content-tertiary">•</span>
             <span>{formatTime(session.date)}</span>
             {isPR && (
