@@ -5,7 +5,8 @@ import { PageContainer, PageHeader } from '../components/layout';
 import { Card } from '../components/Card';
 import { CardVariant, Separator } from '../components/primitives';
 import { getAllArticles, getArticle, categories, levels, learningPaths } from '../content/techniques/index.js';
-import { ArrowLeft, Clock, TrendingUp, BookOpen, Search, Filter, Share2, CheckCircle, ChevronRight, Home, Lightbulb, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Clock, TrendingUp, BookOpen, Search, Filter, Share2, CheckCircle, ChevronRight, Home, Lightbulb, AlertTriangle, Waves } from 'lucide-react';
+import { WarmupGuide } from '../components/warmup/WarmupGuide';
 import Markdown from 'react-markdown';
 import { SwolfExplainer, StreamlineDiagram, BreathingPattern } from '../components/diagrams';
 import { useTheme } from '../context/ThemeContext';
@@ -26,6 +27,7 @@ export const Techniques = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [libraryTab, setLibraryTab] = useState('articles');
 
   console.log('Techniques component - articleId:', articleId);
 
@@ -36,6 +38,7 @@ export const Techniques = () => {
       setSelectedCategory('all');
       setSelectedLevel('all');
       setSearchQuery('');
+      setLibraryTab('articles');
     }
   }, [articleId]);
 
@@ -93,6 +96,34 @@ export const Techniques = () => {
         nextArticleId={nextArticleId}
       />
 
+      {/* Library view toggle: Articles | Warm-Up & Cool-Down */}
+      <div className={`flex flex-wrap ${tokens.gap.compact} ${tokens.margin.section}`}>
+        <button
+          onClick={() => setLibraryTab('articles')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            libraryTab === 'articles'
+              ? 'bg-primary-500 text-white'
+              : 'bg-dark-card hover:bg-dark-card/80 text-content-secondary'
+          }`}
+        >
+          <BookOpen className={tokens.icons.sm} /> Articles
+        </button>
+        <button
+          onClick={() => setLibraryTab('warmup')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            libraryTab === 'warmup'
+              ? 'bg-primary-500 text-white'
+              : 'bg-dark-card hover:bg-dark-card/80 text-content-secondary'
+          }`}
+        >
+          <Waves className={tokens.icons.sm} /> Warm-Up &amp; Cool-Down
+        </button>
+      </div>
+
+      {libraryTab === 'warmup' && <WarmupGuide />}
+
+      {libraryTab === 'articles' && (
+      <>
       {/* Recommended For You Section */}
       {recommendations.length > 0 && (
         <motion.div
@@ -301,6 +332,8 @@ export const Techniques = () => {
             />
           ))}
         </div>
+      )}
+      </>
       )}
     </PageContainer>
   );
