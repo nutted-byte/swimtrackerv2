@@ -1,14 +1,27 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Activity, TrendingUp, Zap, Calendar } from 'lucide-react';
-import { Card } from './Card';
+import { ChevronDown, TrendingUp } from 'lucide-react';
 import { tokens } from '../design/tokens';
 
-export const MonthGroup = ({ monthData, children, previousMonthStats = null, allCollapsed = false }) => {
+/**
+ * A month's worth of swims.
+ *
+ * One card surface. The header sits on it and the rows sit flush on it, separated by
+ * hairline rules — no inner well, so no card-inside-a-card.
+ *
+ * The previous version wrapped children in a `bg-dark-bg` well — the page background
+ * punched into a card — which made every child card float on a slab instead of reading
+ * as a row belonging to the month.
+ */
+export const MonthGroup = ({
+  monthData,
+  children,
+  previousMonthStats = null,
+  allCollapsed = false,
+}) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const { monthName, stats } = monthData;
 
-  // Update expanded state when allCollapsed changes
   useEffect(() => {
     setIsExpanded(!allCollapsed);
   }, [allCollapsed]);
@@ -20,154 +33,127 @@ export const MonthGroup = ({ monthData, children, previousMonthStats = null, all
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Calculate month-over-month trends
-  const calculateTrend = (current, previous, lowerIsBetter = false) => {
-    if (!previous || previous === 0) return null;
-    const change = ((current - previous) / previous) * 100;
-    const isImproving = lowerIsBetter ? change < 0 : change > 0;
+  const distanceTrend = (() => {
+    const previous = previousMonthStats?.totalDistance;
+    if (!previous) return null;
+    const change = ((stats.totalDistance - previous) / previous) * 100;
     return {
-      value: Math.abs(change).toFixed(1),
-      isImproving,
-      isNegative: change < 0
+      value: Math.abs(change).toFixed(0),
+      isImproving: change > 0,
+      isNegative: change < 0,
     };
-  };
+  })();
 
-  const paceTrend = previousMonthStats?.avgPace
-    ? calculateTrend(stats.avgPace, previousMonthStats.avgPace, true)
-    : null;
+  const summaryLine = (
+    <>
+      {stats.totalSwims} swim{stats.totalSwims !== 1 ? 's' : ''}
+      {' · '}
+      {(stats.totalDistance / 1000).toFixed(1)} km
+      {' · '}
+      {Math.round(stats.totalDuration)} min
+    </>
+  );
 
-  const distanceTrend = previousMonthStats?.totalDistance
-    ? calculateTrend(stats.totalDistance, previousMonthStats.totalDistance)
-    : null;
+  const trendPill = distanceTrend && (
+    <span
+      className={`${tokens.typography.sizes.xs} ${tokens.typography.weights.medium} tabular-nums ${
+        distanceTrend.isImproving ? tokens.typography.semantic.success : tokens.typography.semantic.danger
+      }`}
+    >
+      {distanceTrend.isNegative ? '↓' : '↑'} {distanceTrend.value}%
+    </span>
+  );
 
-  return (
-    <div className={`bg-dark-card ${tokens.radius.sm} overflow-hidden`}>
-      {/* Month Header */}
-      <div
-        className={`sticky top-0 ${tokens.zIndex.sticky} bg-dark-card backdrop-blur-sm ${tokens.padding.default} cursor-pointer`}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className="flex items-center justify-between">
-          <div className={`flex items-center ${tokens.gap.compact}`}>
-            <button className={`p-3 hover:bg-dark-bg ${tokens.radius.sm} transition-colors`}>
-              {isExpanded ? (
-                <ChevronDown className={`${tokens.icons.md} text-content-tertiary`} />
-              ) : (
-                <ChevronUp className={`${tokens.icons.md} text-content-tertiary`} />
-              )}
-            </button>
-            <div>
-              <h2 className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} flex items-center ${tokens.gap.compact}`}>
-                {monthName}
-              </h2>
-              <p className={`${tokens.typography.sizes.sm} text-content-tertiary mt-1`}>
-                {stats.totalSwims} swim{stats.totalSwims !== 1 ? 's' : ''} •{' '}
-                {(stats.totalDistance / 1000).toFixed(1)} km •{' '}
-                {Math.round(stats.totalDuration)} minutes
-              </p>
-            </div>
-          </div>
+  const highlights = (stats.bestPace || stats.longestSwim) && (
+    <div className={`flex flex-wrap ${tokens.gap.tight} mt-3`}>
+      {stats.bestPace && (
+        <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
+          Best pace{' '}
+          <span className={`${tokens.typography.weights.semibold} text-accent-blue tabular-nums`}>
+            {formatPace(stats.bestPace.pace)}
+          </span>
+        </span>
+      )}
+      {stats.bestPace && stats.longestSwim && (
+        <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>·</span>
+      )}
+      {stats.longestSwim && (
+        <span className={`${tokens.typography.sizes.xs} text-content-tertiary`}>
+          Longest{' '}
+          <span className={`${tokens.typography.weights.semibold} text-primary-400 tabular-nums`}>
+            {(stats.longestSwim.distance / 1000).toFixed(2)} km
+          </span>
+        </span>
+      )}
+    </div>
+  );
 
-          {/* Month Stats Summary */}
-          <div className={`hidden md:flex items-center ${tokens.gap.default}`}>
-            <div className="text-right">
-              <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
-                <TrendingUp className={tokens.icons.xs} />
-                <span>Total Distance</span>
-              </div>
-              <div className={`flex items-center ${tokens.gap.tight}`}>
-                <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold}`}>
-                  {(stats.totalDistance / 1000).toFixed(1)} km
-                </span>
-                {distanceTrend && (
-                  <span
-                    className={`${tokens.typography.sizes.xs} ${
-                      distanceTrend.isImproving ? 'text-green-400' : 'text-red-400'
-                    }`}
-                  >
-                    {distanceTrend.isNegative ? '↓' : '↑'} {distanceTrend.value}%
-                  </span>
-                )}
-              </div>
-            </div>
+  // One real button for the whole header — the old version was a div with onClick
+  // wrapping a second button, which nested interactive elements and split the hit target.
+  const header = (
+    <button
+      type="button"
+      onClick={() => setIsExpanded(!isExpanded)}
+      aria-expanded={isExpanded}
+      className={`w-full text-left sticky top-0 ${tokens.zIndex.sticky} bg-dark-card ${tokens.padding.default} ${tokens.components.states.focus}`}
+    >
+      <div className={`flex items-start justify-between ${tokens.gap.compact}`}>
+        <div className={`flex items-start ${tokens.gap.tight} min-w-0`}>
+          <ChevronDown
+            className={`${tokens.icons.md} text-content-tertiary flex-shrink-0 mt-1 transition-transform ${tokens.animation.default} ${
+              isExpanded ? '' : '-rotate-90'
+            }`}
+          />
+          <div className="min-w-0">
+            <h2
+              className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} leading-tight`}
+            >
+              {monthName}
+            </h2>
+            <p className={`${tokens.typography.sizes.sm} text-content-tertiary mt-0.5`}>
+              {summaryLine}
+            </p>
+            {isExpanded && highlights}
           </div>
         </div>
 
-        {/* Mobile Stats */}
-        {isExpanded && (
-          <div className="md:hidden mt-4">
-            <div>
-              <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
-                <TrendingUp className={tokens.icons.xs} />
-                <span>Total Distance</span>
-              </div>
-              <div className={`flex items-center ${tokens.gap.tight}`}>
-                <span className={`${tokens.typography.families.display} ${tokens.typography.sizes.base} ${tokens.typography.weights.semibold}`}>
-                  {(stats.totalDistance / 1000).toFixed(1)} km
-                </span>
-                {distanceTrend && (
-                  <span
-                    className={`${tokens.typography.sizes.xs} ${
-                      distanceTrend.isImproving ? 'text-green-400' : 'text-red-400'
-                    }`}
-                  >
-                    {distanceTrend.isNegative ? '↓' : '↑'} {distanceTrend.value}%
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Best Performance Highlights */}
-        {isExpanded && (stats.bestPace || stats.longestSwim) && (
-          <div className="mt-4 pt-4">
-            <div className={`flex flex-wrap ${tokens.gap.compact}`}>
-              {stats.bestPace && (
-                <div className={`px-4 py-3 bg-accent-blue/10 border border-accent-blue/20 ${tokens.radius.sm}`}>
-                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary mb-1`}>Best Pace</p>
-                  <p className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-accent-blue`}>
-                    {formatPace(stats.bestPace.pace)} on{' '}
-                    {new Date(stats.bestPace.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
-              )}
-              {stats.longestSwim && (
-                <div className={`px-4 py-3 bg-primary-500/10 border border-primary-500/20 ${tokens.radius.sm}`}>
-                  <p className={`${tokens.typography.sizes.xs} text-content-tertiary mb-1`}>Longest Swim</p>
-                  <p className={`${tokens.typography.sizes.sm} ${tokens.typography.weights.semibold} text-primary-400`}>
-                    {(stats.longestSwim.distance / 1000).toFixed(2)} km on{' '}
-                    {new Date(stats.longestSwim.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Sessions Grid */}
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden bg-dark-bg"
+        <div className={`hidden sm:flex items-center ${tokens.gap.tight} flex-shrink-0 pt-1`}>
+          <TrendingUp className={`${tokens.icons.xs} text-content-tertiary`} />
+          <span
+            className={`${tokens.typography.families.display} ${tokens.typography.sizes.lg} ${tokens.typography.weights.semibold} tabular-nums`}
           >
-            <div className={`space-y-4 ${tokens.padding.default}`}>
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            {(stats.totalDistance / 1000).toFixed(1)} km
+          </span>
+          {trendPill}
+        </div>
+      </div>
+    </button>
+  );
+
+  const body = (
+    <AnimatePresence initial={false}>
+      {isExpanded && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="overflow-hidden"
+        >
+          {/* Rows sit flush on the month surface, separated by rules that run edge
+              to edge. No background, no padding well. */}
+          <div className="divide-y divide-dark-border/20 border-t border-dark-border/20">
+            {children}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  return (
+    <section className={`bg-dark-card ${tokens.radius.md} overflow-hidden`}>
+      {header}
+      {body}
+    </section>
   );
 };

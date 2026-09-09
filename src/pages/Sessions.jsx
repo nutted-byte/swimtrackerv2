@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useSwimData } from '../context/SwimDataContext';
 import { SessionCard } from '../components/SessionCard';
 import { MonthGroup } from '../components/MonthGroup';
+import { SwimRow } from '../components/SwimRow';
 import { PageContainer, PageHeader } from '../components/layout';
 import { Button } from '../components/Button';
 import { Filter, Trash2, List, Calendar, Upload } from 'lucide-react';
@@ -18,6 +19,13 @@ export const Sessions = () => {
   const [sortBy, setSortBy] = useState('date-desc'); // date-desc, date-asc, distance, pace
   const [viewMode, setViewMode] = useState('grouped'); // grouped or list
   const [allCollapsed, setAllCollapsed] = useState(true);
+
+  // Fastest pace overall. Computed once here rather than inside every row, which is
+  // what SessionCard does (an O(n) scan per card, so O(n^2) across the page).
+  const bestPace = useMemo(() => {
+    const paces = sessions.filter(s => s.pace > 0).map(s => s.pace);
+    return paces.length > 0 ? Math.min(...paces) : null;
+  }, [sessions]);
 
   // Sort sessions
   const sortedSessions = [...sessions].sort((a, b) => {
@@ -212,7 +220,7 @@ export const Sessions = () => {
         {/* Sessions Display */}
         {viewMode === 'grouped' ? (
           // Grouped by Month View
-          <div className="space-y-[15px]">
+          <div className="space-y-4">
             {monthlyGroups.map((monthGroup, groupIndex) => (
               <MonthGroup
                 key={monthGroup.monthKey}
@@ -220,27 +228,14 @@ export const Sessions = () => {
                 previousMonthStats={groupIndex < monthlyGroups.length - 1 ? monthlyGroups[groupIndex + 1].stats : null}
                 allCollapsed={allCollapsed}
               >
-                {monthGroup.sessions.map((session, index) => (
-                  <motion.div
+                {monthGroup.sessions.map((session) => (
+                  <SwimRow
                     key={session.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="relative group"
-                  >
-                    <SessionCard
-                      session={session}
-                      onClick={handleSessionClick}
-                      allSessions={sessions}
-                    />
-                    <button
-                      onClick={(e) => handleDelete(session.id, e)}
-                      className="absolute top-4 right-4 p-3 bg-dark-bg/80 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent-coral/20"
-                      aria-label="Delete session"
-                    >
-                      <Trash2 className={`${tokens.icons.sm} text-accent-coral`} />
-                    </button>
-                  </motion.div>
+                    session={session}
+                    onClick={handleSessionClick}
+                    onDelete={handleDelete}
+                    isPR={bestPace !== null && session.pace === bestPace}
+                  />
                 ))}
               </MonthGroup>
             ))}
