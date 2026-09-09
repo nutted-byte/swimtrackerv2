@@ -19,8 +19,6 @@ import { StaggerGroup } from '../components/motion';
 import { Activity, TrendingUp, Zap, Upload, BarChart3, Sparkles, TrendingDown, MessageCircle, ArrowRight } from 'lucide-react';
 import { useSwimData } from '../context/SwimDataContext';
 import {
-  analyzeProgress,
-  generateCoachingInsight,
   analyzeLastSwimDeep,
   calculateSwimRanking,
   generateSwimQuestions,
@@ -38,12 +36,6 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   // Memoize expensive calculations to prevent re-computation on every render
-  // Analyze progress from real data
-  const analysis = useMemo(() => analyzeProgress(sessions, 30), [sessions]);
-  const coachingInsight = useMemo(() => generateCoachingInsight(analysis, sessions), [analysis, sessions]);
-
-  const { status, message, improving, metrics } = analysis;
-
   // Get the most recent swim
   const lastSwim = useMemo(() => sessions[0] || null, [sessions]);
 
@@ -85,24 +77,10 @@ export const Dashboard = () => {
     [lastSwim, deepAnalysis, ranking, sessions]
   );
 
-  // Get recent sessions (last 3 months) - MUST be before early return
-  const recentSessions = useMemo(() => {
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-
-    return sessions.filter(session =>
-      new Date(session.date) >= threeMonthsAgo
-    ).slice(0, 10); // Show max 10 sessions
-  }, [sessions]);
-
-  // Emoji based on status
-  const statusEmoji = {
-    'improving': '✅',
-    'stable': '⚡',
-    'declining': '⚠️',
-    'no-data': '📊',
-    'insufficient-data': '📈'
-  };
+  // The 10 most recent swims. Deliberately NOT windowed by date: a time-boxed
+  // filter silently empties this card after a break from the pool, which reads
+  // as "my data is gone" rather than "I haven't swum lately".
+  const recentSessions = useMemo(() => sessions.slice(0, 10), [sessions]);
 
   // Show loading skeletons
   if (loading && sessions.length === 0) {
@@ -117,8 +95,10 @@ export const Dashboard = () => {
     );
   }
 
-  // If no data, show empty state
-  if (status === 'no-data' || status === 'insufficient-data') {
+  // Empty state gates on whether any swims exist at all — never on trend
+  // analysis, which reports 'insufficient-data' after a 30-day gap and would
+  // otherwise hide a full swim history behind the first-run screen.
+  if (sessions.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
         <motion.div
@@ -132,7 +112,7 @@ export const Dashboard = () => {
             Welcome to Swimma!
           </h1>
           <p className={`${tokens.typography.sizes.xl} text-content-tertiary mb-8`}>
-            {message}
+            Upload your first swim to start tracking your progress.
           </p>
           <Link to="/upload">
             <Button leftIcon={<Upload />}>
