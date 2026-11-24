@@ -61,7 +61,7 @@ export const HowItWorks = () => {
     },
     {
       icon: <Sparkles className={tokens.icons.lg} />,
-      name: 'Claude AI',
+      name: 'OpenAI',
       description: 'AI-powered swim analysis and coaching insights via Edge Functions',
       color: 'from-purple-500 to-pink-600'
     },
@@ -205,14 +205,14 @@ export const HowItWorks = () => {
     {
       step: 3,
       title: 'Edge Functions',
-      description: 'Serverless functions are code that runs on-demand without managing servers. Netlify Edge Functions run at CDN edge locations globally, specifically for AI swim analysis powered by Claude API.',
+      description: 'A Supabase Edge Function authenticates requests for swim analysis and sends them to the OpenAI API.',
       icon: <Zap className={tokens.icons.md} />,
-      command: 'auto-deployed'
+      command: 'supabase functions deploy ask-ai --no-verify-jwt'
     },
     {
       step: 4,
       title: 'Environment Variables',
-      description: 'Environment variables store sensitive data like API keys outside of code. Netlify securely manages secrets for Supabase database connections and Claude AI API keys, keeping them encrypted and separate from the public codebase.',
+      description: 'Netlify configures the browser’s Supabase connection. The AI function reads its OpenAI API key from Supabase secrets.',
       icon: <Lock className={tokens.icons.md} />,
       command: 'netlify env:set'
     },

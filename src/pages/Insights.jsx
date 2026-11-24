@@ -619,11 +619,6 @@ export const Insights = () => {
                 <div>
                   <p className={`text-red-400 font-medium ${tokens.margin.element}`}>Error</p>
                   <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>{error}</p>
-                  {error.includes('API key') && (
-                    <p className={`${tokens.typography.sizes.xs} text-content-tertiary ${tokens.margin.element}`}>
-                      Add your Anthropic API key to .env file: VITE_ANTHROPIC_API_KEY=your-key-here
-                    </p>
-                  )}
                 </div>
               </CardVariant>
             </motion.div>

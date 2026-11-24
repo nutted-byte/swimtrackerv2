@@ -1,11 +1,10 @@
 /**
  * LLM Query utilities for natural language swim data analysis
- * Uses Claude API to answer questions about swim sessions
+ * Uses OpenAI to answer questions about swim sessions
  * Includes caching to reduce token usage and API calls
  */
 
 import { prepareSwimContext, filterSessionsByDays } from '../cache/dataCompression.js';
-import { API_CONFIG } from '../constants.js';
 import { getCachedResponse, cacheResponse } from '../cache/queryCache.js';
 
 /**
@@ -58,7 +57,7 @@ Data format: JSON with summary, recent swims, grouped stats. Be concise and data
 Q: ${question}`;
 
   try {
-    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    const response = await callAI(systemPrompt, userPrompt);
     const result = {
       success: true,
       answer: response.content,
@@ -81,12 +80,12 @@ Q: ${question}`;
 };
 
 /**
- * Call Claude API via Supabase Edge Function
+ * Call OpenAI via Supabase Edge Function
  * @param {string} systemPrompt - System instructions
  * @param {string} userPrompt - User message
  * @returns {Promise<Object>} API response
  */
-const callClaudeAPI = async (systemPrompt, userPrompt) => {
+const callAI = async (systemPrompt, userPrompt) => {
   // Import supabase client
   const { supabase } = await import('../../lib/supabase.js');
 
@@ -110,16 +109,12 @@ const callClaudeAPI = async (systemPrompt, userPrompt) => {
     body: JSON.stringify({
       systemPrompt,
       userPrompt,
-      models: API_CONFIG.CLAUDE_MODELS, // ordered preference list; edge function falls through on a retired model
-      model: API_CONFIG.CLAUDE_MODELS[0], // back-compat for an un-redeployed edge function
-      maxTokens: API_CONFIG.MAX_TOKENS,
-      temperature: API_CONFIG.TEMPERATURE,
     }),
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'API request failed');
+    const error = await response.json().catch(() => null);
+    throw new Error(error?.error || 'AI coaching is temporarily unavailable');
   }
 
   const data = await response.json();
@@ -325,7 +320,7 @@ Format as bullet points.`;
 Analyze this swim.`;
 
   try {
-    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    const response = await callAI(systemPrompt, userPrompt);
     return {
       success: true,
       content: response.content,
@@ -346,7 +341,7 @@ Analyze this swim.`;
  * @param {string} question - User's question
  * @param {Object} swim - The swim being asked about
  * @param {string} previousAnalysis - The initial analysis content
- * @param {Array} previousQA - Previous Q&A pairs (last 2 only)
+ * @param {Array} previousQA - Previous conversation messages (last 4 only)
  * @returns {Promise<Object>} Answer with metadata
  */
 export const askAboutSwim = async (question, swim, previousAnalysis, previousQA = []) => {
@@ -365,10 +360,7 @@ export const askAboutSwim = async (question, swim, previousAnalysis, previousQA 
 
   // Include last 2 Q&A pairs for context (token optimization)
   if (previousQA.length > 0) {
-    context.previous = previousQA.slice(-2).map(qa => ({
-      q: qa.question,
-      a: qa.answer,
-    }));
+    context.previous = previousQA.slice(-4).map(({ role, content }) => ({ role, content }));
   }
 
   const systemPrompt = `Swim coach answering follow-up questions about a specific swim. Be concise (max 80 words).`;
@@ -378,7 +370,7 @@ export const askAboutSwim = async (question, swim, previousAnalysis, previousQA 
 Q: ${question}`;
 
   try {
-    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    const response = await callAI(systemPrompt, userPrompt);
     return {
       success: true,
       answer: response.content,
@@ -496,7 +488,7 @@ Return ONLY valid JSON matching the required structure. Do not include any text 
 
   let response;
   try {
-    response = await callClaudeAPI(systemPrompt, userPrompt);
+    response = await callAI(systemPrompt, userPrompt);
 
     // Parse JSON response with better error handling
     let content = response.content.trim();
@@ -504,7 +496,7 @@ Return ONLY valid JSON matching the required structure. Do not include any text 
     // Remove markdown code blocks if present
     content = content.replace(/```json\s*/g, '').replace(/```\s*/g, '');
 
-    // Try to extract JSON if Claude added any text
+    // Try to extract JSON if the model added any text
     const jsonMatch = content.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       content = jsonMatch[0];
@@ -656,7 +648,7 @@ ${JSON.stringify(context, null, 2)}
 Provide 4-6 key insights about this swimmer's performance over ${timeLabel}.`;
 
   try {
-    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    const response = await callAI(systemPrompt, userPrompt);
     return {
       success: true,
       insights: response.content,
@@ -717,7 +709,7 @@ Output as JSON:
 Create personalized weekly focuses and coaching tips for this 8-week plan. Make it specific to their goal and experience level.`;
 
   try {
-    const response = await callClaudeAPI(systemPrompt, userPrompt);
+    const response = await callAI(systemPrompt, userPrompt);
 
     // Parse JSON response
     const content = response.content.trim();

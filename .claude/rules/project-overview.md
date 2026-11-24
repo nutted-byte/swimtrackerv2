@@ -17,7 +17,7 @@ This is a React-based swim tracking application with training plan features.
 - **Frontend**: React + Vite
 - **Styling**: Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
-- **AI**: Claude API via Supabase Edge Functions
+- **AI**: OpenAI Responses API via Supabase Edge Functions
 - **Animation**: Framer Motion
 - **Charts**: Recharts
 
@@ -111,7 +111,7 @@ const roundToPoolLength = (distance, poolLength = 25) => {
 
 ### Supabase Edge Functions
 - `POST /functions/v1/ask-ai` - AI plan generation
-  - Body: `{ systemPrompt, userPrompt, model, maxTokens }`
+  - Body: `{ systemPrompt, userPrompt }`
   - Returns: `{ content, model, usage }`
 
 ### Supabase REST API
@@ -122,4 +122,4 @@ const roundToPoolLength = (distance, poolLength = 25) => {
 ## Environment Variables
 - `VITE_SUPABASE_URL` - Supabase project URL
 - `VITE_SUPABASE_ANON_KEY` - Supabase anonymous key
-- Backend has `ANTHROPIC_API_KEY` for AI features
+- Backend has `OPENAI_API_KEY` for AI features

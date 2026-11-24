@@ -71,7 +71,7 @@ Print this out or keep it open while deploying:
    ☐ Open: https://app.netlify.com/sites/swimma/settings/deploys#environment
    ☐ VITE_SUPABASE_URL exists
    ☐ VITE_SUPABASE_ANON_KEY exists
-   ☐ VITE_ANTHROPIC_API_KEY exists (for AI features)
+   ☐ OPENAI_API_KEY exists in Supabase Edge Function secrets (for AI features)
 
 ☐ 4. BUILD TEST
    ☐ Run: npm run build

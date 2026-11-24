@@ -5,7 +5,7 @@ A modern web app that helps casual swimmers track their progress and get AI-powe
 ## Features
 
 - **"Am I Getting Better?" Dashboard** - Get a clear answer about your swimming progress at a glance
-- **Ask AI** - Natural language interface to query your swim data using Claude AI
+- **Ask AI** - Natural language interface to query your swim data using OpenAI
 - **Performance Tracking** - Monitor pace, distance, SWOLF, and other key metrics
 - **AI Coaching** - Receive personalized insights and actionable tips
 - **Beautiful Visualizations** - Interactive charts showing your improvement over time

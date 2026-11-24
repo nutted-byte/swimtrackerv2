@@ -38,12 +38,11 @@
 
 - [ ] `VITE_SUPABASE_URL` is set to: `https://wfifvskrqesbihwyhpkk.supabase.co`
 - [ ] `VITE_SUPABASE_ANON_KEY` is set (check it's the correct anon key)
-- [ ] `VITE_ANTHROPIC_API_KEY` is set (for AI features)
 
 ### 4. Supabase Edge Functions (for Ask AI feature)
 
 - [ ] Edge function `ask-ai` is deployed
-- [ ] Secret `ANTHROPIC_API_KEY` is set in Supabase
+- [ ] Secret `OPENAI_API_KEY` is set in Supabase
 - [ ] Test the function works in production
 
 ### 5. Build & Code Quality
@@ -154,7 +153,7 @@ If deployment causes issues:
 ### Issue: Edge Functions not working
 **Solution:**
 - Check Edge Function is deployed in Supabase
-- Verify `ANTHROPIC_API_KEY` secret is set
+- Verify `OPENAI_API_KEY` secret is set
 - Check function logs in Supabase dashboard
 
 ## Critical URLs Reference

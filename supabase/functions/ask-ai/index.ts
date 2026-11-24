@@ -1,5 +1,4 @@
-// Supabase Edge Function to proxy requests to Anthropic API
-// This avoids CORS issues and keeps API key secure on the server
+// Authenticated proxy for the OpenAI Responses API.
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -9,17 +8,31 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const defaultModel = 'gpt-5.4-mini';
+
+type ResponseOutput = {
+  type: string;
+  content?: { type: string; text?: string }[];
+};
+
+const json = (body: object, status = 200) => new Response(JSON.stringify(body), {
+  status,
+  headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+});
+
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
+  if (req.method !== 'POST') {
+    return json({ error: 'Method not allowed' }, 405);
+  }
+
   try {
-    // Verify authentication
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      throw new Error('No authorization header');
+      return json({ error: 'Unauthorized' }, 401);
     }
 
     const supabaseClient = createClient(
@@ -28,106 +41,94 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    const {
-      data: { user },
-    } = await supabaseClient.auth.getUser();
-
+    const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) {
-      throw new Error('Unauthorized');
+      return json({ error: 'Unauthorized' }, 401);
     }
 
-    // Get request body. `models` is an ordered preference list (new clients);
-    // `model` is the legacy single-model field (older clients).
-    const { systemPrompt, userPrompt, model, models, maxTokens, temperature } = await req.json();
-
-    // Get Anthropic API key from environment
-    const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY');
-    if (!anthropicApiKey) {
-      throw new Error('Anthropic API key not configured');
+    const request = await req.json().catch(() => null);
+    const { systemPrompt, userPrompt } = request ?? {};
+    if (typeof systemPrompt !== 'string' || !systemPrompt.trim() ||
+        typeof userPrompt !== 'string' || !userPrompt.trim()) {
+      return json({ error: 'Both systemPrompt and userPrompt are required' }, 400);
     }
 
-    // Build the ordered candidate list: caller's preference(s) first, then a
-    // hardcoded safety net. De-duped. Use rolling aliases here, never dated
-    // snapshots — snapshots get retired and would reintroduce the original bug.
-    const DEFAULT_FALLBACKS = ['claude-haiku-4-5', 'claude-sonnet-4-6'];
-    const preferred = Array.isArray(models) && models.length > 0
-      ? models
-      : (model ? [model] : []);
-    const candidates = [...new Set([...preferred, ...DEFAULT_FALLBACKS])];
+    const apiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!apiKey) {
+      console.error('ask-ai: OPENAI_API_KEY is missing');
+      return json({ error: 'AI coaching is temporarily unavailable' }, 503);
+    }
 
-    // Try each candidate. Fall through to the next ONLY when the model itself is
-    // gone (404 / not_found_error — i.e. retired or misspelled). For any other
-    // error (rate limit, auth, overload, server error) we stop and surface it:
-    // switching models there would mask a real problem and waste tokens.
-    let lastError = 'No model candidates available';
-    for (const candidate of candidates) {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+    // Model selection stays on the server so older app versions can keep
+    // sending requests and clients cannot override the configured models.
+    const primaryModel = Deno.env.get('OPENAI_MODEL')?.trim() || defaultModel;
+    for (const model of new Set([primaryModel, defaultModel])) {
+      const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
+          Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
-          'x-api-key': anthropicApiKey,
-          'anthropic-version': '2023-06-01',
         },
         body: JSON.stringify({
-          model: candidate,
-          max_tokens: maxTokens || 4000,
-          temperature: temperature ?? 0.3,
-          system: systemPrompt,
-          messages: [
-            {
-              role: 'user',
-              content: userPrompt,
-            },
-          ],
+          model,
+          instructions: systemPrompt,
+          input: userPrompt,
+          max_output_tokens: 4000,
+          store: false,
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (candidate !== candidates[0]) {
-          console.warn(`ask-ai: served by fallback model "${candidate}" (primary "${candidates[0]}" unavailable)`);
+      if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        console.error('ask-ai: OpenAI request failed', {
+          model,
+          status: response.status,
+          code: error?.error?.code,
+          requestId: response.headers.get('x-request-id'),
+        });
+
+        if (response.status === 404 || error?.error?.code === 'model_not_found') {
+          continue;
         }
-        return new Response(
-          JSON.stringify({
-            content: data.content[0].text,
-            model: data.model,
-            fellBack: candidate !== candidates[0],
-            usage: {
-              inputTokens: data.usage.input_tokens,
-              outputTokens: data.usage.output_tokens,
-            },
-          }),
-          {
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-            status: 200,
-          }
-        );
+        if (response.status === 429) {
+          return json({ error: 'AI coaching is busy. Please try again shortly.' }, 429);
+        }
+        return json({ error: 'AI coaching is temporarily unavailable' }, 502);
       }
 
-      const error = await response.json().catch(() => ({}));
-      const modelGone = response.status === 404 || error?.error?.type === 'not_found_error';
-      if (modelGone) {
-        console.warn(`ask-ai: model "${candidate}" unavailable (${error?.error?.type || response.status}) — trying next candidate`);
-        lastError = error?.error?.message || `Model ${candidate} not found`;
-        continue;
+      const data = await response.json();
+      if (data.status !== 'completed') {
+        console.error('ask-ai: OpenAI response did not complete', data.status, data.incomplete_details?.reason);
+        return json({ error: 'AI coaching could not complete the response. Please try again.' }, 502);
       }
 
-      // Real error — don't burn through the fallback list.
-      throw new Error(error?.error?.message || 'Anthropic API request failed');
+      const output: ResponseOutput[] = data.output ?? [];
+      const content = output
+        .filter(item => item.type === 'message')
+        .flatMap(item => item.content ?? [])
+        .filter(part => part.type === 'output_text')
+        .map(part => part.text)
+        .join('\n')
+        .trim();
+
+      if (!content) {
+        return json({ error: 'AI coaching did not return an answer for this request.' }, 502);
+      }
+
+      return json({
+        content,
+        model: data.model,
+        fellBack: model !== primaryModel,
+        usage: {
+          inputTokens: data.usage.input_tokens,
+          outputTokens: data.usage.output_tokens,
+        },
+      });
     }
 
-    // Every candidate was retired/unknown — this should be extremely rare and
-    // means the fallback list itself needs updating.
-    throw new Error(`All model candidates unavailable. Last error: ${lastError}`);
+    return json({ error: 'AI coaching is temporarily unavailable' }, 503);
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: error.message,
-      }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400,
-      }
-    );
+    console.error('ask-ai: unable to process request', error);
+    return json({ error: 'AI coaching is temporarily unavailable' }, 502);
   }
 });

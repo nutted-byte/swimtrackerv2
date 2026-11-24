@@ -23,7 +23,7 @@ export const PerformanceAnalysis = ({
   // Generate cache key for this analysis
   const getCacheKey = () => {
     const latestSessionId = sessions.length > 0 ? sessions[sessions.length - 1].id : 'none';
-    return `insights_analysis_${timeRange}_${latestSessionId}`;
+    return `insights_analysis_v2_${timeRange}_${latestSessionId}`;
   };
 
   // Load from cache or generate new analysis
@@ -121,7 +121,7 @@ export const PerformanceAnalysis = ({
                 )}
               </h2>
               <p className={`${tokens.typography.sizes.sm} text-content-tertiary`}>
-                Powered by Claude AI
+                Powered by OpenAI
               </p>
             </div>
           </div>

@@ -79,17 +79,15 @@ export const useSwimAnalysis = (swim, sessions) => {
     setAnalysisState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      const recentSwims = sessions
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 5);
-
-      const result = await askAboutSwim(swim, question, recentSwims, analysisState.conversation);
+      const result = await askAboutSwim(
+        question, swim, analysisState.analysis?.content, analysisState.conversation
+      );
 
       if (result.success) {
         const newConversation = [
           ...analysisState.conversation,
           { role: 'user', content: question },
-          { role: 'assistant', content: result.content, usage: result.usage }
+          { role: 'assistant', content: result.answer, usage: result.usage }
         ];
 
         setAnalysisState(prev => ({
