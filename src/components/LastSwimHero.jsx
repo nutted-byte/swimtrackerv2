@@ -4,11 +4,10 @@ import { Card } from './Card';
 import { CardVariant } from './primitives';
 import { SwimAnalysisPanel } from './SwimAnalysisPanel';
 import { RatingButtons } from './RatingButtons';
-import { Activity, TrendingUp, TrendingDown, Clock, Calendar, Sparkles, ChevronUp } from 'lucide-react';
+import { Activity, TrendingUp, Clock, Calendar, Sparkles, ChevronUp, Flame } from 'lucide-react';
 import { tokens } from '../design/tokens';
 import { useSwimAnalysis } from '../hooks/useSwimAnalysis';
 import { formatDuration } from '../utils/formatters';
-import { fatigueMetricsForSession } from '../utils/analytics/fatigueCurve';
 import { useTheme } from '../context/ThemeContext';
 import { ShareModal } from './sharing/ShareModal';
 
@@ -25,18 +24,22 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
 
   if (!swim) return null;
 
-  const pacing = fatigueMetricsForSession(swim);
-  const pacingDisplay = (() => {
-    if (!pacing) return { value: '—', sublabel: 'Need lap data' };
-    const { firstHalfPaceSec, secondHalfPaceSec, verdict } = pacing;
-    const first = formatPace(firstHalfPaceSec / 60);
-    const second = formatPace(secondHalfPaceSec / 60);
-    const sublabel =
-      verdict === 'faded' ? 'Faded in second half · per 100m'
-      : verdict === 'negative-split' ? 'Faster in second half · per 100m'
-      : 'Steady pace throughout · per 100m';
-    return { value: `${first} → ${second}`, sublabel };
-  })();
+  const calories = Number(swim.calories);
+  const hasCalories = Number.isFinite(calories) && calories > 0;
+  const metrics = [
+    {
+      label: 'Distance',
+      icon: TrendingUp,
+      value: `${(swim.distance / 1000).toFixed(2)} km`,
+      unit: `${Math.round(swim.distance / 25)} lengths`,
+    },
+    { label: 'Duration', icon: Clock, value: formatDuration(swim.duration), unit: 'min:sec' },
+    { label: 'Pace', icon: Activity, value: formatPace(swim.pace), unit: 'min/100m' },
+  ];
+
+  if (hasCalories) {
+    metrics.push({ label: 'Calories', icon: Flame, value: calories.toLocaleString(), unit: 'kcal' });
+  }
 
   // Calculate relative time
   const getRelativeTime = (dateString) => {
@@ -106,104 +109,33 @@ export const LastSwimHero = ({ swim, sessions, onRate, onViewDetails, formatPace
         </div>
 
         {/* Key Metrics Grid */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 ${tokens.gap.default} ${tokens.margin.section}`}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            onClick={() => onViewDetails(swim.id)}
-            className={`
-              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
-              ${isDark
-                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
-                : 'bg-white hover:bg-slate-50'
-              }
-            `}
-          >
-            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
-              <TrendingUp className={tokens.icons.sm} />
-              Distance
-            </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
-              {(swim.distance / 1000).toFixed(2)} km
-            </p>
-            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
-              {Math.round(swim.distance / 25)} lengths
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            onClick={() => onViewDetails(swim.id)}
-            className={`
-              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
-              ${isDark
-                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
-                : 'bg-white hover:bg-slate-50'
-              }
-            `}
-          >
-            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
-              <Clock className={tokens.icons.sm} />
-              Duration
-            </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
-              {formatDuration(swim.duration)}
-            </p>
-            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
-              min:sec
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            onClick={() => onViewDetails(swim.id)}
-            className={`
-              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
-              ${isDark
-                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
-                : 'bg-white hover:bg-slate-50'
-              }
-            `}
-          >
-            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
-              <Activity className={tokens.icons.sm} />
-              Pace
-            </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
-              {formatPace(swim.pace)}
-            </p>
-            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>min/100m</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            onClick={() => onViewDetails(swim.id)}
-            className={`
-              ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
-              ${isDark
-                ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
-                : 'bg-white hover:bg-slate-50'
-              }
-            `}
-          >
-            <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
-              <TrendingDown className={tokens.icons.sm} />
-              Pacing
-            </div>
-            <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold} whitespace-nowrap text-content-primary`}>
-              {pacingDisplay.value}
-            </p>
-            <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>
-              {pacingDisplay.sublabel}
-            </p>
-          </motion.div>
+        <div className={`grid grid-cols-2 ${hasCalories ? 'md:grid-cols-4' : 'sm:grid-cols-3'} ${tokens.gap.default} ${tokens.margin.section}`}>
+          {metrics.map(({ label, icon: Icon, value, unit }, index) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (3 + index) / 10 }}
+              onClick={() => onViewDetails(swim.id)}
+              className={`
+                ${!hasCalories && label === 'Pace' ? 'col-span-2 sm:col-span-1' : ''}
+                ${tokens.radius.sm} ${tokens.padding.default} ${tokens.animation.default} transition-all cursor-pointer
+                ${isDark
+                  ? 'bg-dark-bg/60 hover:bg-dark-bg/80'
+                  : 'bg-white hover:bg-slate-50'
+                }
+              `}
+            >
+              <div className={`flex items-center ${tokens.gap.tight} ${tokens.typography.sizes.sm} ${tokens.margin.element} text-content-tertiary`}>
+                <Icon className={tokens.icons.sm} />
+                {label}
+              </div>
+              <p className={`${tokens.typography.families.display} ${tokens.typography.sizes['2xl']} ${tokens.typography.weights.bold}`}>
+                {value}
+              </p>
+              <p className={`${tokens.typography.sizes.xs} mt-1 text-content-tertiary`}>{unit}</p>
+            </motion.div>
+          ))}
         </div>
 
         {/* Swim Summary */}
