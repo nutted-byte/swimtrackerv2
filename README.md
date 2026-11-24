@@ -24,7 +24,7 @@ A modern web app that helps casual swimmers track their progress and get AI-powe
 
 ### Prerequisites
 
-- Node.js 16+ installed
+- Node.js 22.20 or later in the Node 22 release line
 - npm or yarn
 - A Supabase account (free tier works great!)
 - A Google Cloud account for OAuth

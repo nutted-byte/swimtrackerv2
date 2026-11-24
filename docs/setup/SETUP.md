@@ -6,7 +6,7 @@ This guide will walk you through setting up Google authentication and Supabase f
 
 - A Supabase account (free tier works great!)
 - A Google Cloud project for OAuth
-- Node.js 16+ installed
+- Node.js 22.20 or later in the Node 22 release line
 
 ---
 
